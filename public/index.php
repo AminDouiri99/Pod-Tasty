@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="./assets/responsive.css">
     <style>
         body{
-            background: url(./assets/bg.png) no-repeat center center fixed;
+            background: url(./assets/bg1.jpg) no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -26,7 +26,7 @@
 <header class="header trans_400">
 
 <div class="logo">
-<a href="https://preview.colorlib.com/theme/mypodcast/#"><span>Pod</span>Tasty<img src="./assets/play.webp" alt=""></a>
+<a href="https://preview.colorlib.com/theme/mypodcast/#"> <img style="height:50px;margin-right:10px" src="./assets/donut.png"><span>Pod</span>Tasty</a>
 </div>
 <div class="container">
 <div class="row">
@@ -303,7 +303,7 @@
 <div class="weekly_image">
 <img src="./assets/show_3.jpg" alt="">
 <div class="logo">
-<a href="https://preview.colorlib.com/theme/mypodcast/#" class="d-flex flex-row"><span>my</span>podcast<div><img src="./assets/play_2.webp" alt=""></div></a>
+<a style="font-weight:bold" href="https://preview.colorlib.com/theme/mypodcast/#" class="d-flex flex-row"><span style="font-weight:bold">Pod</span>Tasty<img src=""/></a>
 </div>
 </div>
 </div>
@@ -363,7 +363,7 @@
 <div class="show_image">
 <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
 <img src="./assets/show_6.jpg" alt="https://unsplash.com/@zacharykeimig">
-<div class="show_play_icon"><img src="./assets/play.svg" alt="https://www.flaticon.com/authors/cole-bemis"></div>
+<div class="show_play_icon"><img src="./assets/play.gif" alt="https://www.flaticon.com/authors/cole-bemis"></div>
 <div class="show_title_2">Cras malesuada ipsum sapien.</div>
 </a>
 <div class="show_tags">
@@ -409,7 +409,7 @@
 <div class="row footer_logo_row">
 <div class="col d-flex flex-row align-items-center justify-content-center">
 <div class="logo">
-<a href="https://preview.colorlib.com/theme/mypodcast/#"><span>my</span>podcast<img src="./assets/play.webp" alt=""></a>
+<a href="https://preview.colorlib.com/theme/mypodcast/#"><span>Pod</span>Tasty</a>
 </div>
 </div>
 </div>
