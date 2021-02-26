@@ -1,5 +1,5 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>My Podcast</title>
+<title>PodTasty</title>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="My Podcast template project">
@@ -9,14 +9,24 @@
 <link href="./assets/colorbox.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="./assets/main_styles.css">
 <link rel="stylesheet" type="text/css" href="./assets/responsive.css">
+    <style>
+        body{
+            background: url(./assets/bg.png) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            top:0;left:0;width:100%;height:100%;}
+    </style>
 </head>
-<body><div class="parallax-mirror" style="visibility: hidden; z-index: -100; position: fixed; top: 0px; left: 0px; overflow: hidden; height: 767.862px; width: 1519.2px; transform: translate3d(0px, 529.238px, 0px);"><img class="parallax-slider" src="./assets/weekly.webp" style="position: absolute; height: 767px; width: 1519.2px; max-width: none; transform: translate3d(0px, -115.848px, 0px);"></div>
+<body>
+<div class="parallax-mirror" style="visibility: hidden; z-index: -100; position: fixed; top: 0px; left: 0px; overflow: hidden; height: 767.862px; width: 1519.2px; transform: translate3d(0px, 529.238px, 0px);"><img class="parallax-slider" src="./assets/weekly.webp" style="position: absolute; height: 767px; width: 1519.2px; max-width: none; transform: translate3d(0px, -115.848px, 0px);"></div>
 <div class="super_container">
 
 <header class="header trans_400">
 
 <div class="logo">
-<a href="https://preview.colorlib.com/theme/mypodcast/#"><span>my</span>podcast<img src="./assets/play.webp" alt=""></a>
+<a href="https://preview.colorlib.com/theme/mypodcast/#"><span>Pod</span>Tasty<img src="./assets/play.webp" alt=""></a>
 </div>
 <div class="container">
 <div class="row">
@@ -79,7 +89,6 @@
 </div>
 
 <div class="home">
-<div class="background_image" style="background-image:url(images/bg.png)"></div>
 <div class="home_container">
 <div class="container">
 <div class="row">
