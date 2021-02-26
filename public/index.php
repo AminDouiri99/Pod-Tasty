@@ -1,6 +1,6 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>PodTasty</title>
-
+<title>PodT asty</title>
+<link rel="icon" href="./assets/donut.png">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="My Podcast template project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="./assets/responsive.css">
     <style>
         body{
-            background: url(./assets/bg1.jpg) no-repeat center center fixed;
+            background: url(./assets/bg4.jpg) no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
