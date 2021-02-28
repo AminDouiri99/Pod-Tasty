@@ -9,7 +9,12 @@ function changeStatus(x){
     }
 
 }
-comNumb = 1;
+
+comNumb = 0;
+if(document.getElementById("commentsLength")!=null){
+
+comNumb = parseInt(document.getElementById('commentsLength').innerHTML);
+}
 
 function checkKey(event){
     if(event.code==="Enter" && document.getElementById('comment').value!==""){
@@ -23,7 +28,7 @@ function checkKey(event){
 function sendComment(comment){
     $.post("/addComment",{comment:comment}, function(data) {
         setTimeout(function (){
-
+            comNumb++;
             document.getElementById('CommentsUL').innerHTML = data+document.getElementById('CommentsUL').innerHTML;
             document.getElementById('comment').disabled = false;
             document.getElementById('comment').value  = "";
@@ -40,7 +45,6 @@ function sendComment(comment){
                     stringmessage +="s";
                 }
                 document.getElementById('noCom').innerHTML =stringmessage;
-                comNumb++;
             }
         },1000);
     })
@@ -50,5 +54,31 @@ function deleteComment(id){
     $.post("/deleteComment/"+id, function(data) {
         var comToDelete =document.getElementById("comment"+id);
         comToDelete.parentNode.removeChild(comToDelete);
+        if (comNumb>1) {
+            comNumb--;
+            if (document.getElementById('commentsLength') != null) {
+                var x = parseInt(document.getElementById('commentsLength').innerHTML) - 1;
+                document.getElementById('commentsLength').innerHTML = x;
+            } else {
+                stringmessage = "<span style='margin-right: 15px'>";
+                stringmessage += comNumb;
+                stringmessage += "</span>";
+                stringmessage += " Comment";
+                if (comNumb > 1) {
+                    stringmessage += "s";
+                }
+                document.getElementById('noCom').innerHTML = stringmessage;
+                comNumb++;
+            }
+        }
+        else if (comNumb === 1) {
+            comNumb--;
+            if (document.getElementById('commentsLength') != null) {
+            document.getElementById('commentsLength').innerHTML = "No comments yet";
+            document.getElementById('comText').innerHTML = "";
+            } else {
+                document.getElementById('noCom').innerHTML = "No comments yet";
+            }
+        }
     })
 }

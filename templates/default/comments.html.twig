@@ -34,7 +34,7 @@
         {% if comments is empty %}
             <h2 id ="noCom" class="commentsTitle">No comments yet</h2>
             {% else %}
-                <h2 class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
+                <h2 class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span id="comText" style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
                 </h2>
         {% endif %}
 <br><br>
@@ -43,6 +43,9 @@
             <br><br>
         <div class="commentsContainer" id="commentsContainer">
             <div id="comments">
+                {% if comments is empty %}
+                 <ul class="user_comment" id="CommentsUL"></ul>
+                {% endif %}
                 <ul {% for comment in comments|reverse %} class="user_comment" id="CommentsUL">
                     <div id="comment{{ comment.id }}">
                     <!-- current #{user} avatar -->
