@@ -56,7 +56,7 @@ class Podcast
 
     /**
      * @ORM\ManyToOne(targetEntity=Playlist::class, inversedBy="PodcastList")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $PlaylistId;
 

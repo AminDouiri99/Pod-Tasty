@@ -214,3 +214,27 @@ section{display:block;position:relative;box-sizing:border-box}
 .footer_social ul li a i{font-size:18px;color:#fff;line-height:43px;-webkit-transition:all 200ms ease;-moz-transition:all 200ms ease;-ms-transition:all 200ms ease;-o-transition:all 200ms ease;transition:all 200ms ease}
 .footer_social ul li:hover{border-color:rgb(24,186,234);box-shadow:0 0 1px 0 rgb(24,186,234) inset,0 0 1px 0 rgb(24,186,234)}
 .footer_social ul li:hover a i{color:rgb(24,186,234)}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+
+    border-radius: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+
+    border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
