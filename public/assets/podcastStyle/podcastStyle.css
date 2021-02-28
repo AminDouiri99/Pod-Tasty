@@ -3,6 +3,7 @@
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
 .h1Podcast {
+    margin-bottom: 15px;
     font-family: "Open Sans", sans-serif;
     font-size: 13pt;
     font-weight: 600;
@@ -27,11 +28,12 @@ h4 {
 }
 
 .player {
+    position: fixed;
     box-shadow: 5px 10px 18px #585858;
-    width:90%;
+    width:70%;
     border-radius: 20px;
-    top:65px;
-    position: absolute;
+    top:200px;
+    z-index:99999;
     height: 190px;
     background-color: #383838;
     -webkit-touch-callout: none;
@@ -40,6 +42,7 @@ h4 {
     -ms-user-select: none;
     user-select: none;
     padding: 40px;
+    padding-top: 10px;
     left: 50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
@@ -62,7 +65,6 @@ h4 {
     height: 190px;
     width: 190px;
 }
-
 .info h1 {
     margin-top: 15px;
     padding:5px;
@@ -70,6 +72,7 @@ h4 {
     line-height: 0;
 }
 .info h4 {
+    margin-bottom: 10px;
     margin-left: 180px;
     line-height: 20px;
     color: white;
@@ -79,7 +82,8 @@ h4 {
 }
 
 .button-items {
-    margin-left: 180px;
+    margin-top: 10px;
+    margin-left: 50%;
     width: 100%;
 }
 
@@ -123,18 +127,17 @@ p {
 }
 
 .commentsContainer{
-    margin-top:50px;
-    overflow:auto;
     color: white;
-    max-height:350px;
+    padding: 20px;
+    height:100%;
 
 }
 
 .podcastDiv{
     margin-top:50px;
-    height:800px !important;
-    padding: 0;
-    background-color:#383838;
+    padding: 50px;
+    overflow: auto;
+    background-color:rgb(24,24,24);;
     border-radius: 20px;
 }
 .commentsTitle{
@@ -148,6 +151,7 @@ p {
     border: none;
     width: 50%; outline: none;
     color:white;
+    margin-top:35px;
     font-size:20px;
     background:transparent;
     border-bottom: 1px solid white;
@@ -218,7 +222,7 @@ body {
 }
 .comment_tools{
     margin-right: 40px;
-    font-size:25px !important;
+    font-size:22px !important;
     float: right;
     width: 200px;
 }
@@ -244,3 +248,40 @@ a{
     margin-top: 10px;
     font-size: 16px;
 }
+.fa-calendar{
+    margin-right:10px;
+}
+
+.podcastTools{
+    color:white;
+    width:100px;
+    padding-top:20px;
+    font-size:30px;
+    float: right;
+}
+.fa-bookmark{
+    float:right;
+    margin-left: 20px;
+}
+.fa-flag:hover{
+    cursor:pointer;
+    font-size:35px;
+    color:red;
+}
+.fa-bookmark:hover{
+    cursor:pointer;
+    font-size:35px;
+    box-shadow: 8px 8px 10px black;
+    color:rgb(24,186,234);
+}
+
+.podcastReview{
+    margin-left: 80%;
+    font-size: 20px;
+}
+.fa-star{
+    color: lightgrey;
+}
+.fa-star:hover{
+    cursor: pointer;
+ }

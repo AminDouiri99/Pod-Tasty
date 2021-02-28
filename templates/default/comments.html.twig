@@ -5,10 +5,10 @@
 <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
 
 <div id="testPodcast" class="podcastDiv">
-    <div class="player">
-        <ul>
-            <li class="cover"><img src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png"/></li>
-            <li class="info">
+    <div class="player" id="player">
+        <ul id="playerComponents">
+            <li id="cover" class="cover"><img id="coverImg" src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png"/></li>
+            <li class="info" id="podInfo">
                 <h1 class="h1Podcast">The Noisy Freaks</h1>
                 <h4>Premiere</h4>
                 <h2 class="h2Pod">I Need You Back</h2>
@@ -18,9 +18,11 @@
                         <source src="https://dl.dropbox.com/s/oswkgcw749xc8xs/The-Noisy-Freaks.mp3?dl=1" type="audio/mp3">
                         <source src="https://dl.dropbox.com/s/75jpngrgnavyu7f/The-Noisy-Freaks.ogg?dl=1" type="audio/ogg">
                     </audio>
-                    <div id="slider"><div id="elapsed"></div></div>
-                    <div id="timer">04:20</div>
-                    <div class="controls">
+                    <div id="sliderDiv">
+                        <div id="slider"><div id="elapsed"></div></div>
+                        <div id="timer">04:20</div>
+                    </div>
+                    <div class="controls" id="controls">
                         <span>
                             <i id="play" onclick="changeStatus(1)" style="display: none" class="fa fa-play"></i>
                             <i id="stop" onclick="changeStatus(2)" class="fa fa-pause"></i>
@@ -28,20 +30,35 @@
                     </div>
                 </div>
             </li>
-        </ul>
-        <br>
+            <li id="podcastTools" class="podcastTools">
+                <i class="fa fa-flag" title="Report"></i>
+                <i class="fa fa-bookmark" title="Save to favorites"></i>
+            </li>
+            <li title="Rate" onmouseout="turnWhite()" id="podcast Review" class="podcastReview">
 
-        {% if comments is empty %}
-            <h2 id ="noCom" class="commentsTitle">No comments yet</h2>
+                <span class="fa fa-star" onmouseover="turnGold(1)" id="star1"></span>
+                <span class="fa fa-star" onmouseover="turnGold(2)" id="star2"></span>
+                <span class="fa fa-star" onmouseover="turnGold(3)" id="star3"></span>
+                <span class="fa fa-star" onmouseover="turnGold(4)" id="star4"></span>
+                <span class="fa fa-star" onmouseover="turnGold(5)" id="star5"></span>
+
+            </li>
+        </ul>
+
+    </div>
+<br><br>
+    <br>
+
+
+        <div class="commentsContainer" id="commentsContainer">
+            {% if comments is empty %}
+                <h2 id ="noCom" class="commentsTitle">No comments yet</h2>
             {% else %}
                 <h2 class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span id="comText" style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
                 </h2>
-        {% endif %}
-<br><br>
-
+            {% endif %}
             <input type="text" id="comment" onkeypress="checkKey(event)" name="comment" class="commentInput" placeholder="Add comment"/>
             <br><br>
-        <div class="commentsContainer" id="commentsContainer">
             <div id="comments">
                 {% if comments is empty %}
                  <ul class="user_comment" id="CommentsUL"></ul>
@@ -58,7 +75,7 @@
                         <div class="comment_details">
                             <ul>
                                 <li><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span></li>
-                                <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> 04/01/2015</li>
+                                <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> {{ comment.commentDate|date('d M Y') }} </li>
                             </ul>
                         </div><!-- inc. share/reply and love -->
                         <div class="comment_tools">
@@ -79,7 +96,6 @@
 
             </div>
     </div>
-</div>
     </div>
 
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>

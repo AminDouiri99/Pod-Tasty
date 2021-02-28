@@ -1,15 +1,20 @@
 @charset "utf-8";@import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Poppins:100,300,400,500,600,700,800,900';
 *{margin:0;padding:0;-webkit-font-smoothing:antialiased;-webkit-text-shadow:rgba(0,0,0,.01) 0 0 1px;text-shadow:rgba(0,0,0,.01) 0 0 1px}
 
-body{
-    font-family:poppins,sans-serif;font-size:14px;font-weight:400;background:#fff;color:#a5a5a5;
+html{
+    height:fit-content !important;
+    font-family:poppins,sans-serif;font-size:14px;font-weight:400;color:#a5a5a5;
     background: url(bg1.jpg) no-repeat center center fixed;
+    z-index:999999999999999;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    top:0;left:0;width:100%;height:100%;
+    top:0;left:0;width:100%;
 
+}
+body{
+    background:transparent !important;
 }
 
 div{display:block;position:relative;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
