@@ -34,6 +34,7 @@ class Channel
      */
     private $ChannelCreationDate;
 
+
     /**
      * @ORM\OneToOne(targetEntity=User::class, mappedBy="ChannelId", cascade={"persist", "remove"})
      */
@@ -47,6 +48,9 @@ class Channel
     public function __construct()
     {
         $this->UserList = new ArrayCollection();
+
+        $this->ChannelCreationDate = new \DateTime('now');
+
     }
 
     public function getId(): ?int
@@ -82,6 +86,7 @@ class Channel
     {
         return $this->ChannelCreationDate;
     }
+
 
     public function setChannelCreationDate(\DateTimeInterface $ChannelCreationDate): self
     {

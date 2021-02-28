@@ -1,0 +1,10 @@
+
+{{ form_start(f) }}
+<h1> Veuillez remplir les informations de votre chaine </h1>
+{{ form_errors(f.ChannelName) }}
+{{ form_label(f.ChannelName,"Nom de la chaine : ") }}
+{{ form_widget(f.ChannelName) }}
+{{ form_errors(f.ChannelDescription) }}
+{{ form_label(f.ChannelDescription,"La description de la chaine : ") }}
+{{ form_widget(f.ChannelDescription, {'attr' : {placeholder : 'Saisir la description de la chaine' }})}}
+{{ form_end(f) }}
