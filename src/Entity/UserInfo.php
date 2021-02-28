@@ -47,6 +47,7 @@ class UserInfo
      */
     private $UserBio;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,4 +124,5 @@ class UserInfo
 
         return $this;
     }
+
 }
