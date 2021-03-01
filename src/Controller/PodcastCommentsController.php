@@ -25,28 +25,31 @@ class PodcastCommentsController extends AbstractController
         $comments=$commentsRepo->findAll();
         return $this->render("default/comments.html.twig", ['comments'=>$comments]);
     }
+
     /**
      * @Route("/addComment", name="addComment")
+     * @param PodcastCommentRepository $commentsRepo
      * @param UserRepository $userRepo
      * @param PodcastRepository $podcastRepo
      * @param Request $request
+     * @return Response
      */
-    function addComment(PodcastCommentRepository  $commentsRepo, UserRepository $userRepo, PodcastRepository $podcastRepo,Request $request) {
-            $data = $request->get('comment');
-            $comment = new PodcastComment();
-            $comment->setCommentText($data);
-            $comment->setCommentDate(new DateTime());
-            $user=$userRepo->findOneBy (['id' => 1]);
-            $comment->setUserId($user);
-            $podcast=$podcastRepo->findOneBy (['id' => 1]);
-            $comment->setPodcastId($podcast);
-            $em=$this->getDoctrine()->getManager();
-            $em->persist($comment);
-            $em->flush();
-            $userName=$comment->getUserId()->getUserInfoId()->getUserFirstName()." ".$comment->getUserId()->getUserInfoId()->getUserLastName();
-            $commentText=$comment->getCommentText();
-            return new Response(
-                '
+    function addComment(UserRepository $userRepo, PodcastRepository $podcastRepo,Request $request) {
+        $data = $request->get('comment');
+        $comment = new PodcastComment();
+        $comment->setCommentText($data);
+        $comment->setCommentDate(new DateTime());
+        $user=$userRepo->findOneBy (['id' => 1]);
+        $comment->setUserId($user);
+        $podcast=$podcastRepo->findOneBy (['id' => 1]);
+        $comment->setPodcastId($podcast);
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($comment);
+        $em->flush();
+        $userName=$comment->getUserId()->getUserInfoId()->getUserFirstName()." ".$comment->getUserId()->getUserInfoId()->getUserLastName();
+        $commentText=$comment->getCommentText();
+        return new Response(
+            '
             <div id="comment'.$comment->getId().'">
     <div class="user_avatar" >
         <img src="/assets/donut.png">

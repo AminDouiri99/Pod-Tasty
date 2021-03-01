@@ -1,0 +1,48 @@
+.show{
+    overflow:hidden !important;
+    background:transparent !important;
+
+}
+.modal-content{
+    box-shadow: 12px 12px 12px black !important;
+    height: 277px;
+}
+.carousel-item{
+    text-align:center;
+    padding-top:30px;
+}
+svg{
+    margin: 10px;
+}
+svg:hover{
+    cursor: pointer;
+}
+.bi-emoji-dizzy:hover{
+    color: red;
+}
+
+.bi-emoji-angry:hover{
+    color: darkorange;
+}
+.bi-emoji-frown:hover{
+    color: deepskyblue;
+}
+.bi-emoji-neutral:hover{
+    color: green;
+}
+.bi-emoji-smile:hover{
+    color: deeppink;
+}
+.bi-emoji-heart-eyes:hover{
+    color: gold;
+}
+.reviewText{
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight:bolder;
+}
+.spinner-grow{
+    margin-top: 12px;
+    font-size: 35px;
+    color:rgb(24,186,234) !important;
+}

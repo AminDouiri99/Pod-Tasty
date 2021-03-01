@@ -33,7 +33,7 @@ h4 {
     width:70%;
     border-radius: 20px;
     top:200px;
-    z-index:99999;
+    z-index:999;
     height: 190px;
     background-color: #383838;
     -webkit-touch-callout: none;
@@ -137,7 +137,7 @@ p {
     margin-top:50px;
     padding: 50px;
     overflow: auto;
-    background-color:rgb(24,24,24);;
+    background-color:rgb(24,24,24);
     border-radius: 20px;
 }
 .commentsTitle{
@@ -253,20 +253,19 @@ a{
 }
 
 .podcastTools{
-    color:white;
-    width:100px;
+
+    width:210px;
     padding-top:20px;
-    font-size:30px;
     float: right;
 }
-.fa-bookmark{
-    float:right;
-    margin-left: 20px;
+.toolsTable{
+font-size:30px;
+text-align: right;
+color:white;
+width: 100%
 }
-.fa-flag:hover{
-    cursor:pointer;
-    font-size:35px;
-    color:red;
+.toolsTable tr td{
+    width: 70px;
 }
 .fa-bookmark:hover{
     cursor:pointer;
@@ -274,14 +273,16 @@ a{
     box-shadow: 8px 8px 10px black;
     color:rgb(24,186,234);
 }
-
-.podcastReview{
-    margin-left: 80%;
-    font-size: 20px;
+.fa-flag:hover{
+    cursor:pointer;
+    font-size:35px;
+    color:red;
 }
 .fa-star{
-    color: lightgrey;
+    color: white;
 }
 .fa-star:hover{
     cursor: pointer;
+    color: gold;
+    font-size:35px;
  }
