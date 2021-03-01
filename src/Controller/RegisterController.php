@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Validator\Constraints\DateTime;
 class RegisterController extends AbstractController
 {
@@ -37,6 +38,8 @@ class RegisterController extends AbstractController
      * @Route("/register",name="register")
      */
     public function doTheReg(Request $request){
+        $getUser = $this->getUser();
+
 
         $error=null;
         $succes=null;
@@ -68,11 +71,11 @@ class RegisterController extends AbstractController
             $this->saveUser($newUser,$UserInfo);
             $succes="User succesfully registred";
             sleep(2);
-            return $this->redirectToRoute("home");
+            return $this->redirectToRoute("");
         }
 
     }
-        return $this->render('LogReg/register.html.twig',["error"=>$error,"succes"=>$succes]);
+        return $this->render('LogReg/register.html.twig',["error"=>$error,"succes"=>$succes, 'user' => $getUser]);
 
     }
 
