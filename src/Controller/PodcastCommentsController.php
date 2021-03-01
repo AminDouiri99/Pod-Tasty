@@ -58,7 +58,7 @@ class PodcastCommentsController extends AbstractController
         <div class="comment_details">
             <ul>
                 <li><span class="user">'.$userName.' </span></li>
-                <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> 04/01/2015</li>
+                <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i>'.$comment->getCommentDate()->format("d M Y").'</li>
             </ul>
         </div><div class="comment_tools">
                 <span id="deletingMsg'.$comment->getId().'" class="deleteingComment">Deleting comment...</span>
