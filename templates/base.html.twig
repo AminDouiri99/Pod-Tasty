@@ -1,6 +1,6 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>PodTasty -  {% block title%}{% endblock %}</title>
-    <link rel="icon" href="{{ asset('/assets/donut.png')}}">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="My Podcast template project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,6 +45,58 @@
                         </nav>
                     </div>
                 </div>
+                {% if user == null %}
+                <div class="col">
+                    <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
+                        <nav class="main_nav">
+                            <div class="buttons" style="padding-top: 20px;">
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link button is-primary has-text-white">
+                                        <strong>Login</strong>
+
+                                    </a>
+
+                                    <div class="navbar-dropdown" >
+                                        <a class="navbar-item">
+                                            <input class="input is-small" style="width: 200px;" type="email" placeholder="Email">                                        </a>
+
+
+                                        </a>
+                                        <a class="navbar-item">
+                                            <input class="input is-small" style="width: 200px;"  type="password" placeholder="Password">                                        </a>
+
+                                        </a>
+                                        <a class="">
+                                            <span>Forget Password</span>
+                                        </a>
+                                        <a class="navbar-item ">
+                                            <button class="button is-primary"><strong>Login</strong></button>
+
+                                        </a>
+                                    </div>
+                                </div>
+                                <a class="button is-primary has-text-white" href="{{ path('register') }}">
+                                    <strong>Sign up</strong>
+                                </a>
+
+                            </div>
+
+                        </nav>
+                    </div>
+                </div>
+                {% endif %}
+                {% if user  %}
+                    <div class="col">
+                        <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
+                            <nav class="main_nav">
+                                <a class="button is-primary has-text-white" ">
+                                    <strong>{{ user.UserEmail }}</strong>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                {% endif %}
+
             </div>
         </div>
     </header>
@@ -64,108 +116,108 @@
                 </div>
                 <div class="row footer_content_row">
 
-                    <div class="col-lg-4">
-                        <div class="footer_title">Tags</div>
-                        <div class="footer_list">
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">music</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">art</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">technology</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">travel &amp; food</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">viral</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">social media</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">interview</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">developement</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">success</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">live</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">did you know?</a></div></div>
-                            <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">health</a></div></div>
-                        </div>
+                <div class="col-lg-4">
+                    <div class="footer_title">Tags</div>
+                    <div class="footer_list">
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">music</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">art</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">technology</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">travel &amp; food</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">viral</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">social media</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">interview</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">developement</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">success</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">live</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">did you know?</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">health</a></div></div>
                     </div>
+                </div>
 
-                    <div class="col-lg-4">
-                        <div class="footer_title">Latest Episodes</div>
-                        <div class="latest_container">
+                <div class="col-lg-4">
+                    <div class="footer_title">Latest Episodes</div>
+                    <div class="latest_container">
 
-                            <div class="latest">
-                                <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
-                                    <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
-                                        <div class="d-flex flex-row align-items-start justify-content-start">
-                                            <div class="latest_play">
-                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+                        <div class="latest">
+                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+                                    <div class="d-flex flex-row align-items-start justify-content-start">
+                                        <div class="latest_play">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
 <g id="Play">
     <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
 </g>
 </svg>
-                                            </div>
-                                            <div class="latest_title_content">
-                                                <div class="latest_title">Season 4 Episode 48 - A Step Further</div>
-                                            </div>
                                         </div>
-                                    </a>
-                                </div>
-                                <div class="latest_episode_info">
-                                    <ul class="d-flex flex-row align-items-start justify-content-start">
-                                        <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
-                                        <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
-                                    </ul>
-                                </div>
+                                        <div class="latest_title_content">
+                                            <div class="latest_title">Season 4 Episode 48 - A Step Further</div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-
-                            <div class="latest">
-                                <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
-                                    <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
-                                        <div class="d-flex flex-row align-items-start justify-content-start">
-                                            <div class="latest_play">
-                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
-<g id="Play">
-    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
-</g>
-</svg>
-                                            </div>
-                                            <div class="latest_title_content">
-                                                <div class="latest_title">Season 4 Episode 47 - Deep in Crypto</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="latest_episode_info">
-                                    <ul class="d-flex flex-row align-items-start justify-content-start">
-                                        <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
-                                        <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="latest">
-                                <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
-                                    <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
-                                        <div class="d-flex flex-row align-items-start justify-content-start">
-                                            <div class="latest_play">
-                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
-<g id="Play">
-    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
-</g>
-</svg>
-                                            </div>
-                                            <div class="latest_title_content">
-                                                <div class="latest_title">Season 4 Episode 46 - Nothing is real</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="latest_episode_info">
-                                    <ul class="d-flex flex-row align-items-start justify-content-start">
-                                        <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
-                                        <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
-                                    </ul>
-                                </div>
+                            <div class="latest_episode_info">
+                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4">
-                        <div class="footer_title">Instagram</div>
-                        <div class="gallery d-flex flex-row align-items-start justify-content-start flex-wrap">
+                        <div class="latest">
+                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+                                    <div class="d-flex flex-row align-items-start justify-content-start">
+                                        <div class="latest_play">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+<g id="Play">
+    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
+</g>
+</svg>
+                                        </div>
+                                        <div class="latest_title_content">
+                                            <div class="latest_title">Season 4 Episode 47 - Deep in Crypto</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="latest_episode_info">
+                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="latest">
+                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+                                    <div class="d-flex flex-row align-items-start justify-content-start">
+                                        <div class="latest_play">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+<g id="Play">
+    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
+</g>
+</svg>
+                                        </div>
+                                        <div class="latest_title_content">
+                                            <div class="latest_title">Season 4 Episode 46 - Nothing is real</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="latest_episode_info">
+                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="footer_title">Instagram</div>
+                    <div class="gallery d-flex flex-row align-items-start justify-content-start flex-wrap">
 
 {#                            <div class="gallery_item">#}
 {#                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_1_large.jpg"><img src="./../public/assets/gallery_1.webp" alt=""></a>#}
@@ -223,31 +275,30 @@
     <script src="{{ asset('/assets/parallax.min.js.téléchargement')}}"></script>
     <script src="{{ asset('/assets/custom.js.téléchargement')}}"></script>
 
-<script async="" src="{{ asset('/assets/js')}}"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <script async="" src="{{ asset('/assets/js')}}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-23581568-13');
+    </script>
 
-    gtag('config', 'UA-23581568-13');
-</script>
-
-{#<div id="cboxOverlay" style="display: none;"></div>#}
-{#    <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">#}
-{#        <div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div>#}
-{#        <div id="cboxTopCenter" style="float: left;"></div>#}
-{#        <div id="cboxTopRight" style="float: left;"></div>#}
-{#    </div>#}
-{#    <div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div>#}
-{#    <div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div>#}
-{#    <div id="cboxCurrent" style="float: left;"></div>#}
-{#    <button type="button" id="cboxPrevious"></button>#}
-{#    <button type="button" id="cboxNext"></button>#}
-{#    <button type="button" id="cboxSlideshow"></button>#}
-{#    <div id="cboxLoadingOverlay" style="float: left;"></div>#}
-{#    <div id="cboxLoadingGraphic" style="float: left;"></div></div>#}
-{#    <div id="cboxMiddleRight" style="float: left;"></div>#}
-{#    </div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;">#}
+    {#<div id="cboxOverlay" style="display: none;"></div>#}
+    {#    <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">#}
+    {#        <div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div>#}
+    {#        <div id="cboxTopCenter" style="float: left;"></div>#}
+    {#        <div id="cboxTopRight" style="float: left;"></div>#}
+    {#    </div>#}
+    {#    <div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div>#}
+    {#    <div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div>#}
+    {#    <div id="cboxCurrent" style="float: left;"></div>#}
+    {#    <button type="button" id="cboxPrevious"></button>#}
+    {#    <button type="button" id="cboxNext"></button>#}
+    {#    <button type="button" id="cboxSlideshow"></button>#}
+    {#    <div id="cboxLoadingOverlay" style="float: left;"></div>#}
+    {#    <div id="cboxLoadingGraphic" style="float: left;"></div></div>#}
+    {#    <div id="cboxMiddleRight" style="float: left;"></div>#}
+    {#    </div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;">#}
 
 </div>
 

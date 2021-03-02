@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="loginform">
+    <figure class="image is-128x128 loginform">
+        <img  src="{{ asset('/assets/donut.png')}}">
+    </figure>
+    <h4 class="title is-3 has-text-white" style="padding-top: 30px;">Welcome to PodTasty</h4>
+    <h5 class="title is-5 has-text-white">Register</h5>
+</div>
+    <form action="{{ path('register') }}" method="post" class="loginform">
+        <div class="field">
+            <p class="control has-icons-left has-icons-right">
+                <input class="input" type="text" name="_firstname" placeholder="First Name">
+                <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+            </p>
+        </div>
+
+        <div class="field">
+            <p class="control has-icons-left has-icons-right">
+                <input class="input" type="text" name="_lastname" placeholder="Last Name">
+                <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+            </p>
+        </div>
+
+        <div class="field">
+            <p class="control has-icons-left has-icons-right">
+                <input class="input" type="email" name="_email" placeholder="Email">
+                <span class="icon is-small is-left">
+      <i class="fas fa-envelope"></i>
+    </span>
+                <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+            </p>
+        </div>
+        <div class="field">
+            <p class="control has-icons-left">
+                <input class="input" type="password" name="_password" placeholder="Password">
+                <span class="icon is-small is-left">
+      <i class="fas fa-lock"></i>
+    </span>
+            </p>
+        </div>
+
+
+        <div class="field">
+            <p class="control has-icons-left">
+                <input class="input" type="password" name="_confirmpassword" placeholder="Confirm Password">
+                <span class="icon is-small is-left">
+      <i class="fas fa-lock"></i>
+    </span>
+            </p>
+        </div>
+        <div class="field">
+            <label>Gender :</label>
+        <label class="radio" >
+            <input  type="radio" name="gender" value="female">
+            Female
+        </label>
+        <label class="radio">
+            <input type="radio" name="gender" value="male">
+            Male
+        </label>
+        </div>
+        <div class="field">
+            <label for="start">birth date:</label>
+
+            <input type="date" id="start" name="_birth-start"
+                   value="2000-07-22"
+                   min="1900-01-01" max="2029-12-31">
+        </div>
+        {% if error != null %}
+        <p>{{ error }}3ez eddisn</p>
+        {% endif %}
+        <div class="field">  </div>
+        <div class="buttons is-right">
+            <button class="button is-success" name="submit" type="submit">Register</button>
+
+    </form>
+    <a href="login" class="button is-info">Back to login</a>
+    </div>
+    </div>
+{% endblock %}
