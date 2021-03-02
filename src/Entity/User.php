@@ -65,6 +65,11 @@ class User
      */
     private $CommentList;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PodcastReview::class, mappedBy="UserId")
+     */
+    private $ReviewList;
+
     public function __construct()
     {
         $this->ReclamationList = new ArrayCollection();
@@ -246,6 +251,37 @@ class User
             // set the owning side to null (unless already changed)
             if ($commentList->getUserId() === $this) {
                 $commentList->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|PodcastReview[]
+     */
+    public function getReviewList(): Collection
+    {
+        return $this->ReviewList;
+    }
+
+    public function addReviewList(PodcastComment $reviewList): self
+    {
+        if (!$this->ReviewList->contains($reviewList)) {
+            $this->ReviewList[] = $reviewList;
+            $reviewList->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReviewList(PodcastComment $reviewList): self
+    {
+        if ($this->ReviewList->removeElement($reviewList)) {
+            // set the owning side to null (unless already changed)
+            if ($reviewList->getUserId() === $this) {
+                $reviewList->setUserId(null);
             }
         }
 
