@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scrable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Affiche</title>
+</head>
+<body>
+<h1>Listes des Podcasts</h1>
+<table border="1">
+    <tr>
+        <th>PodcastID</th>
+        <th>PodcastName</th>
+        <th>PodcastDescription</th>
+        <th>PodcastImage</th>
+        <th>PodcastGenre</th>
+        <th>PodcastViews</th>
+        <th>PodcastDate</th>
+        <th>PodcastSource</th>
+    </tr>
+    <tr {% for c in podcast %}>
+        <td>{{ c.PodcastID }} </td>
+        <td>{{ c.PodcastName }} </td>
+        <td>{{ c.PodcastDescription }} </td>
+        <td>{{ c.PodcastImage }} </td>
+        <td>{{ c.PodcastGenre }} </td>
+        <td>{{ c.PodcastViews }} </td>
+        <td>{{ c.PodcastDate }} </td>
+        <td>{{ c.PodcastSource }} </td>
+    </tr {% endfor %}>
+
+</table>
+</body>
+</html>
