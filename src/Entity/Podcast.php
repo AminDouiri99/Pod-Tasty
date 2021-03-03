@@ -30,7 +30,7 @@ class Podcast
     private $PodcastDescription;
 
     /**
-     * @ORM\Column(type="blob", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $PodcastImage;
 
@@ -50,7 +50,7 @@ class Podcast
     private $PodcastDate;
 
     /**
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="string")
      */
     private $PodcastSource;
 
