@@ -3,9 +3,14 @@
 {% block title %}Log in!{% endblock %}
 
 {% block content %}
-<form method="post">
+
+<form method="post" class="loginform">
+    <figure class="image is-128x128 loginform center">
+        <img  src="{{ asset('/assets/donut.png')}}">
+    </figure>
+    <div class="FormBackground">
     {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="alert alert-danger center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}
@@ -14,11 +19,15 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUserEmail">User Email</label>
-    <input type="email" value="{{ last_username }}" name="UserEmail" id="inputUserEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
+    <h1 class="h3 mb-3 font-weight-normal center" style="padding-top: 35px;width: 95%">Please sign in</h1>
+        <div style="width: 95%" class="field center">
+
+            <input  class="input center" type="email" placeholder="Email" value="{{ last_username }}" name="UserEmail" id="inputUserEmail"  required autofocus>
+        </div>
+        <div style="width: 95%" class="field center">
+            <input class="input center" type="password" placeholder="Password" name="password" id="inputPassword" class="form-control" required>
+
+        </div>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
@@ -34,9 +43,11 @@
             </label>
         </div>
     #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
+<div style="padding-top: 20px;">
+    <button class="button is-primary has-text-white center"  type="submit">
+        <strong>Sign in</strong>
     </button>
+</div>
+    </div>
 </form>
 {% endblock %}

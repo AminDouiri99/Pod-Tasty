@@ -38,7 +38,7 @@
                     <div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
                         <nav class="main_nav">
                             <ul class="d-flex flex-row align-items-start justify-content-start">
-                                <li><a href="/signUp">Home</a></li>
+                                <li><a href="{{ path('') }}" >Home</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/about.html">About</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/episodes.html">Episodes</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html">Blog</a></li>
@@ -47,35 +47,18 @@
                         </nav>
                     </div>
                 </div>
-                {% if user == null %}
-                <div class="col">
+               {% if user == null %}
+                <div class="col" >
                     <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
                         <nav class="main_nav">
                             <div class="buttons" style="padding-top: 20px;">
-                                <div class="navbar-item has-dropdown is-hoverable">
-                                    <a class="navbar-link button is-primary has-text-white">
+                                <div class="navbar-item">
+                                    <a class="button is-primary has-text-white" href="{{ path('app_login') }}">
                                         <strong>Login</strong>
 
                                     </a>
 
-                                    <div class="navbar-dropdown" >
-                                        <a class="navbar-item">
-                                            <input class="input is-small" style="width: 200px;" type="email" placeholder="Email">                                        </a>
 
-
-                                        </a>
-                                        <a class="navbar-item">
-                                            <input class="input is-small" style="width: 200px;"  type="password" placeholder="Password">                                        </a>
-
-                                        </a>
-                                        <a class="">
-                                            <span>Forget Password</span>
-                                        </a>
-                                        <a class="navbar-item ">
-                                            <button class="button is-primary"><strong>Login</strong></button>
-
-                                        </a>
-                                    </div>
                                 </div>
                                 <a class="button is-primary has-text-white" href="{{ path('register') }}">
                                     <strong>Sign up</strong>
@@ -90,8 +73,8 @@
                 {% if user  %}
                     <div class="col">
                         <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
-                            <nav class="main_nav">
-                                <a class="button is-primary has-text-white" ">
+                            <nav class="main_nav" style="padding-top: 20px;">
+                                <a class="button is-primary has-text-white" href="profile/{{ user.id }}" >
                                     <strong>{{ user.UserEmail }}</strong>
                                 </a>
                             </nav>
