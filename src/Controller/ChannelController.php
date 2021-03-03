@@ -56,7 +56,9 @@ class ChannelController extends AbstractController
     function AjoutChannel(Request $request) {
         $channel = new Channel();
         $form=$this->createForm(ChannelType::class, $channel);
-        $form->add("Ajouter", SubmitType::class);
+        $form->add("Create", SubmitType::class, [
+            'attr' => ['class' => 'button_border button_fill button'],
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em=$this->getDoctrine()->getManager();
@@ -64,32 +66,34 @@ class ChannelController extends AbstractController
             $em->flush();
             return $this->redirectToRoute("AfficheChannels");
         }
-        $title = "Ajouter une nouvelle chaine ";
+        $title = "Add a new channel ";
         return $this->render("channel/AjoutChannel.html.twig", [
             'f' =>$form->createView(),
             'page_title' => $title
-        ]);
+        ]);}
 
 
         /**
          * @param Request $request
          * @return RedirectResponse|Response
-         * @Route("/UpdateChannel/{id}")
+         * @Route("/UpdateChannel/{id}", name="UpdateChannel")
          */
-        function UpdateChannel(Request $request, int $id) {
+        function UpdateChannel(ChannelRepository $oldChannel,Request $request, int $id) {
             $repo=$this->getDoctrine()->getRepository(Channel::class);
             $entityManage=$this->getDoctrine()->getManager();
             $oldChannel=$repo->find($id);
             $form=$this->createForm(ChannelType::class, $oldChannel);
-            $form->add("Mise à jour", SubmitType::class);
+            $form->add("Edit", SubmitType::class, [
+                'attr' => ['class' => 'button_border button_fill button'],
+            ]);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $em=$this->getDoctrine()->getManager();
                 $em->flush();
                 return $this->redirectToRoute("AfficheChannels");
             }
-            $title = "Mise à jour ".$oldClass->getName();
-            return $this->render("classroom/AjoutChannel.html.twig", [
+            $title = "Update ".$oldChannel->getChannelName();
+            return $this->render("channel/AjoutChannel.html.twig", [
                 'f' =>$form->createView(),
                 'page_title' => $title
             ]);
@@ -98,7 +102,23 @@ class ChannelController extends AbstractController
 
 
 
+    /**
+     * @Route("/DeleteChannel/{id}", name="DeleteChannel")
+     * @param int $id
+     * @return RedirectResponse
+     */
+    function Delete(int $id) {
+        $repo=$this->getDoctrine()->getRepository(Channel::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $channel=$repo->find($id);
+        $entityManage->remove($channel);
+        $entityManage->flush();
+        return $this->redirectToRoute("AfficheChannels");
     }
+
+
+
+
 
 
 }

@@ -2,7 +2,7 @@
 *{margin:0;padding:0;-webkit-font-smoothing:antialiased;-webkit-text-shadow:rgba(0,0,0,.01) 0 0 1px;text-shadow:rgba(0,0,0,.01) 0 0 1px}
 
 body{
-    font-family:poppins,sans-serif;font-size:14px;font-weight:400;background:#fff;color:#a5a5a5;
+    font-family:poppins,sans-serif;font-size:14px;font-weight:400;background:#fff;color: white;
     background: url(bg1.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -16,7 +16,7 @@ div{display:block;position:relative;-webkit-box-sizing:border-box;-moz-box-sizin
 
 ul{list-style:none;margin-bottom:0}
 
-p{font-family:poppins,sans-serif;font-size:16px;line-height:1.875;font-weight:300;color:#929191;-webkit-font-smoothing:antialiased;-webkit-text-shadow:rgba(0,0,0,.01) 0 0 1px;text-shadow:rgba(0,0,0,.01) 0 0 1px}
+p{font-family:poppins,sans-serif;font-size:16px;line-height:1.875;font-weight:300;color:whitesmoke;-webkit-font-smoothing:antialiased;-webkit-text-shadow:rgba(0,0,0,.01) 0 0 1px;text-shadow:rgba(0,0,0,.01) 0 0 1px}
 
 p a{display:inline;position:relative;color:inherit;border-bottom:solid 1px #ffa07f;-webkit-transition:all 200ms ease;-moz-transition:all 200ms ease;-ms-transition:all 200ms ease;-o-transition:all 200ms ease;transition:all 200ms ease}
 
@@ -30,7 +30,7 @@ p a:hover::after{opacity:.2}
 ::selection{background:rgb(24,186,234);color:#fff}
 p::selection{}
 
-h1{font-size:48px}
+h1{font-size:48px ;color:white}
 
 h2{font-size:36px}
 
@@ -214,3 +214,22 @@ section{display:block;position:relative;box-sizing:border-box}
 .footer_social ul li a i{font-size:18px;color:#fff;line-height:43px;-webkit-transition:all 200ms ease;-moz-transition:all 200ms ease;-ms-transition:all 200ms ease;-o-transition:all 200ms ease;transition:all 200ms ease}
 .footer_social ul li:hover{border-color:rgb(24,186,234);box-shadow:0 0 1px 0 rgb(24,186,234) inset,0 0 1px 0 rgb(24,186,234)}
 .footer_social ul li:hover a i{color:rgb(24,186,234)}
+
+
+.container1{
+                max-width: 1000px;
+                margin-left: auto;
+                margin-right: auto;
+                padding-left: 1%;
+                padding-right: 10px;
+                margin-top: 9%;
+    background-color: transparent;
+            }
+
+table{width: 100%;
+    letter-spacing: 0.03em;
+background-color: transparent}
+
+font-color{color: white}
+textarea{}
+

@@ -6,6 +6,7 @@ use App\Entity\Playlist;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class PlaylistType extends AbstractType
 {
@@ -13,8 +14,7 @@ class PlaylistType extends AbstractType
     {
         $builder
             ->add('PlaylistName')
-            ->add('PlaylistDescription')
-            ->add('PlaylistCreationDate')
+            ->add('PlaylistDescription',TextareaType::class)
         ;
     }
 

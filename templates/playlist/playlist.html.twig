@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+{% block title %} Affiche {% endblock %}
+{% block content %}
+
+{#
+    <div class="col-lg-9 blog_col order-lg-2 order-1">
+        <div class="blog_posts">
+
+            <div class="blog_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+                <div class="blog_post_image">
+                    <img src="./Blog_files/blog_1.jpg" alt="https://unsplash.com/@kellysikkema">
+                    <div class="blog_post_date"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Sept 25, 2018</a></div>
+                </div>
+                <div class="blog_post_content">
+                    <div class="blog_post_title"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">How to start your podcast</a></div>
+                    <div class="blog_post_author">By <a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Michael Smith</a></div>
+                    <div class="blog_post_text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum malesuada tellus a pretium. Proin quam nisi, maximus in pulvinar sed, viverra vitae est. Ut nibh nisl, malesuada nec massa nec, molestie varius lorem. Mauris aliquet eros eu luctus pulvinar. Suspendisse dapibus iaculis tellus, dignissim posuere felis elementum a.</p>
+                    </div>
+                    <div class="blog_post_link"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Read More</a></div>
+                </div>
+            </div>
+
+            <div class="blog_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+                <div class="blog_post_image">
+                    <img src="./Blog_files/blog_2.jpg" alt="https://unsplash.com/@flysi3000">
+                    <div class="blog_post_date"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Sept 25, 2018</a></div>
+                </div>
+                <div class="blog_post_content">
+                    <div class="blog_post_title"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Branding Stategy for your podcast</a></div>
+                    <div class="blog_post_author">By <a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Michael Smith</a></div>
+                    <div class="blog_post_text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum malesuada tellus a pretium. Proin quam nisi, maximus in pulvinar sed, viverra vitae est. Ut nibh nisl, malesuada nec massa nec, molestie varius lorem. Mauris aliquet eros eu luctus pulvinar. Suspendisse dapibus iaculis tellus, dignissim posuere felis elementum a.</p>
+                    </div>
+                    <div class="blog_post_link"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Read More</a></div>
+                </div>
+            </div>
+
+            <div class="blog_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+                <div class="blog_post_image">
+                    <img src="./Blog_files/blog_3.jpg" alt="https://unsplash.com/@gohrhyyan">
+                    <div class="blog_post_date"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Sept 25, 2018</a></div>
+                </div>
+                <div class="blog_post_content">
+                    <div class="blog_post_title"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">10 rules for a succesful podcast</a></div>
+                    <div class="blog_post_author">By <a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Michael Smith</a></div>
+                    <div class="blog_post_text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum malesuada tellus a pretium. Proin quam nisi, maximus in pulvinar sed, viverra vitae est. Ut nibh nisl, malesuada nec massa nec, molestie varius lorem. Mauris aliquet eros eu luctus pulvinar. Suspendisse dapibus iaculis tellus, dignissim posuere felis elementum a.</p>
+                    </div>
+                    <div class="blog_post_link"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">Read More</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="row page_nav_row">
+        <div class="col">
+            <div class="page_nav d-flex flex-row align-items-center justify-content-center">
+                <ul class="d-flex flex-row">
+                    <li class="active"><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">1</a></li>
+                    <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">2</a></li>
+                    <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">3</a></li>
+                    <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#">4</a></li>
+                    <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html#"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>  #}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 class="text-center">Current playlists  </h1> <br>
+<table>
+    <tr>
+        <th class="text-white-50">Playlist name</th>
+        <th class="text-white-50"> Playlist description </th>
+        <th class="text-white-50"> Creation date </th>
+    </tr>
+    {% for playlist in playlist %}
+        <tr>
+            <td> {{ playlist.PlaylistName }}</td>
+            <td> {{ playlist.PlaylistDescription }}</td>
+            <td> {{ playlist.PlaylistCreationDate|date('d-m-Y')}}</td>
+            <td>
+               <a href="{{ path('UpdatePlaylist',{ 'id':playlist.id })}}"><button class="button_border button_fill button  ">Update </button></a>
+                 <a href="{{ path('DeletePlaylist',{ 'id':playlist.id })}}"><button class="button_border button_fill button  ">Delete</button></a>
+
+            </td>
+
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

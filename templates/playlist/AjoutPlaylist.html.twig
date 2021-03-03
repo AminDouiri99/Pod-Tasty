@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+{{ form_start(f) }}
+<h1 class="text-white-50"> Please fill in your playlist's information </h1> <br>
+<p>
+{{ form_errors(f.PlaylistName) }}
+{{ form_label(f.PlaylistName,"Playlist's name : ") }}
+{{ form_widget(f.PlaylistName,  {'attr' : {placeholder : 'Whats the name of your new playlist ?',size :'30' ,class : 'button_border bg-light' }}) }} </p>
+    <br>
+    <p>
+{{ form_errors(f.PlaylistDescription) }}
+{{ form_label(f.PlaylistDescription,"The playlist's description: ") }}</p>
+{{ form_widget(f.PlaylistDescription, {'attr' : {placeholder : 'What is this playlist about ?',class : 'bg-light',rows:'4', cols:'24' }})}}
+{{ form_end(f) }}
+{% endblock %}

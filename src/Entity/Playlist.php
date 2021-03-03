@@ -42,6 +42,7 @@ class Playlist
     public function __construct()
     {
         $this->PodcastList = new ArrayCollection();
+        $this->PlaylistCreationDate = new \DateTime('now');
     }
 
     public function getId(): ?int

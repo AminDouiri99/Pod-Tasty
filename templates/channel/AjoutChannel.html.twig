@@ -1,10 +1,17 @@
-
+{% extends 'base.html.twig' %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
 {{ form_start(f) }}
-<h1> Veuillez remplir les informations de votre chaine </h1>
+<h1 class="text-white-50"> Please fill in your channel information </h1> <br>
+    <p>
 {{ form_errors(f.ChannelName) }}
-{{ form_label(f.ChannelName,"Nom de la chaine : ") }}
-{{ form_widget(f.ChannelName) }}
+{{ form_label(f.ChannelName,"Channel name : ") }}
+{{ form_widget(f.ChannelName , {'attr' : {placeholder : 'Whats the name of your channel ?',size :'30' ,class : 'button_border bg-light' }}) }}</p>
+    <br>
+     <p>
 {{ form_errors(f.ChannelDescription) }}
-{{ form_label(f.ChannelDescription,"La description de la chaine : ") }}
-{{ form_widget(f.ChannelDescription, {'attr' : {placeholder : 'Saisir la description de la chaine' }})}}
+         {{ form_label(f.ChannelDescription,"Channel description : ") }} </p>
+{{ form_widget(f.ChannelDescription, {'attr' : {placeholder : 'How can you describe your channel ?',class : 'bg-light',rows:'4', cols:'24' }})}} <br>
+    <br>
 {{ form_end(f) }}
+{% endblock %}
