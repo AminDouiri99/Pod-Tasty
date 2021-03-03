@@ -1,9 +1,6 @@
-{#{% extends 'podcast.html.twig' %}#}
 {% extends 'base.html.twig' %}
 {% block title %}Podcast{% endblock %}
 {% block content %}
-<link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('assets/reviewStyle/reviewStyle.css') }}" rel="stylesheet" type="text/css">
     <!-- Review Modal -->
     <div style="z-index:99999;" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -201,49 +198,59 @@
         </div>
     </div>
     <!-- End Review Modal -->
-<div id="testPodcast" class="podcastDiv">
-    <div class="player" id="player">
-        <ul id="playerComponents">
-            <li id="cover" class="cover"><img id="coverImg" src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png"/></li>
-            <li class="info" id="podInfo">
-                <h1 class="h1Podcast">The Noisy Freaks</h1>
-                <h4>Premiere</h4>
-                <h2 class="h2Pod">I Need You Back</h2>
 
-                <div class="button-items">
-                    <audio id="music" preload="auto" loop="false">
-                        <source src="https://dl.dropbox.com/s/oswkgcw749xc8xs/The-Noisy-Freaks.mp3?dl=1" type="audio/mp3">
-                        <source src="https://dl.dropbox.com/s/75jpngrgnavyu7f/The-Noisy-Freaks.ogg?dl=1" type="audio/ogg">
-                    </audio>
-                    <div id="sliderDiv">
-                        <div id="slider"><div id="elapsed"></div></div>
-                        <div id="timer">04:20</div>
-                    </div>
-                    <div class="controls" id="controls">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="{{ asset('assets/podcastStyle/reloadComments.js') }}"></script>
+    <script src="{{ asset('assets/podcastStyle/podcast.js') }}"></script>
+    <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/reviewStyle/reviewStyle.css') }}" rel="stylesheet" type="text/css">
+
+    <div id="testPodcast" class="podcastDiv">
+
+        <div class="player" id="player">
+            <ul id="playerComponents">
+                <li id="cover" class="cover">
+                    <img id="coverImg" src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png"/></li>
+                <li class="info" id="podInfo">
+                    <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
+                    <h4>{{ podcast.podcastViews }} Views</h4>
+                    <h2 class="h2Pod">{{ podcast.podcastDescription }}</h2>
+
+                    <div class="button-items">
+                        <audio id="podcastAudio" preload="auto" loop="false">
+                            <source src="{{ asset(  podcast.podcastSource) }}" type="audio/mp3">
+                            <source src="{{ asset(  podcast.podcastSource) }}" type="audio/ogg">
+                        </audio>
+                        <div id="sliderDiv">
+                                   <div onclick="moveToTime(event)" id="slider"><div id="elapsed"></div></div>
+                                   <div id="timer">00:00:00</div>
+                            </table>
+                        </div>
+                        <div class="controls" id="controls">
                         <span>
-                            <i id="play" onclick="changeStatus(1)" style="display: none" class="fa fa-play"></i>
-                            <i id="stop" onclick="changeStatus(2)" class="fa fa-pause"></i>
+                            <i id="play" onclick="changeStatus(1)"  class="fa fa-play"></i>
+                            <i id="stop" onclick="changeStatus(2)" style="display: none" class="fa fa-pause"></i>
                         </span>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li id="podcastTools" class="podcastTools">
-                <table class="toolsTable">
-                    <tr>
-                        <td><i class="fa fa-flag" title="Report"></i></td>
-                        <td><i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i></td>
-                        <td><i class="fa fa-bookmark" title="Save to favorites"></i></td>
-                    </tr>
-                </table>
-            </li>
-        </ul>
+                </li>
+                <li id="podcastTools" class="podcastTools">
+                    <table class="toolsTable">
+                        <tr>
+                            <td><i class="fa fa-flag" title="Report"></i></td>
+                            <td><i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i></td>
+                            <td><i class="fa fa-bookmark" title="Save to favorites"></i></td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
 
-    </div>
-<br><br>
+        </div>
+    <br><br>
     <br>
 
 
-        <div class="commentsContainer" id="commentsContainer">
+        <div class="commentsContainer" id="commentsContainer"><br><br><br><br><br><br><br><br>
             {% if comments is empty %}
                 <h2 id ="noCom" class="commentsTitle">No comments yet</h2>
             {% else %}
@@ -290,7 +297,4 @@
             </div>
     </div>
     </div>
-
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="{{ asset('assets/podcastStyle/reloadComments.js') }}"></script>
 {% endblock %}

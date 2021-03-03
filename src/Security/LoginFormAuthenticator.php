@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,7 +77,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         return $user;
     }
-
+    /*public function isPasswordValid(UserRepository $userRepo,$user, $password){
+        $user = $userRepo->findOneBy($user->getId());
+        $pass = $user->getPassword();
+        return ($pass == $this->passwordEncoder($password));
+}*/
     public function checkCredentials($credentials, UserInterface $user)
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);

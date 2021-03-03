@@ -45,7 +45,7 @@
                         </nav>
                     </div>
                 </div>
-                {% if user == null %}
+{#                {% if user == null %}#}
                 <div class="col">
                     <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
                         <nav class="main_nav">
@@ -84,26 +84,26 @@
                         </nav>
                     </div>
                 </div>
-                {% endif %}
-                {% if user  %}
+{#                {% endif %}#}
+{#                {% if user  %}#}
                     <div class="col">
                         <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
                             <nav class="main_nav">
-                                <a class="button is-primary has-text-white" ">
-                                    <strong>{{ user.UserEmail }}</strong>
+                                <a class="button is-primary has-text-white">
+{#                                    <strong>{{ user.UserEmail }}</strong>#}
                                 </a>
                             </nav>
                         </div>
                     </div>
-                {% endif %}
+{#                {% endif %}#}
 
             </div>
         </div>
     </header>
     <div style="height:fit-content;padding:100px ">
-            {% block content %}
+        {% block content %}
 
-            {% endblock %}
+        {% endblock %}
     </div>
         <footer class="footer">
             <div class="container">

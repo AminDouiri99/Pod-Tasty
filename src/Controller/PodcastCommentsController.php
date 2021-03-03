@@ -9,6 +9,7 @@ use App\Repository\PodcastCommentRepository;
 use App\Repository\PodcastRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use phpDocumentor\Reflection\Types\String_;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,11 +20,15 @@ class PodcastCommentsController extends AbstractController
 {
     /**
      * @Route("/podcast", name="podcast_comments")
+     * @param PodcastController $podController
+     * @param PodcastCommentRepository $commentsRepo
+     * @return Response
      */
-    public function index(PodcastCommentRepository  $commentsRepo): Response
+    public function index(PodcastRepository $podcastRepo, PodcastCommentRepository  $commentsRepo): Response
     {
+        $podcast = $podcastRepo->findOneBy(['id' =>1]);
         $comments=$commentsRepo->findAll();
-        return $this->render("default/comments.html.twig", ['comments'=>$comments]);
+        return $this->render("default/comments.html.twig", ['comments'=>$comments, 'podcast'=>$podcast]);
     }
 
     /**
@@ -34,14 +39,14 @@ class PodcastCommentsController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    function addComment(UserRepository $userRepo, PodcastRepository $podcastRepo,Request $request) {
+    function addComment(PodcastRepository $podcastRepo, UserRepository $userRepo, Request $request) {
         $data = $request->get('comment');
         $comment = new PodcastComment();
         $comment->setCommentText($data);
         $comment->setCommentDate(new DateTime());
         $user=$userRepo->findOneBy (['id' => 1]);
         $comment->setUserId($user);
-        $podcast=$podcastRepo->findOneBy (['id' => 1]);
+        $podcast=$podcastRepo->findOneBy(['id' =>1]);
         $comment->setPodcastId($podcast);
         $em=$this->getDoctrine()->getManager();
         $em->persist($comment);
