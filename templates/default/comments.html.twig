@@ -1,0 +1,356 @@
+{% extends 'base.html.twig' %}
+{% block title %}Podcast{% endblock %}
+{% block content %}
+    <!-- Review Modal -->
+
+    <div style="z-index:99999;" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Podcast Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="newReviewBody" class="modal-body">
+                    <!-- carousel-->
+                    <div id="carouselExampleControls" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div id="carItem1" class="carousel-item active">
+                                <span class="reviewText">Are you generaly happy with this podcast ?</span><br>
+                                <!-- EMOJIIIIIIIIIIIIIIIIIIIIIIIIIIIIS -->
+                                <span id="Emojis">
+<svg id="podcastRate10" onclick="addRate(1,10)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-heart-eyes" viewBox="0 0 16 16">
+    <title>The Best !!</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M11.315 10.014a.5.5 0 0 1 .548.736A4.498 4.498 0 0 1 7.965 13a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242.63 0 1.46-.118 2.152-.242a26.58 26.58 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434zm6.488 0c1.398-.864 3.544 1.838-.952 3.434-3.067-3.554.19-4.858.952-3.434z"/>
+</svg>
+
+<svg id="podcastRate8" onclick="addRate(1,8)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+    <title>Good</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>
+<svg id="podcastRate6" onclick="addRate(1,6)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-neutral" viewBox="0 0 16 16">
+    <title>Okay</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4 10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5zm3-4C7 5.672 6.552 5 6 5s-1 .672-1 1.5S5.448 8 6 8s1-.672 1-1.5zm4 0c0-.828-.448-1.5-1-1.5s-1 .672-1 1.5S9.448 8 10 8s1-.672 1-1.5z"/>
+</svg>
+<svg id="podcastRate4" onclick="addRate(1,4)" title="Not as expected" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
+    <title>Not as expected</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>
+
+<svg id="podcastRate2" onclick="addRate(1,2)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-angry" viewBox="0 0 16 16">
+  <title>Seriously ?</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zm6.991-8.38a.5.5 0 1 1 .448.894l-1.009.504c.176.27.285.64.285 1.049 0 .828-.448 1.5-1 1.5s-1-.672-1-1.5c0-.247.04-.48.11-.686a.502.502 0 0 1 .166-.761l2-1zm-6.552 0a.5.5 0 0 0-.448.894l1.009.504A1.94 1.94 0 0 0 5 6.5C5 7.328 5.448 8 6 8s1-.672 1-1.5c0-.247-.04-.48-.11-.686a.502.502 0 0 0-.166-.761l-2-1z"/>
+</svg>
+<svg id="podcastRate0" onclick="addRate(1,0)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-dizzy" viewBox="0 0 16 16">
+<title>Delete this</title>
+<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+<path d="M9.146 5.146a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zm-5 0a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 1 1 .708.708l-.647.646.647.646a.5.5 0 1 1-.708.708L5.5 7.207l-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zM10 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+</svg>
+</span>
+                                <!--End EMOJIIIIIIIIIIIIIIIIIIIIIIIIIIIIS -->
+                            </div>
+                            <div id="carItem2" class="carousel-item">
+                                <span class="reviewText">Is the topic interesting ?</span><br>
+                                <!-- EMOJIIIIIIIIIIIIIIIIIIIIIIIIIIIIS -->
+                                <span id="Emojis">
+<svg id="topicRate10" onclick="addRate(2,10)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-heart-eyes" viewBox="0 0 16 16">
+    <title>The Best !!</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M11.315 10.014a.5.5 0 0 1 .548.736A4.498 4.498 0 0 1 7.965 13a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242.63 0 1.46-.118 2.152-.242a26.58 26.58 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434zm6.488 0c1.398-.864 3.544 1.838-.952 3.434-3.067-3.554.19-4.858.952-3.434z"/>
+</svg>
+
+<svg id="topicRate8" onclick="addRate(2,8)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+    <title>Good</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>
+<svg id="topicRate6" onclick="addRate(2,6)" title="Okay" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-neutral" viewBox="0 0 16 16">
+    <title>Okay</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4 10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5zm3-4C7 5.672 6.552 5 6 5s-1 .672-1 1.5S5.448 8 6 8s1-.672 1-1.5zm4 0c0-.828-.448-1.5-1-1.5s-1 .672-1 1.5S9.448 8 10 8s1-.672 1-1.5z"/>
+</svg>
+<svg id="topicRate4" onclick="addRate(2,4)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
+    <title>Not as expected</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>
+
+<svg id="topicRate2" onclick="addRate(2,2)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-angry" viewBox="0 0 16 16">
+  <title>Seriously ?</title>
+
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zm6.991-8.38a.5.5 0 1 1 .448.894l-1.009.504c.176.27.285.64.285 1.049 0 .828-.448 1.5-1 1.5s-1-.672-1-1.5c0-.247.04-.48.11-.686a.502.502 0 0 1 .166-.761l2-1zm-6.552 0a.5.5 0 0 0-.448.894l1.009.504A1.94 1.94 0 0 0 5 6.5C5 7.328 5.448 8 6 8s1-.672 1-1.5c0-.247-.04-.48-.11-.686a.502.502 0 0 0-.166-.761l-2-1z"/>
+</svg>
+<svg id="topicRate0" onclick="addRate(2,0)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-dizzy" viewBox="0 0 16 16">
+<title>Delete this</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+<path d="M9.146 5.146a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zm-5 0a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 1 1 .708.708l-.647.646.647.646a.5.5 0 1 1-.708.708L5.5 7.207l-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zM10 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+</svg>
+</span>
+                                <!--End EMOJIIIIIIIIIIIIIIIIIIIIIIIIIIIIS -->
+                            </div>
+                            <div id="carItem3" class="carousel-item">
+                                <span class="reviewText">What do you think about the host ?</span><br>
+                                <!-- EMOJIIIIIIIIIIIIIIIIIIIIIIIIIIIIS -->
+                                <span id="Emojis">
+<svg id="hostRate10" onclick="addRate(3,10)" title="The Best !!" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-heart-eyes" viewBox="0 0 16 16">
+   <title>The Best !!!</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M11.315 10.014a.5.5 0 0 1 .548.736A4.498 4.498 0 0 1 7.965 13a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242.63 0 1.46-.118 2.152-.242a26.58 26.58 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434zm6.488 0c1.398-.864 3.544 1.838-.952 3.434-3.067-3.554.19-4.858.952-3.434z"/>
+</svg>
+
+<svg id="hostRate8" onclick="addRate(3,8)" title="Good" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+    <title>Good</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>
+<svg id="hostRate6" onclick="addRate(3,6)" title="Okay" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-neutral" viewBox="0 0 16 16">
+    <title>Okay</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4 10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5zm3-4C7 5.672 6.552 5 6 5s-1 .672-1 1.5S5.448 8 6 8s1-.672 1-1.5zm4 0c0-.828-.448-1.5-1-1.5s-1 .672-1 1.5S9.448 8 10 8s1-.672 1-1.5z"/>
+</svg>
+<svg id="hostRate4" onclick="addRate(3,4)" title="Not as expected" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
+    <title>Not as expected</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>
+
+<svg id="hostRate2" onclick="addRate(3,2)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-angry" viewBox="0 0 16 16">
+  <title>Seriously ?</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zm6.991-8.38a.5.5 0 1 1 .448.894l-1.009.504c.176.27.285.64.285 1.049 0 .828-.448 1.5-1 1.5s-1-.672-1-1.5c0-.247.04-.48.11-.686a.502.502 0 0 1 .166-.761l2-1zm-6.552 0a.5.5 0 0 0-.448.894l1.009.504A1.94 1.94 0 0 0 5 6.5C5 7.328 5.448 8 6 8s1-.672 1-1.5c0-.247-.04-.48-.11-.686a.502.502 0 0 0-.166-.761l-2-1z"/>
+</svg>
+<svg id="hostRate0" onclick="addRate(3,0)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-dizzy" viewBox="0 0 16 16">
+    <title>Delete this</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M9.146 5.146a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zm-5 0a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 1 1 .708.708l-.647.646.647.646a.5.5 0 1 1-.708.708L5.5 7.207l-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zM10 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+</svg>
+</span>
+                                <!--End EMOJIIIIIIIIIIIIIIIIIIIIIIIIIIIIS -->
+                            </div>
+                            <div id="carItem4" class="carousel-item">
+                                <span class="reviewText">Voice quality ?</span><br>
+                                <!-- EMOJIIIIIIIIIIIIIIIIIIIIIIIIIIIIS -->
+                                <span id="Emojis">
+<svg id="soundQualityRate10" onclick="addRate(4,10)" title="The Best !!" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-heart-eyes" viewBox="0 0 16 16">
+    <title>The Best !!!</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M11.315 10.014a.5.5 0 0 1 .548.736A4.498 4.498 0 0 1 7.965 13a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242.63 0 1.46-.118 2.152-.242a26.58 26.58 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434zm6.488 0c1.398-.864 3.544 1.838-.952 3.434-3.067-3.554.19-4.858.952-3.434z"/>
+</svg>
+
+<svg id="soundQualityRate8" onclick="addRate(4,8)" title="Good" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+    <title>Good</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>
+<svg id="soundQualityRate6" onclick="addRate(4,6)" title="Okay" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-neutral" viewBox="0 0 16 16">
+    <title>Okay</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4 10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5zm3-4C7 5.672 6.552 5 6 5s-1 .672-1 1.5S5.448 8 6 8s1-.672 1-1.5zm4 0c0-.828-.448-1.5-1-1.5s-1 .672-1 1.5S9.448 8 10 8s1-.672 1-1.5z"/>
+</svg>
+<svg id="soundQualityRate4" onclick="addRate(4,4)" title="Not as expected" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-frown" viewBox="0 0 16 16">
+    <title>Not as expected</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+</svg>
+
+<svg id="soundQualityRate2" onclick="addRate(4,2)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-angry" viewBox="0 0 16 16">
+  <title>Seriously ?</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M4.285 12.433a.5.5 0 0 0 .683-.183A3.498 3.498 0 0 1 8 10.5c1.295 0 2.426.703 3.032 1.75a.5.5 0 0 0 .866-.5A4.498 4.498 0 0 0 8 9.5a4.5 4.5 0 0 0-3.898 2.25.5.5 0 0 0 .183.683zm6.991-8.38a.5.5 0 1 1 .448.894l-1.009.504c.176.27.285.64.285 1.049 0 .828-.448 1.5-1 1.5s-1-.672-1-1.5c0-.247.04-.48.11-.686a.502.502 0 0 1 .166-.761l2-1zm-6.552 0a.5.5 0 0 0-.448.894l1.009.504A1.94 1.94 0 0 0 5 6.5C5 7.328 5.448 8 6 8s1-.672 1-1.5c0-.247-.04-.48-.11-.686a.502.502 0 0 0-.166-.761l-2-1z"/>
+</svg>
+<svg id="soundQualityRate0" onclick="addRate(4,0)" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-emoji-dizzy" viewBox="0 0 16 16">
+<title>Delete this</title>
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+<path d="M9.146 5.146a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zm-5 0a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 1 1 .708.708l-.647.646.647.646a.5.5 0 1 1-.708.708L5.5 7.207l-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zM10 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+</svg>
+</span>
+                                <!--End EMOJIIIIIIIIIIIIIIIIIIIIIIIIIIIIS -->
+                            </div>
+                            <div id="carItem5" style="padding-top: 0" class="carousel-item">
+                                <div class="spinner-grow " role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div><br>
+                                <span class="reviewText"> One moment...</span><br>
+
+                                <span class="reviewText"> Have a
+                                <img title="Donut" alt="donut" width="35" src="{{ asset('assets/RealDonut.png')}}"/> while you wait</span><br>
+                            </div>
+                            <div id="carItem6" style="padding-top: 0" class="carousel-item">
+                                <span class="reviewText" >Review Submitted !</span><br>
+                                <img width="40" src="{{ asset('assets/donut.png')}}"/><br>
+                                <span class="reviewText">Thank you so much for reviewing this podcast.
+                                    <br> Have a Tasty day<br>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: none" id="editReviewBody" class="modal-body editReviewDiv">
+                        <div class="reviewText" style="margin-left: 14%">
+
+                            Your review to this podcast is <span id="ratingMoyValue" style="margin-left:10px">
+                {% if userReview != null %}
+                                {{ userReview.rating }}
+
+                {% endif %}
+                            </span> /10
+                            {% if userReview != null %}
+                            <br><br>
+                            <input id="deleteReviewButton" onclick="deleteReview({{ userReview.id }})" data-toggle="modal" data-target="#reviewModal" style="margin-left:100px;width: 150px;" class="btn btn-danger" type="button" value="Delete Review"/>
+
+                            {% endif %}
+                            <input style="display: none;;margin-top:20px;margin-left:35%" id="deleteReviewButton2"  data-toggle="modal" data-target="#reviewModal" style="margin-left:100px;width: 150px;" class="btn btn-danger" type="button" value="Delete Review"/>
+
+                        </div><br><br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Review Modal -->
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="{{ asset('assets/podcastStyle/reloadComments.js') }}"></script>
+    <script src="{{ asset('assets/podcastStyle/podcast.js') }}"></script>
+    <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/reviewStyle/reviewStyle.css') }}" rel="stylesheet" type="text/css">
+
+    <div id="testPodcast" class="podcastDiv">
+
+            <div class="player" id="player">
+                <div id="playerSpinner">
+                    <br><br>
+
+                <div class="spinner-grow playerSpinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                </div>
+                <ul style="display: none" id="playerComponents">
+                    <li id="cover" class="cover">
+                        <img id="coverImg" src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png"/></li>
+                    <li class="info" id="podInfo">
+                        <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
+                        <h4>{{ podcast.podcastViews }} Views</h4>
+                        <h2 class="h2Pod">{{ podcast.podcastDescription }}</h2>
+
+                        <div class="button-items">
+                            <audio id="podcastAudio">
+                                <source src="{{ asset(  podcast.podcastSource) }}" type="audio/mp3">
+                            </audio>
+                            <div id="sliderDiv">
+    {#                                   <div onclick="moveToTime(event)" id="slider">#}
+                                       <div id="slider">
+                                           <div id="elapsed"></div></div>
+                                       <div id="timer">00:00:00</div>
+                                </table>
+                            </div>
+                            <div class="controls" id="controls">
+                            <span>
+                                <i id="play" onclick="changeStatus(1)"  class="fa fa-play"></i>
+                                <i id="replay" onclick="changeStatus(3)" style="display: none;" class="fa fa-repeat"></i>
+                                <i id="stop" onclick="changeStatus(2)" style="display: none" class="fa fa-pause"></i>
+                            </span>
+                            </div>
+                        </div>
+                    </li>
+                    {% if user!=null %}
+                    <li id="podcastTools" class="podcastTools">
+                        <table class="toolsTable">
+                            <tr style="height: 100px">
+                                <td><i class="fa fa-flag" title="Report"></i></td>
+                                <td>
+                                    {% if userReview !=null %}
+                                        <input type="text" id="userReview" style="display:none" value="{{ userReview.rating }}">
+                                    {% endif %}
+                                    <input type="text" id="userReview1" style="display:none" value="">
+                                    <i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i>
+
+                                </td>
+                                <td><i class="fa fa-bookmark" title="Save to favorites"></i></td>
+                            </tr>
+                            <tr>
+                                <td title="Rating" class="ratingMoy" colspan="3">
+                                                                    {% if reviewMoy != 0 %}
+                                   Rating:<span style="margin-left: 15px"> <span class="ratingMoyValue" id="ratingMoyValue">{{ reviewMoy|number_format(1) }}</span> / 10</span>
+                                                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                    {% endif %}
+                </ul>
+
+            </div>
+    <br><br>
+    <br>
+
+
+        <div class="commentsContainer" id="commentsContainer"><br><br><br><br><br><br><br><br>
+            {% if comments is empty %}
+                <h2 id ="noCom" class="commentsTitle">No comments yet</h2>
+            {% else %}
+                <h2 class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span id="comText" style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
+                </h2>
+            {% endif %}
+            <input type="text" id="comment" onkeypress="checkKey(event)" name="comment" class="commentInput" placeholder="Add comment"/>
+            <br><br>
+            <div id="comments">
+                {% if comments is empty %}
+                 <ul class="user_comment" id="CommentsUL"></ul>
+                {% endif %}
+                <ul {% for comment in comments|reverse %} class="user_comment" id="CommentsUL">
+                    <div id="comment{{ comment.id }}">
+                    <!-- current #{user} avatar -->
+                    <div class="user_avatar">
+                        <img src="/assets/donut.png">
+                    </div>
+                    <div class="comment_toolbar">
+
+                        <!-- inc. date and time -->
+                        <div class="comment_details">
+                            <ul>
+                                <li style="width: 100%"><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span>
+                                    <span id="deletingMsg{{ comment.id }}" class="deleteingComment">Deleting comment...</span>
+
+                                </li>
+                                <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> {{ comment.commentDate|date('d M Y') }} </li>
+                            </ul>
+                        </div><!-- inc. share/reply and love -->
+                        {% if user !=null %}
+                        {% if user.id == comment.userId.id %}
+                        <div class="comment_tools">
+                            <div style="z-index: 99999999999999999"  class="edit"><i id="editButton{{ comment.id }}" onclick="showUpdateComment(1, {{ comment.id }})" class="fa fa-edit"></i></div>
+                            <div style="z-index: 99999999999999999" class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <!-- the comment body -->
+                    <div    class="commentContainer">
+                        <div id="commentTextDiv{{ comment.id }}" class="commentText">
+                            {{ comment.commentText }}
+                        </div>
+                        <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
+                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }},'')" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
+                        <span title="cancel" onclick="showUpdateComment(2, {{ comment.id }},'{{ comment.commentText }}')" class="fa fa-close"></span>
+                        </div>
+                    </div>
+                    <br><br><br>
+                    </div>
+                </ul  {% endfor %}>
+
+            </div>
+    </div>
+    </div>
+{% endblock %}
