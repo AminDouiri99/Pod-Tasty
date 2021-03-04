@@ -17,24 +17,17 @@ use Symfony\Component\Form\FormTypeInterface;
 
 class PodcastController extends AbstractController
 {
+
     /**
-     * @Route("/podcast", name="podcast")
+     * @Route("", name="Home")
      */
     public function index(): Response
     {
-        return $this->render('podcast/index.html.twig', [
-            'controller_name' => 'PodcastController',
-        ]);
-    }
-    /**
-     * @param PodcastRepository $repository
-     * @return Response
-     * @Route("/AffichPodcast" , name="AffichePodcast")
-     */
-    public function Affiche(PodcastRepository $repository){
+
         $repo=$this->getDoctrine()->getRepository(Podcast::class);
-        $Podcast=$repo->findAll();
-        return $this->render('/podcast/Affiche.html.twig',['podcast'=>$Podcast]);
+        $podcasts=$repo->findAll();
+        $user=$this->getUser();
+            return $this->render("home/home.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
     }
     /**
      * @Route("/SuppPodcast/{id}" , name="SuppPodcast")
@@ -51,6 +44,7 @@ class PodcastController extends AbstractController
          */
         function Add(Request $request)
         {
+            $user=$this->getUser();
             $Podcast = new Podcast();
             $form = $this->createForm(PodcastType::class, $Podcast);
             $form->add('Ajouter', SubmitType::class);
@@ -73,16 +67,17 @@ class PodcastController extends AbstractController
 
                 $em->persist($Podcast);
                 $em->flush();
-                return $this->redirectToRoute('AffichePodcast');
+                return $this->redirectToRoute('Home');
             }
             return $this->render('Podcast/Add.html.twig', [
-                'form' => $form->createView()]);
+                'form' => $form->createView(),'user'=>$user]);
         }
 
     /**
      * @Route ("Podcast/Update/{id}",name="UpdatePodcast")
      */
         function update(PodcastRepository $repository,$id,Request $request){
+            $user=$this->getUser();
             $Podcast=$repository->find($id);
             $form = $this->createForm(PodcastType::class);
             $form->add('Update',SubmitType::class);
@@ -103,7 +98,7 @@ class PodcastController extends AbstractController
                 return $this->redirectToRoute('AffichePodcast');
             }
             return $this->render('Podcast/Update.html.twig',[
-                'f'=>$form->createView()]);
+                'f'=>$form->createView() , 'user'=>$user]);
 
         }
 

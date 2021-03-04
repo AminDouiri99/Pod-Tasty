@@ -11,19 +11,19 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("", name="Home")
-     */
-    public function index(): Response
-
-    {
-        $getUser = $this->getUser();
-        if($getUser == new CustomUserMessageAuthenticationException()){
-            $getUser = null;
-             }else
-            return $this->render("home/home.html.twig", ['user'=>$getUser,]);
-
-
-    }
+//    /**
+//     * @Route("", name="Home")
+//     */
+//    public function index(): Response
+//
+//    {
+//        $getUser = $this->getUser();
+//        if($getUser == new CustomUserMessageAuthenticationException()){
+//            $getUser = null;
+//             }else
+//            return $this->render("home/home.html.twig", ['user'=>$getUser,]);
+//
+//
+//    }
 
 }

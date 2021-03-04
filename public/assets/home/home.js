@@ -1,10 +1,10 @@
-function changeButt(x) {
+function changeButt(x, id) {
     if (x == 1) {
-    document.getElementById("podPlayButt").style.display = "none";
-    document.getElementById("podPlayButtFull").style.display = "inherit";
+    document.getElementById("podPlayButt"+id).style.display = "none";
+    document.getElementById("podPlayButtFull"+id).style.display = "inherit";
     }else {
 
-        document.getElementById("podPlayButtFull").style.display = "none";
-        document.getElementById("podPlayButt").style.display = "inherit";
+        document.getElementById("podPlayButtFull"+id).style.display = "none";
+        document.getElementById("podPlayButt"+id).style.display = "inherit";
     }
 }

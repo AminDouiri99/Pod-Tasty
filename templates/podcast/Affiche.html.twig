@@ -1,13 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scrable=no, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Affiche</title>
-</head>
-<body>
+{% extends "base.html.twig" %}
+
+{% block title %}{% endblock %}
+{% block content %}
 <h1>Listes des Podcasts</h1>
 <table border="1">
     <tr>
@@ -31,5 +25,4 @@
     </tr {% endfor %}>
 
 </table>
-</body>
-</html>
+{% endblock %}
