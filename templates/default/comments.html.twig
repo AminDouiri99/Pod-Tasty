@@ -303,7 +303,10 @@
                 <h2 class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span id="comText" style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
                 </h2>
             {% endif %}
+
+            {% if user != null %}
             <input type="text" id="comment" onkeypress="checkKey(event)" name="comment" class="commentInput" placeholder="Add comment"/>
+            {% endif %}
             <br><br>
             <div id="comments">
                 {% if comments is empty %}
