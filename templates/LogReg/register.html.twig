@@ -6,8 +6,8 @@
 
 <div class="loginform">
 
-    <figure class="image is-128x128 center" style="padding-top: 65px;">
-        <img  src="{{ asset('/assets/donut.png')}}">
+    <figure class="image is-128x128 center" style="padding-top: 65px">
+        <img style="margin-left: 200%"  src="{{ asset('/assets/donut.png')}}">
     </figure>
     <div class="FormBackground" style="margin-top:80px ">
 
@@ -63,23 +63,23 @@
     </span>
             </p>
         </div>
-        <div class="field center">
-            <label>Gender :</label>
-        <label class="radio" >
-            <input  type="radio" name="gender" value="female">
-            Female
-        </label>
-        <label class="radio">
-            <input type="radio" name="gender" value="male">
-            Male
-        </label>
-        </div>
-        <div class="field center">
-            <label for="start">birth date:</label>
 
-            <input type="date" id="start" name="_birth-start"
+    <div class="field center">
+        <label for="start">birth date:</label>
+
+            <input type="date" class="form-control" id="start" name="_birth-start"
                    value="2000-07-22"
                    min="1900-01-01" max="2029-12-31">
+        </div>
+        <div style="width: 100%" class="field center">
+            <label class="radio">
+                <input class="form-control"   type="radio" name="gender" value="female">
+                Female
+            </label>
+            <label class="radio">
+                <input class="form-control"  type="radio" name="gender" value="male">
+                Male
+            </label>
         </div>
         {% if error != null %}
         <p>{{ error }}3ez eddisn</p>
@@ -88,9 +88,10 @@
         <div class="buttons is-right">
             <button class="button is-primary has-text-white center" name="submit" type="submit"><strong>Register</strong></button>
 
-    </form>
         <a href="{{ path('app_login') }}" class="button is-primary has-text-white center"><strong>Back to login</strong></a>
-    </div>
+    </div><br>
+
+    </form>
     </div>
         </div>
         </div>

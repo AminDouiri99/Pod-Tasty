@@ -1,3 +1,4 @@
+comNumb = 0;
 window.onscroll = function(){
 
     if (window.scrollY ==0) {
@@ -12,13 +13,17 @@ window.onscroll = function(){
         document.getElementById('coverImg').style.borderBottomLeftRadius = "20px";
         document.getElementById('coverImg').style.borderTopRightRadius = "0";
         document.getElementById('sliderDiv').style.display = "inherit";
-        setTimeout(function () {
-            document.getElementById('podcastTools').style.display = "inherit";
-        },200);
+        if (document.getElementById('podcastTools') !=null) {
+            setTimeout(function () {
+                document.getElementById('podcastTools').style.display = "inherit";
+            }, 200);
+        }
 
     } else if(window.scrollY >80){
         document.getElementById('sliderDiv').style.display = "none";
+        if (document.getElementById('podcastTools') !=null) {
         document.getElementById('podcastTools').style.display = "none";
+        }
         document.getElementById('podInfo').style.marginTop = "200px";
         document.getElementById('podInfo').style.marginLeft = "-210px";
         document.getElementById('controls').style.marginLeft = "120px";
@@ -31,13 +36,6 @@ window.onscroll = function(){
         document.getElementById('player').style.marginTop = "70px";
     }
 }
-
-comNumb = 0;
-if(document.getElementById("commentsLength")!=null){
-
-comNumb = parseInt(document.getElementById('commentsLength').innerHTML);
-}
-
 function checkKey(event){
     if(event.code==="Enter" && document.getElementById('comment').value!==""){
         document.getElementById('comment').disabled  = true;
@@ -45,8 +43,8 @@ function checkKey(event){
         document.getElementById('comment').value  = "Posting comment...";
         document.getElementById('comment').style.borderBottomColor="transparent";
     }
-
 }
+
 function sendComment(comment){
     $.post("/addComment",{comment:comment}, function(data) {
         setTimeout(function (){
@@ -56,7 +54,16 @@ function sendComment(comment){
             document.getElementById('comment').value  = "";
             document.getElementById('comment').style.borderBottomColor="white";
             if(document.getElementById('commentsLength') != null) {
-                var x = parseInt(document.getElementById('commentsLength').innerHTML) + 1;
+                var x = 1;
+                if(!isNaN(parseInt(document.getElementById('commentsLength').innerHTML))){
+                    x += parseInt(document.getElementById('commentsLength').innerHTML);
+                }
+                c = "Comment";
+                if (x>1){
+                    c+="s";
+                }
+
+                document.getElementById('comText').innerHTML = c;
                 document.getElementById('commentsLength').innerHTML = x;
             } else {
                 stringmessage = "<span style='margin-right: 15px'>";
@@ -72,8 +79,12 @@ function sendComment(comment){
     })
 }
 function deleteComment(id){
+    if (document.getElementById("commentsLength")!=null) {
+        comNumb = parseInt(document.getElementById('commentsLength').innerHTML);
+    }
     document.getElementById("deletingMsg"+id).style.display="inherit";
-    $.post("/deleteComment/"+id, function(data) {
+
+    $.post("/deleteComment",{commentId:id},function(data) {
         var comToDelete =document.getElementById("comment"+id);
         comToDelete.parentNode.removeChild(comToDelete);
         if (comNumb>1) {
@@ -123,7 +134,7 @@ function addRate(id,rate) {
             document.getElementById("carouselExampleControls")
 
             document.getElementById("carItem1").classList.remove('active');
-            fadeIn("carItem2");
+            fadeIn("carItem2",1);
             break;
         }
         case 2:
@@ -132,7 +143,7 @@ function addRate(id,rate) {
             document.getElementById("topicRate"+rate).style.color =color[rate];
 
             document.getElementById("carItem2").classList.remove('active');
-            fadeIn("carItem3");
+            fadeIn("carItem3",1);
             break;
         }
         case 3:
@@ -141,7 +152,7 @@ function addRate(id,rate) {
             document.getElementById("hostRate"+rate).style.color =color[rate];
 
             document.getElementById("carItem3").classList.remove('active');
-            fadeIn("carItem4");
+            fadeIn("carItem4",1);
             break;
         }
         case 4:
@@ -150,15 +161,30 @@ function addRate(id,rate) {
             document.getElementById("soundQualityRate"+rate).style.color =color[rate];
 
             document.getElementById("carItem4").classList.remove('active');
-            fadeIn("carItem5");
+            fadeIn("carItem5",1);
             let finalRate = (podcastRate+topicRate+hostRate+soundQualityRate)/4;
-            $.post("/addReview",{review:finalRate}, function(){
+            $.post("/addReview",{review:finalRate}, function(data){
                 setTimeout(function(){
                     document.getElementById("carItem5").classList.remove('active');
-                    fadeIn("carItem6");
-                    console.log(finalRate);
+                    fadeIn("carItem6",1);
                     document.getElementById("reviewButton").style.color = color[Math.round(finalRate)];
-                    console.log( Math.round(finalRate));
+
+                    setTimeout(function (){
+                        document.getElementById("newReviewBody").style.display = "none";
+                        if (document.getElementById("deleteReviewButton") == null) {
+                            document.getElementById("carItem6").classList.remove('active');
+                            fadeIn("carItem1",1);
+                            document.getElementById("deleteReviewButton2").addEventListener("click", function (){
+                                deleteReview(data);
+
+                            });
+                            document.getElementById("deleteReviewButton2").style.display = "inherit";
+                            document.getElementById("ratingMoyValue").innerHTML = ""+finalRate;
+
+                        }
+                        fadeIn("editReviewBody",2);
+
+                    },5000);
                 }, 3000)
             });
             break;
@@ -167,8 +193,12 @@ function addRate(id,rate) {
 
 }
 
-function fadeIn(id) {
+function fadeIn(id,x) {
+    if(x === 1){
     document.getElementById(id).classList.add('active');
+    } else {
+    document.getElementById(id).style.display = "inherit";
+    }
     document.getElementById(id).style.opacity = 0;
     let op = 0;
     let inter = setInterval(function () {
@@ -180,4 +210,40 @@ function fadeIn(id) {
         document.getElementById(id).style.opacity =op;
     }, 50);
 
+}
+
+
+function updateComment(id,comment){
+    $.post("/UpdateComment",{commentId:id, commentText:comment}, function(data) {
+        document.getElementById("commentTextDiv"+id).innerHTML = comment;
+        document.getElementById('editCommentText'+id).disabled  = false;
+        document.getElementById('editCommentText'+id).style.borderBottomColor="white";
+        showUpdateComment(2,id, comment);
+    })
+}
+
+function showUpdateComment(x,id,comment) {
+    if(x === 1){
+        document.getElementById("commentTextDiv"+id).style.display = "none";
+        document.getElementById("editButton"+id).style.opacity = 0;
+        document.getElementById("editButton"+id).disabled =true;
+        document.getElementById("editButton"+id).style.pointerEvents ="none";
+        document.getElementById("commentEditText"+id).style.display = "inherit";
+    }
+    else{
+        document.getElementById("editCommentText"+id).value = comment ;
+        document.getElementById("editButton"+id).style.pointerEvents ="auto";
+        document.getElementById("editButton"+id).style.opacity = 1;
+        document.getElementById("editButton"+id).disabled =false;
+        document.getElementById("commentEditText"+id).style.display = "none";
+        document.getElementById("commentTextDiv"+id).style.display = "inherit";
+    }
+
+}
+function checkKeyEdit(event,id){
+    if(event.code==="Enter" && document.getElementById('editCommentText'+id).value!==""){
+        document.getElementById('editCommentText'+id).disabled  = true;
+        updateComment(id,document.getElementById('editCommentText'+id).value);
+        document.getElementById('editCommentText'+id).style.borderBottomColor="transparent";
+    }
 }

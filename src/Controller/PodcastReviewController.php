@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Podcast;
 use App\Entity\PodcastReview;
 use App\Repository\PodcastRepository;
 use App\Repository\PodcastReviewRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,19 +30,43 @@ class PodcastReviewController extends AbstractController
      * @param PodcastReviewRepository $reviewRepo
      * @param UserRepository $userRepo
      * @param PodcastRepository $podcastRepo
-     * @param Request $request
+     * @param Response
      */
-    public function addReview(UserRepository $userRepo, PodcastRepository $podcastRepo, Request $request) {
+    public function addReview(PodcastRepository $podcastRepo, Request $request) {
+        $user = $this->getUser();
         $data = $request->get('review');
         $review = new PodcastReview();
         $review->setRating($data);
-        $user=$userRepo->findOneBy (['id' => 1]);
         $review->setUserId($user);
         $podcast=$podcastRepo->findOneBy (['id' => 1]);
         $review->setPodcastId($podcast);
         $em=$this->getDoctrine()->getManager();
         $em->persist($review);
         $em->flush();
-        return $this->redirectToRoute("podcast");
+        return New Response($review->getId());
+    }
+
+    /**
+     * @Route("/deleteReview/{id}", name="Delete")
+     * @param int $id
+     * @return Response
+     */
+
+    function deleteReview(int $id) {
+        $repo=$this->getDoctrine()->getRepository(PodcastReview::class);
+        $podcastRepo=$this->getDoctrine()->getRepository(Podcast::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $review=$repo->find($id);
+        $podcast = $podcastRepo->find($review->getPodcastId()->getId());
+        $entityManage->remove($review);
+        $entityManage->flush();
+        $reviewMoy = 0;
+        if (!$podcast->getReviewList()->isEmpty()){
+            foreach ($podcast->getReviewList() as $review) {
+                $reviewMoy += $review->getRating();
+            }
+            $reviewMoy /= $podcast->getReviewList()->count();
+        }
+        return new Response($reviewMoy);
     }
 }

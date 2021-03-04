@@ -4,11 +4,11 @@
 
 {% block content %}
 
-<form method="post" class="loginform">
+<form method="post" style="padding-top: 0;" class="loginform">
     <figure class="image is-128x128 loginform center">
-        <img  src="{{ asset('/assets/donut.png')}}">
-    </figure>
-    <div class="FormBackground">
+        <img style="margin-left: 200%" src="{{ asset('/assets/donut.png')}}">
+    </figure><br>
+    <div class="FormBackground" style="margin-left: 65%;width: 70%;height: 370px;padding: 40px">
     {% if error %}
         <div class="alert alert-danger center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
