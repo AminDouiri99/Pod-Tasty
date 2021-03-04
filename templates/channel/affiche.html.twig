@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %} Affiche {% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Channel viewer</h1> <br>
+<table >
+    <tr >
+        <th class="text-white-50">Channel Name</th>
+        <th class="text-white-50"> Channel description </th>
+        <th class="text-white-50"> Creation date </th>
+    </tr>
+    {% for channel in channel %}
+    <tr>
+        <td> {{ channel.ChannelName }}</td>
+        <td> {{ channel.ChannelDescription }}</td>
+        <td> {{ channel.ChannelCreationDate|date('d-m-Y')}}</td>
+        <td>
+            <a href="{{ path('UpdateChannel',{ 'id':channel.id })}}"><button class="button_border button_fill button  ">Edit </button></a>
+            <a href="{{ path('DeleteChannel',{ 'id':channel.id })}}"><button class="button_border button_fill button">Delete</button></a>
+
+        </td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+
