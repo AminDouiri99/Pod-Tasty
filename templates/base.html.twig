@@ -1,6 +1,6 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>PodTasty -  {% block title%}{% endblock %}</title>
-
+    <link rel="icon" href="{{ asset('/assets/donut.png') }}" type="image/icon type">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="My Podcast template project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,7 +22,7 @@
     <header class="header trans_400">
 
         <div class="logo">
-            <a href="https://preview.colorlib.com/theme/mypodcast/#"> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
+            <a href=""> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
         </div>
         <div class="container">
 
@@ -36,7 +36,7 @@
                     <div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
                         <nav class="main_nav">
                             <ul class="d-flex flex-row align-items-start justify-content-start">
-                                <li><a href="/signUp">Home</a></li>
+                                <li><a href="{{ path('Home') }}" >Home</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/about.html">About</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/episodes.html">Episodes</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html">Blog</a></li>
@@ -45,37 +45,20 @@
                         </nav>
                     </div>
                 </div>
-{#                {% if user == null %}#}
-                <div class="col">
+               {% if user == null %}
+                <div class="col" >
                     <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
                         <nav class="main_nav">
-                            <div class="buttons" style="padding-top: 20px;">
-                                <div class="navbar-item has-dropdown is-hoverable">
-                                    <a class="navbar-link button is-primary has-text-white">
+                            <div class="buttons" style="padding-top: 10px;width: 100%;margin-left: 200%">
+                                <div class="navbar-item">
+                                    <a class="button is-primary has-text-white logregButt" href="{{ path('app_login') }}">
                                         <strong>Login</strong>
 
                                     </a>
 
-                                    <div class="navbar-dropdown" >
-                                        <a class="navbar-item">
-                                            <input class="input is-small" style="width: 200px;" type="email" placeholder="Email">                                        </a>
 
-
-                                        </a>
-                                        <a class="navbar-item">
-                                            <input class="input is-small" style="width: 200px;"  type="password" placeholder="Password">                                        </a>
-
-                                        </a>
-                                        <a class="">
-                                            <span>Forget Password</span>
-                                        </a>
-                                        <a class="navbar-item ">
-                                            <button class="button is-primary"><strong>Login</strong></button>
-
-                                        </a>
-                                    </div>
                                 </div>
-                                <a class="button is-primary has-text-white" href="{{ path('register') }}">
+                                <a class="button is-primary has-text-white logregButt" href="{{ path('register') }}">
                                     <strong>Sign up</strong>
                                 </a>
 
@@ -84,18 +67,18 @@
                         </nav>
                     </div>
                 </div>
-{#                {% endif %}#}
-{#                {% if user  %}#}
-                    <div class="col">
+                {% endif %}
+                {% if user  %}
+                    <div class="col" style="padding-top: 10px;width: 100%;margin-left: 23%">
                         <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
                             <nav class="main_nav">
-                                <a class="button is-primary has-text-white">
-{#                                    <strong>{{ user.UserEmail }}</strong>#}
+                                <a class="button is-primary has-text-white logregButt">
+                                    <strong>{{ user.UserEmail }}</strong>
                                 </a>
                             </nav>
                         </div>
                     </div>
-{#                {% endif %}#}
+                {% endif %}
 
             </div>
         </div>
@@ -110,7 +93,7 @@
                 <div class="row footer_logo_row">
                     <div class="col d-flex flex-row align-items-center justify-content-center">
                         <div class="logo">
-                            <a href="https://preview.colorlib.com/theme/mypodcast/#"><span>Pod</span>Tasty</a>
+                            <a href=""><span>Pod</span>Tasty</a>
                         </div>
                     </div>
                 </div>

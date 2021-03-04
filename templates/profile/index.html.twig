@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1>
+{{ userInfo.UserLastName}}
+    </h1>
+    <br>
+    <form method="post" action="{{ path('addpic') }}" enctype='multipart/form-data'>
+        <input type='file' name='file' />
+        <input type='submit' value='Save name' name='but_upload'>
+    </form>
+{% endblock %}

@@ -2,6 +2,7 @@
 {% block title %}Podcast{% endblock %}
 {% block content %}
     <!-- Review Modal -->
+
     <div style="z-index:99999;" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -11,7 +12,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div id="newReviewBody" class="modal-body">
                     <!-- carousel-->
                     <div id="carouselExampleControls" class="carousel slide">
                         <div class="carousel-inner">
@@ -191,6 +192,26 @@
                         </div>
                     </div>
                 </div>
+
+                <div style="display: none" id="editReviewBody" class="modal-body editReviewDiv">
+                        <div class="reviewText" style="margin-left: 14%">
+
+                            Your review to this podcast is <span id="ratingMoyValue" style="margin-left:10px">
+                {% if userReview != null %}
+                                {{ userReview.rating }}
+
+                {% endif %}
+                            </span> /10
+                            {% if userReview != null %}
+                            <br><br>
+                            <input id="deleteReviewButton" onclick="deleteReview({{ userReview.id }})" data-toggle="modal" data-target="#reviewModal" style="margin-left:100px;width: 150px;" class="btn btn-danger" type="button" value="Delete Review"/>
+
+                            {% endif %}
+                            <input style="display: none;;margin-top:20px;margin-left:35%" id="deleteReviewButton2"  data-toggle="modal" data-target="#reviewModal" style="margin-left:100px;width: 150px;" class="btn btn-danger" type="button" value="Delete Review"/>
+
+                        </div><br><br>
+
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
@@ -207,45 +228,70 @@
 
     <div id="testPodcast" class="podcastDiv">
 
-        <div class="player" id="player">
-            <ul id="playerComponents">
-                <li id="cover" class="cover">
-                    <img id="coverImg" src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png"/></li>
-                <li class="info" id="podInfo">
-                    <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
-                    <h4>{{ podcast.podcastViews }} Views</h4>
-                    <h2 class="h2Pod">{{ podcast.podcastDescription }}</h2>
+            <div class="player" id="player">
+                <div id="playerSpinner">
+                    <br><br>
 
-                    <div class="button-items">
-                        <audio id="podcastAudio" preload="auto" loop="false">
-                            <source src="{{ asset(  podcast.podcastSource) }}" type="audio/mp3">
-                            <source src="{{ asset(  podcast.podcastSource) }}" type="audio/ogg">
-                        </audio>
-                        <div id="sliderDiv">
-                                   <div onclick="moveToTime(event)" id="slider"><div id="elapsed"></div></div>
-                                   <div id="timer">00:00:00</div>
-                            </table>
-                        </div>
-                        <div class="controls" id="controls">
-                        <span>
-                            <i id="play" onclick="changeStatus(1)"  class="fa fa-play"></i>
-                            <i id="stop" onclick="changeStatus(2)" style="display: none" class="fa fa-pause"></i>
-                        </span>
-                        </div>
-                    </div>
-                </li>
-                <li id="podcastTools" class="podcastTools">
-                    <table class="toolsTable">
-                        <tr>
-                            <td><i class="fa fa-flag" title="Report"></i></td>
-                            <td><i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i></td>
-                            <td><i class="fa fa-bookmark" title="Save to favorites"></i></td>
-                        </tr>
-                    </table>
-                </li>
-            </ul>
+                <div class="spinner-grow playerSpinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                </div>
+                <ul style="display: none" id="playerComponents">
+                    <li id="cover" class="cover">
+                        <img id="coverImg" src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png"/></li>
+                    <li class="info" id="podInfo">
+                        <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
+                        <h4>{{ podcast.podcastViews }} Views</h4>
+                        <h2 class="h2Pod">{{ podcast.podcastDescription }}</h2>
 
-        </div>
+                        <div class="button-items">
+                            <audio id="podcastAudio">
+                                <source src="{{ asset(  podcast.podcastSource) }}" type="audio/mp3">
+                            </audio>
+                            <div id="sliderDiv">
+    {#                                   <div onclick="moveToTime(event)" id="slider">#}
+                                       <div id="slider">
+                                           <div id="elapsed"></div></div>
+                                       <div id="timer">00:00:00</div>
+                                </table>
+                            </div>
+                            <div class="controls" id="controls">
+                            <span>
+                                <i id="play" onclick="changeStatus(1)"  class="fa fa-play"></i>
+                                <i id="replay" onclick="changeStatus(3)" style="display: none;" class="fa fa-repeat"></i>
+                                <i id="stop" onclick="changeStatus(2)" style="display: none" class="fa fa-pause"></i>
+                            </span>
+                            </div>
+                        </div>
+                    </li>
+                    {% if user!=null %}
+                    <li id="podcastTools" class="podcastTools">
+                        <table class="toolsTable">
+                            <tr style="height: 100px">
+                                <td><i class="fa fa-flag" title="Report"></i></td>
+                                <td>
+                                    {% if userReview !=null %}
+                                        <input type="text" id="userReview" style="display:none" value="{{ userReview.rating }}">
+                                    {% endif %}
+                                    <input type="text" id="userReview1" style="display:none" value="">
+                                    <i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i>
+
+                                </td>
+                                <td><i class="fa fa-bookmark" title="Save to favorites"></i></td>
+                            </tr>
+                            <tr>
+                                <td title="Rating" class="ratingMoy" colspan="3">
+                                                                    {% if reviewMoy != 0 %}
+                                   Rating:<span style="margin-left: 15px"> <span class="ratingMoyValue" id="ratingMoyValue">{{ reviewMoy|number_format(1) }}</span> / 10</span>
+                                                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </li>
+                    {% endif %}
+                </ul>
+
+            </div>
     <br><br>
     <br>
 
@@ -274,20 +320,30 @@
                         <!-- inc. date and time -->
                         <div class="comment_details">
                             <ul>
-                                <li><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span></li>
+                                <li style="width: 100%"><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span>
+                                    <span id="deletingMsg{{ comment.id }}" class="deleteingComment">Deleting comment...</span>
+
+                                </li>
                                 <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> {{ comment.commentDate|date('d M Y') }} </li>
                             </ul>
                         </div><!-- inc. share/reply and love -->
+                        {% if user !=null %}
+                        {% if user.id == comment.userId.id %}
                         <div class="comment_tools">
-                            <span id="deletingMsg{{ comment.id }}" class="deleteingComment">Deleting comment...</span>
-                            <div class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
+                            <div style="z-index: 99999999999999999"  class="edit"><i id="editButton{{ comment.id }}" onclick="showUpdateComment(1, {{ comment.id }})" class="fa fa-edit"></i></div>
+                            <div style="z-index: 99999999999999999" class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
                         </div>
-
+                        {% endif %}
+                        {% endif %}
                     </div>
                     <!-- the comment body -->
-                    <div  class="commentContainer">
-                        <div class="commentText">
+                    <div    class="commentContainer">
+                        <div id="commentTextDiv{{ comment.id }}" class="commentText">
                             {{ comment.commentText }}
+                        </div>
+                        <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
+                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }},'')" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
+                        <span title="cancel" onclick="showUpdateComment(2, {{ comment.id }},'{{ comment.commentText }}')" class="fa fa-close"></span>
                         </div>
                     </div>
                     <br><br><br>

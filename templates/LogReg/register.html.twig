@@ -2,17 +2,21 @@
 
 {% block title %}Register{% endblock %}
 
-{% block content %}
+    {% block content %}
 
 <div class="loginform">
-    <figure class="image is-128x128 loginform">
-        <img  src="{{ asset('/assets/donut.png')}}">
+
+    <figure class="image is-128x128 center" style="padding-top: 65px">
+        <img style="margin-left: 200%"  src="{{ asset('/assets/donut.png')}}">
     </figure>
-    <h4 class="title is-3 has-text-white" style="padding-top: 30px;">Welcome to PodTasty</h4>
-    <h5 class="title is-5 has-text-white">Register</h5>
-</div>
-    <form action="{{ path('register') }}" method="post" class="loginform">
-        <div class="field">
+    <div class="FormBackground" style="margin-top:80px ">
+
+    <h4 class="title is-3 has-text-white center" style="padding-top: 30px;width: 95%">Welcome to PodTasty</h4>
+    <h5 class="title is-5 has-text-white center" style="width: 95%">Register</h5>
+
+    <form action="{{ path('register') }}" method="post" style="width: 95%" class="center" >
+
+        <div class="field center">
             <p class="control has-icons-left has-icons-right">
                 <input class="input" type="text" name="_firstname" placeholder="First Name">
                 <span class="icon is-small is-right">
@@ -21,7 +25,7 @@
             </p>
         </div>
 
-        <div class="field">
+        <div class="field center">
             <p class="control has-icons-left has-icons-right">
                 <input class="input" type="text" name="_lastname" placeholder="Last Name">
                 <span class="icon is-small is-right">
@@ -30,7 +34,7 @@
             </p>
         </div>
 
-        <div class="field">
+        <div class="field center">
             <p class="control has-icons-left has-icons-right">
                 <input class="input" type="email" name="_email" placeholder="Email">
                 <span class="icon is-small is-left">
@@ -41,7 +45,7 @@
     </span>
             </p>
         </div>
-        <div class="field">
+        <div class="field center">
             <p class="control has-icons-left">
                 <input class="input" type="password" name="_password" placeholder="Password">
                 <span class="icon is-small is-left">
@@ -51,7 +55,7 @@
         </div>
 
 
-        <div class="field">
+        <div class="field center">
             <p class="control has-icons-left">
                 <input class="input" type="password" name="_confirmpassword" placeholder="Confirm Password">
                 <span class="icon is-small is-left">
@@ -59,33 +63,37 @@
     </span>
             </p>
         </div>
-        <div class="field">
-            <label>Gender :</label>
-        <label class="radio" >
-            <input  type="radio" name="gender" value="female">
-            Female
-        </label>
-        <label class="radio">
-            <input type="radio" name="gender" value="male">
-            Male
-        </label>
-        </div>
-        <div class="field">
-            <label for="start">birth date:</label>
 
-            <input type="date" id="start" name="_birth-start"
+    <div class="field center">
+        <label for="start">birth date:</label>
+
+            <input type="date" class="form-control" id="start" name="_birth-start"
                    value="2000-07-22"
                    min="1900-01-01" max="2029-12-31">
+        </div>
+        <div style="width: 100%" class="field center">
+            <label class="radio">
+                <input class="form-control"   type="radio" name="gender" value="female">
+                Female
+            </label>
+            <label class="radio">
+                <input class="form-control"  type="radio" name="gender" value="male">
+                Male
+            </label>
         </div>
         {% if error != null %}
         <p>{{ error }}3ez eddisn</p>
         {% endif %}
-        <div class="field">  </div>
+        <div class="field center">  </div>
         <div class="buttons is-right">
-            <button class="button is-success" name="submit" type="submit">Register</button>
+            <button class="button is-primary has-text-white center" name="submit" type="submit"><strong>Register</strong></button>
+
+        <a href="{{ path('app_login') }}" class="button is-primary has-text-white center"><strong>Back to login</strong></a>
+    </div><br>
 
     </form>
-    <a href="login" class="button is-info">Back to login</a>
     </div>
-    </div>
+        </div>
+        </div>
+
 {% endblock %}
