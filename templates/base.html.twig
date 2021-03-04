@@ -1,6 +1,6 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>PodTasty -  {% block title%}{% endblock %}</title>
-
+    <link rel="icon" href="{{ asset('/assets/donut.png') }}" type="image/icon type">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="My Podcast template project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,14 +10,10 @@
     <link href="{{ asset('/assets/colorbox.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/main_styles.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/responsive.css')}}">
-    {#
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/chaine/bootstrap.min.css')}}">
-    <link href="{{ asset('/assets/chaine/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('/assets/chaine/colorbox.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/chaine/blog.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/chaine/blog_responsive.css')}}"> #}
-
-
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="parallax-mirror" style="visibility: hidden; z-index: -100; position: fixed; top: 0px; left: 0px; overflow: hidden; height: 767.862px; width: 1519.2px; transform: translate3d(0px, 529.238px, 0px);"><img class="parallax-slider" src="{{ asset('/assets/weekly.webp')}}" style="position: absolute; height: 767px; width: 1519.2px; max-width: none; transform: translate3d(0px, -115.848px, 0px);"></div>
@@ -26,7 +22,7 @@
     <header class="header trans_400">
 
         <div class="logo">
-            <a href="https://preview.colorlib.com/theme/mypodcast/#"> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
+            <a href=""> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
         </div>
         <div class="container">
 
@@ -40,71 +36,252 @@
                     <div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
                         <nav class="main_nav">
                             <ul class="d-flex flex-row align-items-start justify-content-start">
-                                <li><a href="/signUp">Home</a></li>
-                                <li><a href="/AfficheChannels">Channel</a></li>
-                                <li><a href="/AffichePlaylists">Playlists</a></li>
-
-                                <li><a href="/AjoutPlaylist">Add playlist</a></li>
-                                <li><a href="/AjoutChannel">Create your channel</a></li>
+                                <li><a href="{{ path('Home') }}" >Home</a></li>
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/about.html">About</a></li>
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/episodes.html">Episodes</a></li>
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html">Blog</a></li>
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/contact.html">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
+               {% if user == null %}
+                <div class="col" >
+                    <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
+                        <nav class="main_nav">
+                            <div class="buttons" style="padding-top: 10px;width: 100%;margin-left: 200%">
+                                <div class="navbar-item">
+                                    <a class="button is-primary has-text-white logregButt" href="{{ path('app_login') }}">
+                                        <strong>Login</strong>
+
+                                    </a>
+
+
+                                </div>
+                                <a class="button is-primary has-text-white logregButt" href="{{ path('register') }}">
+                                    <strong>Sign up</strong>
+                                </a>
+
+                            </div>
+
+                        </nav>
+                    </div>
+                </div>
+                {% endif %}
+                {% if user  %}
+                    <div class="col" style="padding-top: 10px;width: 100%;margin-left: 23%">
+                        <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
+                            <nav class="main_nav">
+                                <a class="button is-primary has-text-white logregButt">
+                                    <strong>{{ user.UserEmail }}</strong>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                {% endif %}
+
             </div>
         </div>
     </header>
-    <body> <div class="font-color table container1">
-            {% block content %}
+    <div style="height:fit-content;padding:100px ">
+        {% block content %}
 
-            {% endblock %}
+        {% endblock %}
     </div>
-    </body>
+        <footer class="footer">
+            <div class="container">
+                <div class="row footer_logo_row">
+                    <div class="col d-flex flex-row align-items-center justify-content-center">
+                        <div class="logo">
+                            <a href=""><span>Pod</span>Tasty</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row footer_content_row">
 
+                <div class="col-lg-4">
+                    <div class="footer_title">Tags</div>
+                    <div class="footer_list">
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">music</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">art</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">technology</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">travel &amp; food</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">viral</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">social media</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">interview</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">developement</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">success</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">live</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">did you know?</a></div></div>
+                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">health</a></div></div>
+                    </div>
+                </div>
 
+                <div class="col-lg-4">
+                    <div class="footer_title">Latest Episodes</div>
+                    <div class="latest_container">
+
+                        <div class="latest">
+                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+                                    <div class="d-flex flex-row align-items-start justify-content-start">
+                                        <div class="latest_play">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+<g id="Play">
+    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
+</g>
+</svg>
+                                        </div>
+                                        <div class="latest_title_content">
+                                            <div class="latest_title">Season 4 Episode 48 - A Step Further</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="latest_episode_info">
+                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="latest">
+                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+                                    <div class="d-flex flex-row align-items-start justify-content-start">
+                                        <div class="latest_play">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+<g id="Play">
+    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
+</g>
+</svg>
+                                        </div>
+                                        <div class="latest_title_content">
+                                            <div class="latest_title">Season 4 Episode 47 - Deep in Crypto</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="latest_episode_info">
+                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="latest">
+                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+                                    <div class="d-flex flex-row align-items-start justify-content-start">
+                                        <div class="latest_play">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+<g id="Play">
+    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
+</g>
+</svg>
+                                        </div>
+                                        <div class="latest_title_content">
+                                            <div class="latest_title">Season 4 Episode 46 - Nothing is real</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="latest_episode_info">
+                                <ul class="d-flex flex-row align-items-start justify-content-start">
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
+                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="footer_title">Instagram</div>
+                    <div class="gallery d-flex flex-row align-items-start justify-content-start flex-wrap">
+
+{#                            <div class="gallery_item">#}
+{#                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_1_large.jpg"><img src="./../public/assets/gallery_1.webp" alt=""></a>#}
+{#                            </div>#}
+
+{#                            <div class="gallery_item">#}
+{#                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_2_large.jpg"><img src="./../public/assets/gallery_2.jpg" alt=""></a>#}
+{#                            </div>#}
+
+{#                            <div class="gallery_item">#}
+{#                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_3_large.jpg"><img src="./../public/assets/gallery_3.jpg" alt=""></a>#}
+{#                            </div>#}
+
+{#                            <div class="gallery_item">#}
+{#                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_4_large.jpg"><img src="./../public/assets/gallery_4.jpg" alt=""></a>#}
+{#                            </div>#}
+
+                            <div class="gallery_item">
+{#                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_5_large.jpg"><img src="./../public/assets/gallery_5.jpg" alt=""></a>#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row footer_social_row">
+                    <div class="col">
+                        <div class="footer_social">
+                            <ul class="d-flex flex-row align-items-center justify-content-center">
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-soundcloud" aria-hidden="true"></i></a></li>
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <br><br>
-                Copyright ©<script type="text/javascript" async="" src="./../public/assets/analytics.js.téléchargement"></script><script>document.write(new Date().getFullYear());</script>2021 All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
+                Copyright ©
+{#                <script type="text/javascript" async="" src="./../public/assets/analytics.js"></script>#}
+                <script>document.write(new Date().getFullYear());</script>2021 All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
 
             </div>
         </footer>
-<script src="{{ asset('/assets/jquery-3.3.1.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/popper.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/bootstrap.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/TweenMax.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/TimelineMax.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/ScrollMagic.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/animation.gsap.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/ScrollToPlugin.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/easing.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/jquery.colorbox-min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/progressbar.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/parallax.min.js.téléchargement')}}"></script>
-<script src="{{ asset('/assets/custom.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/jquery-3.3.1.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/popper.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/bootstrap.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/TweenMax.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/TimelineMax.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/ScrollMagic.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/animation.gsap.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/ScrollToPlugin.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/easing.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/jquery.colorbox-min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/progressbar.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/parallax.min.js.téléchargement')}}"></script>
+    <script src="{{ asset('/assets/custom.js.téléchargement')}}"></script>
 
-<script async="" src="{{ asset('/assets/js')}}"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <script async="" src="{{ asset('/assets/js')}}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-23581568-13');
+    </script>
 
-    gtag('config', 'UA-23581568-13');
-</script>
-
-{#<div id="cboxOverlay" style="display: none;"></div>#}
-{#    <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">#}
-{#        <div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div>#}
-{#        <div id="cboxTopCenter" style="float: left;"></div>#}
-{#        <div id="cboxTopRight" style="float: left;"></div>#}
-{#    </div>#}
-{#    <div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div>#}
-{#    <div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div>#}
-{#    <div id="cboxCurrent" style="float: left;"></div>#}
-{#    <button type="button" id="cboxPrevious"></button>#}
-{#    <button type="button" id="cboxNext"></button>#}
-{#    <button type="button" id="cboxSlideshow"></button>#}
-{#    <div id="cboxLoadingOverlay" style="float: left;"></div>#}
-{#    <div id="cboxLoadingGraphic" style="float: left;"></div></div>#}
-{#    <div id="cboxMiddleRight" style="float: left;"></div>#}
-{#    </div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;">#}
+    {#<div id="cboxOverlay" style="display: none;"></div>#}
+    {#    <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">#}
+    {#        <div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div>#}
+    {#        <div id="cboxTopCenter" style="float: left;"></div>#}
+    {#        <div id="cboxTopRight" style="float: left;"></div>#}
+    {#    </div>#}
+    {#    <div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div>#}
+    {#    <div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div>#}
+    {#    <div id="cboxCurrent" style="float: left;"></div>#}
+    {#    <button type="button" id="cboxPrevious"></button>#}
+    {#    <button type="button" id="cboxNext"></button>#}
+    {#    <button type="button" id="cboxSlideshow"></button>#}
+    {#    <div id="cboxLoadingOverlay" style="float: left;"></div>#}
+    {#    <div id="cboxLoadingGraphic" style="float: left;"></div></div>#}
+    {#    <div id="cboxMiddleRight" style="float: left;"></div>#}
+    {#    </div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;">#}
 
 </div>
 

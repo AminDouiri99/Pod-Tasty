@@ -8,15 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("", name="default")
-     */
-    public function index(): Response
-    {
-        return $this->render('base.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
-    }
 
     /**
      * @Route("/signUp", name="signup")

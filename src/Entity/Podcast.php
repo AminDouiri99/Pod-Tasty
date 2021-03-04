@@ -30,7 +30,7 @@ class Podcast
     private $PodcastDescription;
 
     /**
-     * @ORM\Column(type="blob", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $PodcastImage;
 
@@ -50,13 +50,13 @@ class Podcast
     private $PodcastDate;
 
     /**
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="string")
      */
     private $PodcastSource;
 
     /**
      * @ORM\ManyToOne(targetEntity=Playlist::class, inversedBy="PodcastList")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $PlaylistId;
 
@@ -69,6 +69,10 @@ class Podcast
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="PodcastId")
      */
     private $CommentList;
+    /**
+     * @ORM\OneToMany(targetEntity=PodcastReview::class, mappedBy="PodcastId")
+     */
+    private $ReviewList;
 
     public function __construct()
     {
@@ -224,13 +228,41 @@ class Podcast
 
         return $this;
     }
-
     public function removeCommentList(PodcastComment $commentList): self
     {
         if ($this->CommentList->removeElement($commentList)) {
             // set the owning side to null (unless already changed)
             if ($commentList->getPodcastId() === $this) {
                 $commentList->setPodcastId(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * @return Collection|PodcastReview[]
+     */
+    public function getReviewList(): Collection
+    {
+        return $this->ReviewList;
+    }
+
+    public function addReviewList(PodcastReview $reviewList): self
+    {
+        if (!$this->ReviewList->contains($reviewList)) {
+            $this->ReviewList[] = $reviewList;
+            $reviewList->setPodcastId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReviewList(PodcastReview $reviewList): self
+    {
+        if ($this->ReviewList->removeElement($reviewList)) {
+            // set the owning side to null (unless already changed)
+            if ($reviewList->getPodcastId() === $this) {
+                $reviewList->setPodcastId(null);
             }
         }
 

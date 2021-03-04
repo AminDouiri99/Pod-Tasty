@@ -6,11 +6,12 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -36,12 +37,13 @@ class User
 
     /**
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $UserInfoId;
 
     /**
      * @ORM\OneToOne(targetEntity=Channel::class, inversedBy="UserId", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ChannelId;
 
@@ -64,6 +66,11 @@ class User
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="UserId")
      */
     private $CommentList;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PodcastReview::class, mappedBy="UserId")
+     */
+    private $ReviewList;
 
     public function __construct()
     {
@@ -250,5 +257,65 @@ class User
         }
 
         return $this;
+    }
+
+
+    /**
+     * @return Collection|PodcastReview[]
+     */
+    public function getReviewList(): Collection
+    {
+        return $this->ReviewList;
+    }
+
+    public function addReviewList(PodcastComment $reviewList): self
+    {
+        if (!$this->ReviewList->contains($reviewList)) {
+            $this->ReviewList[] = $reviewList;
+            $reviewList->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReviewList(PodcastComment $reviewList): self
+    {
+        if ($this->ReviewList->removeElement($reviewList)) {
+            // set the owning side to null (unless already changed)
+            if ($reviewList->getUserId() === $this) {
+                $reviewList->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        if($this->isAdmin==true){
+            return ["admin"];
+        }
+        else
+            return ["user"];
+    }
+
+    public function getPassword()
+    {
+       return $this->UserPassword;
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
