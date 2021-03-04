@@ -25,20 +25,23 @@ class ProfileController extends AbstractController
      */
 
     public function addPic(){
-        sleep(10);
-        if(isset($_FILES['image'])){
-        $img = $_FILES['file']['temp'];
-        $base64 = base64_encode($img);
-        $userId=$this->getUser()->getId();
-        $userInfo= $this->getDoctrine()->getRepository(UserInfo::class)->find($userId);
-        $userInfo->setUserImage($base64);
-        $em=$this->getDoctrine()->getManager();
-        $em->persist($base64);
-        $em->flush();
-            return $this->redirectToRoute('login');
+        /*s
+       if (isset($_POST['upload'])) {
 
-        }
-    return $this->redirectToRoute('');
+          $image = $_FILES['image'];
+           $file = md5(uniqid()).'.'.$image->guessExtension();
+           $image->move(
+               $this->getParameter('images_directory'),
+               $file
+           );
+           $UserInfo = new UserInfo();
+           $UserInfo->setUserImage($file);
+           $entityManager = $this->getDoctrine()->getManager();
+           $entityManager->persist($UserInfo);
+           $entityManager->flush();
+       $this->redirectToRoute('');
+       }*/
+        return $this->redirectToRoute('profile');
 
     }
 }
