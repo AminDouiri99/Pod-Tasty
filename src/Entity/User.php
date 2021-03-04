@@ -43,6 +43,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Channel::class, inversedBy="UserId", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ChannelId;
 

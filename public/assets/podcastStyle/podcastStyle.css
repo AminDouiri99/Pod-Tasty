@@ -23,6 +23,7 @@ h4 {
     font-family: "Open Sans", sans-serif;
     font-size: 13pt;
     font-weight: 300;
+    position: absolute;
     color: white;
     cursor: default;
 }
@@ -35,7 +36,7 @@ h4 {
     top:200px;
     z-index:999;
     height: 190px;
-    background-color: #383838;
+    background-color: rgba(56,56,56,0.4);
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -82,31 +83,32 @@ h4 {
 }
 
 .button-items {
-    margin-top: 10px;
+    margin-top: 50px;
     margin-left: 50%;
     width: 100%;
 }
 
 #slider {
-    width: 100% !important;
-    margin-right:40px;
+    width: 300px;
+    margin-right:70px;
     height: 4px;
     background: #151518;
     border-radius: 2px;
+    cursor: pointer;
 }
-#slider div {
-    width: 40px;
+#elapsed{
+    width:0;
     height: 4px;
     margin-top: 1px;
-    background: #ef6dbc;
+    background: rgb(24,186,234);
     border-radius: 2px;
 }
-
 #timer {
     color: white;
     line-height: 0;
     font-size: 9pt;
     float: right;
+    margin-top:-2px;
     font-family: Arial, Sans-Serif;
 }
 
@@ -137,7 +139,7 @@ p {
     margin-top:50px;
     padding: 50px;
     overflow: auto;
-    background-color:rgb(24,24,24);
+    background-color:rgba(24,24,24,0.6);
     border-radius: 20px;
 }
 .commentsTitle{
@@ -180,7 +182,7 @@ body {
 }
 .user{
     font-weight: bolder;
-    font-size: 25px;
+    font-size: 20px;
 }
 .user_avatar {
     float:left;

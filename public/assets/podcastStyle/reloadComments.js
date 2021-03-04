@@ -21,7 +21,7 @@ window.onscroll = function(){
         document.getElementById('podcastTools').style.display = "none";
         document.getElementById('podInfo').style.marginTop = "200px";
         document.getElementById('podInfo').style.marginLeft = "-210px";
-        document.getElementById('controls').style.marginLeft = "-120px";
+        document.getElementById('controls').style.marginLeft = "120px";
         document.getElementById('player').style.left = "92%";
         document.getElementById('player').style.width = "15%";
         document.getElementById('coverImg').style.width = "100%";
@@ -30,17 +30,6 @@ window.onscroll = function(){
         document.getElementById('player').style.height = "360px";
         document.getElementById('player').style.marginTop = "70px";
     }
-}
-function changeStatus(x){
-    if (x === 1) {
-        document.getElementById("play").style.display = "none";
-        document.getElementById("stop").style.display = "inherit";
-    } else {
-
-        document.getElementById("stop").style.display = "none";
-        document.getElementById("play").style.display = "inherit";
-    }
-
 }
 
 comNumb = 0;
