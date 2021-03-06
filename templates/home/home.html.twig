@@ -4,69 +4,31 @@
 
 <script src="{{ asset('assets/home/home.js') }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ asset('/assets/home/home.css')}}">
-<div class="wrapper">
 
     <h2>All Podcasts</h2>
 
-    <div class="cards">
-        <span  {% for p in podcasts %} >
-        <figure class="card">
+        <div class="container">
 
-            <img src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png" />
-            <a  href="/podcast"><div title="play" class="playButton" >
-            <img id="podPlayButt{{ p.id }}" onmouseover="changeButt(1,{{ p.id }})" src="{{ asset('assets/play.svg') }}"/>
-           <a href="/podcast/{{ p.id }}"> <img id="podPlayButtFull{{ p.id }}" style="display: none" onmouseout="changeButt(2,{{ p.id }})" src="{{ asset('assets/play.gif') }}"/></a>
+            <div class="row shows_2_row">
 
-            </div></a>
-            <figcaption>{{p.PodcastName }}</figcaption>
-
-        </figure>
-
-
-        </span>
-
-        {% endfor%}
+                <div class="col-xl-3 col-md-6">
+                    <div class="show">
+                        <div class="show_image">
+                            <a href="episode.html">
+                                <img class="podImg" src="{{ asset('Files/podcastFiles/1.png')}}" alt="https://unsplash.com/@h4rd3n">
+                                <div class="show_play_icon"><img src="{{ asset('assets/frontOffice/images/play.svg')}}"></div>
+                                <div class="show_title_2">Cras malesuada ipsum sapien.</div>
+                            </a>
+                            <div class="show_tags">
+                                <div class="tags">
+                                    <ul class="d-flex flex-row align-items-start justify-content-start">
+                                        <li><a href="#">travel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
-    <h2>Playlists</h2>
-
-    <div class="news">
-
-        <figure class="article">
-
-            <img src="https://mrreiha.keybase.pub/codepen/hover-fx/news1.jpg" />
-
-            <figcaption>
-
-                <h3>Playlist 1</h3>
-
-                <p>
-
-                    Playlist Description Playlist Description Playlist Description Playlist Description
-                </p>
-
-            </figcaption>
-
-        </figure>
-
-        <figure class="article">
-
-            <img src="https://mrreiha.keybase.pub/codepen/hover-fx/news2.png" />
-
-            <figcaption>
-
-                <h3>Playlist 2</h3>
-
-                <p>
-
-                    Playlist Description Playlist Description Playlist Description Playlist Description
-
-                </p>
-
-            </figcaption>
-
-        </figure>
-
-    </div>
-
-</div>
 {% endblock %}
