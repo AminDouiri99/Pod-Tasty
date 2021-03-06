@@ -110,7 +110,7 @@ class PodcastCommentsController extends AbstractController
     /**
      * @Route("/deleteComment", name="")
      * @param int $id
-     * @return RedirectResponse
+     * @return Response
      */
 
     function deleteComment(Request $request) {
@@ -119,7 +119,7 @@ class PodcastCommentsController extends AbstractController
         $comment=$repo->findOneBy(["id" => $request->get('commentId')]);;
         $entityManage->remove($comment);
         $entityManage->flush();
-        return $this->redirectToRoute("podcast");
+        return new Response();
     }
     /**
      * @param Request $request
