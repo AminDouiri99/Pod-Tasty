@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,25 +23,31 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your Email!")
      */
     private $UserEmail;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\IsTrue(message="The password cannot match your first name")
+     * @Assert\IsTrue(message="The password should be 6 caracters or more")
+     * @Assert\NotBlank(message="Please enter your Password!")
      */
     private $UserPassword;
+    public function isPasswordSafe()
+    {
+        return ($this->firstName !== $this->password && strlen($this->getPassword())>=6);
 
+    }
     /**
      * @ORM\Column(type="boolean")
      */
     private $isAdmin;
-
     /**
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $UserInfoId;
-
     /**
      * @ORM\OneToOne(targetEntity=Channel::class, inversedBy="UserId", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
@@ -169,7 +176,6 @@ class User implements UserInterface
 
         return $this;
     }
-
     /**
      * @return Collection|Notification[]
      */

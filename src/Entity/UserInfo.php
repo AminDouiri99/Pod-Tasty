@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserInfoRepository::class)
@@ -19,11 +20,16 @@ class UserInfo
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your LasName!")
+     * @Assert\Regex("/^([^0-9]*)$/")
+
      */
     private $UserLastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your FitstName!")
+     * @Assert\Regex("/^([^0-9]*)$/")
      */
     private $UserFirstName;
 
@@ -34,11 +40,13 @@ class UserInfo
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your Gender!")
      */
     private $UserGender;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Please enter your BirthDate!")
      */
     private $UserBirthDate;
 

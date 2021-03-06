@@ -10,7 +10,7 @@
     </figure>
     <div class="FormBackground">
     {% if error %}
-        <div class="alert alert-danger center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="has-text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}

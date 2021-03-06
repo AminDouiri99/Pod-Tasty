@@ -25,7 +25,7 @@ class ProfileController extends AbstractController
      */
 
     public function addPic(){
-        /*s
+
        if (isset($_POST['upload'])) {
 
           $image = $_FILES['image'];
@@ -40,7 +40,7 @@ class ProfileController extends AbstractController
            $entityManager->persist($UserInfo);
            $entityManager->flush();
        $this->redirectToRoute('');
-       }*/
+       }
         return $this->redirectToRoute('profile');
 
     }

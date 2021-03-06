@@ -82,7 +82,19 @@
                    min="1900-01-01" max="2029-12-31">
         </div>
         {% if error != null %}
-        <p>{{ error }}3ez eddisn</p>
+        <p class="has-text-danger" >{{ error }}</p>
+        {% endif %}
+        {% if errors1 !=null %}
+            {% for err in errors1 %}
+                <p class="has-text-danger" >{{ err.message  }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if errors2 !=null %}
+            {% for err in errors2 %}
+                <p class="has-text-danger">{{ err.message  }}</p>
+            {% endfor %}
+
         {% endif %}
         <div class="field center">  </div>
         <div class="buttons is-right">
