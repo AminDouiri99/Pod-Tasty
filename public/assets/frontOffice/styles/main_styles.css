@@ -146,7 +146,7 @@ section{display:block;position:relative;box-sizing:border-box}
 .track_info ul li:not(:last-of-type)::after{display:inline-block;content:'|';margin-left:12px;margin-right:12px}
 .shows{background:#fff;padding-top:93px;padding-bottom:99px}
 .shows_row>div[class^=col]{margin-bottom:50px}
-.show{border-radius:15px;overflow:auto;background:#f6f6f6}
+.show{border-radius:2px;overflow:auto;width:275px;}
 .show_image a{display:block;width:100%;height:100%}
 .show_content{padding-top:20px;padding-left:31px;padding-bottom:22px;padding-right:30px}
 .show_tags{position:absolute;top:24px;left:24px}

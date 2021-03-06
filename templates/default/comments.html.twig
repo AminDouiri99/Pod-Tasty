@@ -2,7 +2,6 @@
 {% block title %}Podcast{% endblock %}
 {% block content %}
     <!-- Review Modal -->
-
     <div style="z-index:99999;" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -233,12 +232,12 @@
                     <br><br>
 
                 <div class="spinner-grow playerSpinner" role="status">
-                    <span class="sr-only">Loading...</span>
+                    <span ctralass="sr-only">Loading...</span>
                 </div>
                 </div>
                 <ul style="display: none" id="playerComponents">
                     <li id="cover" class="cover">
-                        <img id="coverImg" src="http://i1285.photobucket.com/albums/a583/TheGreatOzz1/Hosted-Images/Noisy-Freeks-Image_zps4kilrxml.png"/></li>
+                        <img id="coverImg" src="{{ asset(  podcast.podcastImage) }}"/></li>
                     <li class="info" id="podInfo">
                         <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
                         <h4>{{ podcast.podcastViews }} Views</h4>
@@ -262,6 +261,7 @@
                                 <i id="stop" onclick="changeStatus(2)" style="display: none" class="fa fa-pause"></i>
                             </span>
                             </div>
+                        </div>
                         </div>
                     </li>
                     {% if user!=null %}
@@ -332,10 +332,10 @@
                         </div><!-- inc. share/reply and love -->
                         {% if user !=null %}
                         {% if user.id == comment.userId.id %}
-                        <div class="comment_tools">
-                            <div style="z-index: 99999999999999999"  class="edit"><i id="editButton{{ comment.id }}" onclick="showUpdateComment(1, {{ comment.id }})" class="fa fa-edit"></i></div>
-                            <div style="z-index: 99999999999999999" class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
-                        </div>
+                            <div class="comment_tools">
+                                <div style="z-index: 99999999999999999"  class="edit"><i id="editButton{{ comment.id }}" onclick="showUpdateComment(1, {{ comment.id }})" class="fa fa-edit"></i></div>
+                                <div style="z-index: 99999999999999999" class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
+                            </div>
                         {% endif %}
                         {% endif %}
                     </div>

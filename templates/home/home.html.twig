@@ -4,19 +4,21 @@
 
 <script src="{{ asset('assets/home/home.js') }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ asset('/assets/home/home.css')}}">
-
+    <div class="wrapper">
     <h2>All Podcasts</h2>
 
-        <div class="container">
+        <div class="cards">
 
-            <div class="row shows_2_row">
-
-                <div class="col-xl-3 col-md-6">
+        <span {% for p in podcasts %}>
+            <figure style="margin-left: 0px" class="card">
                     <div class="show">
                         <div class="show_image">
-                            <a href="episode.html">
-                                <img class="podImg" src="{{ asset('Files/podcastFiles/1.png')}}" alt="https://unsplash.com/@h4rd3n">
-                                <div class="show_play_icon"><img src="{{ asset('assets/frontOffice/images/play.svg')}}"></div>
+                            <a href="/podcast/{{ p.id }}">
+                                <img class="podImg" src="{{ asset(  p.podcastImage) }}">
+                                <div class="show_play_icon">
+                                        <img src="{{ asset('assets/frontOffice/images/play.png')}}">
+
+                                </div>
                                 <div class="show_title_2">Cras malesuada ipsum sapien.</div>
                             </a>
                             <div class="show_tags">
@@ -28,7 +30,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+            </figure>
+            {% endfor %}
+        </span>
+
+    </div>
     </div>
 {% endblock %}
