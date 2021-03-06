@@ -98,8 +98,8 @@ function moveTime() {
 //     let offset = document.getElementById("slider").getBoundingClientRect();
 //     elapsed = event.clientX-offset.left;
 //     document.getElementById("elapsed").style.width = elapsed+"px";
-//     let pas = 300/ parseInt(podAudio.duration);
-//     let time = podAudio.duration-(elapsed/pas);
+//     let pas = parseInt(document.getElementById("podcastAudio").duration) / 300;
+//     let time = (elapsed * pas);
 //     time = Math.round(time);
 //     setTime(time);
 //     console.log(time);
