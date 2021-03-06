@@ -19,16 +19,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class PodcastCommentsController extends AbstractController
 {
     /**
-     * @Route("/podcast", name="podcast_comments")
+     * @Route("/podcast/{id}", name="podcast_comments")
      * @param PodcastController $podController
      * @param PodcastCommentRepository $commentsRepo
      * @return Response
      */
-    public function index(PodcastRepository $podcastRepo, PodcastCommentRepository  $commentsRepo): Response
+    public function index(int $id,PodcastRepository $podcastRepo, PodcastCommentRepository  $commentsRepo): Response
     {
 
         $getUser = $this->getUser();
-        $podcast = $podcastRepo->findOneBy(['id' =>1]);
+        $podcast = $podcastRepo->findOneBy(['id' =>$id]);
         $reviewMoy = 0;
         $userReview = null;
         if (!$podcast->getReviewList()->isEmpty()){

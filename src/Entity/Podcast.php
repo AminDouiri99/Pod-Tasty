@@ -30,17 +30,18 @@ class Podcast
     private $PodcastDescription;
 
     /**
+     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     private $PodcastImage;
+//
+//    /**
+//     * @ORM\Column(type="string", length=255)
+//     */
+//    private $PodcastGenre;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $PodcastGenre;
-
-    /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $PodcastViews;
 
@@ -120,18 +121,18 @@ class Podcast
 
         return $this;
     }
+//
+//    public function getPodcastGenre(): ?string
+//    {
+//        return $this->PodcastGenre;
+//    }
 
-    public function getPodcastGenre(): ?string
-    {
-        return $this->PodcastGenre;
-    }
-
-    public function setPodcastGenre(string $PodcastGenre): self
-    {
-        $this->PodcastGenre = $PodcastGenre;
-
-        return $this;
-    }
+//    public function setPodcastGenre(string $PodcastGenre): self
+//    {
+//        $this->PodcastGenre = $PodcastGenre;
+//
+//        return $this;
+//    }
 
     public function getPodcastViews(): ?int
     {
@@ -267,5 +268,13 @@ class Podcast
         }
 
         return $this;
+    }
+
+    public function getImage()
+    {
+    }
+
+    public function setImage(string $fileName)
+    {
     }
 }
