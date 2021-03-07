@@ -25,15 +25,22 @@ class PlaylistController extends AbstractController
     }
 
 
+
+
+
+
+
+
     /**
      * @param PlaylistRepository $playlist
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("/AffichePlaylists",name="AffichePlaylists")
      */
     public function Affiche(PlaylistRepository $playlist ){
+        $user=$this->getUser();
         $repo=$this->getDoctrine()->getRepository(Playlist::class);
         $playlist=$repo->findAll();
-        return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist]);
+        return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist , 'user'=>$user]);
     }
 
 
