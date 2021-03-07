@@ -34,10 +34,20 @@ class Playlist
      */
     private $PlaylistCreationDate;
 
+
+
     /**
      * @ORM\OneToMany(targetEntity=Podcast::class, mappedBy="PlaylistId")
      */
     private $PodcastList;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Channel::class, inversedBy="Playlists")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ChannelId;
+
+
 
     public function __construct()
     {
@@ -115,4 +125,21 @@ class Playlist
 
         return $this;
     }
+
+    public function getChannelId(): ?Channel
+    {
+        return $this->ChannelId;
+    }
+
+    public function setChannelId(?Channel $ChannelId): self
+    {
+        $this->ChannelId = $ChannelId;
+
+        return $this;
+    }
+
+
+
+
 }
+

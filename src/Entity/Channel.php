@@ -45,11 +45,17 @@ class Channel
      */
     private $UserList;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Playlist::class, mappedBy="ChannelId", orphanRemoval=true)
+     */
+    private $Playlists;
+
     public function __construct()
     {
         $this->UserList = new ArrayCollection();
 
         $this->ChannelCreationDate = new \DateTime('now');
+        $this->Playlists = new ArrayCollection();
 
     }
 
@@ -139,6 +145,36 @@ class Channel
     {
         if ($this->UserList->removeElement($userList)) {
             $userList->removeChannelsSubscribed($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Playlist[]
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->Playlists;
+    }
+
+    public function addPlaylist(Playlist $playlist): self
+    {
+        if (!$this->Playlists->contains($playlist)) {
+            $this->Playlists[] = $playlist;
+            $playlist->setChannelId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlist $playlist): self
+    {
+        if ($this->Playlists->removeElement($playlist)) {
+            // set the owning side to null (unless already changed)
+            if ($playlist->getChannelId() === $this) {
+                $playlist->setChannelId(null);
+            }
         }
 
         return $this;
