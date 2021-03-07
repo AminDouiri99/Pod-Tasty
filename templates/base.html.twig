@@ -1,7 +1,6 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>PodTasty -  {% block title%}{% endblock %}</title>
-    <link rel="icon" href="{{ asset('/assets/donut.png') }}" type="image/icon type">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="My Podcast template project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/bootstrap.min.css')}}">
@@ -68,9 +67,9 @@
                 </div>
                 {% endif %}
                 {% if user  %}
-                    <div class="col" style="padding-top: 10px;width: 100%;margin-left: 23%">
-                        <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
-                            <nav class="main_nav">
+                    <div class="col" style="float:right;padding-top: 10px;width: 100%">
+                        <div style="float: right">
+                            <nav  class="main_nav">
                                 <a class="button is-primary has-text-white logregButt">
                                     <strong>{{ user.UserEmail }}</strong>
                                 </a>

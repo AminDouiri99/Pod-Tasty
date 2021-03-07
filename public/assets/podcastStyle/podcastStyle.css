@@ -273,10 +273,9 @@ width: 100%
 .toolsTable tr td{
     width: 70px;
 }
-.fa-bookmark:hover{
+.fa-heart:hover{
     cursor:pointer;
     font-size:35px;
-    box-shadow: 8px 8px 10px black;
     color:rgb(24,186,234);
 }
 .fa-flag:hover{
@@ -318,10 +317,19 @@ width: 100%
 }
 
 .ratingMoy{
+    vertical-align:bottom;
     font-size: 18px;
 }
 
 .ratingMoyValue{
 
-    color:gold
+    color:white;
+}
+
+.warningDiv{
+    height: 70px;
+    font-size: 18px;
+    color:red;
+    font-weight: bolder;
+    padding-top:20px;
 }

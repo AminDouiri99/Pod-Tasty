@@ -2,7 +2,7 @@
 {% block title %}Podcast{% endblock %}
 {% block content %}
     <!-- Review Modal -->
-    <div style="z-index:99999;" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div style="z-index:99999" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -174,7 +174,6 @@
                             </div>
                             <div id="carItem5" style="padding-top: 0" class="carousel-item">
                                 <div class="spinner-grow " role="status">
-                                    <span class="sr-only">Loading...</span>
                                 </div><br>
                                 <span class="reviewText"> One moment...</span><br>
 
@@ -195,13 +194,13 @@
                 <div style="display: none" id="editReviewBody" class="modal-body editReviewDiv">
                         <div class="reviewText" style="margin-left: 14%">
 
-                            Your review to this podcast is <span id="ratingMoyValue" style="margin-left:10px">
-                {% if userReview != null %}
+                            Your review to this podcast is <span id="userRatingMoyValue" style="margin-left:10px">
+                {% if userReview is not null %}
                                 {{ userReview.rating }}
 
                 {% endif %}
                             </span> /10
-                            {% if userReview != null %}
+                            {% if userReview is not null %}
                             <br><br>
                             <input id="deleteReviewButton" onclick="deleteReview({{ userReview.id }})" data-toggle="modal" data-target="#reviewModal" style="margin-left:100px;width: 150px;" class="btn btn-danger" type="button" value="Delete Review"/>
 
@@ -225,14 +224,13 @@
     <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/reviewStyle/reviewStyle.css') }}" rel="stylesheet" type="text/css">
 
-    <div id="testPodcast" class="podcastDiv">
+    <div id="testPodcast"  class="podcastDiv">
 
             <div class="player" id="player">
                 <div id="playerSpinner">
                     <br><br>
 
                 <div class="spinner-grow playerSpinner" role="status">
-                    <span ctralass="sr-only">Loading...</span>
                 </div>
                 </div>
                 <ul style="display: none" id="playerComponents">
@@ -264,26 +262,37 @@
                         </div>
                         </div>
                     </li>
-                    {% if user!=null %}
+                    {% if user is not null %}
                     <li id="podcastTools" class="podcastTools">
                         <table class="toolsTable">
-                            <tr style="height: 100px">
-                                <td><i class="fa fa-flag" title="Report"></i></td>
+                            <tr style="text-align: center;height: 35px">
+                                <td ><i class="fa fa-flag" title="Report"></i></td>
                                 <td>
-                                    {% if userReview !=null %}
+                                    {% if userReview is not null %}
                                         <input type="text" id="userReview" style="display:none" value="{{ userReview.rating }}">
                                     {% endif %}
-                                    <input type="text" id="userReview1" style="display:none" value="">
                                     <i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i>
+                                    </td>
+                                <td><i class="fa fa-heart" title="Save to favorites"></i></td>
+
+                                <tr style="height: 50px">
+                                <td colspan="3" style="text-align: center;vertical-align:top !important">
+                                    <span id="userReviewSpan" style="font-size: 15px">
+                                        {% if userReview is not null %}
+                                        {{ userReview.rating|number_format(1) }}
+                                        {% endif %}
+                                    </span>
 
                                 </td>
-                                <td><i class="fa fa-bookmark" title="Save to favorites"></i></td>
                             </tr>
-                            <tr>
+                            </tr>
+                            <tr style="height: 60px">
                                 <td title="Rating" class="ratingMoy" colspan="3">
-                                                                    {% if reviewMoy != 0 %}
+                                    <div style="float: right" id="ratingMoyTD">
+                                                                    {% if reviewMoy is not null %}
                                    Rating:<span style="margin-left: 15px"> <span class="ratingMoyValue" id="ratingMoyValue">{{ reviewMoy|number_format(1) }}</span> / 10</span>
                                                                     {% endif %}
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -304,8 +313,11 @@
                 </h2>
             {% endif %}
 
-            {% if user != null %}
-            <input type="text" id="comment" onkeypress="checkKey(event)" name="comment" class="commentInput" placeholder="Add comment"/>
+            {% if user is not null %}
+            <input type="text" id="comment" onkeypress="checkKey(event, {{ podcast.id }})" name="comment" class="commentInput" placeholder="Add comment"/>
+           <div class="warningDiv">
+               <span id="warningDiv" style="display: none">Hey watch your language !</span>
+           </div>
             {% endif %}
             <br><br>
             <div id="comments">
@@ -330,7 +342,7 @@
                                 <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> {{ comment.commentDate|date('d M Y') }} </li>
                             </ul>
                         </div><!-- inc. share/reply and love -->
-                        {% if user !=null %}
+                        {% if user is not null %}
                         {% if user.id == comment.userId.id %}
                             <div class="comment_tools">
                                 <div style="z-index: 99999999999999999"  class="edit"><i id="editButton{{ comment.id }}" onclick="showUpdateComment(1, {{ comment.id }})" class="fa fa-edit"></i></div>

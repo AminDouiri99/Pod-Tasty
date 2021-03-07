@@ -43,7 +43,15 @@ class PodcastReviewController extends AbstractController
         $em=$this->getDoctrine()->getManager();
         $em->persist($review);
         $em->flush();
-        return New Response($review->getId());
+        $reviewMoy = null;
+        if (!$podcast->getReviewList()->isEmpty()){
+            $reviewMoy = 0;
+            foreach ($podcast->getReviewList() as $review) {
+                $reviewMoy += $review->getRating();
+            }
+            $reviewMoy /= $podcast->getReviewList()->count();
+        }
+        return New Response($review->getId().' '.$reviewMoy);
     }
 
     /**
@@ -60,8 +68,9 @@ class PodcastReviewController extends AbstractController
         $podcast = $podcastRepo->find($review->getPodcastId()->getId());
         $entityManage->remove($review);
         $entityManage->flush();
-        $reviewMoy = 0;
+        $reviewMoy = null;
         if (!$podcast->getReviewList()->isEmpty()){
+            $reviewMoy = 0;
             foreach ($podcast->getReviewList() as $review) {
                 $reviewMoy += $review->getRating();
             }

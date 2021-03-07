@@ -11,7 +11,10 @@ function setPlayer(){
      if(document.getElementById("userReview") !=null) {
          document.getElementById("newReviewBody").style.display = "none";
          document.getElementById("editReviewBody").style.display = "inherit";
+         setRatingColor(document.getElementById("userReview").value, document.getElementById("userReviewSpan"));
          setRatingColor(document.getElementById("userReview").value, document.getElementById("reviewButton"));
+         if (document.getElementById("userRatingMoyValue") !=null)
+            setRatingColor(document.getElementById("userReview").value, document.getElementById("userRatingMoyValue"));
      }
      if (document.getElementById("ratingMoyValue") !=null) {
     setRatingColor(document.getElementById("ratingMoyValue").innerHTML, document.getElementById("ratingMoyValue"));
@@ -117,13 +120,19 @@ function moveTime() {
 
 function deleteReview(id) {
     $.post("/deleteReview/"+id, function(data) {
+    document.getElementById("userReviewSpan").innerHTML ="";
     document.getElementById("editReviewBody").style.display = "none";
     document.getElementById("newReviewBody").style.display = "inherit";
     document.getElementById("reviewButton").style.color = "white";
-    if(document.getElementById("userReview") !=null)
+    if(document.getElementById("userReview") !=null) {
         document.getElementById("userReview").value ="";
-    else
-        document.getElementById("userReview1").value = "";
+    }
+    if(data !== "") {
     document.getElementById("ratingMoyValue").innerHTML = data;
+        setRatingColor(data, document.getElementById("ratingMoyValue"));
+    } else {
+    document.getElementById('ratingMoyTD').style.display = "none";
+    }
+
     });
 }
