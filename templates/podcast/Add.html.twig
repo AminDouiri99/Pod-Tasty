@@ -1,2 +1,79 @@
-<h1>Ajout d'un Podcast</h1>
-{{ form(form) }}
+{% extends "base.html.twig" %}
+{% block title %}PODCAST{% endblock %}
+{% block content %}
+
+   <div class="ajoutpodcast">
+   <figure class="image is-128x128 center" style="padding-top: 65px">
+      <img style="margin-left: 200%"  src="{{ asset('/assets/donut.png')}}">
+   </figure>
+       <div class="FormBackground" style="margin-top:80px">
+
+   <h4 class="title is-3 has-text-white center" style="padding-top: 30px;width: 95%">Welcome to PodTasty</h4>
+   <h5 class="title is-5 has-text-white center" style="width: 95%">Ajout un Podcast</h5>
+{{ form_start(form) }}
+      <div class="field center">
+         <p class="control has-icons-left has-icons-right">
+   {{ form_errors(form.PodcastName) }}
+   {{ form_label(form.PodcastName,"Nom de Podcast :") }}
+   {{ form_widget(form.PodcastName,{'attr':{'placeholder' : 'Nom de votre Podcast'}}) }}
+            <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+         </p>
+      </div>
+   <br>
+   <br>
+      <div class="field center">
+         <p class="control has-icons-left has-icons-right">
+   {{ form_errors(form.PodcastDescription) }}
+   {{ form_label(form.PodcastDescription,"Description :") }}
+   {{ form_widget(form.PodcastDescription,{'attr':{'placeholder' : 'Votre Description'}}) }}
+            <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+         </p>
+      </div>
+   <br>
+   <br>
+      <div class="field center">
+         <p class="control has-icons-left has-icons-right">
+   {{ form_errors(form.PodcastImage) }}
+   {{ form_label(form.PodcastImage,"Image de Podcast :") }}
+   {{ form_widget(form.PodcastImage,{'attr':{'placeholder' : 'Image de votre Podcast'}}) }}
+            <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+         </p>
+      </div>
+   <br>
+   <br>
+       <div class="field center">
+           <i class="fa fa-calendar"></i>
+          {#<label for="date">Date:</label> #}
+      {{ form_errors(form.PodcastDate) }}
+   {{ form_label(form.PodcastDate,"Date :") }}
+   {{ form_widget(form.PodcastDate,{'attr':{'placeholder' : 'le Date de votre Podcast',}}) }}
+       </div>
+   <br>
+   <br>
+           <div class="field center">
+               <p class="control has-icons-left has-icons-right">
+   {{ form_errors(form.PodcastSource) }}
+   {{ form_label(form.PodcastSource,"Podcast :") }}
+   {{ form_widget(form.PodcastSource,{'attr':{'placeholder' : 'Votre Podcast'}}) }}
+                   <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+               </p>
+           </div>
+           <br>
+           <br>
+           {{ form_end(form) }}
+           <div class="field center">  </div>
+           <div class="buttons is-right">
+              {# <button class="button is-primary has-text-white center" name="submit" type="submit"><strong>Ajouter</strong> </button>
+              #}
+               {# {{ form_row(form.PodcastDescription,{'label':'Description :' },{'attr':{'placeholder': 'votre description'}}) }} #}
+   </div>
+   </div>
+{% endblock %}

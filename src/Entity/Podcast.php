@@ -6,6 +6,13 @@ use App\Repository\PodcastRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\DateValidator;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\HttpFoundation\File\File;
+
+
+
 
 /**
  * @ORM\Entity(repositoryClass=PodcastRepository::class)
@@ -32,6 +39,12 @@ class Podcast
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\Image(
+     *     minWidth = 200,
+     *     maxWidth = 400,
+     *     minHeight = 200,
+     *     maxHeight = 400
+     * )
      */
     private $PodcastImage;
 //
@@ -47,6 +60,8 @@ class Podcast
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date
+     * @var string A "Y-m-d" formatted value
      */
     private $PodcastDate;
 

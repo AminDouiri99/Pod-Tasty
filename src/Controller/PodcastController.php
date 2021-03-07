@@ -47,7 +47,10 @@ class PodcastController extends AbstractController
             $user=$this->getUser();
             $Podcast = new Podcast();
             $form = $this->createForm(PodcastType::class, $Podcast);
-            $form->add('Ajouter', SubmitType::class);
+            $form->add("Add", SubmitType::class, [
+            'attr' => ['class' => 'btn btn-info'],
+        ]);
+            //$form->add('Ajouter', SubmitType::class);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 /**
