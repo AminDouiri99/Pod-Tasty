@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from appstack.bootlab.io/pages-projects-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Mar 2021 10:01:40 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <link rel="icon" href="{{ asset('/assets/donut.png') }}" type="image/icon type">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Bootstrap 4 Admin &amp; Dashboard Template">
+    <meta name="author" content="Bootlab">
+
+    <title>PodTasty - dashboard</title>
+
+    <link rel="canonical" href="pages-projects-list.html" />
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&amp;display=swap" rel="stylesheet">
+
+    <!-- Choose your prefered color scheme -->
+    <!-- <link href="css/light.css" rel="stylesheet"> -->
+    <link href="{{ asset('assets/backOffice/css/light.css')}}" rel="stylesheet">
+
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:2120269,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script><script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3ZYEKLQ68"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Q3ZYEKLQ68');
+    </script></head>
+<!--
+  HOW TO USE:
+  data-theme: default (default), dark, light
+  data-layout: fluid (default), boxed
+  data-sidebar-position: left (default), right
+  data-sidebar-behavior: sticky (default), fixed, compact
+-->
+
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+<div class="wrapper">
+    <nav id="sidebar" class="sidebar">
+        <div class="sidebar-content js-simplebar">
+            <a class="sidebar-brand" style="margin-bottom: -30px" href="index.html">
+                <img src="{{ 'assets/logo.png' }}" width="90" height="130"/>
+            </a>
+
+            <ul class="sidebar-nav">
+
+                <li class="sidebar-header">
+                    Content
+                </li>
+                <div style="padding-left: 20px">
+                <li class="sidebar-item"><a class="sidebar-link" href="icons-feather.html">Podcasts</a></li>
+
+                <li class="sidebar-item"><a class="sidebar-link" href="icons-feather.html">Posts</a></li>
+                <li class="sidebar-item"><a class="sidebar-link" href="icons-feather.html">Stories</a></li>
+                </div>
+                <li class="sidebar-header">
+                    Users
+                </li>
+                <div style="padding-left: 20px">
+                    <li class="sidebar-item"><a class="sidebar-link" href="icons-feather.html">Users</a></li>
+
+                    <li class="sidebar-item"><a class="sidebar-link" href="icons-feather.html">Channels</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="icons-feather.html">Reclamations</a></li>
+                </div>
+
+            </ul>
+
+
+        </div>
+    </nav>
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-light navbar-bg">
+            <a class="sidebar-toggle">
+                <i class="hamburger align-self-center"></i>
+            </a>
+
+{#            <form class="d-none d-sm-inline-block">#}
+{#                <div class="input-group input-group-navbar">#}
+{#                    <input type="text" class="form-control" placeholder="Search…" aria-label="Search">#}
+{#                    <div class="input-group-append">#}
+{#                        <button class="btn" type="button">#}
+{#                            <i class="align-middle" data-feather="search"></i>#}
+{#                        </button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
+
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav navbar-align">
+                    <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-toggle="dropdown">
+                            <div class="position-relative">
+                                <i class="align-middle" data-feather="bell"></i>
+                                <span class="indicator">4</span>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="alertsDropdown">
+                            <div class="dropdown-menu-header">
+                                4 New Notifications
+                            </div>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-danger" data-feather="alert-circle"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Update completed</div>
+                                            <div class="text-muted small mt-1">Restart server 12 to complete the update.</div>
+                                            <div class="text-muted small mt-1">2h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-warning" data-feather="bell"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Lorem ipsum</div>
+                                            <div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate hendrerit et.</div>
+                                            <div class="text-muted small mt-1">6h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-primary" data-feather="home"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Login from 192.186.1.1</div>
+                                            <div class="text-muted small mt-1">8h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-2">
+                                            <i class="text-success" data-feather="user-plus"></i>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">New connection</div>
+                                            <div class="text-muted small mt-1">Anna accepted your request.</div>
+                                            <div class="text-muted small mt-1">12h ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
+                            <i class="align-middle" data-feather="settings"></i>
+                        </a>
+
+                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
+                            <img src="{{ asset('assets/donut.png') }}" class="avatar img-fluid rounded-circle mr-1" alt="Chris Wood" /> <span class="text-dark">Chris Wood</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Sign out</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+            {% block dashBoardContent %}
+
+            {% endblock %}
+            </div>
+        </main>
+    </div>
+</div>
+<script src="{{ asset('assets/backOffice/js/app.js')}}"></script>
+
+</body>
+
+
+<!-- Mirrored from appstack.bootlab.io/pages-projects-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Mar 2021 10:02:22 GMT -->
+</html>

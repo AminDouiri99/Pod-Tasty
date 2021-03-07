@@ -84,11 +84,15 @@ h2:after {
 }
 .cards .card,
 .news .card {
-    border-radius: 20px;
+
+    background-color: rgba(0,0,0,0.8);
+    border:none !important;
+    display: inline-block;
+    border-radius: 7px;
     margin: 20px;
-    width: 180px;
+    width: 270px;
     height: 230px;
-    overflow: hidden;
+    overflow: hidden !important;
     box-shadow: 0 5px 10px rgba(0,0,0,0.8);
     transform-origin: center top;
     transform-style: preserve-3d;
@@ -208,4 +212,13 @@ h2:after {
 .playButton:hover{
 
     width:72px;
+}
+.podImg{
+    border-radius: 7px;
+    height: 232px;
+    width:200px;
+}
+
+.show_image{
+    overflow: hidden !important;
 }

@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{% endblock %}
+{% block content %}
+<h1>Listes des Podcasts</h1>
+<table border="1">
+    <tr>
+        <th>PodcastName</th>
+        <th>PodcastDescription</th>
+        <th>PodcastImage</th>
+        <th>PodcastDate</th>
+        <th>PodcastSource</th>
+        <td>Update</td>
+        <td>Delete</td>
+    </tr>
+    <tr {% for p in podcast %}>
+        <td>{{ p.PodcastName }} </td>
+        <td>{{ p.PodcastDescription }} </td>
+        <td> <img src="{{  asset('public/Files/' ~ p.getImage())  }}" width="200" height="300" > </td>                  {# {{ asset('public/images/' ~ c.getImage()) }} #} {#<td> <img src="{{asset('build/images/my-image.png')}}" title="my image" alt="My image"> </td> #}
+        <td>{{ p.PodcastDate | date('d-m-Y') }}</td>
+        <td><audio> <source src="{{ p.PodcastSource }}"/></audio> </td>
+        <td><a href="{{ path('UpdatePodcast',{'id':p.id}) }}">Update</a></td>
+        <td><a href="{{ path('SuppPodcast',{'id':p.id}) }}">Delete</a></td>
+
+    </tr {% endfor %}>
+
+</table>
+{% endblock %}
