@@ -117,8 +117,12 @@ class ChannelController extends AbstractController
     }
 
 
+    /**
+     * @Route("/channel", name="getCurrentChannel")
+     */
+public function getCurrentChannel(){
 
-
+}
 
 
 }

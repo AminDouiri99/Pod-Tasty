@@ -52,9 +52,11 @@ class PlaylistController extends AbstractController
      */
     function AjoutPlaylist(Request $request) {
         $playlist = new Playlist();
+        $user=$this->getUser();
+
         $form=$this->createForm(PlaylistType::class, $playlist);
         $form->add("Add", SubmitType::class, [
-            'attr' => ['class' => 'button_border button_fill button'],
+            'attr' => ['class' => 'contact_button button_fill ml-auto mr-auto'],
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -65,6 +67,7 @@ class PlaylistController extends AbstractController
         }
         $title = "Create new playlist ";
         return $this->render("playlist/AjoutPlaylist.html.twig", [
+            'user'=>$user,
             'f' =>$form->createView(),
             'page_title' => $title
         ]);}
@@ -77,12 +80,13 @@ class PlaylistController extends AbstractController
      * @Route("/UpdatePlaylist/{id}", name="UpdatePlaylist")
      */
     function UpdateChannel(PlaylistRepository $oldPlaylist,Request $request, int $id) {
+        $user=$this->getUser();
         $repo=$this->getDoctrine()->getRepository(Playlist::class);
         $entityManage=$this->getDoctrine()->getManager();
         $oldPlaylist=$repo->find($id);
         $form=$this->createForm(PlaylistType::class, $oldPlaylist);
         $form->add("Edit", SubmitType::class, [
-            'attr' => ['class' => 'button_border button_fill button'],
+            'attr' => ['class' => 'contact_button button_fill ml-auto mr-auto'],
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,6 +96,7 @@ class PlaylistController extends AbstractController
         }
         $title = "Update ".$oldPlaylist->getPlaylistName();
         return $this->render("playlist/AjoutPlaylist.html.twig", [
+            'user'=>$user,
             'f' =>$form->createView(),
             'page_title' => $title
         ]);
@@ -111,20 +116,6 @@ class PlaylistController extends AbstractController
         $entityManage->flush();
         return $this->redirectToRoute("AffichePlaylists");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
