@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,25 +23,24 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your Email!")
      */
     private $UserEmail;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your Password!")
      */
     private $UserPassword;
-
     /**
      * @ORM\Column(type="boolean")
      */
     private $isAdmin;
-
     /**
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $UserInfoId;
-
     /**
      * @ORM\OneToOne(targetEntity=Channel::class, inversedBy="UserId", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
@@ -66,11 +66,6 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="UserId")
      */
     private $CommentList;
-
-    /**
-     * @ORM\OneToMany(targetEntity=PodcastReview::class, mappedBy="UserId")
-     */
-    private $ReviewList;
 
     public function __construct()
     {
@@ -174,7 +169,6 @@ class User implements UserInterface
 
         return $this;
     }
-
     /**
      * @return Collection|Notification[]
      */
@@ -259,37 +253,6 @@ class User implements UserInterface
         return $this;
     }
 
-
-    /**
-     * @return Collection|PodcastReview[]
-     */
-    public function getReviewList(): Collection
-    {
-        return $this->ReviewList;
-    }
-
-    public function addReviewList(PodcastComment $reviewList): self
-    {
-        if (!$this->ReviewList->contains($reviewList)) {
-            $this->ReviewList[] = $reviewList;
-            $reviewList->setUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReviewList(PodcastComment $reviewList): self
-    {
-        if ($this->ReviewList->removeElement($reviewList)) {
-            // set the owning side to null (unless already changed)
-            if ($reviewList->getUserId() === $this) {
-                $reviewList->setUserId(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getRoles()
     {
         if($this->isAdmin==true){
@@ -301,7 +264,7 @@ class User implements UserInterface
 
     public function getPassword()
     {
-       return $this->UserPassword;
+        return $this->UserPassword;
     }
 
     public function getSalt()

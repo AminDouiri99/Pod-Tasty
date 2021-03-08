@@ -21,7 +21,7 @@
     <header class="header trans_400">
 
         <div class="logo">
-            <a href=""> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
+            <a href="{{ path('home') }}"> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
         </div>
         <div class="container">
 
@@ -35,7 +35,7 @@
                     <div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
                         <nav class="main_nav">
                             <ul class="d-flex flex-row align-items-start justify-content-start">
-                                <li><a href="{{ path('Home') }}" >Home</a></li>
+                                <li><a href="{{ path('home') }}" >Home</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/about.html">About</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/episodes.html">Episodes</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html">Blog</a></li>
@@ -71,7 +71,7 @@
                     <div class="col" style="padding-top: 10px;width: 100%;float: right;">
                         <div style="float: right">
                             <nav class="main_nav">
-                                <a class="button is-primary has-text-white logregButt">
+                                <a class="button is-primary has-text-white logregButt" href="{{ path('profile',{id:user.id}) }}">
                                     <strong>{{ user.UserEmail }}</strong>
                                 </a>
                             </nav>
