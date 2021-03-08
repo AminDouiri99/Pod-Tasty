@@ -67,6 +67,9 @@ class Podcast
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\File(
+     *     mimeTypes = {"application/pdf", "application/x-audio"},
+     *     mimeTypesMessage = "Please upload a valid Audio")
      */
     private $PodcastSource;
 
@@ -292,4 +295,6 @@ class Podcast
     public function setImage(string $fileName)
     {
     }
+
+
 }

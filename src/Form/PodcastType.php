@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
@@ -18,7 +19,7 @@ class PodcastType extends AbstractType
     {
         $builder
             ->add('PodcastName',TextType::class)
-            ->add('PodcastDescription',TextType::class)
+            ->add('PodcastDescription',TextareaType::class)
             ->add('PodcastImage',FileType::class, array(
                 'mapped' => false,
                 'required' => false
@@ -31,7 +32,11 @@ class PodcastType extends AbstractType
             ))
                 //array('input'  => 'datetime','widget' => 'choice', 'attr' => array('class' =>'calendar')))
 
-            ->add('PodcastSource',FileType::class)
+            ->add('PodcastSource',FileType::class,array(
+                    'mapped' => false,
+                    'required' => true,
+                ))
+
             //->add('PlaylistId')
         ;
     }

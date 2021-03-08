@@ -14,12 +14,12 @@
                     <div class="show">
                         <div class="show_image">
                             <a href="/podcast/{{ p.id }}">
-                                <img class="podImg" src="{{ asset(  p.podcastImage) }}">
+                                <img class="podImg" src="{{ asset(  'Files/podcastFiles/'~p.podcastImage) }}">
                                 <div class="show_play_icon">
                                         <img src="{{ asset('assets/frontOffice/images/play.png')}}">
 
                                 </div>
-                                <div class="show_title_2">Cras malesuada ipsum sapien.</div>
+                                <div class="show_title_2">{{ p.podcastName }}</div>
                             </a>
                             <div class="show_tags">
                                 <div class="tags">

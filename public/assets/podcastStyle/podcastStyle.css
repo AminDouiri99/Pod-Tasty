@@ -333,3 +333,17 @@ width: 100%
     font-weight: bolder;
     padding-top:20px;
 }
+
+.carousel-item {
+    height: 400px;
+    width: 1000px;
+    padding-left: 35%;
+}
+.fileCarousel{
+
+    padding-top: 15%;
+}
+#podcastSpinner{
+    display: none;
+margin-left: -45%;color:rgb(24,186,234)
+}

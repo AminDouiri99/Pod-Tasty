@@ -235,7 +235,7 @@
                 </div>
                 <ul style="display: none" id="playerComponents">
                     <li id="cover" class="cover">
-                        <img id="coverImg" src="{{ asset(  podcast.podcastImage) }}"/></li>
+                        <img id="coverImg" src="{{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}"/></li>
                     <li class="info" id="podInfo">
                         <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
                         <h4>{{ podcast.podcastViews }} Views</h4>
@@ -243,7 +243,7 @@
 
                         <div class="button-items">
                             <audio id="podcastAudio">
-                                <source src="{{ asset(  podcast.podcastSource) }}" type="audio/mp3">
+                                <source src="{{ asset(  'Files/podcastFiles/'~podcast.podcastSource) }}" type="audio/mp3">
                             </audio>
                             <div id="sliderDiv">
                                        <div onclick="moveToTime(event)" id="slider">
