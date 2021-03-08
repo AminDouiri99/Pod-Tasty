@@ -21,6 +21,23 @@ function openFileLoader() {
 
 }
 
+// function addImg(file)
+// {
+//     var input=file.target;
+//     var reader = new FileReader();
+//     reader.onload = function(){
+//         var dataURL = reader.result;
+//         var output = document.getElementById('PodcastImage');
+//         output.src = dataURL;
+//         output.style.display="inherit";
+//     };
+//     reader.readAsDataURL(input.files[0]);
+//     document.getElementById("PodcastImage").style.opacity="0.7";
+//     //document.getElementById("sub").disabled=false;
+//     //document.getElementById("ch").innerHTML="Change <img src='pen.png' width='20px' height='15px'/>";
+// }
+
+
 
 function fadeIn(id,x) {
     if(x === 1){

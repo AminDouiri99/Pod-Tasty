@@ -22,6 +22,7 @@
     <div id="newReviewBody" class="modal-body">
         {{ form_start(form) }}
         <!-- carousel-->
+        <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
         <div id="carouselExampleControls" class="carousel slide">
             <div class="carousel-inner">
                 <div id="podCarItem1" class="carousel-item fileCarousel">
@@ -54,18 +55,17 @@
                 <p class="control has-icons-left has-icons-right">
                     {{ form_errors(form.PodcastName) }}
                     {{ form_label(form.PodcastName,"Nom de Podcast :") }}
-                    {{ form_widget(form.PodcastName,{'attr':{'placeholder' : 'Nom de votre Podcast'}}) }}
+                    {{ form_widget(form.PodcastName,{'attr':{'class' : 'form-control'}}) }}
+
                     <span class="icon is-small is-right">
       <i class="fas fa-check"></i>
     </span>
                 </p>
-            <br>
-            <br>
             <div class="field center">
                 <p class="control has-icons-left has-icons-right">
                     {{ form_errors(form.PodcastDescription) }}
                     {{ form_label(form.PodcastDescription,"Description :") }}
-                    {{ form_widget(form.PodcastDescription,{'attr':{'placeholder' : 'Votre Description'}}) }}
+                    {{ form_widget(form.PodcastDescription,{'attr':{'class' : 'form-control'}}) }}
                     <span class="icon is-small is-right">
       <i class="fas fa-check"></i>
     </span>
@@ -75,20 +75,19 @@
                         {#<label for="date">Date:</label> #}
                         {{ form_errors(form.PodcastDate) }}
                         {{ form_label(form.PodcastDate,"Date :") }}
-                        {{ form_widget(form.PodcastDate,{'attr':{'placeholder' : 'le Date de votre Podcast',}}) }}
+                        {{ form_widget(form.PodcastDate,{'attr':{'class' : 'form-control',}}) }}
 
                         </p>
                     </div>
-                    <br>
-                    <br>
             <div class="field center">
                 <p class="control has-icons-left has-icons-right">
                     {{ form_errors(form.PodcastImage) }}
                     {{ form_label(form.PodcastImage,"Image de Podcast :") }}
-                    {{ form_widget(form.PodcastImage,{'attr':{'placeholder' : 'Image de votre Podcast'}}) }}
-           <br>
+                    {{ form_widget(form.PodcastImage,{'attr':{'class' : 'form-control-file'}}) }}
+                    {# <input onchange="addImg(event)" id="file" type="file" name="image" accept="image/png, image/jpeg"/>
+                    #}
 
-            <br><br>
+                    <br>
                     </div>
 
                     {{ form_end(form) }}
