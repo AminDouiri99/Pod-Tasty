@@ -24,12 +24,13 @@ class PodcastCommentsController extends AbstractController
 
     /**
      * @Route("/podcast/{id}", name="podcast_comments")
+     * @param int $id
      * @param PodcastRepository $podcastRepo
-     * @param PodcastCommentRepository $commentsRepo
      * @return Response
      */
     public function index(int $id,PodcastRepository $podcastRepo): Response
     {
+
         $getUser = $this->getUser();
         $podcast = $podcastRepo->findOneBy(['id' =>$id]);
         $reviewMoy = null;

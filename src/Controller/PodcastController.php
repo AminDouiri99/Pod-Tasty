@@ -44,6 +44,20 @@ class PodcastController extends AbstractController
     }
 
     /**
+     * @Route("/addViewToPod" , name="addView")
+     * @param PodcastRepository $repository
+     * @param Request $request
+     * @return Response
+     */
+    public function addViewToPod(PodcastRepository $repository, Request $request) {
+        $id = $request->get('id');
+        $podcast=$repository->find($id);
+        $podcast->setPodcastViews($podcast->getPodcastViews()+1);
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
+        return new Response();
+    }
+    /**
      * @Route("Podcast/Add")
      * @param Request $request
      * @return RedirectResponse|Response
