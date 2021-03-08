@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Podcast;
 use App\Form\PodcastType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 class PodcastController extends AbstractController
 {
@@ -39,26 +42,46 @@ class PodcastController extends AbstractController
         $em->flush();
         return $this->redirectToRoute("AffichePodcast");
     }
-        /**
-         * @Route("Podcast/Add")
-         */
+
+    /**
+     * @Route("Podcast/Add")
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
         function Add(Request $request)
         {
             $user=$this->getUser();
             $Podcast = new Podcast();
             $form = $this->createForm(PodcastType::class, $Podcast);
-            $form->add('Ajouter', SubmitType::class);
+            $form->add("Add", SubmitType::class, [
+            'attr' => ['class' => 'btn btn-info'],
+        ]);
+            //$form->add('Ajouter', SubmitType::class);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 /**
                  * @var UploadedFile $file
                  */
                 //$file=$Podcast->getPodcastImage();
-                $file = $form->get('PodcastImage')->getData();
+                $podcastsource=$form->get('PodcastSource')->getData();
+                if ($podcastsource) {
+                    $originalFilename = pathinfo($podcastsource->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $newFilename =$originalFilename.'-'.uniqid().'.'.$podcastsource->guessExtension();
+                    try {
+                        $podcastsource->move(
+                            $this->getParameter('PODCAST_FILES'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                    }
 
+                    $Podcast->setPodcastSource($newFilename);
+                }
+                $file = $form->get('PodcastImage')->getData();
                 $fileName = md5(uniqid()).'.'.$file->guessExtension();
                 $file->move(
-                    $this->getParameter('kernel.project_dir'),$fileName
+                    $this->getParameter('PODCAST_FILES'),$fileName
                 );
                 $Podcast->setPodcastImage($fileName);
                 $em = $this->getDoctrine()->getManager();//->persist($form->getData());

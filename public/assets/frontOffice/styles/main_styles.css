@@ -275,3 +275,10 @@ a:hover{
 	margin-right: auto;
 	margin-left: auto;
 }
+.ajoutpodcast{
+	padding-top: 30px;
+	width: 40%;
+	margin-left: 10%;
+	margin-right: 30%;
+	margin-top: 5px;
+}
