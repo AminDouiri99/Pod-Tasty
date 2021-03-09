@@ -222,3 +222,12 @@ h2:after {
 .show_image{
     overflow: hidden !important;
 }
+
+.podcastViews{
+    background-color: rgba(0,0,0,0.5);border-bottom-left-radius:20px;
+    width:200px;padding-left: 20px;padding-bottom: 5px;
+    color:white;position:absolute;left: 80px;font-weight: bolder;font-size: 17px;
+
+}
+
+.show_user{position:absolute;top:80%;left:70%;border-radius: 360px}

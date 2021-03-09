@@ -28,11 +28,15 @@ class PodcastCommentsController extends AbstractController
      * @param PodcastRepository $podcastRepo
      * @return Response
      */
-    public function index(int $id,PodcastRepository $podcastRepo): Response
+    public function index(int $id,PodcastRepository $podcastRepo, UserRepository $userRepo): Response
     {
 
-        $getUser = $this->getUser();
+        $getUser = $userRepo->find($this->getUser());
+        $isFavourite = false;
         $podcast = $podcastRepo->findOneBy(['id' =>$id]);
+        if($getUser->getPodcastsFavorite()->contains($podcast)) {
+            $isFavourite = true;
+        }
         $reviewMoy = null;
         $userReview = null;
         if (!$podcast->getReviewList()->isEmpty()){
@@ -48,9 +52,34 @@ class PodcastCommentsController extends AbstractController
         $reviewMoy /= $podcast->getReviewList()->count();
     }
         $comments=$podcast->getCommentList();
-        return $this->render("default/comments.html.twig", ['comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, 'userReview'=>$userReview, "reviewMoy"=>$reviewMoy]);
+        return $this->render("default/comments.html.twig", ['comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, 'userReview'=>$userReview, "reviewMoy"=>$reviewMoy, "isFavourite"=>$isFavourite]);
     }
 
+    /**
+     * @Route("/adminPodcast/{id}", name="podcast_comments_dashboard")
+     * @param int $id
+     * @param PodcastRepository $podcastRepo
+     * @return Response
+     */
+    public function loadCommentsForDashboard(int $id,PodcastRepository $podcastRepo): Response
+    {
+
+        $getUser = $this->getUser();
+        $podcast = $podcastRepo->findOneBy(['id' =>$id]);
+        $reviewMoy = null;
+        if (!$podcast->getReviewList()->isEmpty()){
+            $reviewMoy = 0;
+            foreach ($podcast->getReviewList() as $review) {
+                $reviewMoy += $review->getRating();
+                if($getUser!=null) {
+                }
+            }
+            $reviewMoy /= $podcast->getReviewList()->count();
+        }
+        $comments=$podcast->getCommentList();
+
+        return $this->render("back_office/commentsBack/commentBack.html.twig", ['comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, "reviewMoy"=>$reviewMoy]);
+    }
     /**
      * @Route("/addComment", name="addComment")
      * @param PodcastRepository $podcastRepo
@@ -58,6 +87,7 @@ class PodcastCommentsController extends AbstractController
      * @return Response
      */
     function addComment(PodcastRepository $podcastRepo, Request $request, ValidatorInterface $validator) {
+
         $comment = new PodcastComment();
         $data = $request->get('comment');
         $comment->setCommentText($data);
@@ -66,10 +96,13 @@ class PodcastCommentsController extends AbstractController
         if ($commentErrors !="") {
         return new Response("1");
         } else {
+            $podcast = $podcastRepo->findOneBy(['id' => $request->get('podId')]);
+            if($podcast->getCommentsAllowed() == 0) {
+                return new Response("0");
+            }
             $comment->setCommentDate(new DateTime());
             $user = $this->getUser();
             $comment->setUserId($user);
-            $podcast = $podcastRepo->findOneBy(['id' => $request->get('podId')]);
             $comment->setPodcastId($podcast);
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
@@ -119,7 +152,7 @@ class PodcastCommentsController extends AbstractController
         }
     }
     /**
-     * @Route("/deleteComment", name="")
+     * @Route("/deleteComment", name="deleteComment")
      * @param int $id
      * @return Response
      */
