@@ -44,6 +44,20 @@ class PodcastController extends AbstractController
     }
 
     /**
+     * @Route("/addViewToPod" , name="addView")
+     * @param PodcastRepository $repository
+     * @param Request $request
+     * @return Response
+     */
+    public function addViewToPod(PodcastRepository $repository, Request $request) {
+        $id = $request->get('id');
+        $podcast=$repository->find($id);
+        $podcast->setPodcastViews($podcast->getPodcastViews()+1);
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
+        return new Response();
+    }
+    /**
      * @Route("Podcast/Add")
      * @param Request $request
      * @return RedirectResponse|Response
@@ -84,6 +98,7 @@ class PodcastController extends AbstractController
                     $this->getParameter('PODCAST_FILES'),$fileName
                 );
                 $Podcast->setPodcastImage($fileName);
+                $Podcast->setCommentsAllowed(1);
                 $em = $this->getDoctrine()->getManager();//->persist($form->getData());
 
               //  $em=$this->getDoctrine()->getManager()->flush();
@@ -125,6 +140,21 @@ class PodcastController extends AbstractController
 
         }
 
+    /**
+     * @Route("/admin/podcast/changeCommentingStatus/{id}", name="chngComStatus")
+     * @param int $id
+     */
 
+    function changeCommentingStatus(int $id) {
+        $repo=$this->getDoctrine()->getRepository(Podcast::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $podcast=$repo->findOneBy(["id" => $id]);
+        if ($podcast->getCommentsAllowed() == 0)
+            $podcast->setCommentsAllowed(1);
+        else
+            $podcast->setCommentsAllowed(0);
+        $entityManage->flush();
+        return $this->redirectToRoute("podcast_comments_dashboard", ["id"=>$id]);
+    }
 
 }

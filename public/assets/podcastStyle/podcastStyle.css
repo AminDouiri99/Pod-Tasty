@@ -276,12 +276,12 @@ width: 100%
 .fa-heart:hover{
     cursor:pointer;
     font-size:35px;
-    color:rgb(24,186,234);
+    color:deeppink;
 }
 .fa-flag:hover{
     cursor:pointer;
     font-size:35px;
-    color:red;
+    color:darkred;
 }
 .fa-star{
     color: white;

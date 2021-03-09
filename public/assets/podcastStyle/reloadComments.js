@@ -55,7 +55,11 @@ function sendComment(comment, id){
 
             if (data === "1") {
                 document.getElementById('warningDiv').style.display = "inherit";
-            } else {
+            }   else if (data === "0"){
+                document.getElementById('warningDiv').style.display = "inherit";
+                document.getElementById('warningDiv').innerHTML = "Sorry, commenting for this podcast is disabled for now";
+            }
+            else {
             comNumb++;
             document.getElementById('CommentsUL').innerHTML = data+document.getElementById('CommentsUL').innerHTML;
             if(document.getElementById('commentsLength') != null) {
@@ -291,4 +295,16 @@ function checkKeyEdit(event,id){
         updateComment(id,document.getElementById('editCommentText'+id).value);
         document.getElementById('editCommentText'+id).style.borderBottomColor="transparent";
     }
+}
+
+function addRemoveFav(id) {
+    $.post("/addRemoveFav", {id:id}, function(data){
+        if(data === "1") {
+
+            document.getElementById("favButton").style.color="deeppink";
+        } else {
+            document.getElementById("favButton").style.color="white";
+        }
+
+    })
 }

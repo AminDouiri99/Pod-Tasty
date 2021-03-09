@@ -1,5 +1,7 @@
 var timerInterval;
 var podAudio;
+var elapsed = 0;
+let sendView = true;
 window.addEventListener('load', function() {
     setPlayer()
 
@@ -78,8 +80,15 @@ function changeStatus(x){
     }
 
 }
-var elapsed = 0;
 function moveTime() {
+    if(elapsed>=75 && document.getElementById("podcastId") && sendView) {
+        let id = document.getElementById("podcastId").value;
+        document.getElementById("podcastId").parentElement.removeChild(document.getElementById("podcastId"));
+        $.post("/addViewToPod",{id:id}, function(data) {
+            console.log(data);
+            sendView = false;
+        });
+    }
     if(elapsed <300) {
     toAdd = 300/ parseInt(podAudio.duration);
     elapsed=elapsed+toAdd;

@@ -303,7 +303,9 @@
                                     {% endif %}
                                     <i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i>
                                     </td>
-                                <td><i class="fa fa-heart" title="Save to favorites"></i></td>
+                                <td>
+                                    <i class="fa fa-heart" {% if isFavourite %}style="color:deeppink" {% endif %} onclick="addRemoveFav({{ podcast.id }})" id="favButton" title="Save to favorites"></i>
+                                </td>
 
                                 <tr style="height: 50px">
                                 <td colspan="3" style="text-align: center;vertical-align:top !important">
@@ -344,10 +346,16 @@
             {% endif %}
 
             {% if user is not null %}
+             {% if podcast.commentsAllowed == 1 %}
             <input type="text" id="comment" onkeypress="checkKey(event, {{ podcast.id }})" name="comment" class="commentInput" placeholder="Add comment"/>
            <div class="warningDiv">
                <span id="warningDiv" style="display: none">Hey watch your language !</span>
            </div>
+             {% endif %}
+
+            {% if podcast.commentsAllowed == 0 %}
+                <div style="color: red;margin: 20px;font-size: 17px">Comments are disabled for this podcast</div>
+                {% endif %}
             {% endif %}
             <br><br>
             <div id="comments">
@@ -398,4 +406,5 @@
             </div>
     </div>
     </div>
+    <input style="display: none" id="podcastId" value="{{ podcast.id }}"/>
 {% endblock %}

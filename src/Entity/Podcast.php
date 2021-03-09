@@ -32,6 +32,11 @@ class Podcast
     private $PodcastName;
 
     /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $commentsAllowed;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $PodcastDescription;
@@ -83,6 +88,11 @@ class Podcast
      * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="PodcastId")
      */
     private $ReclamationList;
+
+    /**
+     * @ORM\ManytoMany (targetEntity=User::class, mappedBy="PodcastsFavorite")
+     */
+    private $usersList;
 
     /**
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="PodcastId")
@@ -160,6 +170,17 @@ class Podcast
     public function setPodcastViews(int $PodcastViews): self
     {
         $this->PodcastViews = $PodcastViews;
+
+        return $this;
+    }
+    public function getCommentsAllowed(): ?int
+    {
+        return $this->commentsAllowed;
+    }
+
+    public function setCommentsAllowed(int $commentsAllowed): self
+    {
+        $this->commentsAllowed = $commentsAllowed;
 
         return $this;
     }
@@ -295,6 +316,32 @@ class Podcast
     public function setImage(string $fileName)
     {
     }
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsersList(): Collection
+    {
+        return $this->usersList;
+    }
 
+    public function addUsersList(User $usersList): self
+    {
+        if (!$this->usersList->contains($usersList)) {
+            $this->usersList[] = $usersList;
+            $usersList->addPodcastsFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersList(User $usersList): self
+    {
+        if ($this->usersList->removeElement($usersList)) {
+            if ($usersList->getPodcastsFavorite()->contains($this))
+                $usersList->removePodcastsFavorite($this);
+        }
+
+        return $this;
+    }
 
 }
