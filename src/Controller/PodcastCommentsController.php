@@ -31,11 +31,14 @@ class PodcastCommentsController extends AbstractController
     public function index(int $id,PodcastRepository $podcastRepo, UserRepository $userRepo): Response
     {
 
-        $getUser = $userRepo->find($this->getUser());
         $isFavourite = false;
         $podcast = $podcastRepo->findOneBy(['id' =>$id]);
-        if($getUser->getPodcastsFavorite()->contains($podcast)) {
-            $isFavourite = true;
+        $getUser = $this->getUser();
+        if($getUser != null) {
+        $getUser = $userRepo->find($this->getUser());
+            if($getUser->getPodcastsFavorite()->contains($podcast)) {
+                $isFavourite = true;
+            }
         }
         $reviewMoy = null;
         $userReview = null;

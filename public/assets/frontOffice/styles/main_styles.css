@@ -2,6 +2,12 @@
 *{margin:0;padding:0;-webkit-font-smoothing:antialiased;-webkit-text-shadow:rgba(0,0,0,.01) 0 0 1px;text-shadow:rgba(0,0,0,.01) 0 0 1px}
 
 html{
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 	height:fit-content !important;
 	font-family:poppins,sans-serif;font-size:14px;font-weight:400;color:#a5a5a5;
 	background: url(../images/bg4.jpg) no-repeat center center fixed;
@@ -12,6 +18,9 @@ html{
 	background-size: cover;
 	top:0;left:0;width:100%;
 
+}
+input {
+	outline:none !important;
 }
 body{
 	background:transparent !important;
