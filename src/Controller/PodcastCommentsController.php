@@ -187,4 +187,79 @@ class PodcastCommentsController extends AbstractController
 
         }
 
+    /**
+     * @param Request $request
+     * @param PodcastRepository $podcastRepo
+     * @return Response
+     * @Route("/filterComments");
+     */
+    function fiilterComments(Request $request, PodcastRepository $podcastRepo ) {
+
+        $podcast = $podcastRepo->findOneBy(["id"=>$request->get("id")]);
+        $comments=$podcast->getCommentList();
+        $response = "";
+        foreach($comments as $comment) {
+            if ($request->get("text") != "") {
+                if (stripos($comment->getCommentText() ,$request->get("text")) === false) {
+                    $comments->removeElement($comment);
+                } else {
+                    $response .= $this->getString($comment);
+                }
+            } else {
+                $response .= $this->getString($comment);
+            }
+        }
+        return new Response($response);
+
+    }
+
+    public function getString($comment): string
+    {
+       $res = '<div id="comment' . $comment->getId() . '">
+                    <!-- current #{user} avatar -->
+                    <div class="user_avatar">
+                        <img src="/assets/donut.png">
+                    </div>
+                    <div class="comment_toolbar">
+
+                        <!-- inc. date and time -->
+                        <div class="comment_details">
+                            <ul>
+                                <li style="width: 100%"><span class="user"> ' . $comment->getUserId()->getUserInfoId()->getUserFirstName() . ' ' . $comment->getUserId()->getUserInfoId()->getUserLastName() . '</span>
+                                    <span id="deletingMsg' . $comment->getId() . '" class="deleteingComment">Deleting comment...</span>
+
+                                </li>
+                <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i>' . $comment->getCommentDate()->format("d M Y") . '</li>
+                            </ul>
+                        </div>';
+        if ($this->getUser() != null) {
+            $userRepo =$this->getDoctrine()->getRepository(User::class);
+            $user = $userRepo->find($this->getUser());
+            if ($comment->getUserId() ==$user) {
+                $res .= '
+                            <div class="comment_tools">
+                                <div style="z-index: 99999999999999999"  class="edit"><i id="editButton' . $comment->getId() . '" onclick="showUpdateComment(1, ' . $comment->getId() . ')" class="fa fa-edit"></i></div>
+                                <div style="z-index: 99999999999999999" class="trash"><i onclick="deleteComment(' . $comment->getId() . ')" class="fa fa-trash"></i></div>
+                            </div>';
+            }
+        }
+        $commentText = $comment->getCommentText();
+        $commentText = "'" . $comment->getCommentText() . "'";
+        $res .= '</div>
+                <!-- the comment body -->
+                <div    class="commentContainer">
+                    <div id="commentTextDiv' . $comment->getId() . '" class="commentText">
+                        ' . $comment->getCommentText() . '
+                    </div>
+                    <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
+                    <input class="commentInput editText" onkeypress="checkKeyEdit(event,' . $comment->getId() . ')" id="editCommentText' . $comment->getId() . '"  type="text" value="' . $comment->getCommentText() . '" />
+                    <span title="cancel" onclick="showUpdateComment(2, ' . $comment->getId() . ',' . $commentText . ')" class="fa fa-close"></span>
+                    </div>
+                </div>
+                <br><br><br>    
+                </div>
+';
+        return $res;
+    }
+
 }

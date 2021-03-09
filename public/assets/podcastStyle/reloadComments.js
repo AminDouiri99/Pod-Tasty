@@ -308,3 +308,14 @@ function addRemoveFav(id) {
 
     })
 }
+
+function filterComments(id) {
+    document.getElementById('searchSpinner').style.opacity = "1";
+    let comment = document.getElementById("searchInput").value;
+    $.post("/filterComments", {id: id, text: comment}, function (data) {
+        document.getElementById("comments").innerHTML = "";
+        document.getElementById('searchSpinner').style.opacity = "0";
+        console.log(data);
+        document.getElementById("comments").innerHTML = data;
+    });
+}

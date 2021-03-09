@@ -313,6 +313,11 @@
             {% else %}
                 <h2 class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span id="comText" style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
                 </h2>
+                <div style="float: right;margin-right: 180px">
+                    <input id="searchInput" onkeyup="filterComments({{ podcast.id }})" type="text" class="commentInput" style="margin-top: -20px;width: 200px" placeholder="Search..">
+                    <div id="searchSpinner" style="opacity:0;height:20px;width: 20px" class="spinner-border text-primary" role="status">
+                    </div>
+                </div>
             {% endif %}
 
             {% if user is not null %}
@@ -365,7 +370,7 @@
                             {{ comment.commentText }}
                         </div>
                         <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
-                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }},'')" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
+                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }})" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
                         <span title="cancel" onclick="showUpdateComment(2, {{ comment.id }},'{{ comment.commentText }}')" class="fa fa-close"></span>
                         </div>
                     </div>
