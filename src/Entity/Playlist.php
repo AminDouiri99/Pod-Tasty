@@ -43,7 +43,7 @@ class Playlist
 
     /**
      * @ORM\ManyToOne(targetEntity=Channel::class, inversedBy="Playlists")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $ChannelId;
 

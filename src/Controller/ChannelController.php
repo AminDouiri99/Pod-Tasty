@@ -31,9 +31,10 @@ class ChannelController extends AbstractController
      * @Route ("/AfficheChannels",name="AfficheChannels")
      */
     public function Affiche(ChannelRepository $channel ){
+        $user=$this->getUser();
         $repo=$this->getDoctrine()->getRepository(Channel::class);
         $channel=$repo->findAll();
-        return $this->render('channel/affiche.html.twig',['channel'=>$channel]);
+        return $this->render('channel/affiche.html.twig',['channel'=>$channel, 'user'=>$user]);
     }
     /**
      * @param ChannelRepository $channel
@@ -42,9 +43,10 @@ class ChannelController extends AbstractController
      * @Route ("/AfficheChannel/{id}", name="AfficheChannel")
      */
     public function AfficheChannel(ChannelRepository $channel,$id ){
+        $user=$this->getUser();
         $repo=$this->getDoctrine()->getRepository(Channel::class);
         $channel=$repo->findBy(['id'=>$id]);
-        return $this->render('channel/affiche.html.twig',['channel'=>$channel]);
+        return $this->render('channel/affiche.html.twig',['channel'=>$channel, 'user'=>$user]);
     }
 
 
@@ -54,6 +56,7 @@ class ChannelController extends AbstractController
      * @Route("/AjoutChannel", name="AjoutChannel")
      */
     function AjoutChannel(Request $request) {
+        $user=$this->getUser();
         $channel = new Channel();
         $form=$this->createForm(ChannelType::class, $channel);
         $form->add("Create", SubmitType::class, [
@@ -61,15 +64,16 @@ class ChannelController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setChannelId($channel->getId());
             $em=$this->getDoctrine()->getManager();
             $em->persist($channel);
             $em->flush();
-            return $this->redirectToRoute("AfficheChannels");
+            return $this->redirectToRoute("AffichePlaylists");
         }
         $title = "Add a new channel ";
-        return $this->render("channel/AjoutChannel.html.twig", [
+        return $this->render("playlist/AffichePlaylists.html.twig", [
             'f' =>$form->createView(),
-            'page_title' => $title
+            'page_title' => $title, 'user'=>$user
         ]);}
 
 

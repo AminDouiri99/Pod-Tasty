@@ -47,4 +47,11 @@ class PlaylistRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function getPlaylistsByChannel($id){
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('select p from App\Entity\Playlist p where ');
+    }
+
 }

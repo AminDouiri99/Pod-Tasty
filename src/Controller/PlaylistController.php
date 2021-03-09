@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Channel;
 use App\Entity\Playlist;
+use App\Repository\ChannelRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\PlaylistRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,15 +36,32 @@ class PlaylistController extends AbstractController
     /**
      * @param PlaylistRepository $playlist
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route ("/AffichePlaylists",name="AffichePlaylists")
+     * @Route ("/",name="")
      */
-    public function Affiche(PlaylistRepository $playlist ){
+    public function AfficheAll(PlaylistRepository $playlist ){
         $user=$this->getUser();
         $repo=$this->getDoctrine()->getRepository(Playlist::class);
         $playlist=$repo->findAll();
         return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist , 'user'=>$user]);
     }
+    /**
+     * @param PlaylistRepository $playlist
+     * @param ChannelRepository $channel
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route ("/AffichePlaylists",name="AffichePlaylists")
+     */
+    public function Affiche(PlaylistRepository $playlist ,ChannelRepository $channel){
+        $user=$this->getUser();
 
+        if ($user->getChannelId() != NULL){
+            $ChannelId=$user->getChannelId();
+        $repo=$this->getDoctrine()->getRepository(Playlist::class);
+        $playlist=$repo->findBy(['ChannelId'=>$ChannelId]);
+        $repoo=$this->getDoctrine()->getRepository(Channel::class);
+        $channel=$repoo->findBy(['id'=>$ChannelId]);
+              return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist , 'user'=>$user, 'channel'=>$channel]);}
+        else {return $this->redirectToRoute("AjoutChannel" );}
+    }
 
 
     /**
@@ -60,6 +79,7 @@ class PlaylistController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $playlist->setChannelId($user->getChannelId());
             $em=$this->getDoctrine()->getManager();
             $em->persist($playlist);
             $em->flush();
