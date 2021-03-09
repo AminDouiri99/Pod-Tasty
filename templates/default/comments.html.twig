@@ -2,9 +2,6 @@
 {% block title %}Podcast{% endblock %}
 {% block content %}
     <!-- Review Modal -->
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <!-- End Review Modal -->
-
     <div style="z-index:99999" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -219,6 +216,9 @@
             </div>
         </div>
     </div>
+    <!-- End Review Modal -->
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="{{ asset('assets/podcastStyle/reloadComments.js') }}"></script>
     <script src="{{ asset('assets/podcastStyle/podcast.js') }}"></script>
     <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
@@ -226,30 +226,30 @@
 
     <div id="testPodcast"  class="podcastDiv">
 
-            <div class="player" id="player">
-                <div id="playerSpinner">
-                    <br><br>
+        <div class="player" id="player">
+            <div id="playerSpinner">
+                <br><br>
 
                 <div class="spinner-grow playerSpinner" role="status">
                 </div>
-                </div>
-                <ul style="display: none" id="playerComponents">
-                    <li id="cover" class="cover">
-                        <img id="coverImg" src="{{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}"/></li>
-                    <li class="info" id="podInfo">
-                        <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
-                        <h4>{{ podcast.podcastViews }} Views</h4>
-                        <h2 class="h2Pod">{{ podcast.podcastDescription }}</h2>
+            </div>
+            <ul style="display: none" id="playerComponents">
+                <li id="cover" class="cover">
+                    <img id="coverImg" src="{{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}"/></li>
+                <li class="info" id="podInfo">
+                    <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
+                    <h4>{{ podcast.podcastViews }} Views</h4>
+                    <h2 class="h2Pod">{{ podcast.podcastDescription }}</h2>
 
-                        <div class="button-items">
-                            <audio id="podcastAudio">
-                                <source src="{{ asset(  'Files/podcastFiles/'~podcast.podcastSource) }}" type="audio/mp3">
-                            </audio>
-                            <div id="sliderDiv">
-                                       <div onclick="moveToTime(event)" id="slider">
-                                       <div id="slider">
-                                           <div id="elapsed"></div></div>
-                                       <div id="timer">00:00:00</div>
+                    <div class="button-items">
+                        <audio id="podcastAudio">
+                            <source src="{{ asset(  'Files/podcastFiles/'~podcast.podcastSource) }}" type="audio/mp3">
+                        </audio>
+                        <div id="sliderDiv">
+                            <div onclick="moveToTime(event)" id="slider">
+                                <div id="slider">
+                                    <div id="elapsed"></div></div>
+                                <div id="timer">00:00:00</div>
                                 </table>
                             </div>
                             <div class="controls" id="controls">
@@ -260,58 +260,28 @@
                             </span>
                             </div>
                         </div>
-                        </div>
-                    </li>
-                    {% if user is not null %}
+                    </div>
+                </li>
+                {% if user is not null %}
                     <li id="podcastTools" class="podcastTools">
                         <table class="toolsTable">
                             <tr style="text-align: center;height: 35px">
-
-                                <td ><i class="fa fa-flag" title="Report" data-toggle="modal" data-target="#myModal"></i>
-                                   {#  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Report vedio</button> #}
-                                    <div style="z-index:99999" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div id="myModal" class="modal fade" role="dialog">
-                                        <div class="modal-dialog">
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Podcast Report</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <h4 class="modal-title">Podcast Report</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Some text in the modal.</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                        </div>
-
-                                </td>
+                                <td ><i class="fa fa-flag" title="Report"></i></td>
                                 <td>
                                     {% if userReview is not null %}
                                         <input type="text" id="userReview" style="display:none" value="{{ userReview.rating }}">
                                     {% endif %}
                                     <i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i>
-                                    </td>
+                                </td>
                                 <td>
                                     <i class="fa fa-heart" {% if isFavourite %}style="color:deeppink" {% endif %} onclick="addRemoveFav({{ podcast.id }})" id="favButton" title="Save to favorites"></i>
                                 </td>
 
-                                <tr style="height: 50px">
+                            <tr style="height: 50px">
                                 <td colspan="3" style="text-align: center;vertical-align:top !important">
                                     <span id="userReviewSpan" style="font-size: 15px">
                                         {% if userReview is not null %}
-                                        {{ userReview.rating|number_format(1) }}
+                                            {{ userReview.rating|number_format(1) }}
                                         {% endif %}
                                     </span>
 
@@ -321,20 +291,20 @@
                             <tr style="height: 60px">
                                 <td title="Rating" class="ratingMoy" colspan="3">
                                     <div style="float: right" id="ratingMoyTD">
-                                                                    {% if reviewMoy is not null %}
-                                   Rating:<span style="margin-left: 15px"> <span class="ratingMoyValue" id="ratingMoyValue">{{ reviewMoy|number_format(1) }}</span> / 10</span>
-                                                                    {% endif %}
+                                        {% if reviewMoy is not null %}
+                                            Rating:<span style="margin-left: 15px"> <span class="ratingMoyValue" id="ratingMoyValue">{{ reviewMoy|number_format(1) }}</span> / 10</span>
+                                        {% endif %}
                                     </div>
                                 </td>
                             </tr>
                         </table>
                     </li>
-                    {% endif %}
-                </ul>
+                {% endif %}
+            </ul>
 
-            </div>
-    <br><br>
-    <br>
+        </div>
+        <br><br>
+        <br>
 
 
         <div class="commentsContainer" id="commentsContainer"><br><br><br><br><br><br><br><br>
@@ -346,65 +316,65 @@
             {% endif %}
 
             {% if user is not null %}
-             {% if podcast.commentsAllowed == 1 %}
-            <input type="text" id="comment" onkeypress="checkKey(event, {{ podcast.id }})" name="comment" class="commentInput" placeholder="Add comment"/>
-           <div class="warningDiv">
-               <span id="warningDiv" style="display: none">Hey watch your language !</span>
-           </div>
-             {% endif %}
+                {% if podcast.commentsAllowed == 1 %}
+                    <input type="text" id="comment" onkeypress="checkKey(event, {{ podcast.id }})" name="comment" class="commentInput" placeholder="Add comment"/>
+                    <div class="warningDiv">
+                        <span id="warningDiv" style="display: none">Hey watch your language !</span>
+                    </div>
+                {% endif %}
 
-            {% if podcast.commentsAllowed == 0 %}
-                <div style="color: red;margin: 20px;font-size: 17px">Comments are disabled for this podcast</div>
+                {% if podcast.commentsAllowed == 0 %}
+                    <div style="color: red;margin: 20px;font-size: 17px">Comments are disabled for this podcast</div>
                 {% endif %}
             {% endif %}
             <br><br>
             <div id="comments">
                 {% if comments is empty %}
-                 <ul class="user_comment" id="CommentsUL"></ul>
+                    <ul class="user_comment" id="CommentsUL"></ul>
                 {% endif %}
                 <ul {% for comment in comments|reverse %} class="user_comment" id="CommentsUL">
                     <div id="comment{{ comment.id }}">
-                    <!-- current #{user} avatar -->
-                    <div class="user_avatar">
-                        <img src="/assets/donut.png">
-                    </div>
-                    <div class="comment_toolbar">
+                        <!-- current #{user} avatar -->
+                        <div class="user_avatar">
+                            <img src="/assets/donut.png">
+                        </div>
+                        <div class="comment_toolbar">
 
-                        <!-- inc. date and time -->
-                        <div class="comment_details">
-                            <ul>
-                                <li style="width: 100%"><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span>
-                                    <span id="deletingMsg{{ comment.id }}" class="deleteingComment">Deleting comment...</span>
+                            <!-- inc. date and time -->
+                            <div class="comment_details">
+                                <ul>
+                                    <li style="width: 100%"><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span>
+                                        <span id="deletingMsg{{ comment.id }}" class="deleteingComment">Deleting comment...</span>
 
-                                </li>
-                                <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> {{ comment.commentDate|date('d M Y') }} </li>
-                            </ul>
-                        </div><!-- inc. share/reply and love -->
-                        {% if user is not null %}
-                        {% if user.id == comment.userId.id %}
-                            <div class="comment_tools">
-                                <div style="z-index: 99999999999999999"  class="edit"><i id="editButton{{ comment.id }}" onclick="showUpdateComment(1, {{ comment.id }})" class="fa fa-edit"></i></div>
-                                <div style="z-index: 99999999999999999" class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
+                                    </li>
+                                    <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> {{ comment.commentDate|date('d M Y') }} </li>
+                                </ul>
+                            </div><!-- inc. share/reply and love -->
+                            {% if user is not null %}
+                                {% if user.id == comment.userId.id %}
+                                    <div class="comment_tools">
+                                        <div style="z-index: 99999999999999999"  class="edit"><i id="editButton{{ comment.id }}" onclick="showUpdateComment(1, {{ comment.id }})" class="fa fa-edit"></i></div>
+                                        <div style="z-index: 99999999999999999" class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <!-- the comment body -->
+                        <div    class="commentContainer">
+                            <div id="commentTextDiv{{ comment.id }}" class="commentText">
+                                {{ comment.commentText }}
                             </div>
-                        {% endif %}
-                        {% endif %}
-                    </div>
-                    <!-- the comment body -->
-                    <div    class="commentContainer">
-                        <div id="commentTextDiv{{ comment.id }}" class="commentText">
-                            {{ comment.commentText }}
+                            <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
+                                <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }},'')" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
+                                <span title="cancel" onclick="showUpdateComment(2, {{ comment.id }},'{{ comment.commentText }}')" class="fa fa-close"></span>
+                            </div>
                         </div>
-                        <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
-                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }},'')" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
-                        <span title="cancel" onclick="showUpdateComment(2, {{ comment.id }},'{{ comment.commentText }}')" class="fa fa-close"></span>
-                        </div>
-                    </div>
-                    <br><br><br>
+                        <br><br><br>
                     </div>
                 </ul  {% endfor %}>
 
             </div>
-    </div>
+        </div>
     </div>
     <input style="display: none" id="podcastId" value="{{ podcast.id }}"/>
 {% endblock %}

@@ -25,9 +25,8 @@
         <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
         <div id="carouselExampleControls" class="carousel slide">
             <div class="carousel-inner">
-                <div id="podCarItem1" class="carousel-item fileCarousel">
+                <div id="podCarItem1" class="carousel-item active">
                     <div class="field center">
-
                         <p  class="control has-icons-left has-icons-right">
                             <button onclick="openFileLoader()" style="margin-left: 80px;width:150px"  class="btn btn-info">
                                 Upload file <i style="font-size: 17px;margin-left: 7px" class="fa fa-upload"></i>
@@ -50,7 +49,7 @@
                     </div>
 
                 </div>
-                <div id="podCarItem2" class="carousel-item active">
+                <div id="podCarItem2" class="carousel-item">
                     <div class="field center">
                 <p class="control has-icons-left has-icons-right">
                     {{ form_errors(form.PodcastName) }}
