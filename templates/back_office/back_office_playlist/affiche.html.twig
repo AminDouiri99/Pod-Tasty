@@ -1,0 +1,25 @@
+{% extends 'back_office/index.html.twig' %}
+{% block dashBoardContent %}
+
+    <table>
+        <tr>
+            <th class="text-white-50">Playlist name</th>
+            <th class="text-white-50"> Playlist description </th>
+            <th class="text-white-50"> Creation date </th>
+        </tr>
+        {% for playlist in playlist %}
+            <tr>
+                <td> {{ playlist.PlaylistName }}</td>
+                <td> {{ playlist.PlaylistDescription }}</td>
+                <td> {{ playlist.PlaylistCreationDate|date('d-m-Y')}}</td>
+                <td>
+                    <a href="{{ path('UpdatePlaylist',{ 'id':playlist.id })}}"><button class="button_border button_fill button  ">Update </button></a>
+                    <a href="{{ path('DeletePlaylist',{ 'id':playlist.id })}}"><button class="button_border button_fill button  ">Delete</button></a>
+
+                </td>
+
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Channel;
 use App\Entity\Playlist;
+use App\Form\ChannelType;
 use App\Repository\ChannelRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\PlaylistRepository;
@@ -21,8 +22,10 @@ class PlaylistController extends AbstractController
      */
     public function index(): Response
     {
+        $user=$this->getUser();
         return $this->render('playlist/index.html.twig', [
             'controller_name' => 'PlaylistController',
+            'user'=> $user
         ]);
     }
 
@@ -52,15 +55,15 @@ class PlaylistController extends AbstractController
      */
     public function Affiche(PlaylistRepository $playlist ,ChannelRepository $channel){
         $user=$this->getUser();
-
-        if ($user->getChannelId() != NULL){
+        $ChannelId=$user->getChannelId();
+        if (isset($ChannelId)){
             $ChannelId=$user->getChannelId();
         $repo=$this->getDoctrine()->getRepository(Playlist::class);
         $playlist=$repo->findBy(['ChannelId'=>$ChannelId]);
         $repoo=$this->getDoctrine()->getRepository(Channel::class);
         $channel=$repoo->findBy(['id'=>$ChannelId]);
               return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist , 'user'=>$user, 'channel'=>$channel]);}
-        else {return $this->redirectToRoute("AjoutChannel" );}
+        else {return $this->redirectToRoute("playlist" );}
     }
 
 
@@ -136,6 +139,9 @@ class PlaylistController extends AbstractController
         $entityManage->flush();
         return $this->redirectToRoute("AffichePlaylists");
     }
+
+
+
 
 
 

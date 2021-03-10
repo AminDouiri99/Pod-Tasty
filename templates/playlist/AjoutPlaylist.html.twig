@@ -15,7 +15,7 @@
         <div class="contact_form_title text-center"><h1 class="text-white-50"> Please fill in your playlist's information </h1> <br></div>
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                {{ form_start(f) }}
+                {{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
                 <div id="contact_form" class="contact_form">
                     {{ form_start(f) }}
                     {#
@@ -27,8 +27,11 @@
                             <input type="email" class="contact_input" placeholder="E-mail" required="required">
                         </div>
                     </div>#}
-                    <div>{{ form_widget(f.PlaylistName,  {'attr' : {placeholder : 'Whats the name of your new playlist ?',size :'30' ,class : 'contact_input' }}) }}</div>
-                    <div>{{ form_widget(f.PlaylistDescription, {'attr' : {placeholder : 'What is this playlist about ?',class : 'contact_input contact_textarea' }})}}</div>
+                    <div><div class="text-danger">{{ form_errors(f.PlaylistName) }}</div>
+                        {{ form_widget(f.PlaylistName,  {'attr' : {placeholder : 'Whats the name of your new playlist ?',size :'30' ,class : 'contact_input' }}) }}</div>
+
+                    <div><div class="text-danger">{{ form_errors(f.PlaylistDescription) }}</div>
+                        {{ form_widget(f.PlaylistDescription, {'attr' : {placeholder : 'What is this playlist about ?',class : 'contact_input contact_textarea' }})}}</div>
 
                 </div>
                     {{ form_end(f) }}

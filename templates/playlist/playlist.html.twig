@@ -13,44 +13,87 @@
         <link href="{{ asset('/assets/playlist/plugins/colorbox/colorbox.css') }}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/blog.css')}}">
         <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/blog_responsive.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/about.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/about_responsive.css')}}">
     </head>
 
 
 
 
     <body>
+    {% for channel in channel %}
+    <div class="milestones">
+        <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{ asset('/asset/playlist/images/bg4.jpg') }}" data-speed="0.8"></div>
+        <div class="container ">
+            <div class="row">
+                <div class="col">
+                    <div class="section_title light text-center"><h1>Welcome to {{ channel.ChannelName }}'s channel</h1></div>
+                </div>
+            </div>
+            <div class="row milestones_row">
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="milestone text-center">
+                        <div class="milestone_content ml-auto mr-auto">
+                            <div class="milestone_counter" data-end-value="55126">Created in </div>
+                            <div class="milestone_icon"><img src="images/alarm-clock.svg" alt=""></div>
+                        </div>
+                        <div class="milestone_title">{{ channel.ChannelCreationDate|date('d-m-Y') }}</div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="milestone text-center">
+                        <div class="milestone_content ml-auto mr-auto">
+                            <div class="milestone_counter" data-end-value="3520">Channel description </div>
+                            <div class="milestone_icon"><img src="images/speaker.svg" alt=""></div>
+                        </div>
+                        <div class="milestone_title">{{ channel.ChannelDescription }}</div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="milestone text-center">
+                        <div class="milestone_content ml-auto mr-auto">
+                            <div class="milestone_counter" data-end-value="2056">Playlists</div>
+                            <div class="milestone_icon"><img src="images/film.svg" alt=""></div>
+                        </div>
+                        <div class="milestone_title">{{ playlist|length }}</div>
+
+                    </div>
+                </div>
 
 
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="milestone text-center">
+
+
+                            <div class="milestone_icon"><img src="images/speaker.svg" alt=""></div>
+
+                        <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="{{ path('UpdateChannel',{ 'id':channel.id })}}">Update</a></div>
+                        <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="{{ path('DeleteChannel',{ 'id':channel.id })}}">Delete</a></div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    {% endfor %}
 
 <div class="super_container">
 
 
-    <table >
-        <tr >
-            <th class="text-white-50">Channel Name</th>
-            <th class="text-white-50"> Channel description </th>
-            <th class="text-white-50"> Creation date </th>
-        </tr>
-        {% for channel in channel %}
-            <tr>
-                <td> {{ channel.ChannelName }}</td>
-                <td> {{ channel.ChannelDescription }}</td>
-                <td> {{ channel.ChannelCreationDate|date('d-m-Y')}}</td>
-                <td>
-                    <a href="{{ path('UpdateChannel',{ 'id':channel.id })}}"><button class="button_fill shows_2_button ">Edit </button></a>
-                    <a href="{{ path('DeleteChannel',{ 'id':channel.id })}}"><button class="button_fill shows_2_button">Delete</button></a>
 
-                </td>
-
-            </tr>
-        {% endfor %}
-    </table>
 
 
     <div class="home">
         <div class="home_container d-flex flex-column align-items-center justify-content-center">
             <div class="home_content">
-                <div class="home_title"><h1>My current playlists</h1></div>
+                <div class="home_title"><h1>Current playlists</h1></div>
             </div>
         </div>
     </div>
@@ -144,7 +187,9 @@
                                 <div class="blog_post_text">
                                     <p>{{ playlist.PlaylistDescription }}</p>
                                 </div>
-                                <div class="blog_post_link"><a href="#">Visit this playlist</a></div>
+                                <div class="blog_post_link"><a href="{{ path('UpdatePlaylist',{ 'id':playlist.id })}}">Update this playlist</a></div>
+                                <div class="blog_post_link"><a href="{{ path('DeletePlaylist',{ 'id':playlist.id })}}">Delete this playlist</a></div>
+
                             </div>
                         </div>
                         {% endfor %}

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,11 +22,14 @@ class Playlist
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank (message="This field should not be blank, please give your playlist a name")
      */
     private $PlaylistName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank (message="This field should not be blank, describe your playlist")
+     * @Assert\Length ( min = 10 ,minMessage = "The playlist description must be at least {{ limit }} characters long")
      */
     private $PlaylistDescription;
 

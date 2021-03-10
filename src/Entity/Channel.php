@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ChannelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,11 +22,16 @@ class Channel
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank (message="This field should not be blank, please give your channel a name")
+     * @Assert\NotNull (message="This field should not be blank, please give your channel a name")
+     * @Assert\Length (min=5 , max=15, minMessage="Channel name is too short try something else" , maxMessage="You've exceeded teh maximum allowed characters , try something shorter")
      */
     private $ChannelName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank (message="This field should not be blank, describe your channel")
+     * @Assert\Length ( min = 5,max=25,maxMessage="The channel description cannot be too long" ,minMessage = "The channel description must be at least {{ limit }} characters long")
      */
     private $ChannelDescription;
 
