@@ -1,4 +1,17 @@
-comNumb = 0;
+let comNumb = 0;
+window.addEventListener('load', function() {
+    const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
+    url.searchParams.append('topic', 'http://127.0.0.1:8000/addComment')
+    const eventSource = new EventSource(url);
+    eventSource.addEventListener('message', function(event){
+        $.post('/refreshCommentsList', {id: event.data}, function(data) {
+            addCommentToView(data);
+        })
+    });
+
+});
+
+
 window.onscroll = function(){
 
     if (window.scrollY ==0) {
@@ -48,44 +61,7 @@ function checkKey(event,id){
 
 function sendComment(comment, id){
     $.post("/addComment",{comment:comment,podId:id}, function(data) {
-        setTimeout(function (){
-            document.getElementById('comment').disabled = false;
-            document.getElementById('comment').value  = "";
-            document.getElementById('comment').style.borderBottomColor="white";
-
-            if (data === "1") {
-                document.getElementById('warningDiv').style.display = "inherit";
-            }   else if (data === "0"){
-                document.getElementById('warningDiv').style.display = "inherit";
-                document.getElementById('warningDiv').innerHTML = "Sorry, commenting for this podcast is disabled for now";
-            }
-            else {
-            comNumb++;
-            document.getElementById('CommentsUL').innerHTML = data+document.getElementById('CommentsUL').innerHTML;
-            if(document.getElementById('commentsLength') != null) {
-                var x = 1;
-                if(!isNaN(parseInt(document.getElementById('commentsLength').innerHTML))){
-                    x += parseInt(document.getElementById('commentsLength').innerHTML);
-                }
-                c = "Comment";
-                if (x>1){
-                    c+="s";
-                }
-
-                document.getElementById('comText').innerHTML = c;
-                document.getElementById('commentsLength').innerHTML = x;
-            } else {
-                stringmessage = "<span style='margin-right: 15px'>";
-                stringmessage += comNumb;
-                stringmessage +="</span>";
-                stringmessage +=" Comment";
-                if(comNumb>1){
-                    stringmessage +="s";
-                }
-                document.getElementById('noCom').innerHTML =stringmessage;
-            }
-        }
-        },500);
+        addCommentToView(data);
     })
 }
 function deleteComment(id){
@@ -261,9 +237,6 @@ function fadeIn(id,x) {
 
 function updateComment(id,comment){
     $.post("/UpdateComment",{commentId:id, commentText:comment}, function(data) {
-        if(data !== "") {
-            console.log(data);
-        }
         document.getElementById("commentTextDiv"+id).innerHTML = comment;
         document.getElementById('editCommentText'+id).disabled  = false;
         document.getElementById('editCommentText'+id).style.borderBottomColor="white";
@@ -315,7 +288,46 @@ function filterComments(id) {
     $.post("/filterComments", {id: id, text: comment}, function (data) {
         document.getElementById("comments").innerHTML = "";
         document.getElementById('searchSpinner').style.opacity = "0";
-        console.log(data);
         document.getElementById("comments").innerHTML = data;
     });
+}
+function addCommentToView(data) {
+    setTimeout(function (){
+        document.getElementById('comment').disabled = false;
+        document.getElementById('comment').value  = "";
+        document.getElementById('comment').style.borderBottomColor="white";
+
+        if (data === "1") {
+            document.getElementById('warningDiv').style.display = "inherit";
+        }   else if (data === "0"){
+            document.getElementById('warningDiv').style.display = "inherit";
+            document.getElementById('warningDiv').innerHTML = "Sorry, commenting for this podcast is disabled for now";
+        }
+        else {
+            comNumb++;
+            document.getElementById('CommentsUL').innerHTML = data+document.getElementById('CommentsUL').innerHTML;
+            if(document.getElementById('commentsLength') != null) {
+                var x = 1;
+                if(!isNaN(parseInt(document.getElementById('commentsLength').innerHTML))){
+                    x += parseInt(document.getElementById('commentsLength').innerHTML);
+                }
+                c = "Comment";
+                if (x>1){
+                    c+="s";
+                }
+
+                document.getElementById('comText').innerHTML = c;
+                document.getElementById('commentsLength').innerHTML = x;
+            } else {
+                stringmessage = "<span style='margin-right: 15px'>";
+                stringmessage += comNumb;
+                stringmessage +="</span>";
+                stringmessage +=" Comment";
+                if(comNumb>1){
+                    stringmessage +="s";
+                }
+                document.getElementById('noCom').innerHTML =stringmessage;
+            }
+        }
+    },500);
 }

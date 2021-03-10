@@ -6,7 +6,6 @@
 parameters:
     PODCAST_FILES:    '%kernel.project_dir%/public/Files/podcastFiles'
 
-
 services:
     # default configuration for services in *this* file
     _defaults:

@@ -53,7 +53,7 @@ class User implements UserInterface
     private $ReclamationList;
 
     /**
-     * @ORM\ManytoMany(targetEntity=Podcast::class, inversedBy="usersList")
+     * @ORM\ManyToMany(targetEntity=Podcast::class, inversedBy="usersList")
      */
     private $PodcastsFavorite;
 

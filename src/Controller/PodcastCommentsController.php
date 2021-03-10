@@ -1,22 +1,18 @@
 <?php
 
 namespace App\Controller;
-
-use App\Entity\currentPodId;
 use App\Entity\PodcastComment;
-use App\Entity\Podcast;
 use App\Entity\User;
 use App\Repository\PodcastCommentRepository;
 use App\Repository\PodcastRepository;
 use App\Repository\UserRepository;
 use DateTime;
-use phpDocumentor\Reflection\Types\String_;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PodcastCommentsController extends AbstractController
@@ -83,13 +79,15 @@ class PodcastCommentsController extends AbstractController
 
         return $this->render("back_office/commentsBack/commentBack.html.twig", ['comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, "reviewMoy"=>$reviewMoy]);
     }
+
     /**
      * @Route("/addComment", name="addComment")
      * @param PodcastRepository $podcastRepo
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return Response
      */
-    function addComment(PodcastRepository $podcastRepo, Request $request, ValidatorInterface $validator) {
+    function addComment(PodcastRepository $podcastRepo, Request $request, ValidatorInterface $validator,PublisherInterface $publisher) {
 
         $comment = new PodcastComment();
         $data = $request->get('comment');
@@ -110,19 +108,34 @@ class PodcastCommentsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-            $userName = $comment->getUserId()->getUserInfoId()->getUserFirstName() . " " . $comment->getUserId()->getUserInfoId()->getUserLastName();
-            $commentText = $comment->getCommentText();
-            $commentText = "'" . $comment->getCommentText() . "'";
-            $editButtons = '';
 
-            if ($this->getUser()->getId() == $comment->getUserId()->getId()) {
-                $editButtons = ' <div class="comment_tools">
+            $update = new Update("http://127.0.0.1:8000/addComment", $comment->getId());
+            $publisher($update);
+            return new Response("");
+        }
+    }
+
+    /**
+     * @Route ("/refreshCommentsList", name="refreshCommentsList")
+     * @param Request $request
+     * @param PodcastCommentsController $comController
+     * @return Response
+     */
+    function refreshCommentsList(Request $request, PodcastCommentRepository $commentsRepo): Response
+    {
+        $comment = $commentsRepo->findOneBy(['id'=>$request->get('id')]);
+        $userName = $comment->getUserId()->getUserInfoId()->getUserFirstName() . " " . $comment->getUserId()->getUserInfoId()->getUserLastName();
+        $commentText = $comment->getCommentText();
+        $commentText = "'" . $comment->getCommentText() . "'";
+        $editButtons = '';
+
+        if ($this->getUser()->getId() == $comment->getUserId()->getId()) {
+            $editButtons = ' <div class="comment_tools">
                 <div style = "z-index: 99999999999999999;" class="edit" ><i id = "editButton' . $comment->getId() . '" onclick = "showUpdateComment(1,' . $comment->getId() . ')" class="fa fa-edit" ></i ></div >
                 <div style = "z-index: 99999999999999999;" class="trash" ><i onclick = "deleteComment(' . $comment->getId() . ')" class="fa fa-trash" ></i ></div >
         </div >';
-            }
-            return new Response(
-                '
+        }
+        $response = '
             <div id="comment' . $comment->getId() . '">
     <div class="user_avatar" >
         <img src="/assets/donut.png">
@@ -151,8 +164,9 @@ class PodcastCommentsController extends AbstractController
                         </div>
                     </div>
     <br><br><br>
-</div>');
-        }
+</div>';
+        
+        return new Response($response);
     }
     /**
      * @Route("/deleteComment", name="deleteComment")

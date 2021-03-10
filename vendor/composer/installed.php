@@ -1,24 +1,24 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-main',
-    'version' => 'dev-main',
+    'pretty_version' => '1.0.0+no-version-set',
+    'version' => '1.0.0.0',
     'aliases' => 
     array (
     ),
-    'reference' => '1217830539d4e727ea5b595f576813bba3234999',
+    'reference' => NULL,
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => 'dev-main',
-      'version' => 'dev-main',
+      'pretty_version' => '1.0.0+no-version-set',
+      'version' => '1.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1217830539d4e727ea5b595f576813bba3234999',
+      'reference' => NULL,
     ),
     'composer/package-versions-deprecated' => 
     array (
@@ -683,6 +683,24 @@
       array (
       ),
       'reference' => '313b5669a5370bf36cd34fa8f5b5bbbfa5fb8aa8',
+    ),
+    'symfony/mercure' => 
+    array (
+      'pretty_version' => 'v0.4.1',
+      'version' => '0.4.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e4d96d15b41ed4f86e0674d5c9ef366985bf6b1c',
+    ),
+    'symfony/mercure-bundle' => 
+    array (
+      'pretty_version' => 'v0.2.6',
+      'version' => '0.2.6.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a18bba0144eb1637cfcf6037587584decede5878',
     ),
     'symfony/mime' => 
     array (
