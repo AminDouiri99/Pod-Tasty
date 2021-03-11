@@ -39,7 +39,7 @@ class PlaylistController extends AbstractController
     /**
      * @param PlaylistRepository $playlist
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route ("/backoffice/playlists",name="backoffice_playlist")
+     * @Route ("/admin/playlists",name="backoffice_playlist")
      */
     public function AfficheAllAdmin(){
         $user=$this->getUser();
@@ -153,7 +153,7 @@ class PlaylistController extends AbstractController
     }
 
     /**
-     * @Route("/DeletePlaylistAdmin/{id}", name="DeletePlaylistAdmin")
+     * @Route("/admin/DeletePlaylistAdmin/{id}", name="DeletePlaylistAdmin")
      * @param int $id
      * @return Response
      */
@@ -173,7 +173,7 @@ class PlaylistController extends AbstractController
     /**
      * @param Request $request
      * @return RedirectResponse|Response
-     * @Route("/UpdatePlaylistAdmin/{id}", name="UpdatePlaylistAdmin")
+     * @Route("/admin/UpdatePlaylistAdmin/{id}", name="UpdatePlaylistAdmin")
      */
     function UpdateChannelAdmin(PlaylistRepository $oldPlaylist,Request $request, int $id) {
         $user=$this->getUser();

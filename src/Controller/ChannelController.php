@@ -27,7 +27,7 @@ class ChannelController extends AbstractController
     }
 
     /**
-     * @Route("/backoffice/channels", name="channelsAdmin")
+     * @Route("/admin/channels", name="channelsAdmin")
      */
     public function indexadmin(): Response
     {
@@ -131,7 +131,7 @@ class ChannelController extends AbstractController
     /**
      * @param Request $request
      * @return RedirectResponse|Response
-     * @Route("/UpdateChannelAdmin/{id}", name="UpdateChannelAdmin")
+     * @Route("/admin/UpdateChannelAdmin/{id}", name="UpdateChannelAdmin")
      */
     function UpdateChannelAdmin(ChannelRepository $oldChannel,Request $request, int $id) {
         $user=$this->getUser();
@@ -184,7 +184,7 @@ class ChannelController extends AbstractController
     }
 
     /**
-     * @Route("/DeleteChannelAdmin/{id}", name="DeleteChannelAdmin")
+     * @Route("/admin/DeleteChannelAdmin/{id}", name="DeleteChannelAdmin")
      * @param int $id
      * @return RedirectResponse
      */

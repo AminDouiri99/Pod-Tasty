@@ -64,7 +64,7 @@ class Channel
     public function __construct()
     {
         $this->UserList = new ArrayCollection();
-        $this->ChannelStatus = 1 ;
+
         $this->ChannelCreationDate = new \DateTime('now');
         $this->Playlists = new ArrayCollection();
 
@@ -196,7 +196,7 @@ class Channel
         return $this->ChannelStatus;
     }
 
-    public function setChannelStatus(int $ChannelStatus): self
+    public function setChannelStatus(?int $ChannelStatus): self
     {
         $this->ChannelStatus = $ChannelStatus;
 

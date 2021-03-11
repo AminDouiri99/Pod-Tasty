@@ -32,7 +32,7 @@ class BackOfficePlaylistController extends AbstractController
     /**
      * @param PlaylistRepository $playlist
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route ("/backoffice/playlists",name="backoffice_playlist")
+     * @Route ("/admin/playlists",name="backoffice_playlist")
      */
     public function AfficheAll(){
         $user=$this->getUser();
