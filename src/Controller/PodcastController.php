@@ -26,14 +26,37 @@ class PodcastController extends AbstractController
      */
     public function index(): Response
     {
-
         $repo=$this->getDoctrine()->getRepository(Podcast::class);
         $podcasts=$repo->findAll();
         $user=$this->getUser();
             return $this->render("home/home.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
     }
+
+    /**
+     * @Route("/podcasts", name="podcast_admin")
+     */
+    public function indexAdmin(): Response
+    {
+        $repo=$this->getDoctrine()->getRepository(Podcast::class);
+        $podcasts=$repo->findAll();
+        $user=$this->getUser();
+        return $this->render("back_office/podcastBack/podcast.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
+    }
+
+
     /**
      * @Route("/SuppPodcast/{id}" , name="SuppPodcast")
+     */
+    public function DeleteBack($id, PodcastRepository $repository){
+        $Podcast=$repository->find($id);
+        $em=$this->getDoctrine()->getManager();
+        $em->remove($Podcast);
+        $em->flush();
+        return $this->redirectToRoute("back_office/podcastBack/podcast");
+    }
+
+    /**
+     * @Route("/DeletePodcast/{id}" , name="SupprPodcast")
      */
     public function Delete($id, PodcastRepository $repository){
         $Podcast=$repository->find($id);
@@ -156,5 +179,7 @@ class PodcastController extends AbstractController
         $entityManage->flush();
         return $this->redirectToRoute("podcast_comments_dashboard", ["id"=>$id]);
     }
+
+
 
 }

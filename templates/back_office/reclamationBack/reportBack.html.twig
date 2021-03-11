@@ -1,0 +1,86 @@
+{% extends 'back_office/index.html.twig' %}
+{% block dashBoardContent %}
+
+    <main class="content">
+        <div class="container-fluid p-0">
+
+            <h1 class="h3 mb-3">All Report</h1>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Report</h5>
+                            <h6 class="card-subtitle text-muted">This extension provides a framework with common options that can be used with DataTables. See official documentation <a href="https://datatables.net/extensions/buttons/"
+                                                                                                                                                                                         target="_blank" rel="noopener noreferrer nofollow">here</a>.</h6>
+                        </div>
+                        <div class="card-body">
+                            <table id="datatables-buttons" class="table table-striped" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Podcast</th>
+                                    <th>User</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr {% for r in reclamation  %}>
+                                    <td>{{ r.Type }}</td>
+                                    <td>{{ r.Description }}</td>
+                                    <td>{{ r.Status }}</td>
+                                    <td>{{ r.PodcastId }}</td>
+                                    <td>{{ r.UserId }}</td>
+                                    <td><a href="{{ path('report_delete',{'id':r.id}) }}">Delete</a></td>
+                                </tr {% endfor %}>
+                                <tr>
+                                    <td>Donna Snider</td>
+                                    <td>Customer Support</td>
+                                    <td>New York</td>
+                                    <td>27</td>
+                                    <td>2011/01/25</td>
+                                    <td>$112,000</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-muted">
+                <div class="col-6 text-left">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a class="text-muted" href="#">Support</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="text-muted" href="#">Help Center</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="text-muted" href="#">Privacy</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="text-muted" href="#">Terms of Service</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 text-right">
+                    <p class="mb-0">
+                        &copy; 2020 - <a href="index.html" class="text-muted">AppStack</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    </div>
+    </div>
+
+{% endblock %}

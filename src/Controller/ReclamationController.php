@@ -20,13 +20,29 @@ class ReclamationController extends AbstractController
      */
     public function index(ReclamationRepository $reclamationRepository): Response
     {
-        return $this->render('reclamation/index.html.twig', [
-            'reclamations' => $reclamationRepository->findAll(),
+        return $this->render("home/home.html.twig", [
+            'reclamation' => $reclamationRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="reclamation_new", methods={"GET","POST"})
+     * @Route("/report", name="reclamation_index_admin")
+     */
+    public function indexAdmin(ReclamationRepository $reclamationRepository): Response
+    {
+        $repo=$this->getDoctrine()->getRepository(reclamation::class);
+        $reclamation=$repo->findAll();
+        $user=$this->getUser();
+        return $this->render("back_office/podcastBack/reportBack.html.twig", ['user'=>$user,'reclamation'=>$reclamation]);
+//        return $this->render("home/home.html.twig", [
+//            'reclamations' => $reclamationRepository->findAll(),
+//        ]);
+    }
+
+    /**
+     * @Route("/podcast/{id}/new", name="reclamation_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -39,10 +55,10 @@ class ReclamationController extends AbstractController
             $entityManager->persist($reclamation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('reclamation_index');
+            return $this->redirectToRoute('Home');
         }
 
-        return $this->render('reclamation/new.html.twig', [
+        return $this->render('Podcast/Add.html.twig', [
             'reclamation' => $reclamation,
             'form' => $form->createView(),
         ]);
@@ -90,5 +106,19 @@ class ReclamationController extends AbstractController
         }
 
         return $this->redirectToRoute('reclamation_index');
+    }
+
+    /**
+     * @Route("/{id}", name="report_delete", methods={"DELETE"})
+     */
+    public function deleteback(Request $request, Reclamation $reclamation): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$reclamation->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($reclamation);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('reportBack');
     }
 }
