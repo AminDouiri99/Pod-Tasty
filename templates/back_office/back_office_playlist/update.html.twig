@@ -1,0 +1,39 @@
+{% extends 'back_office/index.html.twig' %}
+{% block dashBoardContent %}
+
+    {{ form_start(f) }}
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Edit a playlist</h5>
+                <h6 class="card-subtitle text-muted"></h6>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Playlist name</label>
+                            {{form_widget(f.PlaylistName, {'attr' : { 'class' : 'form-control' , 'id' : 'inputEmail4' }} )}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">Playlist description</label>
+                            {{form_widget(f.PlaylistDescription, {'attr' : { 'class' : 'form-control' , 'rows' : '2' }} )}}
+
+                        </div>
+                    </div>
+
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                        <label class="custom-control-label" for="customSwitch1">Deactivate</label>
+                        </label>
+                    </div>
+                    <br>
+                    {{ form_end(f) }}
+                </form>
+            </div>
+        </div>
+    </div>
+    {{ form_end(f) }}
+{% endblock %}

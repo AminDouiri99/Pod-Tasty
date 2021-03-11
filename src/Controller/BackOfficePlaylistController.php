@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Channel;
 use App\Entity\Playlist;
 use App\Repository\PlaylistRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,12 +32,11 @@ class BackOfficePlaylistController extends AbstractController
     /**
      * @param PlaylistRepository $playlist
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route ("/backoffice/playlist",name="backoffice_playlist")
+     * @Route ("/backoffice/playlists",name="backoffice_playlist")
      */
-    public function AfficheAll(PlaylistRepository $playlist ){
+    public function AfficheAll(){
         $user=$this->getUser();
-        $repo=$this->getDoctrine()->getRepository(Playlist::class);
-        $playlist=$repo->findAll();
-        return $this->render('back_office/back_office_playlist/affiche.html.twig',['playlist'=>$playlist ]);
+        $playlist=$this->getDoctrine()->getRepository(Playlist::class)->findAll();
+        return $this->render('/back_office/back_office_playlist/affiche.html.twig',['playlist'=> $playlist]);
     }
 }

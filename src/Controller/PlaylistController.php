@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Channel;
 use App\Entity\Playlist;
+use App\Entity\User;
 use App\Form\ChannelType;
 use App\Repository\ChannelRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\PlaylistRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,6 +36,16 @@ class PlaylistController extends AbstractController
 
 
 
+    /**
+     * @param PlaylistRepository $playlist
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route ("/backoffice/playlists",name="backoffice_playlist")
+     */
+    public function AfficheAllAdmin(){
+        $user=$this->getUser();
+        $playlist=$this->getDoctrine()->getRepository(Playlist::class)->findAll();
+        return $this->render('/back_office/back_office_playlist/affiche.html.twig',['playlist'=> $playlist]);
+    }
 
 
     /**
@@ -140,8 +152,109 @@ class PlaylistController extends AbstractController
         return $this->redirectToRoute("AffichePlaylists");
     }
 
+    /**
+     * @Route("/DeletePlaylistAdmin/{id}", name="DeletePlaylistAdmin")
+     * @param int $id
+     * @return Response
+     */
+    function DeleteAdmin(int $id) {
+        $repo=$this->getDoctrine()->getRepository(Playlist::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $playlist=$repo->find($id);
+        $entityManage->remove($playlist);
+        $entityManage->flush();
+        $playlist=$repo->findAll();
+        return $this->redirectToRoute("backoffice_playlist");
+    }
 
 
+
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Response
+     * @Route("/UpdatePlaylistAdmin/{id}", name="UpdatePlaylistAdmin")
+     */
+    function UpdateChannelAdmin(PlaylistRepository $oldPlaylist,Request $request, int $id) {
+        $user=$this->getUser();
+        $repo=$this->getDoctrine()->getRepository(Playlist::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $oldPlaylist=$repo->find($id);
+        $form=$this->createForm(PlaylistType::class, $oldPlaylist);
+        $form->add("Edit", SubmitType::class, [
+            'attr' => ['class' => 'btn btn-primary'],
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em=$this->getDoctrine()->getManager();
+            $em->flush();
+            $playlist=$this->getDoctrine()->getRepository(Playlist::class)->findAll();
+            return $this->redirectToRoute('backoffice_playlist');        }
+        $title = "Update ".$oldPlaylist->getPlaylistName();
+        $playlist=$this->getDoctrine()->getRepository(Playlist::class)->findAll();
+
+        return $this->render("back_office/back_office_playlist/update.html.twig", [
+
+            'playlist'=>$playlist,
+            'f' =>$form->createView(),
+            'page_title' => $title
+        ]);
+
+    }
+
+
+    /**
+     *  @param Request $request
+     * @return Response
+     * @Route ("/filterPlaylists")
+     */
+    public function FilerPlaylist(Request $request ,PlaylistRepository $PlaylistRepo){
+        $user=$this->getUser();
+        $response = "";
+
+        $playlists=$PlaylistRepo->findAll();
+        foreach($playlists as $playlist) {
+            if ($request->get("text") != "") {
+                if (stripos($playlist->getPlaylistName() ,$request->get("text")) === false) {
+
+                    unset($playlists[array_search($playlist,$playlists)]);
+                } else {
+
+                    $response .= $this->getString($playlist, $user);
+                }
+            } else {
+
+                $response .= $this->getString($playlist, $user);
+
+            }
+        }
+        return new Response($response);
+
+    }
+
+
+
+    function getString(Playlist $playlist, User $user){
+
+        $s = '<div class="blog_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+                            <div class="blog_post_image">
+                                <img src="/assets/playlist/images/blog_2.jpg" alt="">
+                                <div class="blog_post_date"><a href="#">'.$playlist->getPlaylistCreationDate()->format("d-m-Y").'</a></div>
+
+                            </div>
+                            <div class="blog_post_content">
+                                <div class="blog_post_title"><a href="#">'.$playlist->getPlaylistName().'</a></div>
+                               
+                                <div class="blog_post_text">
+                                    <p>'.$playlist->getPlaylistDescription().'</p>
+                                </div>
+                                <div class="blog_post_link"><a href="/UpdatePlaylist/'.$playlist->getId().'">Update this playlist</a></div>
+                                <div class="blog_post_link"><a href="/DeletePlaylist/'.$playlist->getId().'">Delete this playlist</a></div>
+
+                            </div>
+                        </div>';
+        return $s;
+    }
 
 
 

@@ -1,0 +1,34 @@
+{% extends 'back_office/index.html.twig' %}
+{% block dashBoardContent %}
+
+    {{ form_start(f) }}
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Edit a channel</h5>
+                <h6 class="card-subtitle text-muted"></h6>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Channel name</label>
+                            {{form_widget(f.ChannelName, {'attr' : { 'class' : 'form-control' , 'id' : 'inputEmail4' }} )}}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">Channel description</label>
+                            {{form_widget(f.ChannelDescription, {'attr' : { 'class' : 'form-control' , 'rows' : '2' }} )}}
+
+                        </div>
+                    </div>
+
+
+                    <br>
+                    {{ form_end(f) }}
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -56,10 +56,15 @@ class Channel
      */
     private $Playlists;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $ChannelStatus;
+
     public function __construct()
     {
         $this->UserList = new ArrayCollection();
-
+        $this->ChannelStatus = 1 ;
         $this->ChannelCreationDate = new \DateTime('now');
         $this->Playlists = new ArrayCollection();
 
@@ -182,6 +187,18 @@ class Channel
                 $playlist->setChannelId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getChannelStatus(): ?int
+    {
+        return $this->ChannelStatus;
+    }
+
+    public function setChannelStatus(int $ChannelStatus): self
+    {
+        $this->ChannelStatus = $ChannelStatus;
 
         return $this;
     }

@@ -31,16 +31,16 @@
                         {{ form_widget(f.ChannelName,  {'attr' : {placeholder : 'Whats the name of your new channel ?',size :'30' ,class : 'contact_input' }}) }}</div>
                     <div><div class="text-danger">{{ form_errors(f.ChannelDescription) }}</div>
                         {{ form_widget(f.ChannelDescription, {'attr' : {placeholder : 'Whats your channel\'s about ?',class : 'contact_input contact_textarea' }})}}</div>
-
+{{ form_widget(f.Edit) }}
                 </div>
-                {{ form_end(f) }}
+
                 <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="/AffichePlaylists">Cancel</a></div>
 
             </div>
         </div>
     </div>
 
+    {{ form_end(f, {'render_rest': false}) }}
 
 
-    {{ form_end(f) }}
 {% endblock %}

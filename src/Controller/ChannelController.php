@@ -27,6 +27,19 @@ class ChannelController extends AbstractController
     }
 
     /**
+     * @Route("/backoffice/channels", name="channelsAdmin")
+     */
+    public function indexadmin(): Response
+    {
+        $user=$this->getUser();
+        $repo=$this->getDoctrine()->getRepository(Channel::class);
+        $channel=$repo->findAll();
+        return $this->render('back_office/back_office_channel/channel.html.twig', [
+            'channel' => $channel,
+        ]);
+    }
+
+    /**
      * @param ChannelRepository $channel
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("/AfficheChannels",name="AfficheChannels")
@@ -115,6 +128,46 @@ class ChannelController extends AbstractController
         }
 
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Response
+     * @Route("/UpdateChannelAdmin/{id}", name="UpdateChannelAdmin")
+     */
+    function UpdateChannelAdmin(ChannelRepository $oldChannel,Request $request, int $id) {
+        $user=$this->getUser();
+        $ChannelId=$user->getChannelId();
+        $repo=$this->getDoctrine()->getRepository(Channel::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $oldChannel=$repo->find($id);
+        $repo=$this->getDoctrine()->getRepository(Playlist::class);
+        $playlist=$repo->findBy(['ChannelId'=>$ChannelId]);
+        $form=$this->createForm(ChannelType::class, $oldChannel);
+        $form->add("Edit", SubmitType::class, [
+            'attr' => ['class' => 'btn btn-primary'],
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em=$this->getDoctrine()->getManager();
+            $em->flush();
+            $repoo=$this->getDoctrine()->getRepository(Channel::class);
+            $channel=$repoo->findBy(['id'=>$ChannelId]);
+            return $this->redirectToRoute("channelsAdmin");
+        }
+        $title = "Update ".$oldChannel->getChannelName();
+        return $this->render("back_office/back_office_channel/update.html.twig", [
+            'f' =>$form->createView(), 'user'=>$user ,
+            'page_title' => $title
+        ]);
+
+    }
+
+
+
+
+
+
+
+
 
     /**
      * @Route("/DeleteChannel/{id}", name="DeleteChannel")
@@ -129,6 +182,22 @@ class ChannelController extends AbstractController
         $entityManage->flush();
         return $this->redirectToRoute("/");
     }
+
+    /**
+     * @Route("/DeleteChannelAdmin/{id}", name="DeleteChannelAdmin")
+     * @param int $id
+     * @return RedirectResponse
+     */
+    function DeleteAdmin(int $id) {
+        $repo=$this->getDoctrine()->getRepository(Channel::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $channel=$repo->find($id);
+        $entityManage->remove($channel);
+        $entityManage->flush();
+        return $this->redirectToRoute("channelsAdmin");
+    }
+
+
 
 
     /**
