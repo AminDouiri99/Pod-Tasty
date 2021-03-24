@@ -63,7 +63,7 @@ class PlaylistController extends AbstractController
      * @param PlaylistRepository $playlist
      * @param ChannelRepository $channel
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route ("/AffichePlaylists",name="AffichePlaylists")
+     * @Route ("/AfficheChannel",name="AffichePlaylists")
      */
     public function Affiche(PlaylistRepository $playlist ,ChannelRepository $channel){
         $user=$this->getUser();
