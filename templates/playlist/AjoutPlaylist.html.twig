@@ -9,7 +9,9 @@
     <link href="{{ asset('/assets/playlist/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/assets/playlist/plugins/colorbox/colorbox.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/contact.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/ImageStyle.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/contact_responsive.css')}}">
+    <script   src="{{ asset('/assets/playlist/js/reloader.js')}}"> </script>
     </head>
     <div class="contact_form_container">
         <div class="contact_form_title text-center"><h1 class="text-white-50"> Please fill in your playlist's information </h1> <br></div>
@@ -34,6 +36,10 @@
                         {{ form_widget(f.PlaylistDescription, {'attr' : {placeholder : 'What is this playlist about ?',class : 'contact_input contact_textarea' }})}}</div>
 
                 </div>
+                <br>
+                <label class="custom-file-upload">
+                {{ form_widget(f.imageFile) }} UPLOAD
+                </label>
                     {{ form_end(f) }}
                 <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="/AffichePlaylists">Cancel</a></div>
 

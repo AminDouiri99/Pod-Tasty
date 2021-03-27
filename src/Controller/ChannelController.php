@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Channel;
 use App\Entity\Playlist;
+use App\Entity\User;
 use App\Repository\ChannelRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -60,7 +61,7 @@ class ChannelController extends AbstractController
         $user=$this->getUser();
         $repo=$this->getDoctrine()->getRepository(Channel::class);
         $channel=$repo->findBy(['id'=>$id]);
-        return $this->render('channel/affiche.html.twig',['channel'=>$channel, 'user'=>$user]);
+        return $this->render('channel/afficheChannel.html.twig',['channel'=>$channel, 'user'=>$user]);
     }
 
 
@@ -208,4 +209,66 @@ public function getCurrentChannel(){
 }
 
 
+
+
+
+
+
+/**
+ *  @param Request $request
+ * @return Response
+ * @Route ("/filterChannels")
+ */
+public function FilerChannel(Request $request ,ChannelRepository $ChannelRepo){
+
+    $response = "";
+
+    $channels=$ChannelRepo->findAll();
+    foreach($channels as $channel) {
+        if ($request->get("text") != "") {
+            if (stripos($channel->getChannelName() ,$request->get("text")) === false) {
+
+                unset($channels[array_search($channel,$channels)]);
+            } else {
+
+                $response .= $this->getString($channel);
+            }
+        } else {
+
+            $response .= $this->getString($channel);
+
+        }
+    }
+    return new Response($response);
+
 }
+
+
+function getString(Channel $channel){
+
+    $s = '<div class="card">
+        <img src="https://lh3.googleusercontent.com/pZwZJ5HIL5iKbA91UGMUIPR0VJWa3K0vOGzDZmY6wU3EJBUdfsby3VEyxU162XxTyOyP3D154tjkr-4Jgcx8lygYUR8eB-jVmld4dsHi1c-mE_A8jKccseAG7bdEwVrcuuk6ciNtSw=s170-no" alt="Person" class="card__image">
+        <p class="card__name text-white">'.$channel->getChannelName().'</p>
+        <div class="text-white-50">'.$channel->getChannelDescription().'</div>
+        <div class="grid-container">
+
+            <div class="grid-child-posts">
+                '.$channel->getPlaylists()->count().' Playlists
+            </div>
+
+            <div class="grid-child-followers">
+                1300 Likes
+            </div>
+
+        </div>
+        <ul class="social-icons">
+            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="#"><i class="fa fa-codepen"></i></a></li>
+        </ul>
+        <button class="btn draw-border">Follow</button>
+        <button class="btn draw-border">Visit</button>
+    </div>';
+    return $s;
+}}

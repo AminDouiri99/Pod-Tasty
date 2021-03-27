@@ -259,4 +259,61 @@ class PlaylistController extends AbstractController
 
 
 
+
+
+
+
+
+    /**
+     *  @param Request $request
+     * @return Response
+     * @Route ("/filterPlaylists1")
+     */
+    public function FilerPlaylist1(Request $request ,PlaylistRepository $PlaylistRepo){
+        $user=$this->getUser();
+        $response = "";
+
+        $playlists=$PlaylistRepo->findAll();
+        foreach($playlists as $playlist) {
+            if ($request->get("text") != "") {
+                if (stripos($playlist->getPlaylistName() ,$request->get("text")) === false) {
+
+                    unset($playlists[array_search($playlist,$playlists)]);
+                } else {
+
+                    $response .= $this->getString1($playlist, $user);
+                }
+            } else {
+
+                $response .= $this->getString1($playlist, $user);
+
+            }
+        }
+        return new Response($response);
+
+    }
+    function getString1(Playlist $playlist, User $user){
+
+        $s = '<div class="blog_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+                            <div class="blog_post_image">
+                                <img src="/assets/playlist/images/blog_2.jpg" alt="">
+                                <div class="blog_post_date"><a href="#">'.$playlist->getPlaylistCreationDate()->format("d-m-Y").'</a></div>
+
+                            </div>
+                            <div class="blog_post_content">
+                                <div class="blog_post_title"><a href="#">'.$playlist->getPlaylistName().'</a></div>
+                               
+                                <div class="blog_post_text">
+                                    <p>'.$playlist->getPlaylistDescription().'</p>
+                                </div>
+                                
+
+                            </div>
+                        </div>';
+        return $s;
+    }
+
+
+
+
 }
