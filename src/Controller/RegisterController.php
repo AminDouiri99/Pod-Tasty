@@ -25,6 +25,7 @@ class RegisterController extends AbstractController
         $em->flush();
         $infoId=$this->getDoctrine()->getRepository(UserInfo::class)->find($UserInfo);
         $User->setUserInfoId($infoId);
+        $User->setDesactiveAccount(false);
         $em=$this->getDoctrine()->getManager();
         $em->persist($User);
         $em->flush();
@@ -60,6 +61,7 @@ class RegisterController extends AbstractController
                 $newUser->setUserEmail($email);
                 $newUser->setUserPassword($this->encoder->encodePassword($newUser,$pass));
                 $newUser->setIsAdmin(false);
+                $newUser->setDesactiveAccount(false);
                 $UserInfo=new UserInfo();
                 $UserInfo->setUserFirstName($fname);
                 $UserInfo->setUserLastName($lname);
@@ -73,8 +75,7 @@ class RegisterController extends AbstractController
                 $UserInfoErrors=$validator->validate($UserInfo);
                 if(count($UserErrors)==0 && count($UserInfoErrors)==0){
                     $this->saveUser($newUser,$UserInfo);
-                    return $this->render('LogReg/register.html.twig', [
-                        'errors2' => $UserInfoErrors,'errors1'=>$UserErrors,'user' => $getUser,"error"=>$error]);
+                    return $this->redirectToRoute("home");
                 }
             }
 

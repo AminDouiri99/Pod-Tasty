@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '1217830539d4e727ea5b595f576813bba3234999',
+    'reference' => '8c8bc18c175968ce868a80477d9e9826104218c9',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '1217830539d4e727ea5b595f576813bba3234999',
+      'reference' => '8c8bc18c175968ce868a80477d9e9826104218c9',
     ),
     'composer/package-versions-deprecated' => 
     array (
@@ -182,6 +182,42 @@
       ),
       'reference' => '121af47c9aee9c03031bdeca3fac0540f59aa5c3',
     ),
+    'guzzlehttp/guzzle' => 
+    array (
+      'pretty_version' => '7.3.0',
+      'version' => '7.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7008573787b430c1c1f650e3722d9bba59967628',
+    ),
+    'guzzlehttp/promises' => 
+    array (
+      'pretty_version' => '1.4.1',
+      'version' => '1.4.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8e7d04f1f6450fef59366c399cfad4b9383aa30d',
+    ),
+    'guzzlehttp/psr7' => 
+    array (
+      'pretty_version' => '1.8.1',
+      'version' => '1.8.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '35ea11d335fd638b5882ff1725228b3d35496ab1',
+    ),
+    'knpuniversity/oauth2-client-bundle' => 
+    array (
+      'pretty_version' => 'v2.8.0',
+      'version' => '2.8.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5493de2a2e6385bb31426dce57e8113610359c30',
+    ),
     'laminas/laminas-code' => 
     array (
       'pretty_version' => '4.0.0',
@@ -208,6 +244,24 @@
       array (
       ),
       'reference' => '6cccbddfcfc742eb02158d6137ca5687d92cee32',
+    ),
+    'league/oauth2-client' => 
+    array (
+      'pretty_version' => '2.6.0',
+      'version' => '2.6.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'badb01e62383430706433191b82506b6df24ad98',
+    ),
+    'league/oauth2-github' => 
+    array (
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e63d64f3ec167c09232d189c6b0c397458a99357',
     ),
     'monolog/monolog' => 
     array (
@@ -328,7 +382,32 @@
         0 => '1.0',
       ),
     ),
+    'psr/http-client' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2dfb5f6c5eff0e91e20e913f8c5452ed95b86621',
+    ),
     'psr/http-client-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'psr/http-message' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f6561bf28d520154e4b0ec72be95418abe6d9363',
+    ),
+    'psr/http-message-implementation' => 
     array (
       'provided' => 
       array (
@@ -374,6 +453,15 @@
       array (
         0 => '1.0',
       ),
+    ),
+    'ralouphie/getallheaders' => 
+    array (
+      'pretty_version' => '3.0.3',
+      'version' => '3.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '120b605dfeb996808c31b6477290a714d356e822',
     ),
     'sensio/framework-extra-bundle' => 
     array (

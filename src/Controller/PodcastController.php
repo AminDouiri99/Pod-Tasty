@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
 class PodcastController extends AbstractController
 {
@@ -27,6 +28,20 @@ class PodcastController extends AbstractController
         $repo=$this->getDoctrine()->getRepository(Podcast::class);
         $podcasts=$repo->findAll();
         $user=$this->getUser();
+        if($user != null){
+            if($user->getIsAdmin()){
+                return $this->redirectToRoute('back_office');
+
+            }
+            if($user->getDesactiveAccount()){
+                return $this->render("Home/index.html.twig",['user'=>$user]);
+        }
+
+        }
+        if($user == new CustomUserMessageAuthenticationException()){
+            $getUser = null;
+        }else
+
             return $this->render("home/home.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
     }
     /**

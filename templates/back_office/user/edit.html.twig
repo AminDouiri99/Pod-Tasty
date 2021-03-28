@@ -1,0 +1,13 @@
+{% extends '/back_office/index.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block dashBoardContent %}
+    <h1>Edit User</h1>
+
+    {{ include('back_office/user/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('users') }}">back to list</a>
+
+    {{ include('back_office/user/_delete_form.html.twig') }}
+{% endblock %}

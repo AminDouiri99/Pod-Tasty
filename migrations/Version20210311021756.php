@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210227230826 extends AbstractMigration
+final class Version20210311021756 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,14 +20,14 @@ final class Version20210227230826 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE playlist CHANGE playlist_description playlist_description VARCHAR(255) NOT NULL');
-        $this->addSql('ALTER TABLE podcast CHANGE playlist_id_id playlist_id_id INT DEFAULT NULL');
+        $this->addSql('DROP INDEX user_email ON user');
+        $this->addSql('ALTER TABLE user ADD desactive_account TINYINT(1) NOT NULL');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE playlist CHANGE playlist_description playlist_description VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT NULL COLLATE `utf8mb4_unicode_ci`');
-        $this->addSql('ALTER TABLE podcast CHANGE playlist_id_id playlist_id_id INT NOT NULL');
+        $this->addSql('ALTER TABLE user DROP desactive_account');
+        $this->addSql('CREATE UNIQUE INDEX user_email ON user (user_email)');
     }
 }

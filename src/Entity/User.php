@@ -28,7 +28,7 @@ class User implements UserInterface
     private $UserEmail;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      * @Assert\NotBlank(message="Please enter your Password!")
      */
     private $UserPassword;
@@ -66,6 +66,16 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="UserId")
      */
     private $CommentList;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $DesactiveAccount;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $githubId;
 
     public function __construct()
     {
@@ -258,6 +268,9 @@ class User implements UserInterface
         if($this->isAdmin==true){
             return ["admin"];
         }
+        if($this->DesactiveAccount==true){
+            return ["disabled"];
+        }
         else
             return ["user"];
     }
@@ -280,5 +293,29 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getDesactiveAccount(): ?bool
+    {
+        return $this->DesactiveAccount;
+    }
+
+    public function setDesactiveAccount(bool $DesactiveAccount): self
+    {
+        $this->DesactiveAccount = $DesactiveAccount;
+
+        return $this;
+    }
+
+    public function getGithubId(): ?string
+    {
+        return $this->githubId;
+    }
+
+    public function setGithubId(?string $githubId): self
+    {
+        $this->githubId = $githubId;
+
+        return $this;
     }
 }

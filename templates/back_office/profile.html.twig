@@ -1,0 +1,57 @@
+{% extends 'back_office/index.html.twig' %}
+{% block dashBoardContent %}
+    <script src="{{ asset('/assets/backOffice/js/profileAdmin.js')}}"></script>
+
+    <main class="content">
+        <div class="container-fluid p-0">
+
+            <h1 class="h3 mb-3">Profile</h1>
+
+            <div class="row">
+                <div class="col-md-4 col-xl-3">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Profile Details</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            {% if userInfo.getUserImage() %}
+                                <img class="img-fluid rounded-circle mb-2" width="128" height="128" src="{{ asset('/Files/podcastFiles/'~userInfo.getUserImage() ) }}"alt="Profile Pic"/>
+                            {% endif %}
+
+                            {% if userInfo.getUserImage()==null %}
+
+                                <img class="img-fluid rounded-circle mb-2" width="128" height="128" src="{{ asset('/Files/podcastFiles/avatar.jpg') }}" alt="Profile Pic"/>
+                            {% endif %}
+
+                            <h5 class="card-title mb-0">{{ userInfo.userFirstName }}  {{ userInfo.userLastName }}</h5>
+                            <div class="text-muted mb-2">{{ userInfo.userBio }}</div>
+                            <div class="text-muted mb-2">{{ userInfo.getUserBirthDate() |date('Y-m-d')  }}</div>
+
+                            <div>
+                                <a class="btn btn-primary btn-sm" onclick="editAdminProfile()">Edit Profile</a>
+                            </div>
+                        </div>
+                        <hr class="my-0" />
+                        <div class="card-body" style="display: none" id="editadmin">
+                            <h5 class="h6 card-title" >Edit Profile</h5>
+                            <div class="card-body">
+                            <form action="/editprofileadmin" method="post">
+                                <input name="firstname" class="form-control" type="text" style="margin-top: 10px;" value="{{ userInfo.userFirstName }}" id="firstname">
+                                <input name="lastname" class="form-control" type="text" style="margin-top: 10px;" value="{{ userInfo.userLastName }}" id="lastname">
+                                <input name="bio"  class="form-control" type="text" style="margin-top: 10px;" value="{{ userInfo.userBio }}" id="bio">
+                                <button type="submit" name="submit2" id="buttonSave" style="margin-top: 20px;"  class="btn btn-primary btn-sm">Save</button>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+
+{% endblock %}

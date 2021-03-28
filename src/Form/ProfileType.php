@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\UserInfo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -30,6 +31,7 @@ class ProfileType extends AbstractType
             ->add('UserGender')
             ->add('UserBirthDate')
             ->add('UserBio')
+            ->add('Edit', SubmitType::class);
         ;
     }
 
