@@ -4,6 +4,47 @@
 
     <script src="{{ asset('assets/home/home.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/home/home.css')}}">
+    {% if livePods is not empty%}
+    <div class="wrapper">
+        <h2>Currently Live <img src="{{ asset('assets/streaming/live.png') }}" style="margin-left: 20px" height="35" width="35"/></h2>
+
+        <div class="cards">
+
+        <span {% for p in livePods %}>
+            <figure style="margin-left: 0px" class="card">
+                    <div class="show">
+                        <div class="show_image">
+                             <div  class="podcastViews">{{ p.podcastViews }} Views</div>
+                            <a href="/podcast/{{ p.id }}">
+                                <img class="podImg" src="{{ asset(  'Files/podcastFiles/'~p.podcastImage) }}">
+                                <div class="show_play_icon">
+                                        <img src="{{ asset('assets/frontOffice/images/play.png')}}">
+
+                                </div>
+                                <div class="show_title_2">{{ p.podcastName }} </div>
+                            </a>
+                            <div class="show_tags">
+                                <div class="tags">
+                                    <ul class="d-flex flex-row align-items-start justify-content-start">
+                                        <li><a href="#">travel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+{#                            <div class="show_user">#}
+                            {#                                // user Avatar (moula l podcast)#}
+                            {#                            </div>#}
+                        </div>
+                    </div>
+            </figure>
+            {% endfor %}
+        </span>
+
+        </div>
+    </div>
+
+{% endif %}
+
+
     <div class="wrapper">
         <h2>All Podcasts</h2>
 
@@ -13,13 +54,14 @@
             <figure style="margin-left: 0px" class="card">
                     <div class="show">
                         <div class="show_image">
+                             <div  class="podcastViews">{{ p.podcastViews }} Views</div>
                             <a href="/podcast/{{ p.id }}">
-                                <img class="podImg" src="{{ asset(  p.podcastImage) }}">
+                                <img class="podImg" src="{{ asset(  'Files/podcastFiles/'~p.podcastImage) }}">
                                 <div class="show_play_icon">
                                         <img src="{{ asset('assets/frontOffice/images/play.png')}}">
 
                                 </div>
-                                <div class="show_title_2">Cras malesuada ipsum sapien.</div>
+                                <div class="show_title_2">{{ p.podcastName }} </div>
                             </a>
                             <div class="show_tags">
                                 <div class="tags">
@@ -28,6 +70,9 @@
                                     </ul>
                                 </div>
                             </div>
+{#                            <div class="show_user">#}
+                            {#                                // user Avatar (moula l podcast)#}
+                            {#                            </div>#}
                         </div>
                     </div>
             </figure>

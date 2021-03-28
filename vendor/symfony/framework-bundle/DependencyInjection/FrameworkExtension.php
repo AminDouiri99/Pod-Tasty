@@ -1236,24 +1236,26 @@ class FrameworkExtension extends Extension
         // Register translation resources
         if ($dirs) {
             $files = [];
-            $finder = Finder::create()
-                ->followLinks()
-                ->files()
-                ->filter(function (\SplFileInfo $file) {
-                    return 2 <= substr_count($file->getBasename(), '.') && preg_match('/\.\w+$/', $file->getBasename());
-                })
-                ->in($dirs)
-                ->sortByName()
-            ;
 
-            foreach ($finder as $file) {
-                $fileNameParts = explode('.', basename($file));
-                $locale = $fileNameParts[\count($fileNameParts) - 2];
-                if (!isset($files[$locale])) {
-                    $files[$locale] = [];
+            foreach ($dirs as $dir) {
+                $finder = Finder::create()
+                    ->followLinks()
+                    ->files()
+                    ->filter(function (\SplFileInfo $file) {
+                        return 2 <= substr_count($file->getBasename(), '.') && preg_match('/\.\w+$/', $file->getBasename());
+                    })
+                    ->in($dir)
+                    ->sortByName()
+                ;
+                foreach ($finder as $file) {
+                    $fileNameParts = explode('.', basename($file));
+                    $locale = $fileNameParts[\count($fileNameParts) - 2];
+                    if (!isset($files[$locale])) {
+                        $files[$locale] = [];
+                    }
+
+                    $files[$locale][] = (string) $file;
                 }
-
-                $files[$locale][] = (string) $file;
             }
 
             $projectDir = $container->getParameter('kernel.project_dir');
@@ -1445,8 +1447,8 @@ class FrameworkExtension extends Extension
                 }
 
                 $container
-                    ->getDefinition('annotations.filesystem_cache')
-                    ->replaceArgument(0, $cacheDir)
+                    ->getDefinition('annotations.filesystem_cache_adapter')
+                    ->replaceArgument(2, $cacheDir)
                 ;
 
                 $cacheService = 'annotations.filesystem_cache';

@@ -11,7 +11,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div id="newReviewBody" class="modal-body">
+                <div style="margin-left: -200px;margin-bottom: -300px" id="newReviewBody" class="modal-body">
                     <!-- carousel-->
                     <div id="carouselExampleControls" class="carousel slide">
                         <div class="carousel-inner">
@@ -210,7 +210,7 @@
                         </div><br><br>
 
                 </div>
-                <div class="modal-footer">
+                <div     class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -220,6 +220,7 @@
 
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="{{ asset('assets/podcastStyle/reloadComments.js') }}"></script>
+    <script src="{{ asset('assets/podcastStyle/playerAnimation.js') }}"></script>
     <script src="{{ asset('assets/podcastStyle/podcast.js') }}"></script>
     <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/reviewStyle/reviewStyle.css') }}" rel="stylesheet" type="text/css">
@@ -235,22 +236,25 @@
                 </div>
                 <ul style="display: none" id="playerComponents">
                     <li id="cover" class="cover">
-                        <img id="coverImg" src="{{ asset(  podcast.podcastImage) }}"/></li>
+                        <img id="coverImg" src="{{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}"/></li>
                     <li class="info" id="podInfo">
                         <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
                         <h4>{{ podcast.podcastViews }} Views</h4>
                         <h2 class="h2Pod">{{ podcast.podcastDescription }}</h2>
 
                         <div class="button-items">
-                            <audio id="podcastAudio">
-                                <source src="{{ asset(  podcast.podcastSource) }}" type="audio/mp3">
+
+                            {% if podcast.currentlyLive == 0 %}
+                            <audio src="{{ asset(  'Files/podcastFiles/'~podcast.podcastSource) }}" id="podcastAudio">
+                                {% endif %}
                             </audio>
+
+                            {% if podcast.currentlyLive == 0 %}
                             <div id="sliderDiv">
                                        <div onclick="moveToTime(event)" id="slider">
-                                       <div id="slider">
+                                       <div onmouseenter="bigger()" onmouseleave="smaller()" id="slider">
                                            <div id="elapsed"></div></div>
                                        <div id="timer">00:00:00</div>
-                                </table>
                             </div>
                             <div class="controls" id="controls">
                             <span>
@@ -260,6 +264,19 @@
                             </span>
                             </div>
                         </div>
+                            {% endif %}
+                            {% if podcast.currentlyLive == 1 %}
+                            <div id="sliderDiv">
+
+                                <div class="controls" id="controls">
+                            <span>
+                                <i id="play" onclick="pauseResumeLive(1)"  class="fa fa-play"></i>
+                                <i id="stop" onclick="pauseResumeLive(2)" style="display: none" class="fa fa-pause"></i>
+                            </span>
+                                </div>
+                            </div>
+                            {% endif %}
+
                         </div>
                     </li>
                     {% if user is not null %}
@@ -273,8 +290,16 @@
                                     {% endif %}
                                     <i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i>
                                     </td>
-                                <td><i class="fa fa-heart" title="Save to favorites"></i></td>
 
+                                <td>
+                                    {% if podcast.currentlyLive == 0 %}
+                                    <i class="fa fa-heart" {% if isFavourite %}style="color:deeppink" {% endif %} onclick="addRemoveFav({{ podcast.id }})" id="favButton" title="Save to favorites"></i>
+                                    {% endif %}
+
+                                    {% if podcast.currentlyLive == 1 %}
+                                    <img title="Live"src="{{ asset('assets/streaming/live.png') }}" height="35" width="35"/>
+                                    {% endif %}
+                                </td>
                                 <tr style="height: 50px">
                                 <td colspan="3" style="text-align: center;vertical-align:top !important">
                                     <span id="userReviewSpan" style="font-size: 15px">
@@ -311,13 +336,24 @@
             {% else %}
                 <h2 class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span id="comText" style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
                 </h2>
+                <div style="float: right;margin-right: 180px">
+                    <input id="searchInput" onkeyup="filterComments({{ podcast.id }})" type="text" class="commentInput" style="margin-top: -20px;width: 200px" placeholder="Search..">
+                    <div id="searchSpinner" style="opacity:0;height:20px;width: 20px" class="spinner-border text-primary" role="status">
+                    </div>
+                </div>
             {% endif %}
 
             {% if user is not null %}
+             {% if podcast.commentsAllowed == 1 %}
             <input type="text" id="comment" onkeypress="checkKey(event, {{ podcast.id }})" name="comment" class="commentInput" placeholder="Add comment"/>
            <div class="warningDiv">
                <span id="warningDiv" style="display: none">Hey watch your language !</span>
            </div>
+             {% endif %}
+
+            {% if podcast.commentsAllowed == 0 %}
+                <div style="color: red;margin: 20px;font-size: 17px">Comments are disabled for this podcast</div>
+                {% endif %}
             {% endif %}
             <br><br>
             <div id="comments">
@@ -357,7 +393,7 @@
                             {{ comment.commentText }}
                         </div>
                         <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
-                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }},'')" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
+                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }})" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
                         <span title="cancel" onclick="showUpdateComment(2, {{ comment.id }},'{{ comment.commentText }}')" class="fa fa-close"></span>
                         </div>
                     </div>
@@ -368,4 +404,18 @@
             </div>
     </div>
     </div>
+
+    <input style="display: none" id="podcastId" value="{{ podcast.id }}"/>
+    <input style="display: none" id="userId" value="{{ user.id }}"/>
+
+
+    {% if podcast.currentlyLive == 1 %}
+        <div id="audioContainer">
+        <audio id="aud" autoplay preload="metadata" src=""></audio>
+        </div>
+        </div>
+
+        <script src="{{ asset('/assets/streaming/listenToStream.js') }}"></script>
+
+    {% endif %}
 {% endblock %}

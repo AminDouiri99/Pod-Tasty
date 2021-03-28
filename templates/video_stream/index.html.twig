@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Streaming{% endblock %}
+
+{% block content %}
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="{{ asset('assets/podcastStyle/reloadComments.js') }}"></script>
+    <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
+    <div style="float:left">
+        <div style="margin-left: -80px;padding:20px;border-top-left-radius: 20px;;border-bottom-left-radius:20px;width: 500px;min-height:550px;background-color: rgba(0,0,0,0.5);color: white">
+            <ul style="margin-bottom: 120px"  id="playerComponents">
+                <li id="cover" class="cover">
+                    <img style="width:140px;height:140px;border-bottom-left-radius: 0" id="coverImg" src="{{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}"/></li>
+                <li class="info" style="margin-left: -40px" id="podInfo">
+                    <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
+                <h4 style="font-size: 140%;float: right;margin-top: 20px">{{ podcast.currentlyWatching }} Watching</h4>
+                </li>
+            </ul>
+                <h2 style="margin-left: -4px;padding-top: 15px" class="commentsTitle">
+
+
+                    <span id="commentsLength">{% if comments is not empty %}{{ comments|length}}{% endif %}</span>
+                    <span id="comText" style="margin-left: 10px">
+                        {% if comments is not empty %}Comment{% if comments|length >1 %}s{% endif %}
+                        {% endif %}
+
+                        {% if comments is empty %}
+                            <div id="liveCommentsTitle" style="margin-top: 100px;margin-left: 120px;font-size: 25px;font-weight: bolder">No comments yet</div>
+                        {% endif %}
+                    </span>
+
+                </h2>
+            <div id="comments" style="padding-top: 5px;overflow-y:auto;padding-left: 20px;max-height:380px;">
+
+                <br><br>
+                    <div id="comments">
+                        {% if comments is empty %}
+                            <ul class="user_comment" id="CommentsUL"></ul>
+                        {% endif %}
+                        <ul {% for comment in comments|reverse %} class="user_comment" id="CommentsUL">
+                            <div id="comment{{ comment.id }}">
+                                <!-- current #{user} avatar -->
+                                <div class="user_avatar">
+                                    <img src="/assets/donut.png">
+                                </div>
+                                <div class="comment_toolbar">
+
+                                    <!-- inc. date and time -->
+                                    <div class="comment_details">
+                                        <ul>
+                                            <li style="width: 100%"><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span>
+                                            </li>
+                                        </ul>
+                                    </div><!-- inc. share/reply and love -->
+                                      <div class="comment_tools">
+                                                <div style="z-index: 99999999999999999" class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
+                                            </div>
+                                </div>
+                                <!-- the comment body -->
+                                <div    class="commentContainer">
+                                    <div id="commentTextDiv{{ comment.id }}" style="width: 100%" class="commentText">
+                                        {{ comment.commentText }}
+                                    </div>
+                                    <div style="height: 10px;margin-bottom: -40px">
+                                    <span id="deletingMsg{{ comment.id }}" style="width: 200px;margin-right: -80px" class="deleteingComment">Deleting comment...</span>
+                                    </div>
+                                </div>
+                                <br><br><br>
+                            </div>
+                        </ul  {% endfor %}>
+
+                    </div>
+
+
+            </div>
+        </div>
+    </div>
+    <span>
+        <div class="align-content-center">
+        <div id="streamEnded" class="streamEnded" style="display: none"></div>
+        </div>
+            <img style="margin-left: 3%" width="400" id="greyMic" src="{{ asset('assets/streaming/greyMic.png') }}"/>
+        <img style="margin-left: 3%;display:none" id="redMic" width="400" src="{{ asset('assets/streaming/redMic.png') }}"/>
+
+    </span>
+    <br>
+
+        <canvas style="position:absolute;top:13%;left:42%;z-index: 9999;opacity: 0.3" class="js-volume" height="700"  width="400"></canvas>
+    <button class="js-stop btn btn-danger" style="z-index:99999999;font-size: 30px;margin-top: -30%;border-radius:10px;box-shadow:12px 8px 5px #0c0e13;float: right;display: none" >Close Stream</button>
+
+    <button class="js-start btn btn-info" style="position:absolute;top:62%;left:40%;font-size: 70px;box-shadow:12px 8px 5px #0c0e13;z-index: 99999;border-radius: 10px">Go live !</button>
+
+
+    <script src="{{ asset('/assets/streaming/recorder.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="{{ asset('/assets/streaming/streaming.js') }}"></script>
+
+    <input type="text" value="{{ podcast.id }}" style="display: none" id="podcastId"/>
+{% endblock %}

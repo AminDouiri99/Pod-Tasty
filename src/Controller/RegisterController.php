@@ -71,7 +71,7 @@ class RegisterController extends AbstractController
             $this->saveUser($newUser,$UserInfo);
             $succes="User succesfully registred";
             sleep(2);
-            return $this->redirectToRoute("");
+            return $this->redirectToRoute("Home");
         }
 
     }
