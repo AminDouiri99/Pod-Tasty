@@ -4,18 +4,34 @@
 
     <script src="{{ asset('assets/home/home.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/home/home.css')}}">
-    <div class="wrapper">
-        <h2>All Podcasts</h2>
 
-        <div class="cards">
+    <div style="width: 100%;margin-bottom: 20px;margin-top: 50px" id="tagsWrapper">
+        <button id="tag0" onclick="showPod(0)" class="badge-pill badge-light badgeTag">All</button>
+        <button id="tag1" onclick="showPod(1)" class=" badge-pill badge-dark badgeTag">Music</button>
+        <button id="tag2" onclick="showPod(2)" class="badge-pill badge-dark badgeTag">Art</button>
+        <button id="tag3" onclick="showPod(3)" class="badge-pill badge-dark badgeTag">Politics</button>
+        <button id="tag4" onclick="showPod(4)" class="badge-pill badge-dark badgeTag">Entertainment</button>
+        <button id="tag5" onclick="showPod(5)" class="badge-pill badge-dark badgeTag">Music</button>
+        <button id="tag6" onclick="showPod(6)" class="badge-pill badge-dark badgeTag">Movies</button>
+        <button id="tag7" onclick="showPod(7)" class="badge-pill badge-dark badgeTag">Sports</button>
+    </div>
+    {% if livePods is not empty%}
+        <div class="wrapper">
+            <h2>Currently Live <img src="{{ asset('assets/streaming/live.png') }}" style="margin-left: 20px" height="35" width="35"/></h2>
 
-        <span {% for p in podcasts %}>
+            <div class="cards">
+
+        <span {% for p in livePods %}>
             <figure style="margin-left: 0px" class="card">
-                    <div class="show">
+                    <div class="show" style="width: 100%">
                         <div class="show_image">
                              <div  class="podcastViews">{{ p.podcastViews }} Views</div>
                             <a href="/podcast/{{ p.id }}">
-                                <img class="podImg" src="{{ asset(  'Files/podcastFiles/'~p.podcastImage) }}">
+                                <img class="podImg" src=" {% if p.podcastImage in not null%}
+                                {{ asset(  'Files/podcastFiles/'~p.podcastImage) }}
+                                {% else %}
+                                {{ asset('assets/home/defaultPod.png') }}
+                                {% endif %}">
                                 <div class="show_play_icon">
                                         <img src="{{ asset('assets/frontOffice/images/play.png')}}">
 
@@ -30,14 +46,61 @@
                                 </div>
                             </div>
 {#                            <div class="show_user">#}
-{#                                // user Avatar (moula l podcast)#}
-{#                            </div>#}
+                            {#                                // user Avatar (moula l podcast)#}
+                            {#                            </div>#}
                         </div>
                     </div>
             </figure>
-            {% endfor %}
-        </span>
 
+        </span   {% endfor %}>
+
+            </div>
+        </div>
+
+    {% endif %}
+
+
+    <div class="wrapper">
+        <h2>All podcasts</h2>
+
+        <div class="cards">
+
+        <span {% for p in podcasts %}>
+            <figure style="margin-left: 0px" class="card">
+
+                    <div class="show" style="width: 100%">
+                        <div class="show_image">
+
+                <a href="/podcast/{{ p.id }}">
+                             <div  class="podcastViews">{{ p.podcastViews }} Views</div>
+                                <img class="podImg" src="
+                                {% if p.podcastImage in not null%}
+                                {{ asset(  'Files/podcastFiles/'~p.podcastImage) }}
+                                {% else %}
+                                {{ asset('assets/home/defaultPod.png') }}
+                                {% endif %}
+                                ">
+                                <div class="show_play_icon">
+                                        <img src="{{ asset('assets/frontOffice/images/play.png')}}">
+
+                                </div>
+                                <div class="show_title_2">{{ p.podcastName }} </div>
+                            </a>
+{#                            <div class="show_user">#}
+                            {#                                // user Avatar (moula l podcast)#}
+                            {#                            </div>#}
+                            <div class="show_tags">
+                                <div class="tags">
+                                    <ul class="d-flex flex-row align-items-start justify-content-start">
+                                        <li><a href="#">travel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </figure>
+
+        </span {% endfor %}>
         </div>
     </div>
 {% endblock %}
