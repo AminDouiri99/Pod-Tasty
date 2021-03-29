@@ -29,6 +29,19 @@ function checkKey(event,id){
 
 function sendComment(comment, id){
     $.post("/addComment",{comment:comment,podId:id}, function(data) {
+        setTimeout(function (){
+            if (document.getElementById('comment') != null) {
+                document.getElementById('comment').disabled = false;
+                document.getElementById('comment').value  = "";
+                document.getElementById('comment').style.borderBottomColor="white";
+            }
+        if (data === "1") {
+            document.getElementById('warningDiv').style.display = "inherit";
+        }   else if (data === "0"){
+            document.getElementById('warningDiv').style.display = "inherit";
+            document.getElementById('warningDiv').innerHTML = "Sorry, commenting for this podcast is disabled for now";
+        }
+        },500);
     })
 }
 function deleteComment(id){
@@ -240,19 +253,6 @@ function filterComments(id) {
     });
 }
 function addCommentToView(data) {
-    setTimeout(function (){
-        if (document.getElementById('comment') != null) {
-            document.getElementById('comment').disabled = false;
-            document.getElementById('comment').value  = "";
-            document.getElementById('comment').style.borderBottomColor="white";
-        }
-        if (data === "1") {
-            document.getElementById('warningDiv').style.display = "inherit";
-        }   else if (data === "0"){
-            document.getElementById('warningDiv').style.display = "inherit";
-            document.getElementById('warningDiv').innerHTML = "Sorry, commenting for this podcast is disabled for now";
-        }
-        else {
             comNumb++;
             document.getElementById('CommentsUL').innerHTML = data+document.getElementById('CommentsUL').innerHTML;
             if(document.getElementById('commentsLength') != null) {
@@ -277,6 +277,4 @@ function addCommentToView(data) {
                 }
                 document.getElementById('noCom').innerHTML =stringmessage;
             }
-        }
-    },500);
 }

@@ -19,6 +19,9 @@ html{
 	top:0;left:0;width:100%;
 
 }
+button{
+	outline:none !important;
+}
 input {
 	outline:none !important;
 }

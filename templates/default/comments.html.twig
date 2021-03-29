@@ -236,7 +236,13 @@
                 </div>
                 <ul style="display: none" id="playerComponents">
                     <li id="cover" class="cover">
-                        <img id="coverImg" src="{{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}"/></li>
+                        <img id="coverImg" src="
+                                {% if podcast.podcastImage in not null%}
+                                {{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}
+                                {% else %}
+                                {{ asset('assets/podcastStyle/defPod.png') }}
+                                {% endif %}
+                                "></li>
                     <li class="info" id="podInfo">
                         <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
                         <h4>{{ podcast.podcastViews }} Views</h4>
@@ -406,7 +412,6 @@
     </div>
 
     <input style="display: none" id="podcastId" value="{{ podcast.id }}"/>
-    <input style="display: none" id="userId" value="{{ user.id }}"/>
 
 
     {% if podcast.currentlyLive == 1 %}

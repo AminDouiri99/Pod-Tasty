@@ -33,6 +33,8 @@ h2 strong,
 .df,
 .cards,
 .news {
+    margin-left:-95px;
+    margin-right:-95px;
     display: flex;
 }
 .dif {
@@ -90,8 +92,8 @@ h2:after {
     display: inline-block;
     border-radius: 7px;
     margin: 20px;
-    width: 270px;
-    height: 230px;
+    width: 350px;
+    height: 210px;
     overflow: hidden !important;
     box-shadow: 0 5px 10px rgba(0,0,0,0.8);
     transform-origin: center top;
@@ -102,7 +104,7 @@ h2:after {
 .cards .card img,
 .news .card img {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
 }
 .cards .card figcaption,
 .news .card figcaption {
@@ -215,8 +217,6 @@ h2:after {
 }
 .podImg{
     border-radius: 7px;
-    height: 232px;
-    width:200px;
 }
 
 .show_image{
@@ -226,8 +226,20 @@ h2:after {
 .podcastViews{
     background-color: rgba(0,0,0,0.5);border-bottom-left-radius:20px;
     width:200px;padding-left: 20px;padding-bottom: 5px;
-    color:white;position:absolute;left: 80px;font-weight: bolder;font-size: 17px;
+    color:white;position:absolute;left: 150px;font-weight: bolder;font-size: 17px;
 
 }
 
 .show_user{position:absolute;top:80%;left:70%;border-radius: 360px}
+
+.badgeTag{
+    font-size: 17px !important;
+    margin-right: 15px;
+    margin-top:15px;
+    border:none !important;
+}
+
+.badge-dark:hover{
+    cursor: pointer !important;
+    opacity: 0.7 !important;
+}

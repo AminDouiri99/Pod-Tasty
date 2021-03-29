@@ -12,6 +12,8 @@ use App\Repository\PodcastRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -226,9 +228,10 @@ class PodcastController extends AbstractController
      * @Route("/removeWatcher" , name="removeWatcher")
      * @param PodcastRepository $repository
      * @param Request $request
+     * @param PublisherInterface $publisher
      * @return Response
      */
-    public function removeWatcher(PodcastRepository $repository, Request $request)
+    public function removeWatcher(PodcastRepository $repository, Request $request, PublisherInterface $publisher)
     {
         $id = $request->get('id');
         $podcast = $repository->find($id);
@@ -236,6 +239,8 @@ class PodcastController extends AbstractController
             $podcast->setCurrentlyWatching($podcast->getCurrentlyWatching() - 1);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+            $update = new Update("http://127.0.0.1:8000/refreshWatchers/".$podcast->getId(), $podcast->getCurrentlyWatching());
+            $publisher($update);
         }
         return new Response();
     }
@@ -244,9 +249,10 @@ class PodcastController extends AbstractController
      * @Route("/addWatcher" , name="addWatcher")
      * @param PodcastRepository $repository
      * @param Request $request
+     * @param PublisherInterface $publisher
      * @return Response
      */
-    public function addWatcher(PodcastRepository $repository, Request $request)
+    public function addWatcher(PodcastRepository $repository, Request $request, PublisherInterface $publisher)
     {
         $id = $request->get('id');
         $podcast = $repository->find($id);
@@ -254,6 +260,8 @@ class PodcastController extends AbstractController
         $podcast->setCurrentlyWatching($podcast->getCurrentlyWatching() + 1);
         $em = $this->getDoctrine()->getManager();
         $em->flush();
+        $update = new Update("http://127.0.0.1:8000/refreshWatchers/".$podcast->getId(), $podcast->getCurrentlyWatching());
+        $publisher($update);
         return new Response();
     }
 

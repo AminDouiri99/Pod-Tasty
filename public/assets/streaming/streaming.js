@@ -15,7 +15,14 @@ let ctx = elementVolume.getContext('2d');
 let liveStatus = 1;
 let podId;
 window.addEventListener("load",function() {
+
     podId = document.getElementById("podcastId").value;
+    const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
+    url.searchParams.append('topic', 'http://127.0.0.1:8000/refreshWatchers/'+podId);
+    const eventSource = new EventSource(url);
+    eventSource.addEventListener('message', function(event){
+        document.getElementById("watchingNow").innerHTML = event.data+" watching";
+    });
     // $.ajax({
     //     url: '/isItLive/'+podId,
     //     type: 'POST',
@@ -220,3 +227,25 @@ startBtn.addEventListener('click', ()=>{
         console.warn('navigator.getUserMedia not present');
     }
 });
+
+function changeCommentingStatus(id) {
+
+    document.getElementById("deactivateComs").disabled = true;
+    document.getElementById("activateComs").disabled = true;
+
+    $.post("/admin/podcast/changeCommentingStatus/"+podId, function() {
+        setTimeout(function() {
+            if(id === 1) {
+                document.getElementById("deactivateComs").style.display = "none";
+                document.getElementById("activateComs").style.display = "inherit";
+            } else {
+
+                document.getElementById("deactivateComs").style.display = "inherit";
+                document.getElementById("activateComs").style.display = "none";
+            }
+
+            document.getElementById("deactivateComs").disabled = false;
+            document.getElementById("activateComs").disabled = false;
+        },1000);
+    });
+}

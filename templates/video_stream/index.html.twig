@@ -13,13 +13,32 @@
                     <img style="width:140px;height:140px;border-bottom-left-radius: 0" id="coverImg" src="{{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}"/></li>
                 <li class="info" style="margin-left: -40px" id="podInfo">
                     <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
-                <h4 style="font-size: 140%;float: right;margin-top: 20px">{{ podcast.currentlyWatching }} Watching</h4>
+                <h4 style="font-size: 140%;float: right;margin-top: 20px" id="watchingNow">{{ podcast.currentlyWatching }} Watching</h4>
                 </li>
             </ul>
-                <h2 style="margin-left: -4px;padding-top: 15px" class="commentsTitle">
 
 
-                    <span id="commentsLength">{% if comments is not empty %}{{ comments|length}}{% endif %}</span>
+            <div style="float: right;margin-top: 10px">
+                <button id="activateComs" onclick="changeCommentingStatus(0)" style="
+
+                {% if podcast.commentsAllowed == 0 %}
+                        display: none;
+                {% endif %}
+                border-radius: 10px" class="btn btn-danger"><i title="Deactivate commenting" style="font-size: 20px" class="fa fa-comments"></i></button>
+                <button id="deactivateComs" onclick="changeCommentingStatus(1)" style="
+
+                {% if podcast.commentsAllowed == 1 %}
+                        display: none;
+
+                {% endif %}
+                border-radius: 10px" class="btn btn-success"><i title="Activate commenting" style="font-size: 20px" class="fa fa-comments"></i></button>
+
+            </div>
+            <h2 style="margin-left: -4px;padding-top: 15px" class="commentsTitle">
+
+
+                    <span id="commentsLength">{% if comments is not empty %}{{ comments|length}}{% endif %}
+                    </span>
                     <span id="comText" style="margin-left: 10px">
                         {% if comments is not empty %}Comment{% if comments|length >1 %}s{% endif %}
                         {% endif %}
@@ -30,7 +49,7 @@
                     </span>
 
                 </h2>
-            <div id="comments" style="padding-top: 5px;overflow-y:auto;padding-left: 20px;max-height:380px;">
+            <div id="comments" style="width: 100%;padding-top: 5px;overflow-y:auto;padding-left: 20px;max-height:380px;">
 
                 <br><br>
                     <div id="comments">

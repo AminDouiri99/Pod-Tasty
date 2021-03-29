@@ -12,9 +12,7 @@ let userId;
 window.addEventListener('load', function() {
     podId=document.getElementById("podcastId").value;
     userId=document.getElementById("podcastId").value;
-    $.post("/addWatcher", {id: podId, userId:userId}, function(data) {
-        console.log(+1);
-    });
+    $.post("/addWatcher",{id: podId});
     const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
     url.searchParams.append('topic', 'http://127.0.0.1:8000/stream/'+podId)
     const eventSource = new EventSource(url);
@@ -99,8 +97,5 @@ function pauseResumeLive(x) {
 }
 
 window.onbeforeunload = function () {
-    $.post("/removeWatcher", {id: podId}, function(){
-        console.log(-1);
-        }
-    );
+    $.post("/removeWatcher", {id: podId});
 }

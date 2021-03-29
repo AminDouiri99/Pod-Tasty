@@ -7,9 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\DateValidator;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\HttpFoundation\File\File;
 
 
 
@@ -105,6 +102,11 @@ class Podcast
      * @ORM\ManyToMany (targetEntity=User::class, mappedBy="PodcastsFavorite")
      */
     private $usersList;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Podcast::class, mappedBy="podcastsList")
+     */
+    private $tagsList;
 
     /**
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="PodcastId")
@@ -375,6 +377,33 @@ class Podcast
         if ($this->usersList->removeElement($usersList)) {
             if ($usersList->getPodcastsFavorite()->contains($this))
                 $usersList->removePodcastsFavorite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTagsList()
+    {
+        return $this->tagsList;
+    }
+    public function addTagsList(Tag $tagsList): self
+    {
+        if (!$this->tagsList->contains($tagsList)) {
+            $this->tagsList[] = $tagsList;
+            $tagsList->addPodcastsList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTagsList(Tag $tagsList): self
+    {
+        if ($this->tagsList->removeElement($tagsList)) {
+            if ($tagsList->getPodcastsList()->contains($this))
+                $tagsList->removePodcastsList($this);
         }
 
         return $this;
