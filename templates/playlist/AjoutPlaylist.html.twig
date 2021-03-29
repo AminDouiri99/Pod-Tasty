@@ -37,11 +37,49 @@
 
                 </div>
                 <br>
-                <label class="custom-file-upload">
+
+                <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+                <div class="file-upload">
+                    <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add a cover to the playlist</button>
+
+                    <div class="image-upload-wrap">
+                        {{ form_widget(f.imageFile , {'attr':{class :'file-upload-input' , 'onchange' :'readURL(this);'}}) }}
+
+                        <div class="drag-text">
+                            <h3>Or you can Drag and Drop an image here</h3>
+                        </div>
+                    </div>
+                    <div class="file-upload-content">
+                        <img class="file-upload-image" src="#" alt="your image" />
+                        <div class="image-title-wrap">
+                            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             {#    <label class="custom-file-upload">
                 {{ form_widget(f.imageFile) }} UPLOAD
-                </label>
+                </label> #}
+
                     {{ form_end(f) }}
-                <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="/AffichePlaylists">Cancel</a></div>
+                <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="/AfficheChannel">Cancel</a></div>
 
             </div>
         </div>

@@ -60,7 +60,7 @@
                             <div class="milestone_counter" data-end-value="2056">Playlists</div>
                             <div class="milestone_icon"><img src="images/film.svg" alt=""></div>
                         </div>
-                        <div class="milestone_title">{{ playlist|length }}</div>
+                        <div class="milestone_title">{{ nbplaylist|length }}</div>
 
                     </div>
                 </div>
@@ -188,24 +188,29 @@
                                 <div class="blog_post_author">By {{ user.UserInfoId.UserLastName ~ ' '~ user.UserInfoId.UserFirstName}} </div>
                                 <div class="blog_post_text">
                                     <p>{{ playlist.PlaylistDescription }}</p>
+
                                 </div>
                                 <div class="blog_post_link"><a href="{{ path('UpdatePlaylist',{ 'id':playlist.id })}}">Update this playlist</a></div>
                                 <div class="blog_post_link"><a href="{{ path('DeletePlaylist',{ 'id':playlist.id })}}">Delete this playlist</a></div>
 
                             </div>
                         </div>
+
                         {% endfor %}
 
                     </div>
+
                 </div>
             </div>
 
             <div class="row page_nav_row">
+
                 <div class="col">
                     <div class="page_nav d-flex flex-row align-items-center justify-content-center">
                         <ul class="d-flex flex-row">
                             <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
+
+                            <li><a href="#">{{ knp_pagination_render(playlist) }}</a></li>
                             <li><a href="#">3</a></li>
                             <li><a href="#">4</a></li>
                             <li><a href="#"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>

@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\PlaylistType;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 class PlaylistController extends AbstractController
 {
@@ -65,16 +66,29 @@ class PlaylistController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("/AfficheChannel",name="AffichePlaylists")
      */
-    public function Affiche(PlaylistRepository $playlist ,ChannelRepository $channel){
+    public function Affiche(PlaylistRepository $playlistrepo ,ChannelRepository $channel, Request $request ,PaginatorInterface $paginator){
         $user=$this->getUser();
         $ChannelId=$user->getChannelId();
         if (isset($ChannelId)){
             $ChannelId=$user->getChannelId();
-        $repo=$this->getDoctrine()->getRepository(Playlist::class);
-        $playlist=$repo->findBy(['ChannelId'=>$ChannelId]);
+
+        $playlista = $playlistrepo->createQueryBuilder('p')
+                ->select('p')
+                ->where('p.ChannelId = :ChannelId')
+                ->setParameter('ChannelId',$ChannelId)
+                ->getQuery();
+            $nbplaylists = $this->getDoctrine()->getRepository(Playlist::class)->findBy(['ChannelId'=>$ChannelId]);
+            $playlist = $paginator->paginate(
+            // Doctrine Query, not results
+                $playlista,
+                // Define the page parameter
+                $request->query->getInt('page', 1),
+                // Items per page
+                5
+            );
         $repoo=$this->getDoctrine()->getRepository(Channel::class);
         $channel=$repoo->findBy(['id'=>$ChannelId]);
-              return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist , 'user'=>$user, 'channel'=>$channel]);}
+              return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist,'nbplaylist'=>$nbplaylists, 'user'=>$user, 'channel'=>$channel]);}
         else {return $this->redirectToRoute("playlist" );}
     }
 
@@ -238,7 +252,7 @@ class PlaylistController extends AbstractController
 
         $s = '<div class="blog_post d-flex flex-md-row flex-column align-items-start justify-content-start">
                             <div class="blog_post_image">
-                                <img src="/assets/playlist/images/blog_2.jpg" alt="">
+                                <img src="images/playlist/'.$playlist->getImageName().'" alt="'.$playlist->getImageName().'">
                                 <div class="blog_post_date"><a href="#">'.$playlist->getPlaylistCreationDate()->format("d-m-Y").'</a></div>
 
                             </div>
@@ -296,7 +310,7 @@ class PlaylistController extends AbstractController
 
         $s = '<div class="blog_post d-flex flex-md-row flex-column align-items-start justify-content-start">
                             <div class="blog_post_image">
-                                <img src="/assets/playlist/images/blog_2.jpg" alt="">
+                                <img src="" alt="">
                                 <div class="blog_post_date"><a href="#">'.$playlist->getPlaylistCreationDate()->format("d-m-Y").'</a></div>
 
                             </div>
