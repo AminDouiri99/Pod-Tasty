@@ -1,54 +1,22 @@
 let comNumb = 0;
+let pId;
 window.addEventListener('load', function() {
+    pId = document.getElementById("podcastId").value;
     const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
     url.searchParams.append('topic', 'http://127.0.0.1:8000/addComment')
     const eventSource = new EventSource(url);
     eventSource.addEventListener('message', function(event){
-        $.post('/refreshCommentsList', {id: event.data}, function(data) {
-            addCommentToView(data);
+        $.post('/refreshCommentsList', {comId: event.data, podId: pId, currentR: window.location.href}, function(data) {
+            if(data !== "-1") {
+                addCommentToView(data);
+            }
         })
     });
 
 });
 
 
-window.onscroll = function(){
 
-    if (window.scrollY ==0) {
-        document.getElementById('player').style.width = "70%";
-        document.getElementById('player').style.left = "50%";
-        document.getElementById('player').style.height = "190px";
-        document.getElementById('player').style.marginTop = "0";
-        document.getElementById('podInfo').style.marginTop = "0";
-        document.getElementById('podInfo').style.marginLeft = "0";
-        document.getElementById('controls').style.marginLeft = "0px";
-        document.getElementById('coverImg').style.width = "190px";
-        document.getElementById('coverImg').style.borderBottomLeftRadius = "20px";
-        document.getElementById('coverImg').style.borderTopRightRadius = "0";
-        document.getElementById('sliderDiv').style.display = "inherit";
-        if (document.getElementById('podcastTools') !=null) {
-            setTimeout(function () {
-                document.getElementById('podcastTools').style.display = "inherit";
-            }, 200);
-        }
-
-    } else if(window.scrollY >80){
-        document.getElementById('sliderDiv').style.display = "none";
-        if (document.getElementById('podcastTools') !=null) {
-        document.getElementById('podcastTools').style.display = "none";
-        }
-        document.getElementById('podInfo').style.marginTop = "200px";
-        document.getElementById('podInfo').style.marginLeft = "-210px";
-        document.getElementById('controls').style.marginLeft = "120px";
-        document.getElementById('player').style.left = "92%";
-        document.getElementById('player').style.width = "15%";
-        document.getElementById('coverImg').style.width = "100%";
-        document.getElementById('coverImg').style.borderBottomLeftRadius = "0";
-        document.getElementById('coverImg').style.borderTopRightRadius = "20px";
-        document.getElementById('player').style.height = "360px";
-        document.getElementById('player').style.marginTop = "70px";
-    }
-}
 function checkKey(event,id){
     if(event.code==="Enter" && document.getElementById('comment').value!==""){
         document.getElementById('comment').disabled  = true;
@@ -61,7 +29,19 @@ function checkKey(event,id){
 
 function sendComment(comment, id){
     $.post("/addComment",{comment:comment,podId:id}, function(data) {
-        addCommentToView(data);
+        setTimeout(function (){
+            if (document.getElementById('comment') != null) {
+                document.getElementById('comment').disabled = false;
+                document.getElementById('comment').value  = "";
+                document.getElementById('comment').style.borderBottomColor="white";
+            }
+        if (data === "1") {
+            document.getElementById('warningDiv').style.display = "inherit";
+        }   else if (data === "0"){
+            document.getElementById('warningDiv').style.display = "inherit";
+            document.getElementById('warningDiv').innerHTML = "Sorry, commenting for this podcast is disabled for now";
+        }
+        },500);
     })
 }
 function deleteComment(id){
@@ -215,25 +195,6 @@ function addRate(id,rate) {
 
 }
 
-function fadeIn(id,x) {
-    if(x === 1){
-    document.getElementById(id).classList.add('active');
-    } else {
-    document.getElementById(id).style.display = "inherit";
-    }
-    document.getElementById(id).style.opacity = 0;
-    let op = 0;
-    let inter = setInterval(function () {
-        op+=0.05;
-        if (op >= 1) {
-            document.getElementById(id).style.opacity = 1;
-            clearInterval(inter);
-        }
-        document.getElementById(id).style.opacity =op;
-    }, 50);
-
-}
-
 
 function updateComment(id,comment){
     $.post("/UpdateComment",{commentId:id, commentText:comment}, function(data) {
@@ -292,18 +253,6 @@ function filterComments(id) {
     });
 }
 function addCommentToView(data) {
-    setTimeout(function (){
-        document.getElementById('comment').disabled = false;
-        document.getElementById('comment').value  = "";
-        document.getElementById('comment').style.borderBottomColor="white";
-
-        if (data === "1") {
-            document.getElementById('warningDiv').style.display = "inherit";
-        }   else if (data === "0"){
-            document.getElementById('warningDiv').style.display = "inherit";
-            document.getElementById('warningDiv').innerHTML = "Sorry, commenting for this podcast is disabled for now";
-        }
-        else {
             comNumb++;
             document.getElementById('CommentsUL').innerHTML = data+document.getElementById('CommentsUL').innerHTML;
             if(document.getElementById('commentsLength') != null) {
@@ -328,6 +277,4 @@ function addCommentToView(data) {
                 }
                 document.getElementById('noCom').innerHTML =stringmessage;
             }
-        }
-    },500);
 }

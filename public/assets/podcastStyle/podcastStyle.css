@@ -94,7 +94,7 @@ h4 {
     height: 4px;
     background: #151518;
     border-radius: 2px;
-    /*cursor: pointer;*/
+    cursor: pointer;
 }
 #elapsed{
     width:0;
@@ -109,6 +109,7 @@ h4 {
     font-size: 9pt;
     float: right;
     margin-top:-2px;
+    margin-right:-70px;
     font-family: Arial, Sans-Serif;
 }
 
@@ -346,4 +347,14 @@ width: 100%
 #podcastSpinner{
     display: none;
 margin-left: -45%;color:rgb(24,186,234)
+}
+
+.streamEnded{
+    text-align: center;
+    color:white;
+    font-size:35px;
+    font-weight: bolder;
+    margin-top:200px;
+    margin-bottom:200px;
+
 }

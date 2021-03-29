@@ -147,6 +147,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
             'Doctrine\\Bundle\\MigrationsBundle\\' => 33,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
         ),
+        'C' => 
+        array (
+            'Cocur\\BackgroundProcess\\' => 24,
+        ),
         'A' => 
         array (
             'App\\Tests\\' => 10,
@@ -554,6 +558,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'Doctrine\\Bundle\\DoctrineBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-bundle',
+        ),
+        'Cocur\\BackgroundProcess\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cocur/background-process/src',
         ),
         'App\\Tests\\' => 
         array (

@@ -7,9 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\DateValidator;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\HttpFoundation\File\File;
 
 
 
@@ -30,6 +27,12 @@ class Podcast
      * @ORM\Column(type="string", length=255)
      */
     private $PodcastName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $currentlyLive;
+
 
     /**
      * @ORM\Column(type="integer", nullable=false)
@@ -64,6 +67,12 @@ class Podcast
     private $PodcastViews;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $currentlyWatching;
+
+
+    /**
      * @ORM\Column(type="datetime")
      * @Assert\Date
      * @var string A "Y-m-d" formatted value
@@ -71,7 +80,7 @@ class Podcast
     private $PodcastDate;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\File(
      *     mimeTypes = {"application/pdf", "application/x-audio"},
      *     mimeTypesMessage = "Please upload a valid Audio")
@@ -93,6 +102,11 @@ class Podcast
      * @ORM\ManyToMany (targetEntity=User::class, mappedBy="PodcastsFavorite")
      */
     private $usersList;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Podcast::class, mappedBy="podcastsList")
+     */
+    private $tagsList;
 
     /**
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="PodcastId")
@@ -126,6 +140,17 @@ class Podcast
         return $this;
     }
 
+    public function getCurrentlyLive(): ?int
+    {
+        return $this->currentlyLive;
+    }
+
+    public function setCurrentlyLive($currentlyLive): self
+    {
+        $this->currentlyLive = $currentlyLive;
+
+        return $this;
+    }
     public function getPodcastDescription(): ?string
     {
         return $this->PodcastDescription;
@@ -173,6 +198,19 @@ class Podcast
 
         return $this;
     }
+
+    public function getCurrentlyWatching(): ?int
+    {
+        return $this->currentlyWatching;
+    }
+
+    public function setCurrentlyWatching(int $currentlyWatching): self
+    {
+        $this->currentlyWatching = $currentlyWatching;
+
+        return $this;
+    }
+
     public function getCommentsAllowed(): ?int
     {
         return $this->commentsAllowed;
@@ -339,6 +377,33 @@ class Podcast
         if ($this->usersList->removeElement($usersList)) {
             if ($usersList->getPodcastsFavorite()->contains($this))
                 $usersList->removePodcastsFavorite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTagsList()
+    {
+        return $this->tagsList;
+    }
+    public function addTagsList(Tag $tagsList): self
+    {
+        if (!$this->tagsList->contains($tagsList)) {
+            $this->tagsList[] = $tagsList;
+            $tagsList->addPodcastsList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTagsList(Tag $tagsList): self
+    {
+        if ($this->tagsList->removeElement($tagsList)) {
+            if ($tagsList->getPodcastsList()->contains($this))
+                $tagsList->removePodcastsList($this);
         }
 
         return $this;

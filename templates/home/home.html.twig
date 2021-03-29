@@ -16,6 +16,7 @@
         <button id="tag7" onclick="showPod(7)" class="badge-pill badge-dark badgeTag">Sports</button>
     </div>
     {% if livePods is not empty%}
+<<<<<<< HEAD
         <div class="wrapper">
             <h2>Currently Live <img src="{{ asset('assets/streaming/live.png') }}" style="margin-left: 20px" height="35" width="35"/></h2>
 
@@ -62,6 +63,59 @@
 
     <div class="wrapper">
         <h2>All podcasts</h2>
+=======
+    <div class="wrapper">
+        <h2>Currently Live <img src="{{ asset('assets/streaming/live.png') }}" style="margin-left: 20px" height="35" width="35"/></h2>
+>>>>>>> ac1254867fe7afa498660866c24ebb14aaa82656
+
+        <div class="cards">
+
+        <span {% for p in livePods %}>
+            <figure style="margin-left: 0px" class="card">
+<<<<<<< HEAD
+
+                    <div class="show" style="width: 100%">
+                        <div class="show_image">
+=======
+                    <div class="show" style="width: 100%">
+                        <div class="show_image">
+                             <div  class="podcastViews">{{ p.podcastViews }} Views</div>
+                            <a href="/podcast/{{ p.id }}">
+                                <img class="podImg" src=" {% if p.podcastImage in not null%}
+                                {{ asset(  'Files/podcastFiles/'~p.podcastImage) }}
+                                {% else %}
+                                {{ asset('assets/home/defaultPod.png') }}
+                                {% endif %}">
+                                <div class="show_play_icon">
+                                        <img src="{{ asset('assets/frontOffice/images/play.png')}}">
+
+                                </div>
+                                <div class="show_title_2">{{ p.podcastName }} </div>
+                            </a>
+                            <div class="show_tags">
+                                <div class="tags">
+                                    <ul class="d-flex flex-row align-items-start justify-content-start">
+                                        <li><a href="#">travel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+{#                            <div class="show_user">#}
+                            {#                                // user Avatar (moula l podcast)#}
+                            {#                            </div>#}
+                        </div>
+                    </div>
+            </figure>
+
+        </span   {% endfor %}>
+
+        </div>
+    </div>
+
+{% endif %}
+
+
+    <div class="wrapper">
+        <h2>All podcasts</h2>
 
         <div class="cards">
 
@@ -70,6 +124,7 @@
 
                     <div class="show" style="width: 100%">
                         <div class="show_image">
+>>>>>>> ac1254867fe7afa498660866c24ebb14aaa82656
 
                 <a href="/podcast/{{ p.id }}">
                              <div  class="podcastViews">{{ p.podcastViews }} Views</div>

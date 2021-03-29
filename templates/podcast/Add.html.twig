@@ -1,11 +1,11 @@
 {% extends "base.html.twig" %}
-{% block title %}PODCAST{% endblock %}
+{% block title %}Add Podcast{% endblock %}
 {% block content %}
     <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
     <script src="{{ asset('assets/podcastStyle/addPodcast.js') }}"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <input id="deleteReviewButton"  data-toggle="modal" data-target="#addPodcastModal" style="margin-left:100px;width: 150px;" class="btn btn-danger" type="button" value="Add podcast"/>
+    <input id="deleteReviewButton"  data-toggle="modal" data-target="#addPodcastModal" style="margin-left:100px;width: 150px;" class="btn btn-danger" type="button" value="{{ type }}"/>
 
     <div style="z-index:99999" class="modal fade" id="addPodcastModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
@@ -14,7 +14,7 @@
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add podcast</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">{{ type }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -24,7 +24,8 @@
         <!-- carousel-->
         <div id="carouselExampleControls" class="carousel slide">
             <div class="carousel-inner">
-                <div id="podCarItem1" class="carousel-item fileCarousel">
+                {% if type == 'Add podcast' %}
+                <div id="podCarItem1" class="carousel-item fileCarousel active">
                     <div class="field center">
 
                         <p  class="control has-icons-left has-icons-right">
@@ -49,7 +50,8 @@
                     </div>
 
                 </div>
-                <div id="podCarItem2" class="carousel-item active">
+                {% endif %}
+                <div id="podCarItem2" class="carousel-item {% if type == 'Set up your stream' %}active{% endif %}">
                     <div class="field center">
                 <p class="control has-icons-left has-icons-right">
                     {{ form_errors(form.PodcastName) }}

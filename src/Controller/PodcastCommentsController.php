@@ -22,6 +22,7 @@ class PodcastCommentsController extends AbstractController
      * @Route("/podcast/{id}", name="podcast_comments")
      * @param int $id
      * @param PodcastRepository $podcastRepo
+     * @param UserRepository $userRepo
      * @return Response
      */
     public function index(int $id,PodcastRepository $podcastRepo, UserRepository $userRepo): Response
@@ -85,9 +86,11 @@ class PodcastCommentsController extends AbstractController
      * @param PodcastRepository $podcastRepo
      * @param Request $request
      * @param ValidatorInterface $validator
+     * @param PublisherInterface $publisher
      * @return Response
      */
-    function addComment(PodcastRepository $podcastRepo, Request $request, ValidatorInterface $validator,PublisherInterface $publisher) {
+    function addComment(PodcastRepository $podcastRepo, Request $request, ValidatorInterface $validator,PublisherInterface $publisher): Response
+    {
 
         $comment = new PodcastComment();
         $data = $request->get('comment');
@@ -123,19 +126,30 @@ class PodcastCommentsController extends AbstractController
      */
     function refreshCommentsList(Request $request, PodcastCommentRepository $commentsRepo): Response
     {
-        $comment = $commentsRepo->findOneBy(['id'=>$request->get('id')]);
-        $userName = $comment->getUserId()->getUserInfoId()->getUserFirstName() . " " . $comment->getUserId()->getUserInfoId()->getUserLastName();
-        $commentText = $comment->getCommentText();
-        $commentText = "'" . $comment->getCommentText() . "'";
-        $editButtons = '';
+        $comment = $commentsRepo->findOneBy(['id'=>$request->get('comId')]);
+        if ($comment->getPodcastId()->getId() == $request->get('podId')) {
+            $userName = $comment->getUserId()->getUserInfoId()->getUserFirstName() . " " . $comment->getUserId()->getUserInfoId()->getUserLastName();
+            $commentText = $comment->getCommentText();
+            $commentText = "'" . $comment->getCommentText() . "'";
+            $editButtons = '';
+            $currentRoute = $request->get("currentR");
+            $streaming = false;
+            if(strpos($currentRoute, "streaming"))
+            {
+                $streaming = true;
+            }
 
-        if ($this->getUser()->getId() == $comment->getUserId()->getId()) {
-            $editButtons = ' <div class="comment_tools">
-                <div style = "z-index: 99999999999999999;" class="edit" ><i id = "editButton' . $comment->getId() . '" onclick = "showUpdateComment(1,' . $comment->getId() . ')" class="fa fa-edit" ></i ></div >
-                <div style = "z-index: 99999999999999999;" class="trash" ><i onclick = "deleteComment(' . $comment->getId() . ')" class="fa fa-trash" ></i ></div >
+            if($this->getUser() != null) {
+                if ($this->getUser()->getId() == $comment->getUserId()->getId() || $streaming) {
+                    $editButtons = ' <div class="comment_tools">';
+                    if (!$streaming) {
+                        $editButtons = $editButtons . '<div style = "z-index: 99999999999999999;" class="edit" ><i id = "editButton' . $comment->getId() . '" onclick = "showUpdateComment(1,' . $comment->getId() . ')" class="fa fa-edit" ></i ></div >';
+                    }
+                    $editButtons = $editButtons . '<div style = "z-index: 99999999999999999;" class="trash" ><i onclick = "deleteComment(' . $comment->getId() . ')" class="fa fa-trash" ></i ></div >
         </div >';
-        }
-        $response = '
+                }
+            }
+            $response = '
             <div id="comment' . $comment->getId() . '">
     <div class="user_avatar" >
         <img src="/assets/donut.png">
@@ -143,12 +157,16 @@ class PodcastCommentsController extends AbstractController
     <div class="comment_toolbar">
         <div class="comment_details">
             <ul>
-                <li><span class="user">' . $userName . ' </span>
-                <span id="deletingMsg' . $comment->getId() . '" class="deleteingComment">Deleting comment...</span>
+                <li><span class="user">' . $userName . ' </span>';
 
-                </li>
-                <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i>' . $comment->getCommentDate()->format("d M Y") . '</li>
-            </ul>
+            if (!$streaming) {
+                $response=$response. '<span id="deletingMsg' . $comment->getId() . '" class="deleteingComment">Deleting comment...</span>';
+            }
+            $response=$response. '</li>';
+            if (!$streaming) {
+                $response=$response. '<li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i>' . $comment->getCommentDate()->format("d M Y") . '</li>';
+            }
+            $response=$response.  '</ul>
         </div>
         ' . $editButtons . '
 
@@ -157,15 +175,23 @@ class PodcastCommentsController extends AbstractController
        <div class="commentContainer">
                         <div id="commentTextDiv' . $comment->getId() . '" class="commentText">
                             ' . $comment->getCommentText() . '
-                        </div>
-                        <div style="display: none;" id="commentEditText' . $comment->getId() . '">
+                        </div>';
+            if (!$streaming) {
+                $response=$response. '<div style="display: none;" id="commentEditText' . $comment->getId() . '">
                         <input class="commentInput editText" onkeypress="checkKeyEdit(event,' . $comment->getId() . ')" id="editCommentText' . $comment->getId() . '"  type="text" value="' . $comment->getCommentText() . '" />
                         <span  onclick="showUpdateComment(2, ' . $comment->getId() . ',' . $commentText . ')" class="fa fa-close"></span>
-                        </div>
-                    </div>
+                        </div>';
+            } else {
+                $response=$response. '<div style="height: 10px;margin-bottom: -40px">
+                                    <span id="deletingMsg'.$comment->getId().'" style="width: 200px;margin-right: -80px" class="deleteingComment">Deleting comment...</span>
+                                    </div>';
+            }
+            $response=$response. '</div>
     <br><br><br>
 </div>';
-        
+        } else {
+            $response = "-1";
+        }
         return new Response($response);
     }
     /**

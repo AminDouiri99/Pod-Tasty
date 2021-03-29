@@ -10,12 +10,11 @@ class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/signUp", name="signup")
+     * @Route("/isStillLive", name="isStillLive")
      */
-    public function signUp(): Response
+    public function isStillLive(): Response
     {
-        return $this->render('default/signUp.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        $this->container->get('session')->set('deletePod', false);
+        return new Response();
     }
 }
