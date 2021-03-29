@@ -42,7 +42,9 @@ choseColor(style, 2)
 }
 
 function sendUpdate() {
-$.post("/updataTag", {id:document.getElementById("updateTagId").value, name:document.getElementById("updateTagName").value, style:document.getElementById("updateTagStyle").value  });
+$.post("/updataTag", {id:document.getElementById("updateTagId").value, name:document.getElementById("updateTagName").value, style:document.getElementById("updateTagStyle").value}, function() {
+
+});
 }
 
 function resetForm() {
