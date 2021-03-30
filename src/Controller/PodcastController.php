@@ -41,7 +41,7 @@ class PodcastController extends AbstractController
             }
         }
         $user = $this->getUser();
-        return $this->render("home/home.html.twig", ['user' => $user, 'podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags]);
+        return $this->render("home/Home.html.twig", ['user' => $user, 'podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags]);
     }
 
     /**
