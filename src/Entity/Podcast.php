@@ -30,6 +30,7 @@ class Podcast
 
     /**
      * @ORM\Column(type="integer", nullable=false)
+     *
      */
     private $currentlyLive;
 

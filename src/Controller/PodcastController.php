@@ -44,18 +44,40 @@ class PodcastController extends AbstractController
         return $this->render("home/Home.html.twig", ['user' => $user, 'podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags]);
     }
 
+
+    /**
+     * @Route("/podcasts", name="podcast_admin")
+     */
+    public function indexAdmin(): Response
+    {
+        $repo=$this->getDoctrine()->getRepository(Podcast::class);
+        $podcasts=$repo->findAll();
+        $user=$this->getUser();
+        return $this->render("back_office/podcastBack/podcast.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
+    }
+
+
     /**
      * @Route("/SuppPodcast/{id}" , name="SuppPodcast")
      */
-    public function Delete($id, PodcastRepository $repository)
-    {
-        $Podcast = $repository->find($id);
-        $em = $this->getDoctrine()->getManager();
+    public function DeleteBack($id, PodcastRepository $repository){
+        $Podcast=$repository->find($id);
+        $em=$this->getDoctrine()->getManager();
+        $em->remove($Podcast);
+        $em->flush();
+        return $this->redirectToRoute("back_office/podcastBack/podcast");
+    }
+
+    /**
+     * @Route("/DeletePodcast/{id}" , name="SupprPodcast")
+     */
+    public function Delete($id, PodcastRepository $repository){
+        $Podcast=$repository->find($id);
+        $em=$this->getDoctrine()->getManager();
         $em->remove($Podcast);
         $em->flush();
         return $this->redirectToRoute("AffichePodcast");
     }
-
     /**
      * @Route("/addViewToPod" , name="addView")
      * @param PodcastRepository $repository
@@ -271,12 +293,14 @@ class PodcastController extends AbstractController
 
     /**
      * @Route("/filterPodcasts" , name="filterPodcasts")
+     * @param TagRepository $tagRepo
      * @param PodcastRepository $repository
      * @param Request $request
      * @return Response
      */
     public function filterPodcasts(TagRepository $tagRepo,PodcastRepository $repository, Request $request)
     {
+
         $id = $request->get('id');
         if($id!=0) {
             $tag = $tagRepo->find($id);

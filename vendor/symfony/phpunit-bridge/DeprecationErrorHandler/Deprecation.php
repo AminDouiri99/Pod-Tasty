@@ -11,6 +11,8 @@
 
 namespace Symfony\Bridge\PhpUnit\DeprecationErrorHandler;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestSuite;
 use PHPUnit\Util\Test;
 use Symfony\Bridge\PhpUnit\Legacy\SymfonyTestsListenerFor;
 use Symfony\Component\Debug\DebugClassLoader as LegacyDebugClassLoader;
@@ -81,47 +83,56 @@ class Deprecation
                     $this->triggeringFile = isset($trace[1 + $j]['args'][1]) ? realpath($trace[1 + $j]['args'][1]) : (new \ReflectionClass($class))->getFileName();
                     $this->getOriginalFilesStack();
                     array_splice($this->originalFilesStack, 0, $j, [$this->triggeringFile]);
+
+                    if (preg_match('/(?|"([^"]++)" that is deprecated|should implement method "(?:static )?([^:]++))/', $message, $m) || preg_match('/^(?:The|Method) "([^":]++)/', $message, $m)) {
+                        $this->triggeringFile = (new \ReflectionClass($m[1]))->getFileName();
+                        array_unshift($this->originalFilesStack, $this->triggeringFile);
+                    }
                 }
 
                 break;
             }
         }
 
-        if (isset($line['object']) || isset($line['class'])) {
-            set_error_handler(function () {});
-            $parsedMsg = unserialize($this->message);
-            restore_error_handler();
-            if ($parsedMsg && isset($parsedMsg['deprecation'])) {
-                $this->message = $parsedMsg['deprecation'];
-                $this->originClass = $parsedMsg['class'];
-                $this->originMethod = $parsedMsg['method'];
-                if (isset($parsedMsg['files_stack'])) {
-                    $this->originalFilesStack = $parsedMsg['files_stack'];
-                }
-                // If the deprecation has been triggered via
-                // \Symfony\Bridge\PhpUnit\Legacy\SymfonyTestsListenerTrait::endTest()
-                // then we need to use the serialized information to determine
-                // if the error has been triggered from vendor code.
-                if (isset($parsedMsg['triggering_file'])) {
-                    $this->triggeringFile = $parsedMsg['triggering_file'];
-                }
+        if (!isset($line['object']) && !isset($line['class'])) {
+            return;
+        }
 
-                return;
+        set_error_handler(function () {});
+        $parsedMsg = unserialize($this->message);
+        restore_error_handler();
+        if ($parsedMsg && isset($parsedMsg['deprecation'])) {
+            $this->message = $parsedMsg['deprecation'];
+            $this->originClass = $parsedMsg['class'];
+            $this->originMethod = $parsedMsg['method'];
+            if (isset($parsedMsg['files_stack'])) {
+                $this->originalFilesStack = $parsedMsg['files_stack'];
+            }
+            // If the deprecation has been triggered via
+            // \Symfony\Bridge\PhpUnit\Legacy\SymfonyTestsListenerTrait::endTest()
+            // then we need to use the serialized information to determine
+            // if the error has been triggered from vendor code.
+            if (isset($parsedMsg['triggering_file'])) {
+                $this->triggeringFile = $parsedMsg['triggering_file'];
             }
 
-            if (!isset($line['class'], $trace[$i - 2]['function']) || 0 !== strpos($line['class'], SymfonyTestsListenerFor::class)) {
-                $this->originClass = isset($line['object']) ? \get_class($line['object']) : $line['class'];
-                $this->originMethod = $line['function'];
+            return;
+        }
 
-                return;
-            }
+        if (!isset($line['class'], $trace[$i - 2]['function']) || 0 !== strpos($line['class'], SymfonyTestsListenerFor::class)) {
+            $this->originClass = isset($line['object']) ? \get_class($line['object']) : $line['class'];
+            $this->originMethod = $line['function'];
 
-            if ('trigger_error' !== $trace[$i - 2]['function'] || isset($trace[$i - 2]['class'])) {
-                $this->originClass = \get_class($line['args'][0]);
-                $this->originMethod = $line['args'][0]->getName();
+            return;
+        }
 
-                return;
-            }
+        $test = isset($line['args'][0]) ? $line['args'][0] : null;
+
+        if (($test instanceof TestCase || $test instanceof TestSuite) && ('trigger_error' !== $trace[$i - 2]['function'] || isset($trace[$i - 2]['class']))) {
+            $this->originClass = \get_class($test);
+            $this->originMethod = $test->getName();
+
+            return;
         }
     }
 
