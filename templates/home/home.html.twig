@@ -7,16 +7,12 @@
 
     <div style="width: 100%;margin-bottom: 20px;margin-top: 50px" id="tagsWrapper">
         <button id="tag0" onclick="showPod(0)" class="badge-pill badge-light badgeTag">All</button>
-        <button id="tag1" onclick="showPod(1)" class=" badge-pill badge-dark badgeTag">Music</button>
-        <button id="tag2" onclick="showPod(2)" class="badge-pill badge-dark badgeTag">Art</button>
-        <button id="tag3" onclick="showPod(3)" class="badge-pill badge-dark badgeTag">Politics</button>
-        <button id="tag4" onclick="showPod(4)" class="badge-pill badge-dark badgeTag">Entertainment</button>
-        <button id="tag5" onclick="showPod(5)" class="badge-pill badge-dark badgeTag">Music</button>
-        <button id="tag6" onclick="showPod(6)" class="badge-pill badge-dark badgeTag">Movies</button>
-        <button id="tag7" onclick="showPod(7)" class="badge-pill badge-dark badgeTag">Sports</button>
+        {% for tag in tags %}
+        <button  id="tag{{ tag.id }}" onclick="showPod({{ tag.id }})" class=" badge-pill badge-dark badgeTag">{{ tag.name }}</button>
+            {% endfor %}
     </div>
+    <div id="allContent">
     {% if livePods is not empty%}
-<<<<<<< HEAD
         <div class="wrapper">
             <h2>Currently Live <img src="{{ asset('assets/streaming/live.png') }}" style="margin-left: 20px" height="35" width="35"/></h2>
 
@@ -28,7 +24,7 @@
                         <div class="show_image">
                              <div  class="podcastViews">{{ p.podcastViews }} Views</div>
                             <a href="/podcast/{{ p.id }}">
-                                <img class="podImg" src=" {% if p.podcastImage in not null%}
+                                <img class="podImg" src=" {% if p.podcastImage is not null%}
                                 {{ asset(  'Files/podcastFiles/'~p.podcastImage) }}
                                 {% else %}
                                 {{ asset('assets/home/defaultPod.png') }}
@@ -39,13 +35,17 @@
                                 </div>
                                 <div class="show_title_2">{{ p.podcastName }} </div>
                             </a>
+                            {% if p.tagsList is not empty %}
                             <div class="show_tags">
                                 <div class="tags">
                                     <ul class="d-flex flex-row align-items-start justify-content-start">
-                                        <li><a href="#">travel</a></li>
+                                         {% for t in p.tagsList %}
+                                             <li style="margin-bottom: 10px !important;;background-color: transparent"><button style="pointer-events:none;border-radius: 10px" class="badge-pill btn-{{ t.tagStyle }}" id="tag{{ t.id }}">{{ t.name }}</button></li>
+                                         {% endfor %}
                                     </ul>
                                 </div>
                             </div>
+                            {% endif %}
 {#                            <div class="show_user">#}
                             {#                                // user Avatar (moula l podcast)#}
                             {#                            </div>#}
@@ -63,59 +63,6 @@
 
     <div class="wrapper">
         <h2>All podcasts</h2>
-=======
-    <div class="wrapper">
-        <h2>Currently Live <img src="{{ asset('assets/streaming/live.png') }}" style="margin-left: 20px" height="35" width="35"/></h2>
->>>>>>> ac1254867fe7afa498660866c24ebb14aaa82656
-
-        <div class="cards">
-
-        <span {% for p in livePods %}>
-            <figure style="margin-left: 0px" class="card">
-<<<<<<< HEAD
-
-                    <div class="show" style="width: 100%">
-                        <div class="show_image">
-=======
-                    <div class="show" style="width: 100%">
-                        <div class="show_image">
-                             <div  class="podcastViews">{{ p.podcastViews }} Views</div>
-                            <a href="/podcast/{{ p.id }}">
-                                <img class="podImg" src=" {% if p.podcastImage in not null%}
-                                {{ asset(  'Files/podcastFiles/'~p.podcastImage) }}
-                                {% else %}
-                                {{ asset('assets/home/defaultPod.png') }}
-                                {% endif %}">
-                                <div class="show_play_icon">
-                                        <img src="{{ asset('assets/frontOffice/images/play.png')}}">
-
-                                </div>
-                                <div class="show_title_2">{{ p.podcastName }} </div>
-                            </a>
-                            <div class="show_tags">
-                                <div class="tags">
-                                    <ul class="d-flex flex-row align-items-start justify-content-start">
-                                        <li><a href="#">travel</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-{#                            <div class="show_user">#}
-                            {#                                // user Avatar (moula l podcast)#}
-                            {#                            </div>#}
-                        </div>
-                    </div>
-            </figure>
-
-        </span   {% endfor %}>
-
-        </div>
-    </div>
-
-{% endif %}
-
-
-    <div class="wrapper">
-        <h2>All podcasts</h2>
 
         <div class="cards">
 
@@ -124,12 +71,11 @@
 
                     <div class="show" style="width: 100%">
                         <div class="show_image">
->>>>>>> ac1254867fe7afa498660866c24ebb14aaa82656
 
                 <a href="/podcast/{{ p.id }}">
                              <div  class="podcastViews">{{ p.podcastViews }} Views</div>
                                 <img class="podImg" src="
-                                {% if p.podcastImage in not null%}
+                                {% if p.podcastImage is not null%}
                                 {{ asset(  'Files/podcastFiles/'~p.podcastImage) }}
                                 {% else %}
                                 {{ asset('assets/home/defaultPod.png') }}
@@ -144,18 +90,23 @@
 {#                            <div class="show_user">#}
                             {#                                // user Avatar (moula l podcast)#}
                             {#                            </div>#}
-                            <div class="show_tags">
+                            {% if p.tagsList is not empty %}
+                                <div class="show_tags">
                                 <div class="tags">
-                                    <ul class="d-flex flex-row align-items-start justify-content-start">
-                                        <li><a href="#">travel</a></li>
+                                    <ul>
+                                        {% for t in p.tagsList %}
+                                            <li style="margin-bottom: 10px !important;;background-color: transparent"><button style="pointer-events:none;border-radius: 10px" class="badge-pill btn-{{ t.tagStyle }}" id="tag{{ t.id }}">{{ t.name }}</button></li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
             </figure>
 
         </span {% endfor %}>
         </div>
+    </div>
     </div>
 {% endblock %}

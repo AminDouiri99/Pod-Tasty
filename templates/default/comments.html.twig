@@ -237,7 +237,7 @@
                 <ul style="display: none" id="playerComponents">
                     <li id="cover" class="cover">
                         <img id="coverImg" src="
-                                {% if podcast.podcastImage in not null%}
+                                {% if podcast.podcastImage is not null%}
                                 {{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}
                                 {% else %}
                                 {{ asset('assets/podcastStyle/defPod.png') }}

@@ -104,7 +104,7 @@ class Podcast
     private $usersList;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Podcast::class, mappedBy="podcastsList")
+     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="podcastsList")
      */
     private $tagsList;
 

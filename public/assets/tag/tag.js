@@ -42,14 +42,18 @@ choseColor(style, 2)
 }
 
 function sendUpdate() {
-$.post("/updataTag", {id:document.getElementById("updateTagId").value, name:document.getElementById("updateTagName").value, style:document.getElementById("updateTagStyle").value}, function() {
+        document.getElementById("updateTagButt").disabled = true;
+        let id = document.getElementById("updateTagId").value;
+        let name = document.getElementById("updateTagName").value;
+        let style = document.getElementById("updateTagStyle").value;
 
-});
+        $.post("/updateTag", {id: id, name: name, style: style}, function() {
+            window.location.reload();
+        });
 }
+    function resetForm() {
 
-function resetForm() {
-
-    document.getElementById("newTagBody").style.display = "inherit";
-    document.getElementById("updateTagBody").style.display = "none";
-    document.getElementById("updateTagButt").style.display = "none";
-}
+        document.getElementById("newTagBody").style.display = "inherit";
+        document.getElementById("updateTagBody").style.display = "none";
+        document.getElementById("updateTagButt").style.display = "none";
+    }

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Podcast;
+use App\Entity\Tag;
 use App\Form\PodcastType;
+use App\Repository\TagRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,7 +29,9 @@ class PodcastController extends AbstractController
     {
 
         $repo = $this->getDoctrine()->getRepository(Podcast::class);
+        $tagRepo = $this->getDoctrine()->getRepository(Tag::class);
         $podcasts = $repo->findAll();
+        $tags = $tagRepo->findAll();
         $livePods = [];
         foreach ($podcasts as $pod) {
             if ($pod->getCurrentlyLive() != 0) {
@@ -37,7 +41,7 @@ class PodcastController extends AbstractController
             }
         }
         $user = $this->getUser();
-        return $this->render("home/home.html.twig", ['user' => $user, 'podcasts' => $podcasts, "livePods" => $livePods]);
+        return $this->render("home/home.html.twig", ['user' => $user, 'podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags]);
     }
 
     /**
@@ -264,6 +268,118 @@ class PodcastController extends AbstractController
         $publisher($update);
         return new Response();
     }
+
+    /**
+     * @Route("/filterPodcasts" , name="filterPodcasts")
+     * @param PodcastRepository $repository
+     * @param Request $request
+     * @return Response
+     */
+    public function filterPodcasts(TagRepository $tagRepo,PodcastRepository $repository, Request $request)
+    {
+        $id = $request->get('id');
+        if($id!=0) {
+            $tag = $tagRepo->find($id);
+            if ($tag->getPodcastsList()->count() === 0) {
+                $response = "Sorry we are out of tasty podcasts !";
+                return new Response($response);
+            }
+        }else {
+            $tag = null;
+        }
+
+        $podcasts = $repository->findAll();
+        $livePods = [];
+        $status =0;
+        foreach ($podcasts as $pod) {
+            if ($tag != null) {
+                if(!($tag->getPodcastsList()->indexOf($pod) > -1) || $pod->getCurrentlyLive() != 0){
+                    array_splice($podcasts, array_search($pod, $podcasts), 1);
+                }
+            }
+                if( $pod->getCurrentlyLive() == 1) {
+                    $addIt = true;
+                    if($tag != null) {
+                        if(!($tag->getPodcastsList()->indexOf($pod) > -1)){
+                            $addIt = false;
+                        }
+                    }
+                    if($addIt) {
+                    array_push($livePods, $pod);
+                    }
+                }
+            }
+        $noPods = true;
+        $response = "";
+        if(count($livePods) > 0) {
+            $noPods = false;
+            $response ='<div class="wrapper">
+            <h2>Currently Live <img src="/assets/streaming/live.png" style="margin-left: 20px" height="35" width="35"/></h2>
+
+            <div class="cards">';
+            $response .= $this->returnResponse($livePods);
+            $response.="
+            </div>
+        </div>";
+
+        }
+        if(count($podcasts) > 0) {
+            $noPods = false;
+            $response .= '    <div class="wrapper">
+        <h2>All podcasts</h2>
+
+        <div class="cards">';
+        $response .= $this->returnResponse($podcasts);
+        $response.="
+            </div>
+        </div>";
+        }
+        if($noPods) {
+            $response = "Sorry we are out of tasty podcasts !";
+        }
+        return new Response($response);
+
+    }
+    function returnResponse($podcasts): string
+    {
+        $data = "";
+            foreach($podcasts as $pod) {
+            $data.='<figure style="margin-left: 0px" class="card">
+                    <div class="show" style="width: 100%">
+                        <div class="show_image">
+                             <div  class="podcastViews">'.$pod->getPodcastViews().' Views</div>
+                            <a href="/podcast/'.$pod->getId().'"><img class="podImg" src="';
+                            if ($pod->getPodcastImage() != null) {
+
+                                $data.='Files/podcastFiles/'.$pod->getPodcastImage();
+                            } else {
+                               $data.= 'assets/home/defaultPod.png';
+                            }
+                $data.=  '">
+                                <div class="show_play_icon">
+                                        <img src="assets/frontOffice/images/play.png">
+
+                                </div>
+                                <div class="show_title_2">'.$pod->getPodcastName().'</div>
+                            </a>
+                            <div class="show_tags">
+                                <div class="tags">
+                                    <ul class="flex-row align-items-start justify-content-start">';
+                         foreach($pod->getTagsList() as $tag){
+                                        $data.='<li style="margin-bottom: 10px !important;;background-color: transparent"><button style="pointer-events:none;border-radius: 10px" class="badge-pill btn-'.$tag->getTagStyle().'" id="tag'.$tag->getId().'">'.$tag->getName().'</button></li>';
+                                       }
+                                    $data.='</ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </figure>
+';
+            }
+        return $data;
+    }
+
+
 
 
 }

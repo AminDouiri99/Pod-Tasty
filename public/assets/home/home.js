@@ -10,7 +10,6 @@ function changeButt(x, id) {
 }
 
 function showPod(id) {
-    if(document.getElementById("tag"+id).className !== "badge-pill badge-light badgeTag") {
     for(let tag of document.getElementById("tagsWrapper").childNodes) {
         if(tag.id === "tag"+id) {
             tag.className = "badge-pill badge-light badgeTag";
@@ -18,6 +17,18 @@ function showPod(id) {
         } else {
         tag.className = "badge-pill badge-dark badgeTag";
         }
+         tag.disabled=true;
     }
-    }
+   $.post("/filterPodcasts", {id:id}, function(data) {
+       for(let tag of document.getElementById("tagsWrapper").childNodes) {
+           tag.disabled = false;
+       }
+       if(data === "Sorry we are out of tasty podcasts !") {
+        document.getElementById("allContent").className = "allContentEmpty";
+       }else {
+
+           document.getElementById("allContent").className = "";
+       }
+       document.getElementById("allContent").innerHTML = data;
+   })
 }
