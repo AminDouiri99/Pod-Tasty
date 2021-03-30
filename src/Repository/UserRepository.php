@@ -51,16 +51,20 @@ class UserRepository extends ServiceEntityRepository
     }
     */
     public function findOrCreateFromGithubOauth(GithubResourceOwner $owner): User{
-        $user= $this->createQueryBuilder('u')->where('u.githubId = :githubId ')->setParameters(
-        ['githubId'=>$owner->getId()]
+        $user= $this->createQueryBuilder('u')->where('u.githubId = :githubId ')->orWhere('u.UserEmail=:email')->setParameters(
+        ['email'=>$owner->getEmail(),'githubId'=>$owner->getId()]
         )->getQuery()->getOneOrNullResult();
         if($user) {
+            if($user->getGithubId() === null){
+                $user->setGithubId($owner->getId());
+                $this->getEntityManager()->flush();
+            }
             return $user;
         }
         $datearrondie = new \DateTime("2000-07-22 00:00:00");
 
         $userInfo=(new UserInfo())->setUserFirstName($owner->getNickname())->setUserLastName($owner->getNickname())->setUserGender("male")->setUserBirthDate($datearrondie);
-        $user = (new User())->setGithubId($owner->getId())->setUserEmail($owner->getNickname())->setUserInfoId($userInfo)->setIsAdmin(false)->setDesactiveAccount(false);
+        $user = (new User())->setGithubId($owner->getId())->setUserEmail($owner->getEmail())->setUserInfoId($userInfo)->setIsAdmin(false)->setDesactiveAccount(false);
         $em=$this->getEntityManager();
         $em->persist($user);
         $em->flush();
