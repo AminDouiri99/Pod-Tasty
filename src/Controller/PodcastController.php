@@ -29,7 +29,7 @@ class PodcastController extends AbstractController
         $repo=$this->getDoctrine()->getRepository(Podcast::class);
         $podcasts=$repo->findAll();
         $user=$this->getUser();
-            return $this->render("home/home.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
+            return $this->render("home/Home.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
     }
 
     /**
