@@ -1,28 +1,54 @@
 var timerInterval;
 var podAudio;
+var elapsed = 0;
+let sendView = true;
 window.addEventListener('load', function() {
     setPlayer()
 
 })
+
+function startSetUp() {
+
+    if(document.getElementById("userReview") !=null) {
+        document.getElementById("newReviewBody").style.display = "none";
+        document.getElementById("editReviewBody").style.display = "inherit";
+        setRatingColor(document.getElementById("userReview").value, document.getElementById("userReviewSpan"));
+        setRatingColor(document.getElementById("userReview").value, document.getElementById("reviewButton"));
+        if (document.getElementById("userRatingMoyValue") !=null)
+            setRatingColor(document.getElementById("userReview").value, document.getElementById("userRatingMoyValue"));
+    }
+    if (document.getElementById("ratingMoyValue") !=null) {
+        setRatingColor(document.getElementById("ratingMoyValue").innerHTML, document.getElementById("ratingMoyValue"));
+    }
+    if (document.getElementById("podcastAudio") != null) {
+    podAudio = document.getElementById("podcastAudio");
+    fetch(podAudio.src)
+        .then(response => response.blob())
+        .then(function(blob) {
+            podAudio.src = URL.createObjectURL(blob);
+        });
+    document.getElementById("playerSpinner").style.display = "none";
+    document.getElementById("playerComponents").style.display = "inherit";
+    if (document.getElementById("elapsed") != null){
+        document.getElementById("elapsed").style.width = "0";
+        setTime(podAudio.duration);
+    }
+    podAudio.loop = false;
+    } else {
+        document.getElementById("playerSpinner").style.display = "none";
+        document.getElementById("playerComponents").style.display = "inherit";
+    }
+}
+
 function setPlayer(){
+    if (document.getElementById("podcastAudio") != null) {
     if (isNaN(document.getElementById("podcastAudio").duration)) {
         setTimeout(setPlayer, 500);
     } else{
-     if(document.getElementById("userReview") !=null) {
-         document.getElementById("newReviewBody").style.display = "none";
-         document.getElementById("editReviewBody").style.display = "inherit";
-         setRatingColor(document.getElementById("userReview").value, document.getElementById("reviewButton"));
-     }
-     if (document.getElementById("ratingMoyValue") !=null) {
-    setRatingColor(document.getElementById("ratingMoyValue").innerHTML, document.getElementById("ratingMoyValue"));
-     }
-    podAudio = document.getElementById("podcastAudio");
-    document.getElementById("playerSpinner").style.display = "none";
-    document.getElementById("playerComponents").style.display = "inherit";
-
-    document.getElementById("elapsed").style.width = "0";
-    podAudio.loop = false;
-    setTime(podAudio.duration);
+        startSetUp()
+    }
+    } else {
+        startSetUp()
     }
 }
 function setRatingColor(value, item) {
@@ -75,8 +101,15 @@ function changeStatus(x){
     }
 
 }
-var elapsed = 0;
 function moveTime() {
+    if(elapsed>=75 && document.getElementById("podcastId") && sendView) {
+        let id = document.getElementById("podcastId").value;
+        document.getElementById("podcastId").parentElement.removeChild(document.getElementById("podcastId"));
+        $.post("/addViewToPod",{id:id}, function(data) {
+            console.log(data);
+            sendView = false;
+        });
+    }
     if(elapsed <300) {
     toAdd = 300/ parseInt(podAudio.duration);
     elapsed=elapsed+toAdd;
@@ -93,37 +126,51 @@ function moveTime() {
 
 }
 
-// function moveToTime(event) {
-//     clearInterval(timerInterval);
-//     let offset = document.getElementById("slider").getBoundingClientRect();
-//     elapsed = event.clientX-offset.left;
-//     document.getElementById("elapsed").style.width = elapsed+"px";
-//     let pas = parseInt(document.getElementById("podcastAudio").duration) / 300;
-//     let time = (elapsed * pas);
-//     time = Math.round(time);
-//     setTime(time);
-//     console.log(time);
-//     if(!podAudio.paused) {
-//     podAudio.pause();
-//     }
-//     podAudio.currentTime = time;
-//     console.log(podAudio.currentTime);
-//
-//     if(podAudio.paused) {
-//         podAudio.play();
-//         timerInterval= setInterval(moveTime, 1000);
-//     }
-//  }
+function moveToTime(event) {
+    let offset = document.getElementById("slider").getBoundingClientRect();
+    elapsed = event.clientX-offset.left;
+    document.getElementById("elapsed").style.width = elapsed+"px";
+    let pas = parseInt(document.getElementById("podcastAudio").duration) / 300;
+    let time = (elapsed * pas);
+    time = Math.round(time);
+    setTime(time);
+    console.log(time);
+    podAudio.currentTime = time;
+ }
 
 function deleteReview(id) {
     $.post("/deleteReview/"+id, function(data) {
+    document.getElementById("userReviewSpan").innerHTML ="";
     document.getElementById("editReviewBody").style.display = "none";
     document.getElementById("newReviewBody").style.display = "inherit";
     document.getElementById("reviewButton").style.color = "white";
-    if(document.getElementById("userReview") !=null)
+    if(document.getElementById("userReview") !=null) {
         document.getElementById("userReview").value ="";
-    else
-        document.getElementById("userReview1").value = "";
+    }
+    if(data !== "") {
     document.getElementById("ratingMoyValue").innerHTML = data;
+        setRatingColor(data, document.getElementById("ratingMoyValue"));
+    } else {
+    document.getElementById('ratingMoyTD').style.display = "none";
+    }
+
     });
+}
+
+function bigger() {
+    document.getElementById("slider").style.height = "7px";
+    document.getElementById("elapsed").style.height = "6px";
+    document.getElementById("timer").style.marginTop = "-1px";
+    document.getElementById("elapsed").style.marginTop = "-1px";
+    document.getElementById("controls").style.marginTop = "17.9px";
+
+}
+
+function smaller() {
+    document.getElementById("slider").style.height = "4px";
+    document.getElementById("elapsed").style.height = "4px";
+    document.getElementById("timer").style.marginTop = "-2px";
+    document.getElementById("elapsed").style.marginTop = "1px";
+    document.getElementById("controls").style.marginTop = "20px";
+
 }

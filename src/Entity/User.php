@@ -53,6 +53,11 @@ class User implements UserInterface
     private $ReclamationList;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Podcast::class, inversedBy="usersList")
+     */
+    private $PodcastsFavorite;
+
+    /**
      * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="UserId")
      */
     private $NotificationList;
@@ -179,6 +184,36 @@ class User implements UserInterface
 
         return $this;
     }
+    /**
+     * @return Collection|Podcast[]
+     */
+    public function getPodcastsFavorite(): Collection
+    {
+        return $this->PodcastsFavorite;
+    }
+
+    public function addPodcastsFavorite(Podcast $PodcastsFavorite): self
+    {
+        if (!$this->PodcastsFavorite->contains($PodcastsFavorite)) {
+            $this->PodcastsFavorite[] = $PodcastsFavorite;
+            $PodcastsFavorite->addUsersList($this);
+        }
+
+        return $this;
+    }
+
+    public function removePodcastsFavorite(Podcast $PodcastsFavorite): self
+    {
+        if ($this->PodcastsFavorite->removeElement($PodcastsFavorite)) {
+            // set the owning side to null (unless already changed)
+            if ($PodcastsFavorite->getUsersList()->contains($this)) {
+                $PodcastsFavorite->removeUsersList($this);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection|Notification[]
      */

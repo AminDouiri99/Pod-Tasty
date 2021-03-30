@@ -1,7 +1,6 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>PodTasty -  {% block title%}{% endblock %}</title>
-    <link rel="icon" href="{{ asset('/assets/donut.png') }}" type="image/icon type">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="My Podcast template project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,6 +14,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/main_styles.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/responsive.css')}}">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+    <script src="{{ asset('/assets/fade.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
@@ -25,7 +26,7 @@
     <header class="header trans_400">
 
         <div class="logo">
-            <a href="{{ path('home') }}"> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
+            <a href="{{ path('Home') }}"> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
         </div>
         <div class="container">
 
@@ -39,11 +40,11 @@
                     <div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
                         <nav class="main_nav">
                             <ul class="d-flex flex-row align-items-start justify-content-start">
-                                <li><a href="{{ path('home') }}" >Home</a></li>
+                                <li><a href="{{ path('Home') }}" >Home</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/about.html">About</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/episodes.html">Episodes</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html">Blog</a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/contact.html">Contact</a></li>
+                                <li><a href="{{ path('contact') }}">Contact</a></li>
                             </ul>
                         </nav>
                     </div>

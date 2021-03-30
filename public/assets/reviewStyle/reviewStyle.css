@@ -6,9 +6,9 @@
 .modal-content{
     box-shadow: 12px 12px 12px black !important;
     height: 277px;
+    overflow:hidden;
 }
 .carousel{
-
     width: 100%;
 }
 .carousel-item{
