@@ -292,13 +292,12 @@ a:hover{
 	margin-right: auto;
 	margin-left: auto;
 }
-header {
+.headerProfile {
 	background: #eee;
 	background-image: url("https://images.pexels.com/photos/1731427/pexels-photo-1731427.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
-	background-color: red;
 	height: 250px;
 }
 
