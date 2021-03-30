@@ -106,7 +106,7 @@ class PodcastController extends AbstractController
     }
 
     /**
-     * @Route("Podcast/Add")
+     * @Route("/AddPodcast")
      * @param Request $request
      * @return RedirectResponse|Response
      */
@@ -163,7 +163,7 @@ class PodcastController extends AbstractController
     }
 
     /**
-     * @Route ("Podcast/Update/{id}",name="UpdatePodcast")
+     * @Route ("PodcastUpdate/{id}",name="UpdatePodcast")
      * @param PodcastRepository $repository
      * @param $id
      * @param Request $request
