@@ -33,6 +33,7 @@ class Podcast
 
     /**
      * @ORM\Column(type="integer", nullable=false)
+     *
      */
     private $commentsAllowed;
 
@@ -90,7 +91,7 @@ class Podcast
     private $ReclamationList;
 
     /**
-     * @ORM\ManytoMany (targetEntity=User::class, mappedBy="PodcastsFavorite")
+     * @ORM\ManyToMany (targetEntity=User::class, mappedBy="PodcastsFavorite")
      */
     private $usersList;
 

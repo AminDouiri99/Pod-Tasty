@@ -40,13 +40,15 @@ class ReclamationController extends AbstractController
     }
 
     /**
-     * @Route("/podcast/{id}/new", name="reclamation_new", methods={"GET","POST"})
+     * @Route("/report/new", name="reclamation_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
     public function new(Request $request): Response
     {
+        $user=$this->getUser();
         $reclamation = new Reclamation();
+       // $reclamation->setType();
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
 
@@ -58,11 +60,17 @@ class ReclamationController extends AbstractController
             return $this->redirectToRoute('Home');
         }
 
-        return $this->render('Podcast/Add.html.twig', [
+        return $this->render('default/comments.html.twig', [
             'reclamation' => $reclamation,
-            'form' => $form->createView(),
+            'f' => $form->createView(),'user'=>$user
         ]);
     }
+//    public function setType(string $Type): self
+//    {
+//        $this->Type = $Type;
+//
+//        return $this;
+//    }
 
     /**
      * @Route("/{id}", name="reclamation_show", methods={"GET"})
@@ -90,7 +98,7 @@ class ReclamationController extends AbstractController
 
         return $this->render('reclamation/edit.html.twig', [
             'reclamation' => $reclamation,
-            'form' => $form->createView(),
+            'f' => $form->createView(),
         ]);
     }
 

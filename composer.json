@@ -29,14 +29,14 @@
         "symfony/proxy-manager-bridge": "4.4.*",
         "symfony/security-bundle": "4.4.*",
         "symfony/serializer": "4.4.*",
+        "symfony/swiftmailer-bundle": "^3.5",
         "symfony/translation": "4.4.*",
         "symfony/twig-bundle": "^4.4",
         "symfony/validator": "4.4.*",
         "symfony/web-link": "4.4.*",
         "symfony/yaml": "4.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-        "ext-http": "*"
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "symfony/browser-kit": "^4.4",
@@ -93,5 +93,7 @@
             "allow-contrib": false,
             "require": "4.4.*"
         }
-    }
+    },
+    "name": "vendor_name/phpproject",
+    "description": ""
 }

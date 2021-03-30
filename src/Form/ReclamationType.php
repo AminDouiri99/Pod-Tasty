@@ -29,9 +29,9 @@ class ReclamationType extends AbstractType
             'choices' => $choices,
             ])
             ->add('Description',TextareaType::class)
-            ->add('Status')
-            ->add('PodcastId')
-            ->add('UserId')
+           // ->add('Status')
+            //->add('PodcastId')
+            //->add('UserId')
         ;
     }
 

@@ -3,7 +3,58 @@
 {% block content %}
 
 
+    <!-- report Modal -->
+    <div style="z-index:99999" class="modal fade" id="reportButton" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" >
+                    <h5 class="modal-title" id="exampleModalLongTitle">Report Podcast</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="reportForm" method="POST" action="/reclamation/report/new">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="inquiry[Type]" id="rb1">
+                                Sexual content
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="inquiry[Type]" id="rb2">
+                                Violent or repulsive content
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="inquiry[Type]" id="rb5">
+                                Child abuse
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="inquiry[Type]" id="rb6">
+                                Promotes terrorism
+                            </label>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description :</label>
+                            <textarea class="form-control" id="Description" rows="1"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                           {# <a href="{{ url('reclamation.new', {id: user.reclamation.id}) }}" class="btn btn-primary">Report</a> #}
+                          <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end report Modal -->
 
     <!-- Review Modal -->
     <div style="z-index:99999" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -223,74 +274,8 @@
     <!-- End Review Modal -->
 
 
-    <!-- report Modal -->
-    <div style="z-index:99999" class="modal fade" id="reportButton" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header" >
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-              {# <script src="addReport.js"></script> #}
-                <div class="modal-body">
-                    <form id="reprotForm" method="post" action="/new">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Sexual content
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Violent or repulsive content
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
-                            <label class="form-check-label" for="flexRadioDefault3">
-                                Hateful or abusive content
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
-                            <label class="form-check-label" for="flexRadioDefault4">
-                                Promotes terrorism
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Description :</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <input type="submit" value="Save Changes" class="btn btn-primary"/>
-                        </div>
-                    </form>
-
-                </div>
-                          {# <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" value="Save Changes" class="btn btn-primary"/>
-                    {# <a href="{{ path('reclamation_new',{'id':reclamation.id}) }}" class="btn btn-primary"> Save changes </a>
 
 
-                        onclick="function addReport() {
-                    const rb1 = document.getElementById(flexRadioDefault1)
-                    const rb2 = document.getElementById(flexRadioDefault2)
-                    const rb3 = document.getElementById(flexRadioDefault3)
-                    const rb4 = document.getElementById(flexRadioDefault4)
-                    const form = document.getElementById(reprotForm)
-                    }
-                    addReport()
-                          #}
-            </div> #}
-            </div>
-        </div>
-    </div>
-    <!-- end report Modal -->
     {# <script src="addReport.js"></script> #}
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
