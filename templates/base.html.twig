@@ -3,6 +3,10 @@
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="My Podcast template project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="{{ asset('/assets/frontOffice/styles/font-awesome.css')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/frontOffice/styles/docs.css')}}" rel="stylesheet" >
+    <link href="{{ asset('/assets/frontOffice/styles/bootstrap-social.css')}}" rel="stylesheet" >
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/bootstrap.min.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link href="{{ asset('/assets/frontOffice/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="st  ylesheet" type="text/css">
@@ -22,7 +26,7 @@
     <header class="header trans_400">
 
         <div class="logo">
-            <a href=""> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
+            <a href="{{ path('Home') }}"> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
         </div>
         <div class="container">
 
@@ -45,7 +49,7 @@
                         </nav>
                     </div>
                 </div>
-               {% if user == null %}
+               {% if app.user == null %}
                 <div class="col" >
                     <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
                         <nav class="main_nav">
@@ -68,12 +72,12 @@
                     </div>
                 </div>
                 {% endif %}
-                {% if user  %}
-                    <div class="col" style="float:right;padding-top: 10px;width: 100%">
+                {% if app.user  %}
+                    <div class="col" style="padding-top: 10px;width: 100%;float: right;">
                         <div style="float: right">
-                            <nav  class="main_nav">
-                                <a class="button is-primary has-text-white logregButt">
-                                    <strong>{{ user.UserEmail }}</strong>
+                            <nav class="main_nav">
+                                <a class="button is-primary has-text-white logregButt" href="{{ path('profile',{id:user.id}) }}">
+                                    <strong>{{ app.user.userInfoId.userFirstName }} {{ app.user.userInfoId.userLastName }}</strong>
                                 </a>
                             </nav>
                         </div>

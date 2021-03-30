@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\UserInfoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserInfoRepository::class)
@@ -19,12 +22,24 @@ class UserInfo
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your LastName!")
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Your name cannot contain a number"
+     * )
+     * @Assert\Regex("/^([^0-9]*)$/")
      */
     private $UserLastName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     */
+     * @Assert\NotBlank(message="Please enter your FitstName!")
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Your name cannot contain a number"
+     * )     */
     private $UserFirstName;
 
     /**
@@ -34,11 +49,13 @@ class UserInfo
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your Gender!")
      */
     private $UserGender;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Please enter your BirthDate!")
      */
     private $UserBirthDate;
 
@@ -46,6 +63,23 @@ class UserInfo
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $UserBio;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=UserInfo::class, inversedBy="Following")
+     */
+    private $Followers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=UserInfo::class, mappedBy="Followers")
+     */
+    private $Following;
+
+    public function __construct()
+    {
+        $this->Followers = new ArrayCollection();
+        $this->Following = new ArrayCollection();
+    }
+
 
 
     public function getId(): ?int
@@ -124,5 +158,57 @@ class UserInfo
 
         return $this;
     }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->Followers;
+    }
+
+    public function addFollower(self $follower): self
+    {
+        if (!$this->Followers->contains($follower)) {
+            $this->Followers[] = $follower;
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(self $follower): self
+    {
+        $this->Followers->removeElement($follower);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFollowing(): Collection
+    {
+        return $this->Following;
+    }
+
+    public function addFollowing(self $following): self
+    {
+        if (!$this->Following->contains($following)) {
+            $this->Following[] = $following;
+            $following->addFollower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(self $following): self
+    {
+        if ($this->Following->removeElement($following)) {
+            $following->removeFollower($this);
+        }
+
+        return $this;
+    }
+
 
 }
