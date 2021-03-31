@@ -218,6 +218,33 @@
       ),
       'reference' => '35ea11d335fd638b5882ff1725228b3d35496ab1',
     ),
+    'jms/metadata' => 
+    array (
+      'pretty_version' => '2.5.0',
+      'version' => '2.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b5c52549807b2d855b3d7e36ec164c00eb547338',
+    ),
+    'knplabs/knp-components' => 
+    array (
+      'pretty_version' => 'v3.0.2',
+      'version' => '3.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7db2eb032591ded5809455af8a4dfdfda079041c',
+    ),
+    'knplabs/knp-paginator-bundle' => 
+    array (
+      'pretty_version' => 'v5.4.2',
+      'version' => '5.4.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8a7255062dd9f6ff8a3a4712a4b34bdbbc9f31f7',
+    ),
     'knpuniversity/oauth2-client-bundle' => 
     array (
       'pretty_version' => 'v2.8.0',
@@ -474,12 +501,12 @@
     ),
     'sensio/framework-extra-bundle' => 
     array (
-      'pretty_version' => 'v5.6.1',
-      'version' => '5.6.1.0',
+      'pretty_version' => 'v6.1.1',
+      'version' => '6.1.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '430d14c01836b77c28092883d195a43ce413ee32',
+      'reference' => '8ef75e99f20332f2725587896364f7079b53de95',
     ),
     'swiftmailer/swiftmailer' => 
     array (
@@ -828,12 +855,12 @@
     ),
     'symfony/monolog-bundle' => 
     array (
-      'pretty_version' => 'v3.6.0',
-      'version' => '3.6.0.0',
+      'pretty_version' => 'v3.7.0',
+      'version' => '3.7.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e495f5c7e4e672ffef4357d4a4d85f010802f940',
+      'reference' => '4054b2e940a25195ae15f0a49ab0c51718922eb4',
     ),
     'symfony/options-resolver' => 
     array (
@@ -866,6 +893,15 @@
       array (
         0 => '*',
       ),
+    ),
+    'symfony/polyfill-intl-grapheme' => 
+    array (
+      'pretty_version' => 'v1.22.1',
+      'version' => '1.22.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5601e09b69f26c1828b13b6bb87cb07cddba3170',
     ),
     'symfony/polyfill-intl-icu' => 
     array (
@@ -1075,6 +1111,15 @@
       ),
       'reference' => 'c5572f6494fc20668a73b77684d8dc77e534d8cf',
     ),
+    'symfony/string' => 
+    array (
+      'pretty_version' => 'v5.2.6',
+      'version' => '5.2.6.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ad0bd91bce2054103f5eaa18ebeba8d3bc2a0572',
+    ),
     'symfony/swiftmailer-bundle' => 
     array (
       'pretty_version' => 'v3.5.2',
@@ -1216,6 +1261,15 @@
       array (
       ),
       'reference' => NULL,
+    ),
+    'vich/uploader-bundle' => 
+    array (
+      'pretty_version' => '1.17.0',
+      'version' => '1.17.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ac1d4d1d73fa89fe4cb1d00205f01dc7144434ca',
     ),
     'webmozart/assert' => 
     array (

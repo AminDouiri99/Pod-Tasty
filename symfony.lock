@@ -99,6 +99,15 @@
     "guzzlehttp/psr7": {
         "version": "1.8.1"
     },
+    "jms/metadata": {
+        "version": "2.5.0"
+    },
+    "knplabs/knp-components": {
+        "version": "v3.0.2"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.4.2"
+    },
     "knpuniversity/oauth2-client-bundle": {
         "version": "1.20",
         "recipe": {
@@ -110,15 +119,6 @@
         "files": [
             "./config/packages/knpu_oauth2_client.yaml"
         ]
-    },
-    "jms/metadata": {
-        "version": "2.5.0"
-    },
-    "knplabs/knp-components": {
-        "version": "v3.0.2"
-    },
-    "knplabs/knp-paginator-bundle": {
-        "version": "v5.4.2"
     },
     "laminas/laminas-code": {
         "version": "4.0.0"
@@ -400,6 +400,9 @@
             "./tests/bootstrap.php"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.22.1"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.22.1"
     },
@@ -485,6 +488,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.19"
+    },
+    "symfony/string": {
+        "version": "v5.2.6"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",

@@ -43,7 +43,9 @@ class ChannelController extends AbstractController
     }
 
     /**
-     * @param ChannelRepository $channel
+     * @param ChannelRepository $channelrepo
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("/AfficheChannels",name="AfficheChannels")
      */
@@ -227,7 +229,7 @@ class ChannelController extends AbstractController
         $this->getUser()->setChannelId(null);
         $entityManage->remove($channel);
         $entityManage->flush();
-        return $this->redirectToRoute("AfficheChannels");
+        return $this->redirect("/profile/".$this->getUser()->getId());
     }
 
     /**
