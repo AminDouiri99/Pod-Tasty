@@ -42,7 +42,8 @@ class PlaylistController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("/admin/playlists",name="backoffice_playlist")
      */
-    public function AfficheAllAdmin(){
+    public function AfficheAllAdmin(): Response
+    {
         $user=$this->getUser();
         $playlist=$this->getDoctrine()->getRepository(Playlist::class)->findAll();
         return $this->render('/back_office/back_office_playlist/affiche.html.twig',['playlist'=> $playlist]);
@@ -52,7 +53,7 @@ class PlaylistController extends AbstractController
     /**
      * @param PlaylistRepository $playlist
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route ("/",name="")
+     * @Route ("/playlistList",name="playlistList")
      */
     public function AfficheAll(PlaylistRepository $playlist ){
         $user=$this->getUser();

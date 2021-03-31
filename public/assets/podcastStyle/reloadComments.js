@@ -1,41 +1,22 @@
-comNumb = 0;
-window.onscroll = function(){
+let comNumb = 0;
+let pId;
+window.addEventListener('load', function() {
+    pId = document.getElementById("podcastId").value;
+    const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
+    url.searchParams.append('topic', 'http://127.0.0.1:8000/addComment')
+    const eventSource = new EventSource(url);
+    eventSource.addEventListener('message', function(event){
+        $.post('/refreshCommentsList', {comId: event.data, podId: pId, currentR: window.location.href}, function(data) {
+            if(data !== "-1") {
+                addCommentToView(data);
+            }
+        })
+    });
 
-    if (window.scrollY ==0) {
-        document.getElementById('player').style.width = "70%";
-        document.getElementById('player').style.left = "50%";
-        document.getElementById('player').style.height = "190px";
-        document.getElementById('player').style.marginTop = "0";
-        document.getElementById('podInfo').style.marginTop = "0";
-        document.getElementById('podInfo').style.marginLeft = "0";
-        document.getElementById('controls').style.marginLeft = "0px";
-        document.getElementById('coverImg').style.width = "190px";
-        document.getElementById('coverImg').style.borderBottomLeftRadius = "20px";
-        document.getElementById('coverImg').style.borderTopRightRadius = "0";
-        document.getElementById('sliderDiv').style.display = "inherit";
-        if (document.getElementById('podcastTools') !=null) {
-            setTimeout(function () {
-                document.getElementById('podcastTools').style.display = "inherit";
-            }, 200);
-        }
+});
 
-    } else if(window.scrollY >80){
-        document.getElementById('sliderDiv').style.display = "none";
-        if (document.getElementById('podcastTools') !=null) {
-        document.getElementById('podcastTools').style.display = "none";
-        }
-        document.getElementById('podInfo').style.marginTop = "200px";
-        document.getElementById('podInfo').style.marginLeft = "-210px";
-        document.getElementById('controls').style.marginLeft = "120px";
-        document.getElementById('player').style.left = "92%";
-        document.getElementById('player').style.width = "15%";
-        document.getElementById('coverImg').style.width = "100%";
-        document.getElementById('coverImg').style.borderBottomLeftRadius = "0";
-        document.getElementById('coverImg').style.borderTopRightRadius = "20px";
-        document.getElementById('player').style.height = "360px";
-        document.getElementById('player').style.marginTop = "70px";
-    }
-}
+
+
 function checkKey(event,id){
     if(event.code==="Enter" && document.getElementById('comment').value!==""){
         document.getElementById('comment').disabled  = true;
@@ -49,37 +30,16 @@ function checkKey(event,id){
 function sendComment(comment, id){
     $.post("/addComment",{comment:comment,podId:id}, function(data) {
         setTimeout(function (){
-            document.getElementById('comment').disabled = false;
-            document.getElementById('comment').value  = "";
-            document.getElementById('comment').style.borderBottomColor="white";
-
-            if (data === "1") {
-                document.getElementById('warningDiv').style.display = "inherit";
-            } else {
-            comNumb++;
-            document.getElementById('CommentsUL').innerHTML = data+document.getElementById('CommentsUL').innerHTML;
-            if(document.getElementById('commentsLength') != null) {
-                var x = 1;
-                if(!isNaN(parseInt(document.getElementById('commentsLength').innerHTML))){
-                    x += parseInt(document.getElementById('commentsLength').innerHTML);
-                }
-                c = "Comment";
-                if (x>1){
-                    c+="s";
-                }
-
-                document.getElementById('comText').innerHTML = c;
-                document.getElementById('commentsLength').innerHTML = x;
-            } else {
-                stringmessage = "<span style='margin-right: 15px'>";
-                stringmessage += comNumb;
-                stringmessage +="</span>";
-                stringmessage +=" Comment";
-                if(comNumb>1){
-                    stringmessage +="s";
-                }
-                document.getElementById('noCom').innerHTML =stringmessage;
+            if (document.getElementById('comment') != null) {
+                document.getElementById('comment').disabled = false;
+                document.getElementById('comment').value  = "";
+                document.getElementById('comment').style.borderBottomColor="white";
             }
+        if (data === "1") {
+            document.getElementById('warningDiv').style.display = "inherit";
+        }   else if (data === "0"){
+            document.getElementById('warningDiv').style.display = "inherit";
+            document.getElementById('warningDiv').innerHTML = "Sorry, commenting for this podcast is disabled for now";
         }
         },500);
     })
@@ -235,31 +195,9 @@ function addRate(id,rate) {
 
 }
 
-function fadeIn(id,x) {
-    if(x === 1){
-    document.getElementById(id).classList.add('active');
-    } else {
-    document.getElementById(id).style.display = "inherit";
-    }
-    document.getElementById(id).style.opacity = 0;
-    let op = 0;
-    let inter = setInterval(function () {
-        op+=0.05;
-        if (op >= 1) {
-            document.getElementById(id).style.opacity = 1;
-            clearInterval(inter);
-        }
-        document.getElementById(id).style.opacity =op;
-    }, 50);
-
-}
-
 
 function updateComment(id,comment){
     $.post("/UpdateComment",{commentId:id, commentText:comment}, function(data) {
-        if(data !== "") {
-            console.log(data);
-        }
         document.getElementById("commentTextDiv"+id).innerHTML = comment;
         document.getElementById('editCommentText'+id).disabled  = false;
         document.getElementById('editCommentText'+id).style.borderBottomColor="white";
@@ -291,4 +229,52 @@ function checkKeyEdit(event,id){
         updateComment(id,document.getElementById('editCommentText'+id).value);
         document.getElementById('editCommentText'+id).style.borderBottomColor="transparent";
     }
+}
+
+function addRemoveFav(id) {
+    $.post("/addRemoveFav", {id:id}, function(data){
+        if(data === "1") {
+
+            document.getElementById("favButton").style.color="deeppink";
+        } else {
+            document.getElementById("favButton").style.color="white";
+        }
+
+    })
+}
+
+function filterComments(id) {
+    document.getElementById('searchSpinner').style.opacity = "1";
+    let comment = document.getElementById("searchInput").value;
+    $.post("/filterComments", {id: id, text: comment}, function (data) {
+        document.getElementById("comments").innerHTML = "";
+        document.getElementById('searchSpinner').style.opacity = "0";
+        document.getElementById("comments").innerHTML = data;
+    });
+}
+function addCommentToView(data) {
+            comNumb++;
+            document.getElementById('CommentsUL').innerHTML = data+document.getElementById('CommentsUL').innerHTML;
+            if(document.getElementById('commentsLength') != null) {
+                var x = 1;
+                if(!isNaN(parseInt(document.getElementById('commentsLength').innerHTML))){
+                    x += parseInt(document.getElementById('commentsLength').innerHTML);
+                }
+                c = "Comment";
+                if (x>1){
+                    c+="s";
+                }
+
+                document.getElementById('comText').innerHTML = c;
+                document.getElementById('commentsLength').innerHTML = x;
+            } else {
+                stringmessage = "<span style='margin-right: 15px'>";
+                stringmessage += comNumb;
+                stringmessage +="</span>";
+                stringmessage +=" Comment";
+                if(comNumb>1){
+                    stringmessage +="s";
+                }
+                document.getElementById('noCom').innerHTML =stringmessage;
+            }
 }

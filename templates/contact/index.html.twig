@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<script src="{{ asset('assets/home/home.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('/assets/home/home.css')}}">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+   {# #} <input id="deleteReviewButton"  data-toggle="modal" data-target="#contactModal" style="margin-left:100px;width: 150px;"  class="btn btn-danger" type="button" value="Contact US" />
+<div style="z-index:99999" class="modal fade" id="contactModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"> Contact us </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="newReviewBody" class="modal-body">
+                {{ form_start(contactForm) }}
+
+
+                {% for message in app.flashes('message') %}
+    <div class="alert alert-success" role="alert">
+          {{ message }}
+    </div>
+    {% endfor %}
+                {{ form_end(contactForm) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

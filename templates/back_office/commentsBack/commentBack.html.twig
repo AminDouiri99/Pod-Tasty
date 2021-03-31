@@ -1,0 +1,94 @@
+{% extends 'back_office/index.html.twig' %}
+{% block dashBoardContent %}
+    <script src="{{ asset('assets/podcastStyle/reloadComments.js') }}"></script>
+    <script src="{{ asset('assets/podcastStyle/podcast.js') }}"></script>
+    <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
+    <div id="testPodcast"  style="margin-top: 10px"  class="podcastDiv">
+        <h1>{{ podcast.podcastName }}
+            <div style="float: right;color: #0b7ec4">
+                {% if reviewMoy is not null %}
+
+                Rating {{ reviewMoy }}/10
+                {% endif %}
+                {% if reviewMoy is  null %}
+                    No rating submitted for this podcast
+                {% endif %}
+
+            </div></h1><br><br>
+            <audio controls style="width: 100%">
+                <source src="{{ asset(  'Files/podcastFiles/'~podcast.podcastSource) }}">
+            </audio>
+
+
+        <div class="commentsContainer" style="color: black !important;" id="commentsContainer">
+            <div style="float: right">
+                {% if podcast.commentsAllowed == 1 %}
+                <a href="/admin/podcast/changeCommentingStatus/{{ podcast.id }}">
+                <button class="btn btn-danger">
+                    Deactivate commenting
+                </button>
+                </a>
+                {% endif %}
+                {% if podcast.commentsAllowed == 0 %}
+                    <a href="/admin/podcast/changeCommentingStatus/{{ podcast.id }}">
+                <button class="btn btn-success">
+                    Activate commenting
+                </button>
+                    </a>
+                {% endif %}
+            </div>
+            {% if comments is empty %}
+                <h2 style="color: black !important;" id ="noCom" class="commentsTitle">No comments yet</h2>
+            {% else %}
+                <h2 style="color: black !important;" class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span id="comText" style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
+                </h2>
+            {% endif %}
+            <br><br>
+            <div id="comments">
+                {% if comments is empty %}
+                    <ul class="user_comment" id="CommentsUL"></ul>
+                {% endif %}
+                <ul {% for comment in comments|reverse %} class="user_comment" id="CommentsUL">
+                    <div id="comment{{ comment.id }}">
+                        <!-- current #{user} avatar -->
+                        <div class="user_avatar">
+                            <img src="/assets/donut.png">
+                        </div>
+                        <div class="comment_toolbar">
+
+                            <!-- inc. date and time -->
+                            <div class="comment_details">
+                                <ul>
+                                    <li style="width: 100%"><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span>
+                                        <span id="deletingMsg{{ comment.id }}" class="deleteingComment">Deleting comment...</span>
+
+                                    </li>
+                                    <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i> {{ comment.commentDate|date('d M Y') }} </li>
+                                </ul>
+                            </div><!-- inc. share/reply and love -->
+                                    <div class="comment_tools">
+
+                                        <div style="z-index: 99999999999999999;left: 90%;position: absolute" class="trash"><i onclick="deleteComment({{comment.id }})" class="fa fa-trash"></i></div>
+                                    </div>
+                        </div>
+                        <!-- the comment body -->
+                        <div    class="commentContainer">
+                            <div style="color: black !important;" id="commentTextDiv{{ comment.id }}" class="commentText">
+                                {{ comment.commentText }}
+                            </div>
+                            <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
+                                <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }},'')" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
+                                <span title="cancel" onclick="showUpdateComment(2, {{ comment.id }},'{{ comment.commentText }}')" class="fa fa-close"></span>
+                            </div>
+                        </div>
+                        <br><br><br>
+                    </div>
+                </ul  {% endfor %}>
+
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,25 +23,24 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter your Email!")
      */
     private $UserEmail;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
+     * @Assert\NotBlank(message="Please enter your Password!")
      */
     private $UserPassword;
-
     /**
      * @ORM\Column(type="boolean")
      */
     private $isAdmin;
-
     /**
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $UserInfoId;
-
     /**
      * @ORM\OneToOne(targetEntity=Channel::class, inversedBy="UserId", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
@@ -51,6 +51,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="UserId")
      */
     private $ReclamationList;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Podcast::class, inversedBy="usersList")
+     */
+    private $PodcastsFavorite;
 
     /**
      * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="UserId")
@@ -68,9 +73,19 @@ class User implements UserInterface
     private $CommentList;
 
     /**
-     * @ORM\OneToMany(targetEntity=PodcastReview::class, mappedBy="UserId")
+     * @ORM\Column(type="boolean")
      */
-    private $ReviewList;
+    private $DesactiveAccount;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $githubId;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
+     */
+    private $posts;
 
     public function __construct()
     {
@@ -78,11 +93,16 @@ class User implements UserInterface
         $this->NotificationList = new ArrayCollection();
         $this->ChannelsSubscribed = new ArrayCollection();
         $this->CommentList = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function setId(int $id)
+    {
+        $this->id = $id;
     }
 
     public function getUserEmail(): ?string
@@ -174,6 +194,35 @@ class User implements UserInterface
 
         return $this;
     }
+    /**
+     * @return Collection|Podcast[]
+     */
+    public function getPodcastsFavorite(): Collection
+    {
+        return $this->PodcastsFavorite;
+    }
+
+    public function addPodcastsFavorite(Podcast $PodcastsFavorite): self
+    {
+        if (!$this->PodcastsFavorite->contains($PodcastsFavorite)) {
+            $this->PodcastsFavorite[] = $PodcastsFavorite;
+            $PodcastsFavorite->addUsersList($this);
+        }
+
+        return $this;
+    }
+
+    public function removePodcastsFavorite(Podcast $PodcastsFavorite): self
+    {
+        if ($this->PodcastsFavorite->removeElement($PodcastsFavorite)) {
+            // set the owning side to null (unless already changed)
+            if ($PodcastsFavorite->getUsersList()->contains($this)) {
+                $PodcastsFavorite->removeUsersList($this);
+            }
+        }
+
+        return $this;
+    }
 
     /**
      * @return Collection|Notification[]
@@ -259,41 +308,13 @@ class User implements UserInterface
         return $this;
     }
 
-
-    /**
-     * @return Collection|PodcastReview[]
-     */
-    public function getReviewList(): Collection
-    {
-        return $this->ReviewList;
-    }
-
-    public function addReviewList(PodcastComment $reviewList): self
-    {
-        if (!$this->ReviewList->contains($reviewList)) {
-            $this->ReviewList[] = $reviewList;
-            $reviewList->setUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReviewList(PodcastComment $reviewList): self
-    {
-        if ($this->ReviewList->removeElement($reviewList)) {
-            // set the owning side to null (unless already changed)
-            if ($reviewList->getUserId() === $this) {
-                $reviewList->setUserId(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getRoles()
     {
         if($this->isAdmin==true){
             return ["admin"];
+        }
+        if($this->DesactiveAccount==true){
+            return ["disabled"];
         }
         else
             return ["user"];
@@ -301,7 +322,7 @@ class User implements UserInterface
 
     public function getPassword()
     {
-       return $this->UserPassword;
+        return $this->UserPassword;
     }
 
     public function getSalt()
@@ -317,5 +338,37 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function getDesactiveAccount(): ?bool
+    {
+        return $this->DesactiveAccount;
+    }
+
+    public function setDesactiveAccount(bool $DesactiveAccount): self
+    {
+        $this->DesactiveAccount = $DesactiveAccount;
+
+        return $this;
+    }
+
+    public function getGithubId(): ?string
+    {
+        return $this->githubId;
+    }
+
+    public function setGithubId(?string $githubId): self
+    {
+        $this->githubId = $githubId;
+
+        return $this;
     }
 }

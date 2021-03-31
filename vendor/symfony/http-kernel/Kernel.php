@@ -76,11 +76,11 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
 
     private static $freshCache = [];
 
-    public const VERSION = '4.4.19';
-    public const VERSION_ID = 40419;
+    public const VERSION = '4.4.21';
+    public const VERSION_ID = 40421;
     public const MAJOR_VERSION = 4;
     public const MINOR_VERSION = 4;
-    public const RELEASE_VERSION = 19;
+    public const RELEASE_VERSION = 21;
     public const EXTRA_VERSION = '';
 
     public const END_OF_MAINTENANCE = '11/2022';
@@ -205,7 +205,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     }
 
     /**
-     * Gets a HTTP kernel from the container.
+     * Gets an HTTP kernel from the container.
      *
      * @return HttpKernelInterface
      */
@@ -533,7 +533,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
                 if (!flock($lock, $wouldBlock ? \LOCK_SH : \LOCK_EX)) {
                     fclose($lock);
                     $lock = null;
-                } elseif (!\is_object($this->container = include $cachePath)) {
+                } elseif (!is_file($cachePath) || !\is_object($this->container = include $cachePath)) {
                     $this->container = null;
                 } elseif (!$oldContainer || \get_class($this->container) !== $oldContainer->name) {
                     flock($lock, \LOCK_UN);
@@ -598,8 +598,8 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             if ($collectDeprecations) {
                 restore_error_handler();
 
-                file_put_contents($cacheDir.'/'.$class.'Deprecations.log', serialize(array_values($collectedLogs)));
-                file_put_contents($cacheDir.'/'.$class.'Compiler.log', null !== $container ? implode("\n", $container->getCompiler()->getLog()) : '');
+                @file_put_contents($cacheDir.'/'.$class.'Deprecations.log', serialize(array_values($collectedLogs)));
+                @file_put_contents($cacheDir.'/'.$class.'Compiler.log', null !== $container ? implode("\n", $container->getCompiler()->getLog()) : '');
             }
         }
 

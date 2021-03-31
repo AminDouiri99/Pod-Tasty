@@ -1,6 +1,71 @@
 {% extends 'base.html.twig' %}
 {% block title %}Podcast{% endblock %}
 {% block content %}
+    <script src="{{ asset('assets/reclamation/reclamation.js') }}"></script>
+
+
+    <!-- report Modal -->
+    <!-- Toast-->
+        <div style="position: fixed;top:660px;left:80%;display: none" id="successReport" class="alert alert-success">
+            Report sent successfully !
+        </div>
+
+    <!-- End toast-->
+
+    <div style="z-index:99999" class="modal fade" id="reportButton" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" >
+                    <h5 class="modal-title" id="exampleModalLongTitle">Report Podcast</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="reportForm" method="POST">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" value="Sexual content" type="radio" name="inquiry[Type]" id="rb1">
+                                Sexual content
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" value="Violent or repulsive content" type="radio" name="inquiry[Type]" id="rb2">
+                                Violent or repulsive content
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" value="Child abuse" type="radio" name="inquiry[Type]" id="rb5">
+                                Child abuse
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" value="Promotes terrorism" type="radio" name="inquiry[Type]" id="rb6">
+                                Promotes terrorism
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description :</label>
+                            <textarea class="form-control" id="reportDescription" rows="1"></textarea>
+                        </div>
+                        <div  style="float: right">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            {# <a href="{{ url('reclamation.new', {id: user.reclamation.id}) }}" class="btn btn-primary">Report</a> #}
+                            <input type="button" onclick="sendReport()" value="Send report" id="reportButt" class="btn btn-primary"/>
+
+                        </div>
+                        <br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end report Modal -->
+
     <!-- Review Modal -->
     <div style="z-index:99999" class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -11,7 +76,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div id="newReviewBody" class="modal-body">
+                <div style="margin-left: -200px;margin-bottom: -300px" id="newReviewBody" class="modal-body">
                     <!-- carousel-->
                     <div id="carouselExampleControls" class="carousel slide">
                         <div class="carousel-inner">
@@ -210,7 +275,7 @@
                         </div><br><br>
 
                 </div>
-                <div class="modal-footer">
+                <div     class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -220,12 +285,12 @@
 
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="{{ asset('assets/podcastStyle/reloadComments.js') }}"></script>
+    <script src="{{ asset('assets/podcastStyle/playerAnimation.js') }}"></script>
     <script src="{{ asset('assets/podcastStyle/podcast.js') }}"></script>
     <link href="{{ asset('assets/podcastStyle/podcastStyle.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/reviewStyle/reviewStyle.css') }}" rel="stylesheet" type="text/css">
 
     <div id="testPodcast"  class="podcastDiv">
-
             <div class="player" id="player">
                 <div id="playerSpinner">
                     <br><br>
@@ -235,22 +300,31 @@
                 </div>
                 <ul style="display: none" id="playerComponents">
                     <li id="cover" class="cover">
-                        <img id="coverImg" src="{{ asset(  podcast.podcastImage) }}"/></li>
+                        <img id="coverImg" src="
+                                {% if podcast.podcastImage is not null%}
+                                {{ asset(  'Files/podcastFiles/'~podcast.podcastImage) }}
+                                {% else %}
+                                {{ asset('assets/podcastStyle/defPod.png') }}
+                                {% endif %}
+                                "></li>
                     <li class="info" id="podInfo">
                         <h1 class="h1Podcast">{{ podcast.podcastName }}</h1>
                         <h4>{{ podcast.podcastViews }} Views</h4>
                         <h2 class="h2Pod">{{ podcast.podcastDescription }}</h2>
 
                         <div class="button-items">
-                            <audio id="podcastAudio">
-                                <source src="{{ asset(  podcast.podcastSource) }}" type="audio/mp3">
+
+                            {% if podcast.currentlyLive == 0 %}
+                            <audio src="{{ asset(  'Files/podcastFiles/'~podcast.podcastSource) }}" id="podcastAudio">
+                                {% endif %}
                             </audio>
+
+                            {% if podcast.currentlyLive == 0 %}
                             <div id="sliderDiv">
                                        <div onclick="moveToTime(event)" id="slider">
-                                       <div id="slider">
+                                       <div onmouseenter="bigger()" onmouseleave="smaller()" id="slider">
                                            <div id="elapsed"></div></div>
                                        <div id="timer">00:00:00</div>
-                                </table>
                             </div>
                             <div class="controls" id="controls">
                             <span>
@@ -260,21 +334,42 @@
                             </span>
                             </div>
                         </div>
+                            {% endif %}
+                            {% if podcast.currentlyLive == 1 %}
+                            <div id="sliderDiv">
+
+                                <div class="controls" id="controls">
+                            <span>
+                                <i id="play" onclick="pauseResumeLive(1)"  class="fa fa-play"></i>
+                                <i id="stop" onclick="pauseResumeLive(2)" style="display: none" class="fa fa-pause"></i>
+                            </span>
+                                </div>
+                            </div>
+                            {% endif %}
+
                         </div>
                     </li>
                     {% if user is not null %}
                     <li id="podcastTools" class="podcastTools">
                         <table class="toolsTable">
                             <tr style="text-align: center;height: 35px">
-                                <td ><i class="fa fa-flag" title="Report"></i></td>
+                                <td ><i class="fa fa-flag"  data-toggle="modal" data-target="#reportButton" title="Report"></i></td>
                                 <td>
                                     {% if userReview is not null %}
                                         <input type="text" id="userReview" style="display:none" value="{{ userReview.rating }}">
                                     {% endif %}
                                     <i class="fa fa-star" id="reviewButton" data-toggle="modal" data-target="#reviewModal" title="review"></i>
                                     </td>
-                                <td><i class="fa fa-heart" title="Save to favorites"></i></td>
 
+                                <td>
+                                    {% if podcast.currentlyLive == 0 %}
+                                    <i class="fa fa-heart" {% if isFavourite %}style="color:deeppink" {% endif %} onclick="addRemoveFav({{ podcast.id }})" id="favButton" title="Save to favorites"></i>
+                                    {% endif %}
+
+                                    {% if podcast.currentlyLive == 1 %}
+                                    <img title="Live"src="{{ asset('assets/streaming/live.png') }}" height="35" width="35"/>
+                                    {% endif %}
+                                </td>
                                 <tr style="height: 50px">
                                 <td colspan="3" style="text-align: center;vertical-align:top !important">
                                     <span id="userReviewSpan" style="font-size: 15px">
@@ -311,13 +406,28 @@
             {% else %}
                 <h2 class="commentsTitle"><span id="commentsLength">{{ comments|length}}</span><span id="comText" style="margin-left: 10px"> Comment{% if comments|length >1 %}s{% endif %}</span>
                 </h2>
+                <div style="float: right;margin-right: 180px">
+                    <div style="text-align:center;position: absolute;width: 150px;margin-top:-50px;margin-left: 300px">
+                        <img title="Watch this on your phone !" height="120" width="120" src="{{ qrCode }}"/><br><br>
+                        <span style="color: white"> Watch this on your phone !</span>
+                    </div>
+                    <input id="searchInput" onkeyup="filterComments({{ podcast.id }})" type="text" class="commentInput" style="margin-top: -20px;width: 200px" placeholder="Search..">
+                    <div id="searchSpinner" style="opacity:0;height:20px;width: 20px" class="spinner-border text-primary" role="status">
+                    </div>
+                </div>
             {% endif %}
 
             {% if user is not null %}
+             {% if podcast.commentsAllowed == 1 %}
             <input type="text" id="comment" onkeypress="checkKey(event, {{ podcast.id }})" name="comment" class="commentInput" placeholder="Add comment"/>
            <div class="warningDiv">
                <span id="warningDiv" style="display: none">Hey watch your language !</span>
            </div>
+             {% endif %}
+
+            {% if podcast.commentsAllowed == 0 %}
+                <div style="color: red;margin: 20px;font-size: 17px">Comments are disabled for this podcast</div>
+                {% endif %}
             {% endif %}
             <br><br>
             <div id="comments">
@@ -357,7 +467,7 @@
                             {{ comment.commentText }}
                         </div>
                         <div style="display: none;height: 100%" id="commentEditText{{ comment.id }}">
-                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }},'')" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
+                        <input class="commentInput editText" onkeypress="checkKeyEdit(event,{{ comment.id }})" id="editCommentText{{ comment.id }}"  type="text" value="{{ comment.commentText }}" />
                         <span title="cancel" onclick="showUpdateComment(2, {{ comment.id }},'{{ comment.commentText }}')" class="fa fa-close"></span>
                         </div>
                     </div>
@@ -368,4 +478,17 @@
             </div>
     </div>
     </div>
+
+    <input style="display: none" id="podcastId" value="{{ podcast.id }}"/>
+
+
+    {% if podcast.currentlyLive == 1 %}
+        <div id="audioContainer">
+        <audio id="aud" autoplay preload="metadata" src=""></audio>
+        </div>
+        </div>
+
+        <script src="{{ asset('/assets/streaming/listenToStream.js') }}"></script>
+
+    {% endif %}
 {% endblock %}

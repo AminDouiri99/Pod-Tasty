@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\UserInfo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use League\OAuth2\Client\Provider\GithubResourceOwner;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +50,24 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findOrCreateFromGithubOauth(GithubResourceOwner $owner): User{
+        $user= $this->createQueryBuilder('u')->where('u.githubId = :githubId ')->orWhere('u.UserEmail=:email')->setParameters(
+        ['email'=>$owner->getEmail(),'githubId'=>$owner->getId()]
+        )->getQuery()->getOneOrNullResult();
+        if($user) {
+            if($user->getGithubId() === null){
+                $user->setGithubId($owner->getId());
+                $this->getEntityManager()->flush();
+            }
+            return $user;
+        }
+        $datearrondie = new \DateTime("2000-07-22 00:00:00");
+
+        $userInfo=(new UserInfo())->setUserFirstName($owner->getNickname())->setUserLastName($owner->getNickname())->setUserGender("male")->setUserBirthDate($datearrondie);
+        $user = (new User())->setGithubId($owner->getId())->setUserEmail($owner->getEmail())->setUserInfoId($userInfo)->setIsAdmin(false)->setDesactiveAccount(false);
+        $em=$this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+        return $user;
+    }
 }

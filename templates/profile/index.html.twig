@@ -1,21 +1,201 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block content %}
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <h1>
-{{ userInfo.UserLastName}}
-    </h1>
-    <br>
-    <form method="post" action="{{ path('addpic') }}" enctype='multipart/form-data'>
-        <input type='file' name='file' />
-        <input type='submit' value='Save name' name='but_upload'>
-    </form>
+<script src="{{ asset('/assets/frontOffice/js/profile.js')}}"></script>
+    <link href="{{ asset('assets/profile/profile.css') }}" rel="stylesheet" type="text/css">
+
+    <div class="profile_container">
+        <header class="headerProfile">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </header>
+        <main>
+            <div class="row">
+                <div class="left col-lg-4">
+                    <div class="photo-left">
+                        {% if userInfo.getUserImage() !=null%}
+                        <img class="photo" src="{{ asset('/Files/podcastFiles/'~userInfo.getUserImage() ) }}"alt="Profile Pic"/>
+                        {% endif %}
+
+                        {% if userInfo.getUserImage()==null %}
+
+                            <img class="photo" src="{{ asset('/Files/podcastFiles/avatar.jpg') }}" alt="Profile Pic"/>
+                        {% endif %}
+                        {% if user != null %}
+                        {% if user.id == id %}
+
+                        <button href="" class="active button is-primary has-text-white logregButt" data-toggle="modal" data-target="#exampleModal">
+                            UP
+                        </button>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <h4 class="name" id="name">{{ userInfo.userFirstName }} {{ userInfo.userLastName }}</h4>
+
+                    <p class="info" id="biography">Bio :{{ userInfo.userBio }}</p>
+                    <p class="info" id="birthdate">Birthdate :{{ userInfo.getUserBirthDate() |date('Y-m-d')  }}</p>
+                    {% if user != null %}
+
+                    {% if user.id == id %}
+                    <p class="name" style="display: none" id="edittext">Edit Your Information :</p>
+{#                        {{ form_start(form) }}#}
+{#                        <div id="firstname" style=" display: none;">#}
+{#                        {{ form_widget(form.UserFirstName, {'attr': { "value":"{{ userInfo.userFirstName }}",'class': 'inputeditprofile center','style': 'display: none'}}) }}#}
+{#                        </div>#}
+{#                        <div id="lastname" style=" display: none;">#}
+{#                        {{ form_widget(form.UserLastName, {'attr': {'id': 'lastname',"value":"{{ userInfo.userFirstName }}",'class': 'inputeditprofile center','style': 'display: none'}}) }}#}
+{#                        </div>#}
+{#                        <div id="bio" style=" display: none;">#}
+{#                        {{ form_widget(form.UserBio, {'attr': {"value":"{{ userInfo.userFirstName }}",'class': 'inputeditprofile center'}}) }}#}
+{#                        </div>#}
+{#                        {{ form_end(form, {'render_rest': false}) }}#}
+                    <form action="/editprofile" method="post">
+                    <input name="firstname" class="inputeditprofile" type="text" style="display: none" value="{{ userInfo.userFirstName }}" id="firstname">
+                    <input name="lastname" class="inputeditprofile" type="text" style="display: none" value="{{ userInfo.userLastName }}" id="lastname">
+                    <input name="bio" class="inputeditprofile" type="text" style="display: none" value="{{ userInfo.userBio }}" id="bio">
+                    <button type="submit" name="submit2" id="buttonSave" style="display: none;margin-top: 20px;"  class="button is-primary has-text-white logregButt center"><strong>Save</strong></button>
+                    </form>
+                    <button onclick="myFunction()" style="margin-top: 20px;" id="buttonEdit" class="button is-primary has-text-white logregButt"><strong>Edit Profile</strong></button>
+                    <button href="" style="margin-top: 20px;" onclick="settingBtn()" class="button is-primary logregButt has-text-white dropdown-toggle"><strong>Settings</strong></button>
+                    <h3 class="name" id="settingT1" style="display: none">Change Password :</h3>
+                    <form class="center" action="/editpwd" method="post" >
+                    <input name="oldPwd" id="settingOp" style="display: none" placeholder="Your old password" class="inputeditprofile center" type="text" id="lastname">
+                    <input name="newPwd" id="settingNp" style="display: none" placeholder="Your new password" class="inputeditprofile center" type="text" id="lastname">
+                    <button type="submit" id="settingBp" style="display: none;margin-top: 20px;" name="submitPwd"  style="margin-top: 20px;"  class="button is-primary has-text-white logregButt center"><strong>Save</strong></button>
+                    <button type="submit" id="settingBp" style="display: none;margin-top: 20px;" name="submitPwd"  style="margin-top: 20px;"  class="button is-primary has-text-white logregButt center"><strong>Save</strong></button>
+                    </form>
+                        <h3 class="name" id="settingT2" style="display: none">Disable account :</h3>
+                        <p style="display: none" id="settingET">Warning : if you desable your account nobody can see your content and you can't use it only if you enable it</p>
+                        <button href="" id="settingEB" style="display:none;margin-top: 20px;" class="button is-danger has-text-white " data-toggle="modal" data-target="#exampleModal2"><strong>Disable your account</strong></button>
+
+                    {% endif %}
+                    {% endif %}
+
+                    <div class="stats row">
+                        <div class="stat col-xs-4" style="padding-right: 50px;">
+                            <p class="number-stat">{{ userInfo.followers()|length }}</p>
+                            <p class="desc-stat">Followers</p>
+                        </div>
+                        <div class="stat col-xs-4">
+                            <p class="number-stat">{{ userInfo.following()|length }}</p>
+                            <p class="desc-stat">Following</p>
+                        </div>
+                        <div class="stat col-xs-4" style="padding-left: 50px;">
+                            <p class="number-stat">38</p>
+                            <p class="desc-stat">Uploads</p>
+                        </div>
+                    </div>
+                    <p class="desc">Hi ! My name is Jane Doe. I'm a UI/UX Designer from Paris, in France. I really enjoy photography and mountains.</p>
+                    <div class="social">
+                        <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                        <i class="fa fa-twitter-square" aria-hidden="true"></i>
+                        <i class="fa fa-pinterest-square" aria-hidden="true"></i>
+                        <i class="fa fa-tumblr-square" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="right col-lg-8">
+                    <ul class="nav">
+                        <li>Gallery</li>
+                        <li>Collections</li>
+                        <li>Groups</li>
+                        <li>About</li>
+                    </ul>
+                    {% if user != null %}
+
+                    {% if user.id == id and user.ChannelId == null %}
+                        <a class="button is-primary has-text-white logregButt follow " ><strong>Add Channel</strong></a>
+                    {% endif %}
+
+                    {% if user.id == id and user.ChannelId != null %}
+                        <a class="button is-primary has-text-white logregButt follow " ><strong>{{ user.getChannelId().getChannelName() }}</strong></a>
+                    {% endif %}
+
+                    {% if user.id != id %}
+                        {% if userInfo in app.user.userInfoId.Following %}
+                        <a href="{{ path ('unfollow',{id:id})}}" class="button is-white has-text-dark  follow "><strong>unFollow</strong></a>
+                        {% endif %}
+                        {% if userInfo not in app.user.userInfoId.Following%}
+                        <a href="{{ path ('follow',{id:id})}}" class="button is-primary has-text-white logregButt follow "><strong>Follow</strong></a>
+                        {% endif %}
+                    {% endif %}
+                    {% endif %}
+
+                    <div class="row gallery">
+                        <div class="col-md-4">
+                            <img src="https://images.pexels.com/photos/1036371/pexels-photo-1036371.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"/>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="https://images.pexels.com/photos/861034/pexels-photo-861034.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"/>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="https://images.pexels.com/photos/113338/pexels-photo-113338.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"/>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="https://images.pexels.com/photos/5049/forest-trees-fog-foggy.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"/>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="https://images.pexels.com/photos/428431/pexels-photo-428431.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"/>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="https://images.pexels.com/photos/50859/pexels-photo-50859.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"/>
+                        </div>
+                    </div>
+                </div>
+        </main>
+    </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog"  role="document">
+            <div class="modal-content  bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Are you sure you want to do disable your account</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body bg-dark">
+                    <p>Warning : if you desable your account nobody can see your content and you can't use it only if you enable it</p>
+                </div>
+
+                <div class="modal-footer">
+                    <a  class="btn btn-primary" href="{{ path ('desactive')}}" >Yes I'm</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>            </div>
+        </div>
+    </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog"  role="document">
+            <div class="modal-content  bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Change Your Profile Picture</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body bg-dark">
+                    {% if userInfo.getUserImage()!=null %}
+
+                    <img class="photoinupdate center" src="{{ asset('/Files/podcastFiles/'~userInfo.getUserImage() ) }}"alt="Profile Pic"/>
+                    {% endif %}
+
+                    {% if userInfo.getUserImage()==null %}
+
+                        <img class="photoinupdate center" src="{{ asset('/Files/podcastFiles/avatar.jpg') }}" alt="Profile Pic"/>
+                    {% endif %}
+
+                    {{ form_start(form) }}
+                    {{ form_widget(form.UserFirstName, {'attr': { 'class': 'inputeditprofile center','style': 'display: none'}}) }}
+                    {{ form_widget(form.UserLastName, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
+                    {{ form_widget(form.UserBio, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
+                    {{ form_widget(form.UserGender, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
+                    {{ form_widget(form.UserBirthDate, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
+                    {{ form_widget(form.UserImage, {'attr':{'class': 'center'}}) }}
+                    <button type="button" class="button is-primary has-text-white logregButt  " data-dismiss="modal">Close</button>
+                    {{ form_widget(form.Edit,{'attr': {'class': 'button is-primary has-text-white logregButt'}}) }}
+                    {{ form_end(form, {'render_rest': false}) }}
+
+</div>
+</div>
+</div>
+</div>
 {% endblock %}

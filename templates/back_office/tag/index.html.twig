@@ -1,0 +1,164 @@
+{% extends 'back_office/index.html.twig' %}
+
+{% block title %}Tags{% endblock %}
+
+{% block dashBoardContent %}
+    <link href="{{ asset('assets/tag/tag.css')}}" rel="stylesheet">
+    <script src="{{ asset('assets/tag/tag.js')}}"></script>
+
+    <!-- addTag Modal -->
+    <div style="z-index:99999" class="modal fade" id="addTagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Podcast Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="newTagBody" class="modal-body">
+
+                    {{ form_start(form) }}
+                <table><tr><td>
+                    {{ form_label(form.name,"Tag name :") }}
+                    {{ form_widget(form.name,{'attr':{'placeholder' : 'Tag name'}}, {'class': 'form-control'}) }}
+                    <div style="color: red;height: 40px">
+                        {{ form_errors(form.name) }}
+                    </div>
+                        </td></tr>
+                       <tr> <td>
+                            {{ form_label(form.tagStyle,"Tag style :") }}
+                            <div id="colorTable1" class="colorTable">
+                                    <div id="tag" class="btn-primary colors colorsChecked" onclick="choseColor('primary', 1)"></div>
+                                    <div id="tag" class="btn-secondary colors" onclick="choseColor('secondary', 1)"></div>
+                                    <div id="tag" class="btn-info colors" onclick="choseColor('info', 1)"></div>
+                                    <div id="tag" class="btn-warning colors" onclick="choseColor('warning', 1)"></div>
+                                    <div id="tag" class="btn-success colors" onclick="choseColor('success', 1)"></div>
+                                    <div id="tag" class="btn-danger colors" onclick="choseColor('danger', 1)"></div>
+                                    <div id="tag" class="btn-dark colors" onclick="choseColor('dark', 1)"></div>
+                            </div>
+                               <div style="pointer-events: none;opacity: 0">
+                                   {{ form_widget(form.tagStyle,{'attr':{'placeholder' : 'Tag style'}}, { 'value': 'primary'}) }}
+                               </div>
+                            <div style="color: red;height: 40px">
+                                {{ form_errors(form.tagStyle) }}
+                            </div>
+                        </td>
+                    </tr></table>
+                    {{ form_end(form) }}
+                </div>
+                <div id="updateTagBody" style="display: none" class="modal-body">
+                    <input style="display: none" type="text" placeholder="Tag name" id="updateTagId"/>
+                    <table><tr><td style="padding: 20px">
+                                <label for="updateTagName">Tag name</label>
+                               <input onkeyup="checkTagNam()" type="text" placeholder="Tag name" id="updateTagName" class="form-control"/>
+                            </td></tr>
+                        <tr> <td style="padding: 20px">
+
+                                <label for="updateTagStyle">Tag Style</label>
+                                <input type="text" style="display: none" id="updateTagStyle">
+                                <div id="colorTable2" class="colorTable">
+                                    <div id="tag" class="btn-primary colors" onclick="choseColor('primary', 2)"></div>
+                                    <div id="tag" class="btn-secondary colors" onclick="choseColor('secondary', 2)"></div>
+                                    <div id="tag" class="btn-info colors" onclick="choseColor('info', 2)"></div>
+                                    <div id="tag" class="btn-warning colors" onclick="choseColor('warning', 2)"></div>
+                                    <div id="tag" class="btn-success colors" onclick="choseColor('success', 2)"></div>
+                                    <div id="tag" class="btn-danger colors" onclick="choseColor('danger', 2)"></div>
+                                    <div id="tag" class="btn-dark colors" onclick="choseColor('dark', 2)"></div>
+                                </div>
+                            </td>
+                        </tr></table>
+                </div>
+
+                <div class="modal-footer">
+                    <button onclick="sendUpdate()" disabled class="btn btn-info" id="updateTagButt" style="display: none">Update</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End addTag Modal -->
+
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&amp;display=swap" rel="stylesheet">
+        <script>
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:2120269,hjsv:6};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        </script><script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3ZYEKLQ68"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-Q3ZYEKLQ68');
+        </script>
+
+
+    <div data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
+    <div class="wrapper">
+            <main class="content">
+                <div class="container-fluid p-0">
+
+                    <h1 class="h3 mb-3">Tags
+                        <button title="Add tag" onclick="resetForm()" class="btn btn-info" data-toggle="modal" data-target="#addTagModal"  style=" padding-top: 5px;border-radius: 12px;font-size: 15px;float:right;margin-right: 40px"><i class="fa fa-plus-circle"></i></button>
+
+                    </h1>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+
+                                <div class="card-body">
+
+                                    {% if tags is empty %}
+                                    <div style="padding-top: 50px;margin: auto;text-align:center;height: 200px">
+                                        <div style="font-size:22px;font-weight:bolder"> No tags to show</div><br>
+                                        <button class="btn btn-info" onclick="resetForm()" style="font-size: 20px" data-toggle="modal" data-target="#addTagModal">Add tag</button>
+                                    </div>
+                                    {% else %}
+                                    <table id="datatables-reponsive" class="table table-striped" style="width:100%">
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center">Tag id</th>
+                                            <th style="text-align: center">Tag Name</th>
+                                            <th style="text-align: center">Tag style</th>
+                                            <th style="text-align: center">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr {% for tag in tags %}>
+                                            <td style="text-align: center">{{ tag.id }}</td>
+                                            <td id="name{{ tag.id }}" style="text-align: center">{{ tag.name }}</td>
+                                            <td style="text-align: center"><button id="style{{ tag.id }}" style="border-radius:360px;height:30px;width: 30px " class="btn btn-{{ tag.tagStyle }}" disabled></button></td>
+                                            <td style="text-align: center">
+                                                <button style="margin-right:20px;border-radius:8px;width: 40px" data-toggle="modal" data-target="#addTagModal" onclick="updateTag('{{ tag.id }}','{{ tag.name }}','{{ tag.tagStyle }}')" class="btn btn-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                                <a href="/deleteTag/{{ tag.id }}"><button class="btn btn-danger" style="border-radius:8px;width: 40px" title="Delete"><i class="fa fa-trash"></i></button></a>
+                                            </td>
+                                        </tr {% endfor %}>
+                                        </tbody>
+                                    </table>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+    </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Datatables Responsive
+            $("#datatables-reponsive").DataTable({
+                responsive: true
+            });
+        });
+    </script>
+{% endblock %}

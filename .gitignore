@@ -8,6 +8,8 @@
 /public/Files/
 /var/
 /vendor/
+/migrations/
+/node_modules/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###

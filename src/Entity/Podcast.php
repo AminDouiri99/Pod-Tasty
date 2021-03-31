@@ -6,6 +6,10 @@ use App\Repository\PodcastRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+
 
 /**
  * @ORM\Entity(repositoryClass=PodcastRepository::class)
@@ -25,6 +29,18 @@ class Podcast
     private $PodcastName;
 
     /**
+     * @ORM\Column(type="integer", nullable=false)
+     *
+     */
+    private $currentlyLive;
+
+
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $commentsAllowed;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $PodcastDescription;
@@ -32,6 +48,12 @@ class Podcast
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\Image(
+     *     minWidth = 200,
+     *     maxWidth = 400,
+     *     minHeight = 200,
+     *     maxHeight = 400
+     * )
      */
     private $PodcastImage;
 //
@@ -46,12 +68,23 @@ class Podcast
     private $PodcastViews;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $currentlyWatching;
+
+
+    /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date
+     * @var string A "Y-m-d" formatted value
      */
     private $PodcastDate;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\File(
+     *     mimeTypes = {"application/pdf", "application/x-audio"},
+     *     mimeTypesMessage = "Please upload a valid Audio")
      */
     private $PodcastSource;
 
@@ -65,6 +98,16 @@ class Podcast
      * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="PodcastId")
      */
     private $ReclamationList;
+
+    /**
+     * @ORM\ManyToMany (targetEntity=User::class, mappedBy="PodcastsFavorite")
+     */
+    private $usersList;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="podcastsList")
+     */
+    private $tagsList;
 
     /**
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="PodcastId")
@@ -98,6 +141,17 @@ class Podcast
         return $this;
     }
 
+    public function getCurrentlyLive(): ?int
+    {
+        return $this->currentlyLive;
+    }
+
+    public function setCurrentlyLive($currentlyLive): self
+    {
+        $this->currentlyLive = $currentlyLive;
+
+        return $this;
+    }
     public function getPodcastDescription(): ?string
     {
         return $this->PodcastDescription;
@@ -142,6 +196,30 @@ class Podcast
     public function setPodcastViews(int $PodcastViews): self
     {
         $this->PodcastViews = $PodcastViews;
+
+        return $this;
+    }
+
+    public function getCurrentlyWatching(): ?int
+    {
+        return $this->currentlyWatching;
+    }
+
+    public function setCurrentlyWatching(int $currentlyWatching): self
+    {
+        $this->currentlyWatching = $currentlyWatching;
+
+        return $this;
+    }
+
+    public function getCommentsAllowed(): ?int
+    {
+        return $this->commentsAllowed;
+    }
+
+    public function setCommentsAllowed(int $commentsAllowed): self
+    {
+        $this->commentsAllowed = $commentsAllowed;
 
         return $this;
     }
@@ -277,4 +355,59 @@ class Podcast
     public function setImage(string $fileName)
     {
     }
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsersList(): Collection
+    {
+        return $this->usersList;
+    }
+
+    public function addUsersList(User $usersList): self
+    {
+        if (!$this->usersList->contains($usersList)) {
+            $this->usersList[] = $usersList;
+            $usersList->addPodcastsFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersList(User $usersList): self
+    {
+        if ($this->usersList->removeElement($usersList)) {
+            if ($usersList->getPodcastsFavorite()->contains($this))
+                $usersList->removePodcastsFavorite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTagsList()
+    {
+        return $this->tagsList;
+    }
+    public function addTagsList(Tag $tagsList): self
+    {
+        if (!$this->tagsList->contains($tagsList)) {
+            $this->tagsList[] = $tagsList;
+            $tagsList->addPodcastsList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTagsList(Tag $tagsList): self
+    {
+        if ($this->tagsList->removeElement($tagsList)) {
+            if ($tagsList->getPodcastsList()->contains($this))
+                $tagsList->removePodcastsList($this);
+        }
+
+        return $this;
+    }
+
 }

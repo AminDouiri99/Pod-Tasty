@@ -5,9 +5,19 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     image_directory:    '%kernel.project_dir%/public/Files/podcastFiles'
+    post_images_directory: '%kernel.project_dir%/public/posts'
+
     playlist_directory: '%kernel.project_dir%/public/Files/playlistFiles'
 
 services:
+#    app.services:
+#        class: App\services\checkIfLiveService
+#        arguments:
+#            - '@router'
+#            - '@service_container'
+#            - '@doctrine.orm.entity_manager'
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.terminate }
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

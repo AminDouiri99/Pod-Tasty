@@ -16,8 +16,13 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '92c8763cd6170fce6fcfe7e26b4e8c10' => __DIR__ . '/..' . '/symfony/phpunit-bridge/bootstrap.php',
         '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
     );
@@ -75,6 +80,7 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\OptionsResolver\\' => 34,
             'Symfony\\Component\\Mime\\' => 23,
+            'Symfony\\Component\\Mercure\\' => 26,
             'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\Intl\\' => 23,
             'Symfony\\Component\\Inflector\\' => 28,
@@ -100,8 +106,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
             'Symfony\\Bundle\\WebServerBundle\\' => 31,
             'Symfony\\Bundle\\WebProfilerBundle\\' => 33,
             'Symfony\\Bundle\\TwigBundle\\' => 26,
+            'Symfony\\Bundle\\SwiftmailerBundle\\' => 33,
             'Symfony\\Bundle\\SecurityBundle\\' => 30,
             'Symfony\\Bundle\\MonologBundle\\' => 29,
+            'Symfony\\Bundle\\MercureBundle\\' => 29,
             'Symfony\\Bundle\\MakerBundle\\' => 27,
             'Symfony\\Bundle\\FrameworkBundle\\' => 31,
             'Symfony\\Bundle\\DebugBundle\\' => 27,
@@ -116,6 +124,8 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Link\\' => 9,
+            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
             'ProxyManager\\' => 13,
@@ -129,6 +139,7 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         ),
         'L' => 
         array (
+            'League\\OAuth2\\Client\\' => 21,
             'Laminas\\ZendFrameworkBridge\\' => 28,
             'Laminas\\EventManager\\' => 21,
             'Laminas\\Code\\' => 13,
@@ -137,9 +148,19 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             'Knp\\Component\\' => 14,
             'Knp\\Bundle\\PaginatorBundle\\' => 27,
+            'KnpU\\OAuth2ClientBundle\\' => 24,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
         ),
         'E' => 
         array (
+            'Endroid\\QrCode\\' => 15,
+            'Endroid\\QrCodeBundle\\' => 21,
+            'Endroid\\Installer\\' => 18,
             'Egulias\\EmailValidator\\' => 23,
         ),
         'D' => 
@@ -150,14 +171,26 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
             'Doctrine\\Migrations\\' => 20,
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Inflector\\' => 19,
+            'Doctrine\\Deprecations\\' => 22,
             'Doctrine\\DBAL\\' => 14,
             'Doctrine\\Common\\Lexer\\' => 22,
+            'Doctrine\\Common\\DataFixtures\\' => 29,
             'Doctrine\\Common\\Collections\\' => 28,
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
             'Doctrine\\Bundle\\MigrationsBundle\\' => 33,
+            'Doctrine\\Bundle\\FixturesBundle\\' => 31,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
+            'DASPRiD\\Enum\\' => 13,
+        ),
+        'C' => 
+        array (
+            'Cocur\\BackgroundProcess\\' => 24,
+        ),
+        'B' => 
+        array (
+            'BaconQrCode\\' => 12,
         ),
         'A' => 
         array (
@@ -321,6 +354,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/symfony/mime',
         ),
+        'Symfony\\Component\\Mercure\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/mercure/src',
+        ),
         'Symfony\\Component\\Mailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/mailer',
@@ -421,6 +458,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/symfony/twig-bundle',
         ),
+        'Symfony\\Bundle\\SwiftmailerBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/swiftmailer-bundle',
+        ),
         'Symfony\\Bundle\\SecurityBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/security-bundle',
@@ -428,6 +469,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'Symfony\\Bundle\\MonologBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/monolog-bundle',
+        ),
+        'Symfony\\Bundle\\MercureBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/mercure-bundle/src',
         ),
         'Symfony\\Bundle\\MakerBundle\\' => 
         array (
@@ -473,6 +518,14 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/psr/link/src',
         ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
@@ -501,6 +554,11 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/jms/metadata/src',
         ),
+        'League\\OAuth2\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/oauth2-client/src',
+            1 => __DIR__ . '/..' . '/league/oauth2-github/src',
+        ),
         'Laminas\\ZendFrameworkBridge\\' => 
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src',
@@ -520,6 +578,34 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'Knp\\Bundle\\PaginatorBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle/src',
+        ),
+        'KnpU\\OAuth2ClientBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knpuniversity/oauth2-client-bundle/src',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Endroid\\QrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/endroid/qr-code/src',
+        ),
+        'Endroid\\QrCodeBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/endroid/qr-code-bundle/src',
+        ),
+        'Endroid\\Installer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/endroid/installer/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -549,6 +635,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/lib/Doctrine/Deprecations',
+        ),
         'Doctrine\\DBAL\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/dbal/lib/Doctrine/DBAL',
@@ -556,6 +646,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'Doctrine\\Common\\Lexer\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
+        ),
+        'Doctrine\\Common\\DataFixtures\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/data-fixtures/lib/Doctrine/Common/DataFixtures',
         ),
         'Doctrine\\Common\\Collections\\' => 
         array (
@@ -579,9 +673,25 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-migrations-bundle',
         ),
+        'Doctrine\\Bundle\\FixturesBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/doctrine-fixtures-bundle',
+        ),
         'Doctrine\\Bundle\\DoctrineBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-bundle',
+        ),
+        'DASPRiD\\Enum\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dasprid/enum/src',
+        ),
+        'Cocur\\BackgroundProcess\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cocur/background-process/src',
+        ),
+        'BaconQrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
         ),
         'App\\Tests\\' => 
         array (
@@ -596,6 +706,7 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Collator' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/Collator.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'IntlDateFormatter' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/IntlDateFormatter.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Locale' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/Locale.php',
