@@ -1,6 +1,6 @@
 {% extends 'back_office/index.html.twig' %}
 {% block dashBoardContent %}
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/ImageStyle.css')}}">
     {{ form_start(f) }}
 
     <div class="col-md-12">
@@ -29,6 +29,9 @@
                         <label class="custom-control-label" for="customSwitch1">Deactivate</label>
                         </label>
                     </div>
+
+                    {{ form_widget(f.imageFile) }}
+
                     <br>
                     {{ form_end(f) }}
                 </form>

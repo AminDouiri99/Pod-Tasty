@@ -46,7 +46,7 @@
             </div>
 
             <div class="grid-child-followers">
-                1300 Likes
+                0 Likes
             </div>
 
         </div>
@@ -64,11 +64,21 @@
 
 
     {% endfor %}
+
 </div>
 
 
+    <div class="row page_nav_row">
 
-
+        <div class="col">
+            <div class="">
+                <div class="navigation">
+                    {{ knp_pagination_render(channel) }}
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 {% endblock %}
 

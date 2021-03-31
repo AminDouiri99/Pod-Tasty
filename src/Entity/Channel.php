@@ -42,7 +42,7 @@ class Channel
 
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, mappedBy="ChannelId", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="ChannelId", cascade={"persist"})
      */
     private $UserId;
 

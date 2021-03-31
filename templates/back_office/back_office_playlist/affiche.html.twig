@@ -25,6 +25,7 @@
                                     <tr>
                                         <th>Playlist id</th>
                                         <th>Playlist name</th>
+                                        <th>Created by</th>
                                         <th>Created in </th>
                                         <th>Description</th>
 
@@ -37,6 +38,7 @@
                                     <tr>
                                         <td>{{ playlist.id }}</td>
                                         <td>{{ playlist.PlaylistName }}</td>
+                                        <td>{{ playlist.ChannelId.ChannelName }}</td>
                                         <td>{{ playlist.PlaylistCreationDate|date('d-m-Y')}}</td>
                                         <td>{{ playlist.PlaylistDescription }}</td>
 

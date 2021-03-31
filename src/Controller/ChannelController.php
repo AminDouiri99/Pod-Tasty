@@ -6,6 +6,7 @@ use App\Entity\Channel;
 use App\Entity\Playlist;
 use App\Entity\User;
 use App\Repository\ChannelRepository;
+use App\Repository\PlaylistRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\ChannelType;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class ChannelController extends AbstractController
@@ -45,12 +47,34 @@ class ChannelController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route ("/AfficheChannels",name="AfficheChannels")
      */
-    public function Affiche(ChannelRepository $channel ){
+    public function Affiche(ChannelRepository $channelrepo,PaginatorInterface $paginator ,Request $request){
         $user=$this->getUser();
-        $repo=$this->getDoctrine()->getRepository(Channel::class);
-        $channel=$repo->findAll();
+        $ChannelId=$user->getChannelId();
+        $channela = $channelrepo->createQueryBuilder('c')
+            ->select('c')
+         /*   ->where('c.id != :ChannelId')
+         ->setParameter('ChannelId',$ChannelId) */
+            ->Where('c.ChannelStatus = :active')
+
+            ->setParameter('active' , 1)
+            ->getQuery();
+
+        $channel = $paginator->paginate(
+        // Doctrine Query, not results
+            $channela,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            6
+        );
+       /* $repo=$this->getDoctrine()->getRepository(Channel::class);
+        $channel=$repo->findAll();*/
         return $this->render('channel/affiche.html.twig',['channel'=>$channel, 'user'=>$user]);
     }
+
+
+
+
     /**
      * @param ChannelRepository $channel
      * @param int $id
@@ -73,17 +97,18 @@ class ChannelController extends AbstractController
     public function AjoutChannel(Request $request) {
         $user=$this->getUser();
         $channel = new Channel();
+        $channelId=$channel->getId();
         $form=$this->createForm(ChannelType::class, $channel);
         $form->add("Create", SubmitType::class, [
             'attr' => ['class' => 'contact_button button_fill ml-auto mr-auto'],
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setChannelId($channel->getId());
+            $user->setChannelId($channel);
             $em=$this->getDoctrine()->getManager();
             $em->persist($channel);
             $em->flush();
-            return $this->redirectToRoute("AffichePlaylists");
+            return $this->redirectToRoute("AfficheChannels");
         }
         $title = "Add a new channel ";
         return $this->render("channel/AjoutChannel.html.twig", [
@@ -97,7 +122,7 @@ class ChannelController extends AbstractController
          * @return RedirectResponse|Response
          * @Route("/UpdateChannel/{id}", name="UpdateChannel")
          */
-        function UpdateChannel(ChannelRepository $oldChannel,Request $request, int $id) {
+        function UpdateChannel(ChannelRepository $oldChannel,Request $request, int $id,PaginatorInterface $paginator,PlaylistRepository $playlistrepo) {
             $user=$this->getUser();
             $ChannelId=$user->getChannelId();
             $repo=$this->getDoctrine()->getRepository(Channel::class);
@@ -114,10 +139,30 @@ class ChannelController extends AbstractController
                 $em=$this->getDoctrine()->getManager();
                 $em->flush();
                 $repoo=$this->getDoctrine()->getRepository(Channel::class);
+                $nbplaylists = $this->getDoctrine()->getRepository(Playlist::class)->findBy(['ChannelId'=>$ChannelId]);
                 $channel=$repoo->findBy(['id'=>$ChannelId]);
+
+
+                $playlista = $playlistrepo->createQueryBuilder('p')
+                    ->select('p')
+                    ->where('p.ChannelId = :ChannelId')
+                    ->setParameter('ChannelId',$ChannelId)
+                    ->getQuery();
+
+                $playlist = $paginator->paginate(
+                // Doctrine Query, not results
+                    $playlista,
+                    // Define the page parameter
+                    $request->query->getInt('page', 1),
+                    // Items per page
+                    5
+                );
+
+
+
                 return $this->render("playlist/playlist.html.twig", [
                     'f' =>$form->createView(), 'user'=>$user , 'channel'=>$channel,
-                    'page_title' => 'updated' , 'playlist'=>$playlist
+                    'page_title' => 'updated' , 'playlist'=>$playlist , 'nbplaylist'=>$nbplaylists
                 ]);
             }
             $title = "Update ".$oldChannel->getChannelName();
@@ -179,9 +224,10 @@ class ChannelController extends AbstractController
         $repo=$this->getDoctrine()->getRepository(Channel::class);
         $entityManage=$this->getDoctrine()->getManager();
         $channel=$repo->find($id);
+        $this->getUser()->setChannelId(null);
         $entityManage->remove($channel);
         $entityManage->flush();
-        return $this->redirectToRoute("/");
+        return $this->redirectToRoute("AfficheChannels");
     }
 
     /**
