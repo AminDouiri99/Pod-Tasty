@@ -112,7 +112,6 @@ class PodcastCommentsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-
             $update = new Update("http://127.0.0.1:8000/addComment", $comment->getId());
             $publisher($update);
             return new Response("");

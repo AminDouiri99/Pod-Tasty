@@ -19,6 +19,18 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script>
+    const url = new URL('"http://127.0.0.1:3000/.well-known/mercure"')
+    url.searchParams.append('topic', 'http://127.0.0.1:8000/notification')
+    const eventSource = new EventSource(url)
+    eventSource.onmessage = e=>{
+    document.querySelector('#notif').append("Ping!")
+    window.setTimeout(()=> {
+        const $alert=document.querySelector('.alert')
+        $alert.parentNode.removeChild($alert);
+    },2000)
+    }
+    </script>
 </head>
 <body>
 <div class="super_container">
@@ -73,15 +85,16 @@
                 </div>
                 {% endif %}
                 {% if app.user  %}
-                    <div class="col" style="padding-top: 10px;width: 100%;float: right;">
-                        <div style="float: right">
-                            <nav class="main_nav">
-                                <a class="button is-primary has-text-white logregButt" href="{{ path('profile',{id:user.id}) }}">
-                                    <strong>{{ app.user.userInfoId.userFirstName }} {{ app.user.userInfoId.userLastName }}</strong>
-                                </a>
-                            </nav>
-                        </div>
+                    <div class="dropdown">
+                <div >
+                    <a style="margin-top: 20px;float: right" aria-haspopup="true" aria-expanded="false" href="#" role="button" id="notifDropdown" data-toggle="dropdown" class="dropdown-toggle"><i style="font-size: 30px;cursor: pointer;color: white" id="notifButton"  class="fa fa-bell"></i></a>
+                    <div style="margin-top: 47px;" class="dropdown-menu" aria-labelledby="notifDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
                     </div>
+                </div>
+                </div>
                 {% endif %}
 
             </div>
@@ -267,6 +280,9 @@
         gtag('js', new Date());
         gtag('config', 'UA-23581568-13');
     </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     {#<div id="cboxOverlay" style="display: none;"></div>#}
     {#    <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">#}

@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'cebff884ea9b57c6b0462f7fc494a54639624e89',
     'name' => 'vendor_name/phpproject',
   ),
   'versions' => 
@@ -1210,12 +1210,12 @@
     ),
     'vendor_name/phpproject' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'cebff884ea9b57c6b0462f7fc494a54639624e89',
     ),
     'webmozart/assert' => 
     array (
