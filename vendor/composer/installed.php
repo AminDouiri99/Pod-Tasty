@@ -11,6 +11,15 @@
   ),
   'versions' => 
   array (
+    'bacon/bacon-qr-code' => 
+    array (
+      'pretty_version' => '2.0.3',
+      'version' => '2.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '3e9d791b67d0a2912922b7b7c7312f4b37af41e4',
+    ),
     'cocur/background-process' => 
     array (
       'pretty_version' => 'v0.7',
@@ -28,6 +37,15 @@
       array (
       ),
       'reference' => '7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
+    ),
+    'dasprid/enum' => 
+    array (
+      'pretty_version' => '1.0.3',
+      'version' => '1.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5abf82f213618696dda8e3bf6f64dd042d8542b2',
     ),
     'doctrine/annotations' => 
     array (
@@ -199,6 +217,33 @@
       array (
       ),
       'reference' => '62c3b73c581c834885acf6e120b412b76acc495a',
+    ),
+    'endroid/installer' => 
+    array (
+      'pretty_version' => '1.3.3',
+      'version' => '1.3.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '04f900858442215b799af81866719922cce3d04a',
+    ),
+    'endroid/qr-code' => 
+    array (
+      'pretty_version' => '4.0.3',
+      'version' => '4.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '06b0ac1c2a0633628c1ae904e6ae13fd6808d3ee',
+    ),
+    'endroid/qr-code-bundle' => 
+    array (
+      'pretty_version' => '4.0.0',
+      'version' => '4.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5a6847835b6b8c321deddae27633290145eb41db',
     ),
     'friendsofphp/proxy-manager-lts' => 
     array (

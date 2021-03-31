@@ -33,8 +33,10 @@ final class Versions
      * @internal
      */
     const VERSIONS          = array (
+  'bacon/bacon-qr-code' => '2.0.3@3e9d791b67d0a2912922b7b7c7312f4b37af41e4',
   'cocur/background-process' => 'v0.7@9ae2902922f02ec5544d723756758eb7304c6869',
   'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
+  'dasprid/enum' => '1.0.3@5abf82f213618696dda8e3bf6f64dd042d8542b2',
   'doctrine/annotations' => '1.12.1@b17c5014ef81d212ac539f07a1001832df1b6d3b',
   'doctrine/cache' => '1.10.2@13e3381b25847283a91948d04640543941309727',
   'doctrine/collections' => '1.6.7@55f8b799269a1a472457bd1a41b4f379d4cfba4a',
@@ -52,6 +54,9 @@ final class Versions
   'doctrine/persistence' => '2.1.0@9899c16934053880876b920a3b8b02ed2337ac1d',
   'doctrine/sql-formatter' => '1.1.1@56070bebac6e77230ed7d306ad13528e60732871',
   'egulias/email-validator' => '3.1.0@62c3b73c581c834885acf6e120b412b76acc495a',
+  'endroid/installer' => '1.3.3@04f900858442215b799af81866719922cce3d04a',
+  'endroid/qr-code' => '4.0.3@06b0ac1c2a0633628c1ae904e6ae13fd6808d3ee',
+  'endroid/qr-code-bundle' => '4.0.0@5a6847835b6b8c321deddae27633290145eb41db',
   'friendsofphp/proxy-manager-lts' => 'v1.0.3@121af47c9aee9c03031bdeca3fac0540f59aa5c3',
   'guzzlehttp/guzzle' => '7.3.0@7008573787b430c1c1f650e3722d9bba59967628',
   'guzzlehttp/promises' => '1.4.1@8e7d04f1f6450fef59366c399cfad4b9383aa30d',
