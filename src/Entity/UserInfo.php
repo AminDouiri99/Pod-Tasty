@@ -78,6 +78,9 @@ class UserInfo
     {
         $this->Followers = new ArrayCollection();
         $this->Following = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->stories = new ArrayCollection();
+        $this->viewed = new ArrayCollection();
     }
 
 
@@ -95,13 +98,6 @@ class UserInfo
      * @ORM\ManyToMany(targetEntity=Story::class, mappedBy="views")
      */
     private $viewed;
-
-    public function __construct()
-    {
-        $this->posts = new ArrayCollection();
-        $this->stories = new ArrayCollection();
-        $this->viewed = new ArrayCollection();
-    }
 
 
     public function getId(): ?int
