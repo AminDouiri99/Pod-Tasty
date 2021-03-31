@@ -104,11 +104,11 @@
                     {% if user != null %}
 
                     {% if user.id == id and user.ChannelId == null %}
-                        <a class="button is-primary has-text-white logregButt follow " ><strong>Add Channel</strong></a>
+                        <a class="button is-primary has-text-white logregButt follow " href="/AjoutChannel" ><strong>Add Channel</strong></a>
                     {% endif %}
 
                     {% if user.id == id and user.ChannelId != null %}
-                        <a class="button is-primary has-text-white logregButt follow " ><strong>{{ user.getChannelId().getChannelName() }}</strong></a>
+                        <a class="button is-primary has-text-white logregButt follow " href="/AfficheChannel" ><strong>{{ user.getChannelId().getChannelName() }}</strong></a>
                     {% endif %}
 
                     {% if user.id != id %}

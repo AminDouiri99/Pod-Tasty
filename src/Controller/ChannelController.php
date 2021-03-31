@@ -305,7 +305,7 @@ function getString(Channel $channel){
             </div>
 
             <div class="grid-child-followers">
-                1300 Likes
+                0 Likes
             </div>
 
         </div>
@@ -315,8 +315,8 @@ function getString(Channel $channel){
             <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
             <li><a href="#"><i class="fa fa-codepen"></i></a></li>
         </ul>
-        <button class="btn draw-border">Follow</button>
-        <button class="btn draw-border">Visit</button>
+        
+        <button class="btn draw-border"><a style="color:#58cdd1;" href="/AfficheChannel/'.$channel->getId().'">Visit</a> </button>
     </div>';
     return $s;
 }}
