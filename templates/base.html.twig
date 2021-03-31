@@ -7,9 +7,8 @@
     <link href="{{ asset('/assets/frontOffice/styles/font-awesome.css')}}" rel="stylesheet">
     <link href="{{ asset('/assets/frontOffice/styles/docs.css')}}" rel="stylesheet" >
     <link href="{{ asset('/assets/frontOffice/styles/bootstrap-social.css')}}" rel="stylesheet" >
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/bootstrap.min.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link href="{{ asset('/assets/frontOffice/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="st  ylesheet" type="text/css">
+    <link href="{{ asset('/assets/frontOffice/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/assets/frontOffice/plugins/colorbox/colorbox.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/main_styles.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/responsive.css')}}">
@@ -73,13 +72,26 @@
                 </div>
                 {% endif %}
                 {% if app.user  %}
-                    <div class="col" style="padding-top: 10px;width: 100%;float: right;">
-                        <div style="float: right">
-                            <nav class="main_nav">
-                                <a class="button is-primary has-text-white logregButt" href="{{ path('profile',{id:user.id}) }}">
-                                    <strong>{{ app.user.userInfoId.userFirstName }} {{ app.user.userInfoId.userLastName }}</strong>
-                                </a>
-                            </nav>
+                    <div style="position: absolute;top:1px;left:91%">
+                    <div class="dropdown">
+                        <div style="margin-top: 20px">
+                            <a role="button" id="notifDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style="font-size: 30px;cursor: pointer;color: white" id="notifButton"  class="fa fa-bell"></i></a>
+                            <div style="margin-top: 44px;margin-right:250px"  class="dropdown-menu" aria-labelledby="notifDropdown">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="dropdown" style="margin-right: 40px">
+                        <div style="margin-top: 20px;">
+                            <a style="float:right;" role="button" id="profileDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i style="font-size: 30px;cursor: pointer;color: white" id="notifButton"  class="fa fa-user"></i></a>
+                            <div style="margin-top: 44px;width:20px !important;;margin-right: -120px;"  class="dropdown-menu" aria-labelledby="profileDropDown">
+                                <a class="dropdown-item" href="#">Profile</a>
+                                <hr>
+                                <a class="dropdown-item" href="#">Sign out</a>
+                            </div>
                         </div>
                     </div>
                 {% endif %}
@@ -249,8 +261,6 @@
             </div>
         </footer>
     <script src="{{ asset('/assets/frontOffice/js/jquery-3.3.1.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/popper.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/bootstrap.min.js')}}"></script>
     <script src="{{ asset('/assets/frontOffice/plugins/greensock/TweenMax.min.js')}}"></script>
     <script src="{{ asset('/assets/frontOffice/plugins/greensock/TimelineMax.min.js')}}"></script>
     <script src="{{ asset('/assets/frontOffice/plugins/scrollmagic/ScrollMagic.min.js')}}"></script>
@@ -258,7 +268,6 @@
     <script src="{{ asset('/assets/frontOffice/plugins/greensock/ScrollToPlugin.min.js')}}"></script>
     <script src="{{ asset('/assets/frontOffice/plugins/easing/easing.js')}}"></script>
     <script src="{{ asset('/assets/frontOffice/plugins/colorbox/jquery.colorbox-min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/progressbar/progressbar.min.js')}}"></script>
     <script src="{{ asset('/assets/frontOffice/plugins/parallax-js-master/parallax.min.js')}}"></script>
     <script src="{{ asset('/assets/frontOffice/js/custom.js')}}"></script>
     <script>
