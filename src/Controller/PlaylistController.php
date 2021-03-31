@@ -90,7 +90,7 @@ class PlaylistController extends AbstractController
         $repoo=$this->getDoctrine()->getRepository(Channel::class);
         $channel=$repoo->findBy(['id'=>$ChannelId]);
               return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist,'nbplaylist'=>$nbplaylists, 'user'=>$user, 'channel'=>$channel]);}
-        else {return $this->redirectToRoute("playlist" );}
+        else {return $this->redirectToRoute("profile",['id'=>$user->getId()] );}
     }
 
 
