@@ -1,284 +1,393 @@
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>PodTasty -  {% block title%}{% endblock %}</title>
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="My Podcast template project">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link href="{{ asset('/assets/frontOffice/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="st  ylesheet" type="text/css">
-    <link href="{{ asset('/assets/frontOffice/plugins/colorbox/colorbox.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/main_styles.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/responsive.css')}}">
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-</head>
-<body>
-<div class="super_container">
+<html lang="en">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>PodTasty -
+			{% block title%}{% endblock %}
+		</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="My Podcast template project">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/bootstrap.min.css')}}">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+		<link href="{{ asset('/assets/frontOffice/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('/assets/frontOffice/plugins/colorbox/colorbox.css')}}" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/main_styles.css')}}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('/assets/frontOffice/styles/responsive.css')}}">
+		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>		
+		<style> @import '~@fortawesome/fontawesome-free/css/all.css';
+		@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';</style>
+        
+	</head>
+	<body>
+		<div class="super_container">
 
-    <header class="header trans_400">
+			<header class="header trans_400">
 
-        <div class="logo">
-            <a href=""> <img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
-        </div>
-        <div class="container">
+				<div class="logo">
+					<a href="">
+						<img style="height:50px;margin-right:10px" src="{{ asset('/assets/donut.png')}}"><span>Pod</span>Tasty</a>
+				</div>
+				<div class="container">
 
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-            <div class="row">
-                <div class="col">
-                    <div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
-                        <nav class="main_nav">
-                            <ul class="d-flex flex-row align-items-start justify-content-start">
-                                <li><a href="{{ path('Home') }}" >Home</a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/about.html">About</a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/episodes.html">Episodes</a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html">Blog</a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/contact.html">Contact</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-               {% if user == null %}
-                <div class="col" >
-                    <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
-                        <nav class="main_nav">
-                            <div class="buttons" style="padding-top: 10px;width: 100%;margin-left: 200%">
-                                <div class="navbar-item">
-                                    <a class="button is-primary has-text-white logregButt" href="{{ path('app_login') }}">
-                                        <strong>Login</strong>
+					<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+					</a>
+					<div class="row">
+						<div class="col">
+							<div class="header_content d-flex flex-row align-items-center justify-content-start trans_400">
+								<nav class="main_nav">
+									<ul class="d-flex flex-row align-items-start justify-content-start">
+										<li>
+											<a href="{{ path('Home') }}">Home</a>
+										</li>
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/about.html">About</a>
+										</li>
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/episodes.html">Episodes</a>
+										</li>
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/blog.html">Blog</a>
+										</li>
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/contact.html">Contact</a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						{% if user is defined %}
+							{% if user == null %}
+								<div class="col">
+									<div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
+										<nav class="main_nav">
+											<div class="buttons" style="padding-top: 10px;width: 100%;margin-left: 200%">
+												<div class="navbar-item">
+													<a class="button is-primary has-text-white logregButt" href="{{ path('app_login') }}">
+														<strong>Login</strong>
 
-                                    </a>
+													</a>
 
 
-                                </div>
-                                <a class="button is-primary has-text-white logregButt" href="{{ path('register') }}">
-                                    <strong>Sign up</strong>
-                                </a>
+												</div>
+												<a class="button is-primary has-text-white logregButt" href="{{ path('register') }}">
+													<strong>Sign up</strong>
+												</a>
 
-                            </div>
+											</div>
 
-                        </nav>
-                    </div>
-                </div>
-                {% endif %}
-                {% if user  %}
-                    <div class="col" style="float:right;padding-top: 10px;width: 100%">
-                        <div style="float: right">
-                            <nav  class="main_nav">
-                                <a class="button is-primary has-text-white logregButt">
-                                    <strong>{{ user.UserEmail }}</strong>
-                                </a>
-                            </nav>
-                        </div>
-                    </div>
-                {% endif %}
+										</nav>
+									</div>
+								</div>
+							{% endif %}
+						{% endif %}
+						{% if user is defined %}
+							{% if user  %}
+								<div class="col" style="float:risght;padding-top: 10px;width: 100%">
+									<div style="float: right">
+										<nav class="main_nav">
+											<a class="button is-primary has-text-white logregButt">
+												<strong>{{ user.UserEmail }}</strong>
+											</a>
+										</nav>
+									</div>
+								</div>
+							{% endif %}
+						{% endif %}
 
-            </div>
-        </div>
-    </header>
-    <div style="height:fit-content;padding:100px ">
-        {% block content %}
+					</div>
+				</div>
+			</header>
+			<div style="height:fit-content;padding:100px "> {% block content %}{% endblock %}
+				</div>
+				<footer class="footer">
+					<div class="container">
+						<div class="row footer_logo_row">
+							<div class="col d-flex flex-row align-items-center justify-content-center">
+								<div class="logo">
+									<a href="">
+										<span>Pod</span>Tasty</a>
+								</div>
+							</div>
+						</div>
+						<div class="row footer_content_row">
 
-        {% endblock %}
-    </div>
-        <footer class="footer">
-            <div class="container">
-                <div class="row footer_logo_row">
-                    <div class="col d-flex flex-row align-items-center justify-content-center">
-                        <div class="logo">
-                            <a href=""><span>Pod</span>Tasty</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row footer_content_row">
+							<div class="col-lg-4">
+								<div class="footer_title">Tags</div>
+								<div class="footer_list">
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">music</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">art</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">technology</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">travel &amp; food</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">viral</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">social media</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">interview</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">developement</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">success</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">live</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">did you know?</a>
+										</div>
+									</div>
+									<div>
+										<div>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">health</a>
+										</div>
+									</div>
+								</div>
+							</div>
 
-                <div class="col-lg-4">
-                    <div class="footer_title">Tags</div>
-                    <div class="footer_list">
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">music</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">art</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">technology</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">travel &amp; food</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">viral</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">social media</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">interview</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">developement</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">success</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">live</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">did you know?</a></div></div>
-                        <div><div><a href="https://preview.colorlib.com/theme/mypodcast/#">health</a></div></div>
-                    </div>
-                </div>
+							<div class="col-lg-4">
+								<div class="footer_title">Latest Episodes</div>
+								<div class="latest_container">
 
-                <div class="col-lg-4">
-                    <div class="footer_title">Latest Episodes</div>
-                    <div class="latest_container">
+									<div class="latest">
+										<div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+											<a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+												<div class="d-flex flex-row align-items-start justify-content-start">
+													<div class="latest_play">
+														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewbox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+															<g id="Play">
+																<path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
+															</g>
+														</svg>
+													</div>
+													<div class="latest_title_content">
+														<div class="latest_title">Season 4 Episode 48 - A Step Further</div>
+													</div>
+												</div>
+											</a>
+										</div>
+										<div class="latest_episode_info">
+											<ul class="d-flex flex-row align-items-start justify-content-start">
+												<li>
+													<a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a>
+												</li>
+												<li>
+													<a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a>
+												</li>
+											</ul>
+										</div>
+									</div>
 
-                        <div class="latest">
-                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
-                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
-                                    <div class="d-flex flex-row align-items-start justify-content-start">
-                                        <div class="latest_play">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
-<g id="Play">
-    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
-</g>
-</svg>
-                                        </div>
-                                        <div class="latest_title_content">
-                                            <div class="latest_title">Season 4 Episode 48 - A Step Further</div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="latest_episode_info">
-                                <ul class="d-flex flex-row align-items-start justify-content-start">
-                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
-                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
-                                </ul>
-                            </div>
-                        </div>
+									<div class="latest">
+										<div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+											<a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+												<div class="d-flex flex-row align-items-start justify-content-start">
+													<div class="latest_play">
+														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewbox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+															<g id="Play">
+																<path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
+															</g>
+														</svg>
+													</div>
+													<div class="latest_title_content">
+														<div class="latest_title">Season 4 Episode 47 - Deep in Crypto</div>
+													</div>
+												</div>
+											</a>
+										</div>
+										<div class="latest_episode_info">
+											<ul class="d-flex flex-row align-items-start justify-content-start">
+												<li>
+													<a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a>
+												</li>
+												<li>
+													<a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a>
+												</li>
+											</ul>
+										</div>
+									</div>
 
-                        <div class="latest">
-                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
-                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
-                                    <div class="d-flex flex-row align-items-start justify-content-start">
-                                        <div class="latest_play">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
-<g id="Play">
-    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
-</g>
-</svg>
-                                        </div>
-                                        <div class="latest_title_content">
-                                            <div class="latest_title">Season 4 Episode 47 - Deep in Crypto</div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="latest_episode_info">
-                                <ul class="d-flex flex-row align-items-start justify-content-start">
-                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
-                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
-                                </ul>
-                            </div>
-                        </div>
+									<div class="latest">
+										<div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
+											<a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
+												<div class="d-flex flex-row align-items-start justify-content-start">
+													<div class="latest_play">
+														<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewbox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
+															<g id="Play">
+																<path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
+															</g>
+														</svg>
+													</div>
+													<div class="latest_title_content">
+														<div class="latest_title">Season 4 Episode 46 - Nothing is real</div>
+													</div>
+												</div>
+											</a>
+										</div>
+										<div class="latest_episode_info">
+											<ul class="d-flex flex-row align-items-start justify-content-start">
+												<li>
+													<a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a>
+												</li>
+												<li>
+													<a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
 
-                        <div class="latest">
-                            <div class="latest_title_container d-flex flex-row align-items-start justify-content-start">
-                                <a href="https://preview.colorlib.com/theme/mypodcast/episode.html">
-                                    <div class="d-flex flex-row align-items-start justify-content-start">
-                                        <div class="latest_play">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 714 714" style="enable-background:new 0 0 714 714;" xml:space="preserve">
-<g id="Play">
-    <path d="M641.045,318.521L102,0C73.822,0,51,22.822,51,51v612c0,28.178,22.822,51,51,51l539.045-318.521      C654.661,387.422,663,372.81,663,357C663,341.19,654.661,326.579,641.045,318.521z M153,565.386V148.614L505.665,357      L153,565.386z" fill="#FFFFFF"></path>
-</g>
-</svg>
-                                        </div>
-                                        <div class="latest_title_content">
-                                            <div class="latest_title">Season 4 Episode 46 - Nothing is real</div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="latest_episode_info">
-                                <ul class="d-flex flex-row align-items-start justify-content-start">
-                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">September 24, 2018</a></li>
-                                    <li><a href="https://preview.colorlib.com/theme/mypodcast/#">Music</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+							<div class="col-lg-4">
+								<div class="footer_title">Instagram</div>
+								<div class="gallery d-flex flex-row align-items-start justify-content-start flex-wrap">
 
-                <div class="col-lg-4">
-                    <div class="footer_title">Instagram</div>
-                    <div class="gallery d-flex flex-row align-items-start justify-content-start flex-wrap">
+									<div class="gallery_item">
+										<a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_1_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_1.jpg')}}" alt=""></a>
+									</div>
 
-                            <div class="gallery_item">
-                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_1_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_1.jpg')}}" alt=""></a>
-                            </div>
+									<div class="gallery_item">
+										<a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_2_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_2.jpg')}}" alt=""></a>
+									</div>
 
-                            <div class="gallery_item">
-                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_2_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_2.jpg')}}" alt=""></a>
-                            </div>
+									<div class="gallery_item">
+										<a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_3_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_3.jpg')}}" alt=""></a>
+									</div>
 
-                            <div class="gallery_item">
-                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_3_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_3.jpg')}}" alt=""></a>
-                            </div>
+									<div class="gallery_item">
+										<a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_4_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_4.jpg')}}" alt=""></a>
+									</div>
 
-                            <div class="gallery_item">
-                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_4_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_4.jpg')}}" alt=""></a>
-                            </div>
+									<div class="gallery_item">
+										<a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_5_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_5.jpg')}}" alt=""></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row footer_social_row">
+							<div class="col">
+								<div class="footer_social">
+									<ul class="d-flex flex-row align-items-center justify-content-center">
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">
+												<i class="fa fa-facebook" aria-hidden="true"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">
+												<i class="fa fa-instagram" aria-hidden="true"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">
+												<i class="fa fa-soundcloud" aria-hidden="true"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">
+												<i class="fa fa-vimeo" aria-hidden="true"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://preview.colorlib.com/theme/mypodcast/#">
+												<i class="fa fa-youtube-play" aria-hidden="true"></i>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<br><br>
+						Copyright ©
+						{#                <script type="text/javascript" async="" src="./../public/assets/frontOffice/js/analytics.js"></script>#}
+						<script>
+							document.write(new Date().getFullYear());
+						</script>2021 All rights reserved | This template is made with
+						<i class="fa fa-heart-o" aria-hidden="true"></i>
+						by
+						<a href="https://colorlib.com/" target="_blank">Colorlib</a>
 
-                            <div class="gallery_item">
-                                <a class="colorbox cboxElement" href="https://preview.colorlib.com/theme/mypodcast/images/gallery_5_large.jpg"><img src="{{ asset('assets/frontOffice/images/gallery_5.jpg')}}" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row footer_social_row">
-                    <div class="col">
-                        <div class="footer_social">
-                            <ul class="d-flex flex-row align-items-center justify-content-center">
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-soundcloud" aria-hidden="true"></i></a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <br><br>
-                Copyright ©
-{#                <script type="text/javascript" async="" src="./../public/assets/frontOffice/js/analytics.js"></script>#}
-                <script>document.write(new Date().getFullYear());</script>2021 All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
+					</div>
+				</footer>
+				<script src="{{ asset('/assets/frontOffice/js/jquery-3.3.1.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/popper.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/bootstrap.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/greensock/TweenMax.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/greensock/TimelineMax.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/scrollmagic/ScrollMagic.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/greensock/animation.gsap.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/greensock/ScrollToPlugin.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/easing/easing.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/colorbox/jquery.colorbox-min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/progressbar/progressbar.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/plugins/parallax-js-master/parallax.min.js')}}"></script>
+				<script src="{{ asset('/assets/frontOffice/js/custom.js')}}"></script>
+				<script>
+					window.dataLayer = window.dataLayer || [];
+function gtag() {
+dataLayer.push(arguments);
+}
+gtag('js', new Date());
+gtag('config', 'UA-23581568-13');
+				</script>
 
-            </div>
-        </footer>
-    <script src="{{ asset('/assets/frontOffice/js/jquery-3.3.1.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/popper.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/styles/bootstrap-4.1.2/bootstrap.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/greensock/TweenMax.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/greensock/TimelineMax.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/scrollmagic/ScrollMagic.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/greensock/animation.gsap.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/greensock/ScrollToPlugin.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/easing/easing.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/colorbox/jquery.colorbox-min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/progressbar/progressbar.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/plugins/parallax-js-master/parallax.min.js')}}"></script>
-    <script src="{{ asset('/assets/frontOffice/js/custom.js')}}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-23581568-13');
-    </script>
+				{#<div id="cboxOverlay" style="display: none;"></div>#}
+			{#    <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">#}
+				{#        <div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div>#}
+				{#        <div id="cboxTopCenter" style="float: left;"></div>#}
+				{#        <div id="cboxTopRight" style="float: left;"></div>#}
+				{#    </div>#}
+				{#    <div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div>#}
+				{#    <div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div>#}
+				{#    <div id="cboxCurrent" style="float: left;"></div>#}
+				{#    <button type="button" id="cboxPrevious"></button>#}
+				{#    <button type="button" id="cboxNext"></button>#}
+				{#    <button type="button" id="cboxSlideshow"></button>#}
+				{#    <div id="cboxLoadingOverlay" style="float: left;"></div>#}
+				{#    <div id="cboxLoadingGraphic" style="float: left;"></div></div>#}
+				{#    <div id="cboxMiddleRight" style="float: left;"></div>#}
+				{#    </div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;">#}
 
-    {#<div id="cboxOverlay" style="display: none;"></div>#}
-    {#    <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">#}
-    {#        <div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div>#}
-    {#        <div id="cboxTopCenter" style="float: left;"></div>#}
-    {#        <div id="cboxTopRight" style="float: left;"></div>#}
-    {#    </div>#}
-    {#    <div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div>#}
-    {#    <div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div>#}
-    {#    <div id="cboxCurrent" style="float: left;"></div>#}
-    {#    <button type="button" id="cboxPrevious"></button>#}
-    {#    <button type="button" id="cboxNext"></button>#}
-    {#    <button type="button" id="cboxSlideshow"></button>#}
-    {#    <div id="cboxLoadingOverlay" style="float: left;"></div>#}
-    {#    <div id="cboxLoadingGraphic" style="float: left;"></div></div>#}
-    {#    <div id="cboxMiddleRight" style="float: left;"></div>#}
-    {#    </div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;">#}
+			</div>
 
-</div>
-
-</body></html>
+		</body>
+	</html>

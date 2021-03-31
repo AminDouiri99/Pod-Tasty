@@ -1,6 +1,6 @@
 @charset "utf-8";@import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Poppins:100,300,400,500,600,700,800,900';
 *{margin:0;padding:0;-webkit-font-smoothing:antialiased;-webkit-text-shadow:rgba(0,0,0,.01) 0 0 1px;text-shadow:rgba(0,0,0,.01) 0 0 1px}
-
+@import '~@fortawesome/fontawesome-free/css/all.css';
 html{
 	height:fit-content !important;
 	font-family:poppins,sans-serif;font-size:14px;font-weight:400;color:#a5a5a5;
