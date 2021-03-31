@@ -82,17 +82,27 @@ class User implements UserInterface
      */
     private $githubId;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
+     */
+    private $posts;
+
     public function __construct()
     {
         $this->ReclamationList = new ArrayCollection();
         $this->NotificationList = new ArrayCollection();
         $this->ChannelsSubscribed = new ArrayCollection();
         $this->CommentList = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function setId(int $id)
+    {
+        $this->id = $id;
     }
 
     public function getUserEmail(): ?string
@@ -328,6 +338,14 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
     }
 
     public function getDesactiveAccount(): ?bool
