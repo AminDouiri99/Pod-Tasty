@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/bootstrap-4.1.2/bootstrap.min.css') }}">
+    <link href="{{ asset('/assets/playlist/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/assets/playlist/plugins/colorbox/colorbox.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/contact.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/ImageStyle.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/contact_responsive.css')}}">
+    <script   src="{{ asset('/assets/playlist/js/reloader.js')}}"> </script>
+    </head>
+    <div class="contact_form_container">
+        <div class="contact_form_title text-center"><h1 class="text-white-50"> Please fill in your playlist's information </h1> <br></div>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                {{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
+                <div id="contact_form" class="contact_form">
+                    {{ form_start(f) }}
+                    {#
+                    <div class="row">
+                        <div class="col-md-6 contact_col">
+                            {{ form_widget(f.PlaylistName,  {'attr' : {placeholder : 'Whats the name of your new playlist ?',size :'30' ,class : 'contact_input' }}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" class="contact_input" placeholder="E-mail" required="required">
+                        </div>
+                    </div>#}
+                    <div><div class="text-danger">{{ form_errors(f.PlaylistName) }}</div>
+                        {{ form_widget(f.PlaylistName,  {'attr' : {placeholder : 'Whats the name of your new playlist ?',size :'30' ,class : 'contact_input' }}) }}</div>
+
+                    <div><div class="text-danger">{{ form_errors(f.PlaylistDescription) }}</div>
+                        {{ form_widget(f.PlaylistDescription, {'attr' : {placeholder : 'What is this playlist about ?',class : 'contact_input contact_textarea' }})}}</div>
+
+                </div>
+                <br>
+
+                <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+                <div class="file-upload">
+                    <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add a cover to the playlist</button>
+
+                    <div class="image-upload-wrap">
+                        {{ form_widget(f.imageFile , {'attr':{class :'file-upload-input' , 'onchange' :'readURL(this);'}}) }}
+
+                        <div class="drag-text">
+                            <h3>Or you can Drag and Drop an image here</h3>
+                        </div>
+                    </div>
+                    <div class="file-upload-content">
+                        <img class="file-upload-image" src="#" alt="your image" />
+                        <div class="image-title-wrap">
+                            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             {#    <label class="custom-file-upload">
+                {{ form_widget(f.imageFile) }} UPLOAD
+                </label> #}
+
+                    {{ form_end(f) }}
+                <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="/AfficheChannel">Cancel</a></div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+{{ form_end(f) }}
+{% endblock %}

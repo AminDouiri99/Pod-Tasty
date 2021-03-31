@@ -4,7 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    PODCAST_FILES:    '%kernel.project_dir%/public/Files/podcastFiles'
+    image_directory:    '%kernel.project_dir%/public/Files/podcastFiles'
+    playlist_directory: '%kernel.project_dir%/public/Files/playlistFiles'
 
 services:
 #    app.services:

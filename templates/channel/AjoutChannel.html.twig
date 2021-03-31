@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/bootstrap-4.1.2/bootstrap.min.css') }}">
+    <link href="{{ asset('/assets/playlist/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/assets/playlist/plugins/colorbox/colorbox.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/contact.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/contact_responsive.css')}}">
+    </head>
+    <div class="contact_form_container">
+        <div class="contact_form_title text-center"><h1 class="text-white-50"> Please fill in your channel's information </h1> <br></div>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                {{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
+                <div id="contact_form" class="contact_form">
+                    {{ form_start(f) }}
+                    {#
+                    <div class="row">
+                        <div class="col-md-6 contact_col">
+                            {{ form_widget(f.PlaylistName,  {'attr' : {placeholder : 'Whats the name of your new playlist ?',size :'30' ,class : 'contact_input' }}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" class="contact_input" placeholder="E-mail" required="required">
+                        </div>
+                    </div>#}
+                    <div><div class="text-danger">{{ form_errors(f.ChannelName) }}</div>
+                        {{ form_widget(f.ChannelName,  {'attr' : {placeholder : 'Whats the name of your new channel ?',size :'30' ,class : 'contact_input' }}) }}</div>
+                    <div><div class="text-danger">{{ form_errors(f.ChannelDescription) }}</div>
+                        {{ form_widget(f.ChannelDescription, {'attr' : {placeholder : 'Whats your channel\'s about ?',class : 'contact_input contact_textarea' }})}}</div>
+         <div hidden>   {{ form_row(f.ChannelStatus) }} </div>
+                </div>
+                {{ form_end(f)}}
+                <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="/AffichePlaylists">Cancel</a></div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

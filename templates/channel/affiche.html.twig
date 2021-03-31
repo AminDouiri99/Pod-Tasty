@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+{% block title %} Affiche {% endblock %}
+
+{% block content %}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/assets/channelsStyle/channel.css">
+    <link href="{{ asset('https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;500&display=swap')}}" rel="stylesheet">
+    <link href="{{ asset('/assets/playlist/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }} "rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/channelsStyle/styles/blog.css')}}">
+    <script   src="{{ asset('/assets/channelsStyle/js/reloader.js')}}"> </script>
+
+
+</head>
+
+
+<body>
+
+
+
+    <p class="logo-1">Browse channels</p>
+
+
+
+
+    <div class="sidebar_search">
+        <form action="#" class="search_form" id="search_form">
+            <input type="text" class="search_input" placeholder="Search here" required="required" id="searchInputp" onkeyup="searchchannel()">
+            <button disabled class="search_button"><img src="{{ asset('assets/channelsStyle/images/search.png') }}" alt=""></button>
+        </form>
+    </div>
+
+
+<div class="containercard" id="channelcontainer">
+
+    {% for channel in channel %}
+    <div class="card">
+        <img src="https://lh3.googleusercontent.com/pZwZJ5HIL5iKbA91UGMUIPR0VJWa3K0vOGzDZmY6wU3EJBUdfsby3VEyxU162XxTyOyP3D154tjkr-4Jgcx8lygYUR8eB-jVmld4dsHi1c-mE_A8jKccseAG7bdEwVrcuuk6ciNtSw=s170-no" alt="Person" class="card__image">
+        <p class="card__name text-white">{{ channel.ChannelName }}</p>
+        <div class="text-white-50">{{ channel.ChannelDescription }}</div>
+        <div class="grid-container">
+
+            <div class="grid-child-posts">
+                {{ channel.Playlists|length }} Playlists
+            </div>
+
+            <div class="grid-child-followers">
+                0 Likes
+            </div>
+
+        </div>
+        <ul class="social-icons">
+            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="#"><i class="fa fa-codepen"></i></a></li>
+        </ul>
+        <button class="btn draw-border">Follow</button>
+        <button class="btn draw-border"><a style="color:#58cdd1;" href="{{ path('AfficheChannel',{ 'id':channel.id }) }}">Visit</a> </button>
+
+    </div>
+
+
+
+    {% endfor %}
+
+</div>
+
+
+    <div class="row page_nav_row">
+
+        <div class="col">
+            <div class="">
+                <div class="navigation">
+                    {{ knp_pagination_render(channel) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
+

@@ -1,0 +1,67 @@
+{% extends 'back_office/index.html.twig' %}
+{% block dashBoardContent %}
+
+
+
+
+
+
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                <h1 class="h3 mb-3">List of all playlists</h1>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+
+                                <h6 class="card-subtitle text-muted">Display of all existing playlists in the system.</h6>
+                            </div>
+                            <div class="card-body">
+                                <table id="datatables-buttons" class="table table-striped" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Playlist id</th>
+                                        <th>Playlist name</th>
+                                        <th>Created by</th>
+                                        <th>Created in </th>
+                                        <th>Description</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if playlist is defined %}
+                                    {% for playlist in playlist %}
+                                    <tr>
+                                        <td>{{ playlist.id }}</td>
+                                        <td>{{ playlist.PlaylistName }}</td>
+                                        <td>{{ playlist.ChannelId.ChannelName }}</td>
+                                        <td>{{ playlist.PlaylistCreationDate|date('d-m-Y')}}</td>
+                                        <td>{{ playlist.PlaylistDescription }}</td>
+
+                                        <td>
+                                            <a href="{{ path('UpdatePlaylistAdmin',{ 'id':playlist.id })}}"><button class="button_border button_fill button  ">Update </button></a>
+                                            <a href="{{ path('DeletePlaylistAdmin',{ 'id':playlist.id })}}"><button class="button_border button_fill button  ">Delete</button></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                    {% endif %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+
+
+
+
+
+{% endblock %}
