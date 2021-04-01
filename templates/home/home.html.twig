@@ -18,7 +18,7 @@
 
                 <div class="cards">
 
-        <span {% for p in livePods %}>
+        <span {% for p in livePods|reverse %}>
             <figure style="margin-left: 0px" class="card">
                     <div class="show" style="width: 100%">
                         <div class="show_image">
@@ -46,9 +46,6 @@
                                 </div>
                             </div>
                             {% endif %}
-                            {#                            <div class="show_user">#}
-                            {#                                // user Avatar (moula l podcast)#}
-                            {#                            </div>#}
                         </div>
                     </div>
             </figure>
@@ -66,7 +63,7 @@
 
             <div class="cards">
 
-        <span {% for p in podcasts %}>
+        <span {% for p in podcasts|reverse %}>
             <figure style="margin-left: 0px" class="card">
 
                     <div class="show" style="width: 100%">
