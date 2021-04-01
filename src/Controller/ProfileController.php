@@ -3,13 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Channel;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\ProfileType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -34,6 +39,7 @@ class ProfileController extends AbstractController
         $userInfoId=$this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId();
         $userInfo= $this->getDoctrine()->getRepository(UserInfo::class)->find($userInfoId);
         $form= $this->createForm(ProfileType::class,$userInfo);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() ) {
             $img = $form->get('UserImage')->getData();
@@ -52,7 +58,7 @@ class ProfileController extends AbstractController
                         $filesystem->remove((['symlink', '../../public/Files/podcastFiles', $userOldImg]));
                     }*/
                     $img->move(
-                        $this->getParameter('image_directory'),
+                        $this->getParameter('PODCAST_FILES'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -162,13 +168,25 @@ class ProfileController extends AbstractController
     /**
      * @Route("/follow/{id}", name="follow")
      */
-    public function follow(string $id){
+    public function follow(string $id,PublisherInterface $publisher){
     $userToAdd=$this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId();
         $em=$this->getDoctrine()->getManager();
 
         $userinfo=$this->getUser()->getUserInfoId()->addFollowing($userToAdd);
         $em->flush();
-
+        $notifMessage=$this->getUser()->getUserInfoId()->getUserFirstName()." ".$this->getUser()->getUserInfoId()->getUserLastName() ."has followed you";
+        $notif=new Notification();
+        $notif->setNotificationTitle($notifMessage);
+        $notif->setIsViewed(false);
+        $notif->setNotificationDescription($notifMessage);
+        $notif->setNotificationDate(new DateTime());
+        $notif->setUserId($this->getDoctrine()->getRepository(User::class)->find($id));
+        $em->persist($notif);
+        $em->flush();
+        $this->getDoctrine()->getRepository(User::class)->find($id)->addNotificationList($notif);
+        $em->flush();
+        $update= new Update('http://127.0.0.1:8000/addnotification/'.$this->getUser()->getId(),$notif->getId());
+        $publisher($update);
         return $this->redirect("/profile/$id");
     }
     /**
