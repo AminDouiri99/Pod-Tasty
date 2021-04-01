@@ -70,6 +70,7 @@ class VideoStreamController extends AbstractController
         );
         $podcast->setPodcastSource($fileName);
         $podcast->setCurrentlyLive(0);
+        $podcast->setIsBlocked(0);
         $em=$this->getDoctrine()->getManager();
         $em->flush();
         $filesystem = new Filesystem();

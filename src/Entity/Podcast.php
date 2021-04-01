@@ -34,6 +34,12 @@ class Podcast
      */
     private $currentlyLive;
 
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     *
+     */
+    private $isBlocked;
+
 
     /**
      * @ORM\Column(type="integer", nullable=false)
@@ -120,6 +126,8 @@ class Podcast
      */
     private $ReviewList;
 
+
+
     public function __construct()
     {
         $this->ReclamationList = new ArrayCollection();
@@ -155,6 +163,20 @@ class Podcast
 
         return $this;
     }
+
+    public function getIsBlocked(): ?int
+    {
+        return $this->isBlocked;
+    }
+
+    public function setIsBlocked($isBlocked): self
+    {
+        $this->isBlocked = $isBlocked;
+
+        return $this;
+    }
+
+
     public function getPodcastDescription(): ?string
     {
         return $this->PodcastDescription;

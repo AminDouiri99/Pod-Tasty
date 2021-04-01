@@ -49,14 +49,20 @@ class PodcastController extends AbstractController
         $tags = $tagRepo->findAll();
         $livePods = [];
         foreach ($podcasts as $pod) {
+            if($pod->getIsBlocked() == 1) {
+                array_splice($podcasts, array_search($pod, $podcasts), 1);
+            } else {
             if ($pod->getCurrentlyLive() != 0) {
                 array_splice($podcasts, array_search($pod, $podcasts), 1);
             } if ($pod->getCurrentlyLive() == 1) {
                 array_push($livePods, $pod);
             }
+            }
         }
         return $this->render("home/Home.html.twig", ['user' => $user, 'podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags]);
     }
+
+
     /**
      * @Route("/podcasts", name="podcast_admin")
      */
@@ -169,6 +175,7 @@ class PodcastController extends AbstractController
             $Podcast->setPodcastImage($fileName);
             $Podcast->setCommentsAllowed(1);
             $Podcast->setPodcastViews(0);
+            $Podcast->setIsBlocked(0);
             $Podcast->setCurrentlyWatching(0);
             $Podcast->setCurrentlyLive(0);
             $em = $this->getDoctrine()->getManager();//->persist($form->getData());
@@ -435,7 +442,22 @@ class PodcastController extends AbstractController
         return $data;
     }
 
+    /**
+     * @Route("/podcastBlock/{id}", name="updateBlockStatus")
+     * @param $id
+     */
+    public function changeBlockStatus($id){
+        $repo = $this->getDoctrine()->getRepository(Podcast::class);
+        $podcast = $repo->find($id);
+        if($podcast->getIsBlocked() == 1){
+            $podcast->setIsBlocked(0);
+        } else {
 
-
+            $podcast->setIsBlocked(1);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->redirectToRoute("reportsForPod",["id"=> $id]);
+    }
 
 }
