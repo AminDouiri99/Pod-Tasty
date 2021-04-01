@@ -1,50 +1,98 @@
 {% extends 'back_office/index.html.twig' %}
 {% block dashBoardContent %}
-
+    <style>
+        .podcastNameDiv{
+            cursor:pointer;
+        }
+        .podcastNameDiv:hover{
+            opacity: 0.7;
+        }
+    </style>
     <main class="content">
         <div class="container-fluid p-0">
 
             <h1 class="h3 mb-3">All Report</h1>
 
             <div class="row">
-                <div class="col-12">
+                <div class="col-3">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Report</h5>
-                            <h6 class="card-subtitle text-muted">This extension provides a framework with common options that can be used with DataTables. See official documentation <a href="https://datatables.net/extensions/buttons/"
-                                                                                                                                                                                         target="_blank" rel="noopener noreferrer nofollow">here</a>.</h6>
+                            <h5 class="card-title">Podcasts</h5>
                         </div>
                         <div class="card-body">
+                            <table id="datatables-buttons" class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Podcast Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr {% for p in podcasts  %}>
+                                    <td class="podcastNameDiv"><a style="text-decoration: none;color:black" href="{{ path("reportsForPod", {'id': p.id}) }}">{{ p.PodcastName }}</a></td>
+                                </tr {% endfor %}>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">{% if podcast is not null %}{{ podcast.podcastName }} {% endif %}Reports
+                                {% if reclamations is not null%}
+                                    {% if podcast.isBlocked == 0 %}
+                                    <a href="/podcastBlock/{{ podcast.id }}"><button style="margin-left: 15px;font-size: 12px" class="btn btn-danger">Block Podcast</button> </a>
+                                    {% else %}
+                                       <a href="/podcastBlock/{{ podcast.id }}"> <button style="margin-left: 15px;font-size: 12px" class="btn btn-success">Unblock Podcast</button> </a>
+                                  {% endif %}
+                                    <span style="float:right">Number of reports: <span style="{% if reclamations|length < 1 %}color:green;{% endif %}{% if reclamations|length > 10 %}color:red;{% endif %}">{{ reclamations|length }}</span></span>
+                                {% endif %}
+                            </h5>
+                            {# <h6 class="card-subtitle text-muted">This extension provides a framework with common options that can be used with DataTables. See official documentation <a href="https://datatables.net/extensions/buttons/"target="_blank" rel="noopener noreferrer nofollow">here</a>.</h6> #}
+                        </div>
+                        <div class="card-body">
+                            {% if reclamations is not null%}
+                                {% if reclamations is not empty %}
                             <table id="datatables-buttons" class="table table-striped" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>Type</th>
                                     <th>Description</th>
                                     <th>Status</th>
-                                    <th>Podcast</th>
+                                   {# <th>Podcast</th> #}
                                     <th>User</th>
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr {% for r in reclamation  %}>
+                                <tr {% for r in reclamations  %}>
                                     <td>{{ r.Type }}</td>
                                     <td>{{ r.Description }}</td>
-                                    <td>{{ r.Status }}</td>
-                                    <td>{{ r.PodcastId }}</td>
-                                    <td>{{ r.UserId }}</td>
-                                    <td><a href="{{ path('report_delete',{'id':r.id}) }}">Delete</a></td>
+                                    <td>
+                                        {% if r.Status == 1 %}
+                                        <span style="color:green;font-weight: bolder">Solved (Accepted)</span>
+                                        {% endif %}
+                                            {%if r.Status == -1 %}
+                                        <span style="color:red;font-weight: bolder">Solved (Rejected)</span>
+                                            {% endif %}
+                                                {% if r.status == 0 %}
+                                        <a href="/reclamation/acceptReclamation/{{ r.id }}"><Button class="btn btn-success">Accept</Button></a>
+                                        <a href="/reclamation/rejectReclamation/{{ r.id }}"><Button class="btn btn-danger">Reject</Button></a>
+                                        {% endif %}</td>
+                                    {# <td>{{ r.PodcastId.id }}</td> #}
+                                    <td>{{ r.UserId.id }}</td>
+                                    <td><a href="/reclamation/deleteReclamation/{{ r.id }}">Delete</a></td>
                                 </tr {% endfor %}>
-                                <tr>
-                                    <td>Donna Snider</td>
-                                    <td>Customer Support</td>
-                                    <td>New York</td>
-                                    <td>27</td>
-                                    <td>2011/01/25</td>
-                                    <td>$112,000</td>
-                                </tr>
                                 </tbody>
                             </table>
+                                    {% else %}
+                                        <div style="height: 300px;margin: auto;text-align: center;font-size: 17px;padding-top:100px;color: black;font-weight: bolder">No reclamations to show for this podcast</div>
+
+                                {% endif %}
+                                {% else %}
+                                <div style="height: 300px;margin: auto;text-align: center;font-size: 17px;padding-top:100px;color: black;font-weight: bolder">Select a podcast to show reclamations</div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -80,7 +128,6 @@
             </div>
         </div>
     </footer>
-    </div>
-    </div>
+
 
 {% endblock %}

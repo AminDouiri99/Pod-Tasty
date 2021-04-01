@@ -45,7 +45,7 @@
                         </nav>
                     </div>
                 </div>
-               {% if user == null %}
+               {% if app.user == null %}
                 <div class="col" >
                     <div class="header_content d-flex flex-row align-items-right justify-content-start trans_400">
                         <nav class="main_nav">
@@ -68,12 +68,12 @@
                     </div>
                 </div>
                 {% endif %}
-                {% if user  %}
+                {% if app.user  %}
                     <div class="col" style="float:right;padding-top: 10px;width: 100%">
                         <div style="float: right">
                             <nav  class="main_nav">
                                 <a class="button is-primary has-text-white logregButt">
-                                    <strong>{{ user.UserEmail }}</strong>
+                                    <strong>{{ app.user.UserEmail }}</strong>
                                 </a>
                             </nav>
                         </div>
