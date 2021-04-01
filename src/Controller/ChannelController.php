@@ -69,9 +69,10 @@ class ChannelController extends AbstractController
             // Items per page
             6
         );
+        $image=$user->getUserInfoId();
        /* $repo=$this->getDoctrine()->getRepository(Channel::class);
         $channel=$repo->findAll();*/
-        return $this->render('channel/affiche.html.twig',['channel'=>$channel, 'user'=>$user]);
+        return $this->render('channel/affiche.html.twig',['channel'=>$channel, 'user'=>$user,'image'=>$image]);
     }
 
 
