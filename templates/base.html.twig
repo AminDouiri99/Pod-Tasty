@@ -43,7 +43,7 @@
                                 <li><a href="{{ path('Home') }}" >Home</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/about.html">About</a></li>
                                 <li><a href="https://preview.colorlib.com/theme/mypodcast/episodes.html">Episodes</a></li>
-                                <li><a href="https://preview.colorlib.com/theme/mypodcast/blog.html">Blog</a></li>
+                                <li><a href="{{ path('post') }}">Social</a></li>
                                 <li><a href="{{ path('contact') }}">Contact</a></li>
                             </ul>
                         </nav>
@@ -76,7 +76,7 @@
                     <div class="col" style="padding-top: 10px;width: 100%;float: right;">
                         <div style="float: right">
                             <nav class="main_nav">
-                                <a class="button is-primary has-text-white logregButt" href="{{ path('profile',{id:user.id}) }}">
+                                <a class="button is-primary has-text-white logregButt" href="{{ path('profile',{id:app.user.id}) }}">
                                     <strong>{{ app.user.userInfoId.userFirstName }} {{ app.user.userInfoId.userLastName }}</strong>
                                 </a>
                             </nav>

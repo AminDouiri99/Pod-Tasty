@@ -43,6 +43,11 @@ class Post
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $privacy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -94,6 +99,18 @@ class Post
     public function setUser(?userInfo $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPrivacy(): ?bool
+    {
+        return $this->privacy;
+    }
+
+    public function setPrivacy(bool $privacy): self
+    {
+        $this->privacy = $privacy;
 
         return $this;
     }

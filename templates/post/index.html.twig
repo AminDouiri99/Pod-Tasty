@@ -35,12 +35,12 @@ fi.value = "";
 						<div class="media">
 							<div class="media-left">
 								<figure class="image is-48x48">
-									<img src="https://bulma.io/images/placeholders/96x96.png" class="is-rounded" alt="Placeholder image">
+									<a href=""><img src="{{ asset('/Files/podcastFiles/' ~ currentUser.UserInfoId.userImage ) }}" class="is-rounded" alt="Placeholder image"></a>
 								</figure>
 							</div>
 							<div class="media-content ">
-								<p class="title is-4 has-text-white">Issam Ben Ammar</p>
-								<p class="subtitle is-6 has-text-info">@issamonic</p>
+								<p class="title is-4 has-text-white">{{currentUser.UserInfoId.userFirstName}}{{currentUser.UserInfoId.userLastName}}</p>
+								<p class="subtitle is-6 has-text-info">@{{currentUser.UserInfoId.userFirstName}}{{currentUser.UserInfoId.userLastName}}</p>
 							</div>
 						</div>
 
@@ -72,7 +72,12 @@ fi.value = "";
 							</label>
 						</div>
 
-						<button class="button is-info" type="submit">Post</button>
+						<button class="button is-info is-outlined" type="submit">Post</button>
+
+
+						<button class="button is-primary is-outlined ml-3">{{ form_widget(formPost.privacy)}}
+							<span class="ml-1">only for followers</span>
+						</button>
 
 					</div>
 					{{ form_end(formPost)}}
@@ -96,6 +101,7 @@ reader.readAsDataURL(event.target.files[0]);
 				{% for post in posts %}
 
 					<div class="card mb-4 border-info  bg-transparent">
+
 						{% if post.postImage %}
 							<div class="card-image ">
 								<figure class="image  ">
@@ -105,20 +111,23 @@ reader.readAsDataURL(event.target.files[0]);
 						{% endif %}
 
 						<div class="card-content  ">
+
 							<div class="media">
 								<div class="media-left">
-									<figure class="image is-48x48 is-rounded">
-										<img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+									<figure class="image is-48x48  ">
+										<img src="{{ asset('/Files/podcastFiles/' ~ post.user.userImage ) }}" class="is-rounded is-1by1 " alt="Placeholder image">
 									</figure>
 								</div>
 								<div class="media-content">
 									<p class="title is-4 has-text-white">{{post.user.userFirstName}}
 										{{post.user.userLastName}}</p>
-									<p class="subtitle is-6 has-text-info">@{{post.user.userFirstName}}{{post.user.userLastName}}</p>
+									<p class="subtitle is-6 has-text-info">
+										<a style="text-decoration: none;" href="{{path('profile',{'id':post.user.id})}}">@{{post.user.userFirstName}}{{post.user.userLastName}}</a>
+									</p>
 								</div>
 							</div>
 
-							<div class="content has-text-white">
+							<div id="postContent" class="content has-text-white">
 								{{post.text}}
 
 
@@ -135,45 +144,67 @@ reader.readAsDataURL(event.target.files[0]);
 							</div>
 							<input class="input is-rounded" type="text" placeholder="Write a comment...">
 
+
 						</div>
+						{% if post.user.id == currentUser.id %}
+							<a href="{{path('d',{'id':post.id})}}">
+								<button class="delete is-large"></button>
+							</a>
+
+
+						{% endif %}
+
 					</div>
 				{% endfor %}
 			</div>
 
 
 			<style>
-				.dwer {
+				
+				.ando {
 					border-style: outset;
-					border-color: red;
+					
 					padding: 3px
 				}
-			</style>
+				.not-seen {
+					
+					border-color: red;
+					
+				}
 
+				.seen {
+					border-color: grey;
+					
+					
+				}
+			</style>
+			<div class="column  is-one-quarter-desktop "></div>
 			<div class="column  is-one-quarter-desktop ">
 
-				<figure class="image is-128x128 is rounded ml-5">
-					<img class="is-rounded dwer" src="https://bulma.io/images/placeholders/128x128.png" alt="Placeholder image">
+
+				<figure class="image is-128x128 is rounded mb-6">
+					<a href="{{path('story1',{'id':currentUser.UserInfoId.id})}}"><img class="is-rounded {% if currentUser.UserInfoId.stories|length > 0  %} ando {% endif %} " src="{{ asset('/Files/podcastFiles/' ~ currentUser.UserInfoId.userImage ) }}" alt="Placeholder image"></a>
 				</figure>
+				<br>
+				{% for following in followings %}
+					
+				{% for story in following.stories %}
+					{% if loop.last %}
+						{% if currentUser.UserInfoId in story.views %}
+							laaaaaaaaaaaaaaaaaaaaaaaaaa
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+				<figure class="image is-128x128 is rounded ">
+					<a href="{{path('story1',{'id':following.id})}}"><img class="is-rounded {% if following.stories|length > 0  %} ando {% endif %}    " src="{{ asset('/Files/podcastFiles/' ~ following.userImage ) }}" alt="Placeholder image"></a>
+				</figure>
+				{% endfor %}
 
-				
-		<figure class="image is-128x128 is rounded ml-5">
-			<img class="is-rounded dwer" src="https://bulma.io/images/placeholders/128x128.png" alt="Placeholder image">
-		</figure>
-		<figure class="image is-128x128 is rounded ml-5">
-			<img class="is-rounded dwer" src="https://bulma.io/images/placeholders/128x128.png" alt="Placeholder image">
-		</figure>
-		<figure class="image is-128x128 is rounded ml-5">
-			<img class="is-rounded dwer" src="https://bulma.io/images/placeholders/128x128.png" alt="Placeholder image">
-		</figure>
-		<figure class="image is-128x128 is rounded ml-5">
-			<img class="is-rounded " src="https://bulma.io/images/placeholders/128x128.png" alt="Placeholder image">
-		</figure>
-		<figure class="image is-128x128 is rounded ml-5">
-			<img class="is-rounded " src="https://bulma.io/images/placeholders/128x128.png" alt="Placeholder image">
-		</figure>
+			</div>
 
 
+		</div>
 	</div>
 
 
-</div></div>{% endblock %}
+{% endblock %}

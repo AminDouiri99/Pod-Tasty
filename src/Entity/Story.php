@@ -35,6 +35,18 @@ class Story
      */
     private $views;
 
+
+     /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $privacy;
+
     public function __construct()
     {
         $this->views = new ArrayCollection();
@@ -45,15 +57,18 @@ class Story
         return $this->id;
     }
 
-    public function getStoryImage(): ?string
+    public function getStoryImage()
     {
         return $this->storyImage;
     }
 
-    public function setStoryImage(string $storyImage): self
+    public function setStoryImage( $storyImage)
     {
         $this->storyImage = $storyImage;
-
+        if ($storyImage) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
         return $this;
     }
 
@@ -89,6 +104,18 @@ class Story
     public function removeView(userInfo $view): self
     {
         $this->views->removeElement($view);
+
+        return $this;
+    }
+
+    public function getPrivacy(): ?bool
+    {
+        return $this->privacy;
+    }
+
+    public function setPrivacy(?bool $privacy): self
+    {
+        $this->privacy = $privacy;
 
         return $this;
     }
