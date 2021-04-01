@@ -72,7 +72,10 @@ class PlaylistController extends AbstractController
         $ChannelId=$user->getChannelId();
         if (isset($ChannelId)){
             $ChannelId=$user->getChannelId();
-
+            $repoo=$this->getDoctrine()->getRepository(Channel::class);
+            $channell=$repoo->findOneBy(['id'=>$ChannelId]);
+            $channel=$repoo->findBy(['id'=>$ChannelId]);
+            if ($channell->getChannelStatus()==0){return $this->redirectToRoute("profile",['id'=>$user->getId()] );}
         $playlista = $playlistrepo->createQueryBuilder('p')
                 ->select('p')
                 ->where('p.ChannelId = :ChannelId')
@@ -87,8 +90,7 @@ class PlaylistController extends AbstractController
                 // Items per page
                 5
             );
-        $repoo=$this->getDoctrine()->getRepository(Channel::class);
-        $channel=$repoo->findBy(['id'=>$ChannelId]);
+
               return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist,'nbplaylist'=>$nbplaylists, 'user'=>$user, 'channel'=>$channel]);}
         else {return $this->redirectToRoute("profile",['id'=>$user->getId()] );}
     }
