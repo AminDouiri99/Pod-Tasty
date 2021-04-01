@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/reclamation")
- */
 class ReclamationController extends AbstractController
 {
     /**
@@ -31,7 +28,7 @@ class ReclamationController extends AbstractController
     }
 
     /**
-     * @Route("/report", name="reclamation_index_admin")
+     * @Route("/admin/report", name="reclamation_index_admin")
      * @return Response
      */
     public function indexAdmin(): Response
@@ -46,7 +43,7 @@ class ReclamationController extends AbstractController
     }
 
     /**
-     * @Route("/reports/{id}", name="reportsForPod")
+     * @Route("/admin/reports/{id}", name="reportsForPod")
      * @return Response
      */
     public function getReportsForPod($id)

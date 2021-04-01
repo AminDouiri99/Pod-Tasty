@@ -77,12 +77,12 @@
                                         <span style="color:red;font-weight: bolder">Solved (Rejected)</span>
                                             {% endif %}
                                                 {% if r.status == 0 %}
-                                        <a href="/reclamation/acceptReclamation/{{ r.id }}"><Button class="btn btn-success">Accept</Button></a>
-                                        <a href="/reclamation/rejectReclamation/{{ r.id }}"><Button class="btn btn-danger">Reject</Button></a>
+                                        <a href="/acceptReclamation/{{ r.id }}"><Button class="btn btn-success">Accept</Button></a>
+                                        <a href="/rejectReclamation/{{ r.id }}"><Button class="btn btn-danger">Reject</Button></a>
                                         {% endif %}</td>
                                     {# <td>{{ r.PodcastId.id }}</td> #}
                                     <td>{{ r.UserId.id }}</td>
-                                    <td><a href="/reclamation/deleteReclamation/{{ r.id }}">Delete</a></td>
+                                    <td><a href="/deleteReclamation/{{ r.id }}">Delete</a></td>
                                 </tr {% endfor %}>
                                 </tbody>
                             </table>

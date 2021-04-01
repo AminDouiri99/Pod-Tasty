@@ -110,6 +110,10 @@ class ChannelController extends AbstractController
             $user->setChannelId($channel);
             $em=$this->getDoctrine()->getManager();
             $em->persist($channel);
+            $playlist = new Playlist();
+            $playlist->setChannelId($channel);
+            $playlist->setPlaylistName("default");
+            $this->getDoctrine()->getManager()->persist($playlist);
             $em->flush();
             return $this->redirectToRoute("AfficheChannels");
         }

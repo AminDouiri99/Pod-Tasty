@@ -33,7 +33,7 @@ class Playlist
     private $PlaylistName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank (message="This field should not be blank, describe your playlist")
      * @Assert\Length ( min = 10 ,minMessage = "The playlist description must be at least {{ limit }} characters long")
      */
@@ -68,7 +68,7 @@ class Playlist
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      *
      * @var string|null
      */

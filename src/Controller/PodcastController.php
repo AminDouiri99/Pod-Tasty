@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Podcast;
 use App\Entity\Tag;
 use App\Form\PodcastType;
+use App\Repository\ChannelRepository;
+use App\Repository\PlaylistRepository;
 use App\Repository\TagRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -113,11 +116,13 @@ class PodcastController extends AbstractController
 
     /**
      * @Route("/AddPodcast")
+     * @param UserRepository $userRepo
+     * @param ChannelRepository $channelRepo
      * @param Request $request
      * @param TagRepository $tagRepo
      * @return RedirectResponse|Response
      */
-    function Add(Request $request, TagRepository $tagRepo)
+    function Add(UserRepository $userRepo, PlaylistRepository $playlistRepo,Request $request, TagRepository $tagRepo)
     {
         $tags = $tagRepo->findAll();
         $user = $this->getUser();
@@ -153,20 +158,9 @@ class PodcastController extends AbstractController
             $file->move(
                 $this->getParameter('PODCAST_FILES'), $fileName
             );
-            $tagIds = [];
-            $ids = $form->get("tags")->getData();
-            $ids = substr($ids, 1, strlen($ids));
-            while(strlen($ids) > 0) {
-                if(strpos($ids, ",") !== false) {
-                $id = substr($ids, 0, strpos($ids, ","));
-                $ids = substr($ids, strpos($ids, ",")+1, strlen($ids));
-                } else {
-                    $id=$ids;
-                    $ids = "";
-                }
-                array_push($tagIds, $id);
-            }
-            if(count($tags) > 0) {
+            $tagIds = $this->podcastTags($form->get("tags")->getData());
+
+            if(count($tagIds) > 0) {
             foreach($tagIds as $id) {
                 $tagtoAdd = $tagRepo->find($id);
                 $Podcast->addTagsList($tagtoAdd);
@@ -188,6 +182,22 @@ class PodcastController extends AbstractController
         }
         return $this->render('Podcast/Add.html.twig', [
             'form' => $form->createView(),'tags'=>$tags, 'user' => $user, 'type'=>"Add podcast"]);
+    }
+
+    function podcastTags($ids) {
+        $tagIds = [];
+        $ids = substr($ids, 1, strlen($ids));
+        while(strlen($ids) > 0) {
+            if(strpos($ids, ",") !== false) {
+                $id = substr($ids, 0, strpos($ids, ","));
+                $ids = substr($ids, strpos($ids, ",")+1, strlen($ids));
+            } else {
+                $id=$ids;
+                $ids = "";
+            }
+            array_push($tagIds, $id);
+        }
+        return $tagIds;
     }
 
     /**
@@ -252,6 +262,9 @@ class PodcastController extends AbstractController
         {
             $user = $this->getUser();
             $Podcast = new Podcast();
+            $tagRepo = $this->getDoctrine()->getRepository(Tag::class);
+            $tags = $tagRepo->findAll();
+
             $form = $this->createForm(PodcastType::class, $Podcast);
             $form->add("Proceed", SubmitType::class, [
                 'attr' => ['class' => 'btn btn-info'],
@@ -269,11 +282,19 @@ class PodcastController extends AbstractController
                 $file->move(
                     $this->getParameter('PODCAST_FILES'), $fileName
                 );
+                $tagIds = $this->podcastTags($form->get("tags")->getData());
+                if(count($tagIds) > 0) {
+                    foreach($tagIds as $id) {
+                        $tagtoAdd = $tagRepo->find($id);
+                        $Podcast->addTagsList($tagtoAdd);
+                    }
+                }
                 $Podcast->setPodcastImage($fileName);
                 $Podcast->setCurrentlyWatching(0);
                 $Podcast->setCommentsAllowed(1);
                 $Podcast->setCurrentlyLive(-1);
                 $Podcast->setPodcastViews(0);
+                $Podcast->setIsBlocked(0);
                 $em = $this->getDoctrine()->getManager();//->persist($form->getData());
 
                 //  $em=$this->getDoctrine()->getManager()->flush();
@@ -283,7 +304,7 @@ class PodcastController extends AbstractController
                 $this->container->get('session')->set('podId', $Podcast->getId());
                 return $this->redirectToRoute('startStreaming');
             }
-            return $this->render("podcast/Add.html.twig", ['user' => $user, 'form' => $form->createView(), 'type'=>"Set up your stream"]);
+            return $this->render("podcast/Add.html.twig", ['user' => $user, 'form' => $form->createView(), 'type'=>"Set up your stream", "tags"=>$tags]);
 
         }
 

@@ -51,7 +51,7 @@
 
                 </div>
                 {% endif %}
-                <div id="podCarItem2" class="carousel-item {% if type == 'Set up your stream' %}active{% endif %}">
+                <div id="podCarItem2" style="margin-left: -200px" class="carousel-item {% if type == 'Set up your stream' %}active{% endif %}">
                     <div class="field center">
                 <p class="control has-icons-left has-icons-right">
                     {{ form_errors(form.PodcastName) }}
@@ -66,15 +66,6 @@
                     {{ form_widget(form.PodcastDescription,{'attr':{'class' : 'form-control'}}) }}
                 </p>
             </div>
-                 {#  <br>
-                        <br>
-                        <i class="fa fa-calendar"></i>#}
-                        {#<label for="date">Date:</label> #}
-                       {# {{ form_errors(form.PodcastDate) }}
-                        {{ form_label(form.PodcastDate,"Date :") }}
-                        {{ form_widget(form.PodcastDate,{'attr':{'placeholder' : 'le Date de votre Podcast',}}) }}
-                        </p>
-                    #}
                     </div>
             <div class="field center">
                 <p class="control has-icons-left has-icons-right">
@@ -83,16 +74,23 @@
                     {{ form_widget(form.PodcastImage,{'attr':{'class' : 'form-control-file'}}) }}
 
                 <div class="field center">
-                    <p style="margin-top: 20px;margin-bottom: 20px;padding: 5px" class="control has-icons-left has-icons-right">
+                    <p style="margin-top: 20px;margin-bottom: -20px;padding: 5px" class="control has-icons-left has-icons-right">
                         Tags:
                         {% for tag in tags %}
                             <span onclick="addRemoveTag({{ tag.id }})" class="btn btn-light" style="cursor:pointer;border-radius: 20px" id="{{ tag.id }}">{{ tag.name }}</span>
                         {% endfor %}
-                        <div>
+                        <div hidden>
                             {{ form_widget(form.tags) }}
                     </div>
                     </p>
                 </div>
+                <div class="field center">
+                    <p style="margin-top: 20px;margin-bottom: 20px;padding: 5px" class="control has-icons-left has-icons-right">
+                        Playlist:
+                        {{ form_widget(form.PlaylistId,{'attr':{'class' : 'form-control'}}) }}
+                    </p>
+                </div>
+
                     </div>
 
                     {{ form_end(form) }}
