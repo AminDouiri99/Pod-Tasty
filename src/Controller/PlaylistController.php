@@ -92,7 +92,7 @@ class PlaylistController extends AbstractController
             );
 
               return $this->render('playlist/playlist.html.twig',['playlist'=>$playlist,'nbplaylist'=>$nbplaylists, 'user'=>$user, 'channel'=>$channel]);}
-        else {return $this->redirectToRoute("profile",['id'=>$user->getId()] );}
+        else {return $this->redirectToRoute("profile",['id'=>$user->getId() ] );}
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Channel;
 use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\ProfileType;
@@ -67,9 +68,14 @@ class ProfileController extends AbstractController
                 ]); }
         }
         $getUser = $this->getUser();
+        $ChannelId=$getUser->getChannelId();
+        if (isset($ChannelId)){$repoo=$this->getDoctrine()->getRepository(Channel::class);
+            $channell=$repoo->findOneBy(['id'=>$ChannelId]);
+            $channelStatus=$channell->getChannelStatus();} else $channelStatus=3;
+
  //       $userInfo=$this->getDoctrine()->getRepository(UserInfo::class)->find($id);
         return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController','user'=>$getUser,'userInfo'=>$userInfo,'id'=>$id,'form' => $form->createView()
+            'controller_name' => 'ProfileController','user'=>$getUser,'userInfo'=>$userInfo,'channelStatus'=>$channelStatus,'id'=>$id,'form' => $form->createView()
         ]);
     }
     /**

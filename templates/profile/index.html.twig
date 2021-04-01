@@ -3,6 +3,12 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+    {% if channelStatus is defined  %}
+    {% if channelStatus==0 %}
+    <body onload="banned()">
+    {% endif %}
+    {% endif %}
+
 <script src="{{ asset('/assets/frontOffice/js/profile.js')}}"></script>
     <link href="{{ asset('assets/profile/profile.css') }}" rel="stylesheet" type="text/css">
 
@@ -198,4 +204,10 @@
 </div>
 </div>
 </div>
+    </body>
+    <script>
+        function banned() {
+            alert("Your channel was banned by our admins , please send a request for more details");
+        }
+    </script>
 {% endblock %}
