@@ -13,9 +13,9 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
+        '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '92c8763cd6170fce6fcfe7e26b4e8c10' => __DIR__ . '/..' . '/symfony/phpunit-bridge/bootstrap.php',
-        '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
@@ -23,6 +23,8 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
+        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -33,6 +35,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'W' => 
         array (
             'Webmozart\\Assert\\' => 17,
+        ),
+        'V' => 
+        array (
+            'Vich\\UploaderBundle\\' => 20,
         ),
         'T' => 
         array (
@@ -48,6 +54,7 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Polyfill\\Intl\\Icu\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Grapheme\\' => 31,
             'Symfony\\Flex\\' => 13,
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Contracts\\Service\\' => 26,
@@ -60,6 +67,7 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Validator\\' => 28,
             'Symfony\\Component\\Translation\\' => 30,
+            'Symfony\\Component\\String\\' => 25,
             'Symfony\\Component\\Stopwatch\\' => 28,
             'Symfony\\Component\\Serializer\\' => 29,
             'Symfony\\Component\\Security\\Http\\' => 32,
@@ -72,6 +80,7 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\OptionsResolver\\' => 34,
             'Symfony\\Component\\Mime\\' => 23,
+            'Symfony\\Component\\Messenger\\' => 28,
             'Symfony\\Component\\Mercure\\' => 26,
             'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\Intl\\' => 23,
@@ -127,6 +136,7 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Metadata\\' => 9,
         ),
         'L' => 
         array (
@@ -137,6 +147,8 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         ),
         'K' => 
         array (
+            'Knp\\Component\\' => 14,
+            'Knp\\Bundle\\PaginatorBundle\\' => 27,
             'KnpU\\OAuth2ClientBundle\\' => 24,
         ),
         'G' => 
@@ -147,6 +159,9 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         ),
         'E' => 
         array (
+            'Endroid\\QrCode\\' => 15,
+            'Endroid\\QrCodeBundle\\' => 21,
+            'Endroid\\Installer\\' => 18,
             'Egulias\\EmailValidator\\' => 23,
         ),
         'D' => 
@@ -160,16 +175,23 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
             'Doctrine\\Deprecations\\' => 22,
             'Doctrine\\DBAL\\' => 14,
             'Doctrine\\Common\\Lexer\\' => 22,
+            'Doctrine\\Common\\DataFixtures\\' => 29,
             'Doctrine\\Common\\Collections\\' => 28,
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
             'Doctrine\\Bundle\\MigrationsBundle\\' => 33,
+            'Doctrine\\Bundle\\FixturesBundle\\' => 31,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
+            'DASPRiD\\Enum\\' => 13,
         ),
         'C' => 
         array (
             'Cocur\\BackgroundProcess\\' => 24,
+        ),
+        'B' => 
+        array (
+            'BaconQrCode\\' => 12,
         ),
         'A' => 
         array (
@@ -188,6 +210,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Vich\\UploaderBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vich/uploader-bundle/src',
         ),
         'Twig\\Extra\\TwigExtraBundle\\' => 
         array (
@@ -224,6 +250,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'Symfony\\Polyfill\\Intl\\Icu\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-icu',
+        ),
+        'Symfony\\Polyfill\\Intl\\Grapheme\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme',
         ),
         'Symfony\\Flex\\' => 
         array (
@@ -273,6 +303,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/symfony/translation',
         ),
+        'Symfony\\Component\\String\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/string',
+        ),
         'Symfony\\Component\\Stopwatch\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/stopwatch',
@@ -320,6 +354,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'Symfony\\Component\\Mime\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/mime',
+        ),
+        'Symfony\\Component\\Messenger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/messenger',
         ),
         'Symfony\\Component\\Mercure\\' => 
         array (
@@ -517,6 +555,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Metadata\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jms/metadata/src',
+        ),
         'League\\OAuth2\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/oauth2-client/src',
@@ -534,6 +576,14 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-code/src',
         ),
+        'Knp\\Component\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-components/src/Knp/Component',
+        ),
+        'Knp\\Bundle\\PaginatorBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle/src',
+        ),
         'KnpU\\OAuth2ClientBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/knpuniversity/oauth2-client-bundle/src',
@@ -549,6 +599,18 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Endroid\\QrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/endroid/qr-code/src',
+        ),
+        'Endroid\\QrCodeBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/endroid/qr-code-bundle/src',
+        ),
+        'Endroid\\Installer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/endroid/installer/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -590,6 +652,10 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
         ),
+        'Doctrine\\Common\\DataFixtures\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/data-fixtures/lib/Doctrine/Common/DataFixtures',
+        ),
         'Doctrine\\Common\\Collections\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections',
@@ -612,13 +678,25 @@ class ComposerStaticInit1db5d95ea7999d9500bfe4f3844d13c1
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-migrations-bundle',
         ),
+        'Doctrine\\Bundle\\FixturesBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/doctrine-fixtures-bundle',
+        ),
         'Doctrine\\Bundle\\DoctrineBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-bundle',
         ),
+        'DASPRiD\\Enum\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dasprid/enum/src',
+        ),
         'Cocur\\BackgroundProcess\\' => 
         array (
             0 => __DIR__ . '/..' . '/cocur/background-process/src',
+        ),
+        'BaconQrCode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
         ),
         'App\\Tests\\' => 
         array (

@@ -1,0 +1,57 @@
+{% extends 'back_office/index.html.twig' %}
+
+{% block dashBoardContent %}
+
+    <main class="content">
+        <div class="container-fluid p-0">
+
+            <h1 class="h3 mb-3">List of all channels</h1>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+
+                            <h6 class="card-subtitle text-muted">Display of all existing channels in the system.</h6>
+                        </div>
+                        <div class="card-body">
+                            <table id="datatables-buttons" class="table table-striped" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>Channel id</th>
+                                    <th>Channel name</th>
+                                    <th>Created in </th>
+                                    <th>Status </th>
+                                    <th>Description</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if channel is defined %}
+                                {% for channel in channel %}
+                                <tr>
+                                    <td>{{ channel.id }}</td>
+                                    <td>{{ channel.ChannelName }}</td>
+                                    <td>{{ channel.ChannelCreationDate|date('d-m-Y')}}</td>
+                                    <td>{{ channel.ChannelStatus }}</td>
+                                    <td>{{ channel.ChannelDescription }}</td>
+
+                                    <td>
+                                        <a href="{{ path('UpdateChannelAdmin',{ 'id':channel.id })}}"><button class="button_border button_fill button  ">Update </button></a>
+                                        <a href="{{ path('DeleteChannelAdmin',{ 'id':channel.id })}}"><button class="button_border button_fill button  ">Delete</button></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                {% endfor %}
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+{% endblock %}

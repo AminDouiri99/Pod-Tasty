@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\PodcastComment;
+use Endroid\QrCode\Builder\BuilderInterface;
 use App\Entity\User;
 use App\Repository\PodcastCommentRepository;
 use App\Repository\PodcastRepository;
@@ -25,9 +26,8 @@ class PodcastCommentsController extends AbstractController
      * @param UserRepository $userRepo
      * @return Response
      */
-    public function index(int $id,PodcastRepository $podcastRepo, UserRepository $userRepo): Response
+    public function index(int $id,PodcastRepository $podcastRepo, UserRepository $userRepo, BuilderInterface $customQrCodeBuilder): Response
     {
-
         $isFavourite = false;
         $podcast = $podcastRepo->findOneBy(['id' =>$id]);
         $getUser = $this->getUser();
@@ -51,8 +51,14 @@ class PodcastCommentsController extends AbstractController
         }
         $reviewMoy /= $podcast->getReviewList()->count();
     }
+
+        $qrCode = $customQrCodeBuilder
+            ->size(400)
+            ->data($podcast->getId())
+            ->margin(20)
+            ->build();
         $comments=$podcast->getCommentList();
-        return $this->render("default/comments.html.twig", ['comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, 'userReview'=>$userReview, "reviewMoy"=>$reviewMoy, "isFavourite"=>$isFavourite]);
+        return $this->render("default/comments.html.twig", ['comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, 'userReview'=>$userReview, "reviewMoy"=>$reviewMoy, "isFavourite"=>$isFavourite, "qrCode" => $qrCode->getDataUri()]);
     }
 
     /**

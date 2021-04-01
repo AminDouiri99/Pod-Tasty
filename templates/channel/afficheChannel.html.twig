@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/bootstrap-4.1.2/bootstrap.min.css') }}">
+        <link href="{{ asset('/assets/playlist/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }} "rel="stylesheet" type="text/css">
+        <link href="{{ asset('/assets/playlist/plugins/colorbox/colorbox.css') }}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/blog.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/blog_responsive.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/about.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/playlist/styles/about_responsive.css')}}">
+        <script   src="{{ asset('/assets/playlist/js/reloader.js')}}"> </script>
+    </head>
+
+
+
+
+
+
+
+
+
+
+    <div class="super_container">
+
+
+
+
+
+    <div class="home">
+        <div class="home_container d-flex flex-column align-items-center justify-content-center">
+            <div class="home_content">
+                <div class="home_title"><h1> {% for channel in channel %} Welcome to {{ channel.ChannelName}} {%  endfor %}</h1></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="blog">
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 order-lg-1 order-2 sidebar_col">
+                    <div class="sidebar">
+                        <div class="text-center">
+
+                        </div>
+                        <div class="text-center"><br><br></div>
+                        <div class="sidebar_search">
+                            <div class="sidebar_title">Search</div>
+                            <div class="menu_submit"><a href="#">Submit your podcast</a></div>
+
+                            <input type="text" class="search_input" placeholder="Search here" id="searchInputp" required="required" onkeyup="searchplaylist1()">
+
+
+                        </div>
+
+                        <div class="sidebar_list">
+                            <div class="sidebar_title">Categories</div>
+                            <ul>
+                                <li><a href="#">Travel</a></li>
+                                <li><a href="#">Music</a></li>
+                                <li><a href="#">Lifestyle</a></li>
+                                <li><a href="#">Social Media</a></li>
+                                <li><a href="#">Art</a></li>
+                                <li><a href="#">Audiobooks</a></li>
+                                <li><a href="#">Documentaries</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar_tags">
+                            <div class="sidebar_title">Tags</div>
+                            <div class="tags">
+                                <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
+                                    <li><a href="#">music</a></li>
+                                    <li><a href="#">art</a></li>
+                                    <li><a href="#">technology</a></li>
+                                    <li><a href="#">travel & food</a></li>
+                                    <li><a href="#">viral</a></li>
+                                    <li><a href="#">interview</a></li>
+                                    <li><a href="#">social media</a></li>
+                                    <li><a href="#">development</a></li>
+                                    <li><a href="#">success</a></li>
+                                    <li><a href="#">did you know?</a></li>
+                                    <li><a href="#">live</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="sidebar_archive">
+                            <div class="sidebar_title">Archive</div>
+                            <div class="dropdown">
+                                <ul>
+                                    <li class="dropdown_selected d-flex flex-row align-items-center justify-content-start"><span>September 2018</span><i class="fa fa-chevron-down ml-auto" aria-hidden="true"></i>
+                                        <ul>
+                                            <li><a href="#">August 2018</a></li>
+                                            <li><a href="#">July 2018</a></li>
+                                            <li><a href="#">June 2018</a></li>
+                                            <li><a href="#">May 2018</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9 blog_col order-lg-2 order-1">
+
+                    <div class="blog_posts" id="playlistcontainer">
+
+
+                        {% for channel in channel %}
+                        {% for playlist in channel.Playlists %}
+                            <div class="blog_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+                                <div class="blog_post_image">
+                                    <img src="{{asset('/assets/playlist/images/blog_2.jpg') }}" alt="">
+                                    <div class="blog_post_date"><a href="#">{{ playlist.PlaylistCreationDate|date('d-m-Y') }}</a></div>
+
+                                </div>
+                                <div class="blog_post_content">
+                                    <div class="blog_post_title"> <a href="#"> {{ playlist.PlaylistName }} </a></div>
+                                    <div class="blog_post_author">By {{ channel.ChannelName}} </div>
+                                    <div class="blog_post_text">
+                                        <p> {{ playlist.PlaylistDescription }}</p>
+                                    </div>
+                                 {#  <div class="blog_post_link"><a href="{{ path('UpdatePlaylist',{ 'id':playlist.id })}}">Update this playlist</a></div>
+                                    <div class="blog_post_link"><a href="{{ path('DeletePlaylist',{ 'id':playlist.id })}}">Delete this playlist</a></div>  #}
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row page_nav_row">
+                <div class="col">
+                    <div class="page_nav d-flex flex-row align-items-center justify-content-center">
+                        <ul class="d-flex flex-row">
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

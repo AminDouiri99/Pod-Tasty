@@ -1,6 +1,6 @@
 
 body{font-weight:300;-webkit-font-smoothing:antialiased}
-h2{text-align:center;font-weight:300}
+h2{font-weight:300}
 .btn-social-icon{margin-bottom:4px}
 .jumbotron{position:relative;font-size:16px;color:#fff;color:rgba(255,255,255,0.75);text-align:center;border-radius:0;padding-bottom:80px;background-image:-webkit-linear-gradient(left, #720e9e 0, #dd4b39 100%);background-image:-o-linear-gradient(left, #720e9e 0, #dd4b39 100%);background-image:linear-gradient(to right, #720e9e 0, #dd4b39 100%);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff720e9e', endColorstr='#ffdd4b39', GradientType=1)}.jumbotron h1{margin-bottom:15px;font-weight:300;letter-spacing:-1px;color:#fff}
 .jumbotron iframe{width:100px !important;height:20px !important;border:none;overflow:hidden;margin:2px}

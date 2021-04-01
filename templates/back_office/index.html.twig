@@ -73,8 +73,9 @@
                 <div style="padding-left: 20px">
                     <li class="sidebar-item"><a class="sidebar-link" href="{{ path('users') }}">Users</a></li>
 
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Channels</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Reclamations</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/admin/channels">Channels</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/admin/playlists">Playlists</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="icons-feather.html">Reclamations</a></li>
                 </div>
 
             </ul>
@@ -168,17 +169,16 @@
                             <i class="align-middle" data-feather="settings"></i>
                         </a>
 
-
                         <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
-                            {% if userInfo.getUserImage() %}
-                            <img class="avatar img-fluid rounded-circle mr-1" src="{{ asset('/Files/podcastFiles/'~userInfo.getUserImage() ) }}"alt="Profile Pic"/>
+                            {% if app.user.userInfoId.getUserImage() %}
+                            <img class="avatar img-fluid rounded-circle mr-1" src="{{ asset('/Files/podcastFiles/'~app.user.userInfoId.getUserImage() ) }}"alt="Profile Pic"/>
                             {% endif %}
 
-                            {% if userInfo.getUserImage()==null %}
+                            {% if app.user.userInfoId.getUserImage()==null %}
 
                                 <img class="avatar img-fluid rounded-circle mr-1" src="{{ asset('/Files/podcastFiles/avatar.jpg') }}" alt="Profile Pic"/>
                             {% endif %}
-                             <span class="text-dark">{{ userInfo.UserFirstName }} {{ userInfo.UserLastName }}</span>
+                             <span class="text-dark">{{ app.user.userInfoId.UserFirstName }} {{ app.user.userInfoId.UserLastName }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="{{ path('profile_admin') }}"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>

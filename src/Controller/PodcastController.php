@@ -37,7 +37,7 @@ class PodcastController extends AbstractController
 
             }
             if($user->getDesactiveAccount()){
-                return $this->render("Home/index.html.twig",['user'=>$user]);
+                return $this->render("Home/home.html.twig",['user'=>$user]);
             }
 
         }

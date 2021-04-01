@@ -1,15 +1,15 @@
 let comNumb = 0;
 let pId;
 window.addEventListener('load', function() {
-    pId = document.getElementById("podcastId").value;
     const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
+    pId = document.getElementById("podcastId").value;
     url.searchParams.append('topic', 'http://127.0.0.1:8000/addComment')
     const eventSource = new EventSource(url);
     eventSource.addEventListener('message', function(event){
-        $.post('/refreshCommentsList', {comId: event.data, podId: pId, currentR: window.location.href}, function(data) {
-            if(data !== "-1") {
-                addCommentToView(data);
-            }
+    $.post('/refreshCommentsList', {comId: event.data, podId: pId, currentR: window.location.href}, function(data) {
+          if(data !== "-1") {
+            addCommentToView(data);
+          }
         })
     });
 

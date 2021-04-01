@@ -6,11 +6,20 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'cebff884ea9b57c6b0462f7fc494a54639624e89',
+    'reference' => '3e15c6efe84bd3d37e6ae15a8cdba95f4cd72241',
     'name' => 'vendor_name/phpproject',
   ),
   'versions' => 
   array (
+    'bacon/bacon-qr-code' => 
+    array (
+      'pretty_version' => '2.0.3',
+      'version' => '2.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '3e9d791b67d0a2912922b7b7c7312f4b37af41e4',
+    ),
     'cocur/background-process' => 
     array (
       'pretty_version' => 'v0.7',
@@ -28,6 +37,15 @@
       array (
       ),
       'reference' => '7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
+    ),
+    'dasprid/enum' => 
+    array (
+      'pretty_version' => '1.0.3',
+      'version' => '1.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5abf82f213618696dda8e3bf6f64dd042d8542b2',
     ),
     'doctrine/annotations' => 
     array (
@@ -65,6 +83,15 @@
       ),
       'reference' => '2afde5a9844126bc311cd5f548b5475e75f800d3',
     ),
+    'doctrine/data-fixtures' => 
+    array (
+      'pretty_version' => '1.5.0',
+      'version' => '1.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '51d3d4880d28951fff42a635a2389f8c63baddc5',
+    ),
     'doctrine/dbal' => 
     array (
       'pretty_version' => '2.13.0',
@@ -91,6 +118,15 @@
       array (
       ),
       'reference' => '8b922578bdee2243a26202b13df795e170efaef8',
+    ),
+    'doctrine/doctrine-fixtures-bundle' => 
+    array (
+      'pretty_version' => '3.4.0',
+      'version' => '3.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '870189619a7770f468ffb0b80925302e065a3b34',
     ),
     'doctrine/doctrine-migrations-bundle' => 
     array (
@@ -182,6 +218,33 @@
       ),
       'reference' => '62c3b73c581c834885acf6e120b412b76acc495a',
     ),
+    'endroid/installer' => 
+    array (
+      'pretty_version' => '1.3.3',
+      'version' => '1.3.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '04f900858442215b799af81866719922cce3d04a',
+    ),
+    'endroid/qr-code' => 
+    array (
+      'pretty_version' => '4.0.3',
+      'version' => '4.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '06b0ac1c2a0633628c1ae904e6ae13fd6808d3ee',
+    ),
+    'endroid/qr-code-bundle' => 
+    array (
+      'pretty_version' => '4.0.0',
+      'version' => '4.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5a6847835b6b8c321deddae27633290145eb41db',
+    ),
     'friendsofphp/proxy-manager-lts' => 
     array (
       'pretty_version' => 'v1.0.3',
@@ -217,6 +280,33 @@
       array (
       ),
       'reference' => '35ea11d335fd638b5882ff1725228b3d35496ab1',
+    ),
+    'jms/metadata' => 
+    array (
+      'pretty_version' => '2.5.0',
+      'version' => '2.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b5c52549807b2d855b3d7e36ec164c00eb547338',
+    ),
+    'knplabs/knp-components' => 
+    array (
+      'pretty_version' => 'v3.0.2',
+      'version' => '3.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7db2eb032591ded5809455af8a4dfdfda079041c',
+    ),
+    'knplabs/knp-paginator-bundle' => 
+    array (
+      'pretty_version' => 'v5.4.2',
+      'version' => '5.4.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8a7255062dd9f6ff8a3a4712a4b34bdbbc9f31f7',
     ),
     'knpuniversity/oauth2-client-bundle' => 
     array (
@@ -474,12 +564,12 @@
     ),
     'sensio/framework-extra-bundle' => 
     array (
-      'pretty_version' => 'v5.6.1',
-      'version' => '5.6.1.0',
+      'pretty_version' => 'v6.1.1',
+      'version' => '6.1.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '430d14c01836b77c28092883d195a43ce413ee32',
+      'reference' => '8ef75e99f20332f2725587896364f7079b53de95',
     ),
     'swiftmailer/swiftmailer' => 
     array (
@@ -808,6 +898,15 @@
       ),
       'reference' => 'a18bba0144eb1637cfcf6037587584decede5878',
     ),
+    'symfony/messenger' => 
+    array (
+      'pretty_version' => 'v4.4.21',
+      'version' => '4.4.21.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ad8217323b7e55f09e78d5207b074075eabc22e4',
+    ),
     'symfony/mime' => 
     array (
       'pretty_version' => 'v4.4.21',
@@ -828,12 +927,12 @@
     ),
     'symfony/monolog-bundle' => 
     array (
-      'pretty_version' => 'v3.6.0',
-      'version' => '3.6.0.0',
+      'pretty_version' => 'v3.7.0',
+      'version' => '3.7.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e495f5c7e4e672ffef4357d4a4d85f010802f940',
+      'reference' => '4054b2e940a25195ae15f0a49ab0c51718922eb4',
     ),
     'symfony/options-resolver' => 
     array (
@@ -866,6 +965,15 @@
       array (
         0 => '*',
       ),
+    ),
+    'symfony/polyfill-intl-grapheme' => 
+    array (
+      'pretty_version' => 'v1.22.1',
+      'version' => '1.22.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5601e09b69f26c1828b13b6bb87cb07cddba3170',
     ),
     'symfony/polyfill-intl-icu' => 
     array (
@@ -1075,6 +1183,15 @@
       ),
       'reference' => 'c5572f6494fc20668a73b77684d8dc77e534d8cf',
     ),
+    'symfony/string' => 
+    array (
+      'pretty_version' => 'v5.2.6',
+      'version' => '5.2.6.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ad0bd91bce2054103f5eaa18ebeba8d3bc2a0572',
+    ),
     'symfony/swiftmailer-bundle' => 
     array (
       'pretty_version' => 'v3.5.2',
@@ -1215,7 +1332,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'cebff884ea9b57c6b0462f7fc494a54639624e89',
+      'reference' => '3e15c6efe84bd3d37e6ae15a8cdba95f4cd72241',
+    ),
+    'vich/uploader-bundle' => 
+    array (
+      'pretty_version' => '1.17.0',
+      'version' => '1.17.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ac1d4d1d73fa89fe4cb1d00205f01dc7144434ca',
     ),
     'webmozart/assert' => 
     array (

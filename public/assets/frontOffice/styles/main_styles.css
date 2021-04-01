@@ -1,6 +1,6 @@
 @charset "utf-8";@import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Poppins:100,300,400,500,600,700,800,900';
 *{margin:0;padding:0;-webkit-font-smoothing:antialiased;-webkit-text-shadow:rgba(0,0,0,.01) 0 0 1px;text-shadow:rgba(0,0,0,.01) 0 0 1px}
-
+@import '~@fortawesome/fontawesome-free/css/all.css';
 html{
 
 	-webkit-touch-callout: none;
@@ -282,11 +282,6 @@ a:hover{
 	background-color:rgba(24,24,24,0.6);
 	padding-bottom: 5px;
 }
-.center {
-	display: block;
-	margin-right: auto;
-	margin-left: auto;
-}
 .ajoutpodcast{
 	padding-top: 30px;
 	width: 40%;
@@ -301,3 +296,14 @@ a:hover{
 .dropdown .list-group .list-group-item{border-width:0 0 1px;margin-bottom:0;text-decoration:none}
 .dropdown .list-group .list-group-item:first-child,.dropdown .list-group .list-group-item:last-child{border-radius:0}
 .dropdown .list-group .list-group-item:hover{background:#f4f7f9}
+.notificationaa {
+
+}
+.notificationaa .badge {
+	height: 15px;
+	width: 15px;
+	background-color: red;
+	border-radius: 50%;
+	display: inline-block;
+	color: white;
+}
