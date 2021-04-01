@@ -1,4 +1,5 @@
 var extensions = ["M4A", "FLAC", "MP3", "WMA","AAC" ];
+let tags=[];
 function openFileLoader() {
     document.getElementById('podcast_PodcastSource').click();
     $('#podcast_PodcastSource').change(function() {
@@ -19,4 +20,24 @@ function openFileLoader() {
         }
     });
 
+}
+
+
+function addRemoveTag(id) {
+    console.log("xx");
+    if(document.getElementById(id).className === "btn btn-light") {
+        tags.push(id);
+    document.getElementById(id).className= "btn btn-info";
+    document.getElementById("podcast_tags").value ="";
+    for(let i =0; i <tags.length; i++) {
+    document.getElementById("podcast_tags").value = document.getElementById("podcast_tags").value+','+tags[i];
+    }
+    } else {
+        tags.splice(tags.indexOf(id), 1);
+        document.getElementById(id).className= "btn btn-light";
+        document.getElementById("podcast_tags").value ="";
+        for(let i =0; i <tags.length; i++) {
+            document.getElementById("podcast_tags").value = document.getElementById("podcast_tags").value+','+tags[i];
+        }
+    }
 }

@@ -108,10 +108,12 @@ class PodcastController extends AbstractController
     /**
      * @Route("/AddPodcast")
      * @param Request $request
+     * @param TagRepository $tagRepo
      * @return RedirectResponse|Response
      */
-    function Add(Request $request)
+    function Add(Request $request, TagRepository $tagRepo)
     {
+        $tags = $tagRepo->findAll();
         $user = $this->getUser();
         $Podcast = new Podcast();
         $form = $this->createForm(PodcastType::class, $Podcast);
@@ -145,6 +147,25 @@ class PodcastController extends AbstractController
             $file->move(
                 $this->getParameter('PODCAST_FILES'), $fileName
             );
+            $tagIds = [];
+            $ids = $form->get("tags")->getData();
+            $ids = substr($ids, 1, strlen($ids));
+            while(strlen($ids) > 0) {
+                if(strpos($ids, ",") !== false) {
+                $id = substr($ids, 0, strpos($ids, ","));
+                $ids = substr($ids, strpos($ids, ",")+1, strlen($ids));
+                } else {
+                    $id=$ids;
+                    $ids = "";
+                }
+                array_push($tagIds, $id);
+            }
+            if(count($tags) > 0) {
+            foreach($tagIds as $id) {
+                $tagtoAdd = $tagRepo->find($id);
+                $Podcast->addTagsList($tagtoAdd);
+            }
+            }
             $Podcast->setPodcastImage($fileName);
             $Podcast->setCommentsAllowed(1);
             $Podcast->setPodcastViews(0);
@@ -159,7 +180,7 @@ class PodcastController extends AbstractController
             return $this->redirectToRoute('Home');
         }
         return $this->render('Podcast/Add.html.twig', [
-            'form' => $form->createView(), 'user' => $user, 'type'=>"Add podcast"]);
+            'form' => $form->createView(),'tags'=>$tags, 'user' => $user, 'type'=>"Add podcast"]);
     }
 
     /**

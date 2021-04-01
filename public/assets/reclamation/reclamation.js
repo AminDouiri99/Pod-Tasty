@@ -4,7 +4,8 @@ function sendReport() {
     let desc = document.getElementById("reportDescription").value;
     $.post("/reclamation/report/new", {type: reportType, desc: desc, podId:pId}, function () {
         document.getElementById("successReport").style.display = "inherit";
-        $("#reportButton").modal("hide");
+        document.getElementById("dismissModal").click();
+
         setTimeout(function() {
             document.getElementById("reportDescription").value= "";
             document.getElementById("reportButt").disabled= false;

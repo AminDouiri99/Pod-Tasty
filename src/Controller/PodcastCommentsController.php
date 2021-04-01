@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 use App\Entity\PodcastComment;
+use App\Repository\ChannelRepository;
+use App\Repository\PlaylistRepository;
+use App\Repository\UserInfoRepository;
 use Endroid\QrCode\Builder\BuilderInterface;
 use App\Entity\User;
 use App\Repository\PodcastCommentRepository;
@@ -26,17 +29,38 @@ class PodcastCommentsController extends AbstractController
      * @param UserRepository $userRepo
      * @return Response
      */
-    public function index(int $id,PodcastRepository $podcastRepo, UserRepository $userRepo, BuilderInterface $customQrCodeBuilder): Response
+    public function index(int $id, UserInfoRepository $userInfo, ChannelRepository $channelRepo, PlaylistRepository $playlistRepo,PodcastRepository $podcastRepo, UserRepository $userRepo, BuilderInterface $customQrCodeBuilder): Response
     {
+        $getUser = $this->getUser();
         $isFavourite = false;
         $podcast = $podcastRepo->findOneBy(['id' =>$id]);
-        $getUser = $this->getUser();
+        $otherPods = null;
+        $channel = null;
+        $owner = null;
+        $ownerImage = null;
+        $following = 0;
         if($getUser != null) {
-        $getUser = $userRepo->find($this->getUser());
+            $getUser = $userRepo->find($this->getUser());
             if($getUser->getPodcastsFavorite()->contains($podcast)) {
                 $isFavourite = true;
             }
         }
+        if($podcast->getPlaylistId() != null){
+            $playlist = $playlistRepo->find($podcast->getPlaylistId());
+            $otherPods = $playlist->getPodcastList();
+            $channel = $channelRepo->find($playlist->getChannelId());
+            $owner = $userRepo->find($channel->getUserId());
+            $ownerInfo = $userInfo->find($owner->getUserInfoId());
+            if($getUser == $owner) {
+                $following = -1;
+            }
+            else if($ownerInfo->getFollowers()->contains($getUser->getUserInfoId())) {
+                $following = 1;
+            }
+            $ownerImage = $ownerInfo->getUserImage();
+            $otherPods->removeElement($podcast);
+        }
+
         $reviewMoy = null;
         $userReview = null;
         if (!$podcast->getReviewList()->isEmpty()){
@@ -58,7 +82,7 @@ class PodcastCommentsController extends AbstractController
             ->margin(20)
             ->build();
         $comments=$podcast->getCommentList();
-        return $this->render("default/comments.html.twig", ['comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, 'userReview'=>$userReview, "reviewMoy"=>$reviewMoy, "isFavourite"=>$isFavourite, "qrCode" => $qrCode->getDataUri()]);
+        return $this->render("default/comments.html.twig", ['following'=>$following,'comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, 'userReview'=>$userReview, "reviewMoy"=>$reviewMoy, "isFavourite"=>$isFavourite,"otherPods" =>$otherPods, "qrCode" => $qrCode->getDataUri(), "channel"=>$channel, "ownerImage"=>$ownerImage, "ownerId"=>$owner->getId()]);
     }
 
     /**

@@ -24,12 +24,12 @@ class PodcastType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ))
-            //->add('PodcastGenre')
+            ->add('tags',TextType::class)
             //->add('PodcastViews')
-            ->add('PodcastDate',DateType::class,array(
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-            ))
+//            ->add('PodcastDate',DateType::class,array(
+//                'widget' => 'single_text',
+//                'format' => 'yyyy-MM-dd',
+//            ))
                 //array('input'  => 'datetime','widget' => 'choice', 'attr' => array('class' =>'calendar')))
 
             ->add('PodcastSource',FileType::class,array(

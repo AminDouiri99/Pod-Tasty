@@ -15,7 +15,14 @@
                 <div class="left col-lg-4">
                     <div class="photo-left">
                         {% if userInfo.getUserImage() !=null%}
-                        <img class="photo" src="{{ asset('/Files/podcastFiles/'~userInfo.getUserImage() ) }}"alt="Profile Pic"/>
+                        <img class="photo" src="
+                         {% if p.podcastImage is not null%}
+                             {{ asset('/Files/usersFiles/'~userInfo.getUserImage() ) }}
+                                {% else %}
+                                {{ asset('Files/usersFiles/avatar.jpg') }}
+                                {% endif %}"
+
+                             alt="Profile Pic"/>
                         {% endif %}
 
                         {% if userInfo.getUserImage()==null %}
@@ -184,8 +191,6 @@
                     {% endif %}
 
                     {{ form_start(form) }}
-                    {{ form_widget(form.UserFirstName, {'attr': { 'class': 'inputeditprofile center','style': 'display: none'}}) }}
-                    {{ form_widget(form.UserLastName, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
                     {{ form_widget(form.UserBio, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
                     {{ form_widget(form.UserGender, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
                     {{ form_widget(form.UserBirthDate, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}

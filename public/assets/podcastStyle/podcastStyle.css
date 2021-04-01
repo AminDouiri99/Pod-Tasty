@@ -139,6 +139,8 @@ p {
 .podcastDiv{
     margin-top: -100px;
     padding: 50px;
+    width:100%;
+    padding-left: 0;
     overflow: auto;
     border-radius: 20px;
 }

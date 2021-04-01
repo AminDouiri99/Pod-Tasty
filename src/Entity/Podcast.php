@@ -45,6 +45,8 @@ class Podcast
      */
     private $PodcastDescription;
 
+    private $tags;
+
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
@@ -122,6 +124,7 @@ class Podcast
     {
         $this->ReclamationList = new ArrayCollection();
         $this->CommentList = new ArrayCollection();
+        $this->PodcastDate=new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -209,6 +212,17 @@ class Podcast
     {
         $this->currentlyWatching = $currentlyWatching;
 
+        return $this;
+    }
+
+    public function getTags() : ?string
+    {
+        return $this->tags;
+    }
+
+    public function setTags( string $tags): self
+    {
+        $this->tags = $tags;
         return $this;
     }
 
@@ -390,12 +404,11 @@ class Podcast
     {
         return $this->tagsList;
     }
+
     public function addTagsList(Tag $tagsList): self
     {
-        if (!$this->tagsList->contains($tagsList)) {
             $this->tagsList[] = $tagsList;
             $tagsList->addPodcastsList($this);
-        }
 
         return $this;
     }
