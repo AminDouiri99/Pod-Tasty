@@ -64,7 +64,7 @@ class PodcastController extends AbstractController
 
 
     /**
-     * @Route("/podcasts", name="podcast_admin")
+     * @Route("/admin/podcasts", name="podcast_admin")
      */
     public function indexAdmin(): Response
     {
