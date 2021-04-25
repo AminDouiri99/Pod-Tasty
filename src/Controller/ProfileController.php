@@ -174,19 +174,6 @@ class ProfileController extends AbstractController
 
         $userinfo=$this->getUser()->getUserInfoId()->addFollowing($userToAdd);
         $em->flush();
-        $notifMessage=$this->getUser()->getUserInfoId()->getUserFirstName()." ".$this->getUser()->getUserInfoId()->getUserLastName() ."has followed you";
-        $notif=new Notification();
-        $notif->setNotificationTitle($notifMessage);
-        $notif->setIsViewed(false);
-        $notif->setNotificationDescription($notifMessage);
-        $notif->setNotificationDate(new DateTime());
-        $notif->setUserId($this->getDoctrine()->getRepository(User::class)->find($id));
-        $em->persist($notif);
-        $em->flush();
-        $this->getDoctrine()->getRepository(User::class)->find($id)->addNotificationList($notif);
-        $em->flush();
-        $update= new Update('http://127.0.0.1:8000/addnotification/'.$this->getUser()->getId(),$notif->getId());
-        $publisher($update);
         return $this->redirect("/profile/$id");
     }
     /**

@@ -416,8 +416,8 @@
                 {{ channel.channelName }}
                 </a><br>
                 {% if following != -1 %}
-                <button onclick="followUser({{ ownerId }})" id="followButton" class="btn btn-info" style="{% if following == 1%}display: none;{% endif %}font-size: 10px;margin-top: 10px">Follow</button>
-                <button onclick="unfollowUser({{ ownerId }})" id="unfollowButton" class="btn btn-danger" style="{% if following ==   0%}display: none;{% endif %}font-size: 10px;margin-top: 10px">Unfollow</button>
+                <button onclick="followUser({{ ownerId }})" id="followButton" class="btn btn-info" style="{% if following == 1%}display: none;{% endif %}font-size: 10px;margin-top: 5px">Follow</button>
+                <button onclick="unfollowUser({{ ownerId }})" id="unfollowButton" class="btn btn-danger" style="{% if following ==   0%}display: none;{% endif %}font-size: 10px;margin-top: 5px">Unfollow</button>
                 {% endif %}
             </div>
             {% if otherPods is not null %}

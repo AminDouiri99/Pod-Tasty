@@ -51,11 +51,15 @@ class PodcastCommentsController extends AbstractController
             $channel = $channelRepo->find($playlist->getChannelId());
             $owner = $userRepo->find($channel->getUserId());
             $ownerInfo = $userInfo->find($owner->getUserInfoId());
-            if($getUser == $owner) {
+            if($getUser != null) {
+                if($getUser == $owner) {
+                    $following = -1;
+                }
+                else if($ownerInfo->getFollowers()->contains($getUser->getUserInfoId())) {
+                    $following = 1;
+                }
+            } else {
                 $following = -1;
-            }
-            else if($ownerInfo->getFollowers()->contains($getUser->getUserInfoId())) {
-                $following = 1;
             }
             $ownerImage = $ownerInfo->getUserImage();
             $otherPods->removeElement($podcast);
@@ -63,7 +67,9 @@ class PodcastCommentsController extends AbstractController
 
         $reviewMoy = null;
         $userReview = null;
+
         if (!$podcast->getReviewList()->isEmpty()){
+
             $reviewMoy = 0;
         foreach ($podcast->getReviewList() as $review) {
             $reviewMoy += $review->getRating();
@@ -142,12 +148,23 @@ class PodcastCommentsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-            $update = new Update("http://127.0.0.1:8000/addComment", $comment->getId());
-            $publisher($update);
+            $this->callMercure($comment->getId(),$comment->getPodcastId()->getId(), $publisher);
             return new Response("");
         }
     }
 
+    /**
+     * @Route ("/callMercure/comments/{id}/{podId}", name="callMercureComments")
+     * @param $id
+     * @param $podId
+     * @param PublisherInterface $publisher
+     * @return Response
+     */
+    function callMercure($id, $podId,PublisherInterface $publisher){
+        $update = new Update("http://127.0.0.1:8000/addComment/".$podId, $id);
+        $publisher($update);
+        return new Response();
+    }
     /**
      * @Route ("/refreshCommentsList", name="refreshCommentsList")
      * @param Request $request

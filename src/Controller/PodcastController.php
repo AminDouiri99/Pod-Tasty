@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\Podcast;
 use App\Entity\Tag;
+use App\Entity\User;
 use App\Form\PodcastType;
 use App\Repository\ChannelRepository;
 use App\Repository\PlaylistRepository;
@@ -62,7 +64,7 @@ class PodcastController extends AbstractController
             }
             }
         }
-        return $this->render("home/Home.html.twig", ['user' => $user, 'podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags]);
+        return $this->render("home/Home.html.twig", ['podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags, 'user' => $user]);
     }
 
 
@@ -156,7 +158,7 @@ class PodcastController extends AbstractController
             $file = $form->get('PodcastImage')->getData();
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move(
-                $this->getParameter('PODCAST_FILES'), $fileName
+                $this->getParameter("PODCAST_FILES"), $fileName
             );
             $tagIds = $this->podcastTags($form->get("tags")->getData());
 
@@ -254,10 +256,12 @@ class PodcastController extends AbstractController
 
     /**
      * @Route("/livePodcast", name="atchPod")
+     * @param UserRepository $userRepo
      * @param Request $request
+     * @param PublisherInterface $publisher
      * @return Response
      */
-    public function watchPod(Request $request): Response
+    public function watchPod(UserRepository $userRepo,Request $request, PublisherInterface $publisher): Response
     {
         {
             $user = $this->getUser();
@@ -302,6 +306,25 @@ class PodcastController extends AbstractController
                 $em->persist($Podcast);
                 $em->flush();
                 $this->container->get('session')->set('podId', $Podcast->getId());
+
+                $user = $userRepo->find($user->getId());
+                $title="Live podcast";
+                $desc=$user->getUserInfoId()->getUserFirstName()." ".$this->getUser()->getUserInfoId()->getUserLastName() ."Started a <a href='/podcast/".$Podcast->getId()."'>live podcast</a>";
+                $notif=new Notification();
+                $notif->setNotificationTitle($title);
+                $notif->setIsViewed(false);
+                $notif->setNotificationDescription($desc);
+                $notif->setNotificationDate(new \DateTime('now'));
+                foreach($user->getUserInfoId()->getFollowers() as $follower) {
+                    $user = $userRepo->find($follower->getId());
+                    $notif->setUserId($user);
+                    $em->persist($notif);
+                    $em->flush();
+                    $update= new Update('http://127.0.0.1:8000/addnotification/'.$follower->getId(),$notif->getId());
+                    $publisher($update);
+                }
+                $em->flush();
+
                 return $this->redirectToRoute('startStreaming');
             }
             return $this->render("podcast/Add.html.twig", ['user' => $user, 'form' => $form->createView(), 'type'=>"Set up your stream", "tags"=>$tags]);

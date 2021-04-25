@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-main',
-    'version' => 'dev-main',
+    'pretty_version' => '1.0.0+no-version-set',
+    'version' => '1.0.0.0',
     'aliases' => 
     array (
     ),
-    'reference' => '3e15c6efe84bd3d37e6ae15a8cdba95f4cd72241',
+    'reference' => NULL,
     'name' => 'vendor_name/phpproject',
   ),
   'versions' => 
@@ -1327,12 +1327,12 @@
     ),
     'vendor_name/phpproject' => 
     array (
-      'pretty_version' => 'dev-main',
-      'version' => 'dev-main',
+      'pretty_version' => '1.0.0+no-version-set',
+      'version' => '1.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3e15c6efe84bd3d37e6ae15a8cdba95f4cd72241',
+      'reference' => NULL,
     ),
     'vich/uploader-bundle' => 
     array (

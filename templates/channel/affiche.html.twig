@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/channelsStyle/channel.css">
     <link href="{{ asset('https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;500&display=swap')}}" rel="stylesheet">
     <link href="{{ asset('/assets/playlist/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }} "rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/channelsStyle/styles/blog.css')}}">
+
     <script   src="{{ asset('/assets/channelsStyle/js/reloader.js')}}"> </script>
 
 
@@ -24,9 +24,9 @@
 
 
 
-    <div class="sidebar_search">
+    <div style="float: right" class="sidebar_search">
         <form action="#" class="search_form" id="search_form">
-            <input type="text" class="search_input" placeholder="Search here" required="required" id="searchInputp" onkeyup="searchchannel()">
+            <input style="border: none;border-bottom: 1px solid white;background-color: transparent;color:white" type="text" class="search_input" placeholder="Search here" required="required" id="searchInputp" onkeyup="searchchannel()">
             <button disabled class="search_button"><img src="{{ asset('assets/channelsStyle/images/search.png') }}" alt=""></button>
         </form>
     </div>

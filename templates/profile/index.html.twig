@@ -20,21 +20,14 @@
             <div class="row">
                 <div class="left col-lg-4">
                     <div class="photo-left">
-                        {% if userInfo.getUserImage() !=null%}
                         <img class="photo" src="
-                         {% if p.podcastImage is not null%}
+                         {% if userInfo.getUserImage() is not null%}
                              {{ asset('/Files/usersFiles/'~userInfo.getUserImage() ) }}
                                 {% else %}
                                 {{ asset('Files/usersFiles/avatar.jpg') }}
                                 {% endif %}"
 
                              alt="Profile Pic"/>
-                        {% endif %}
-
-                        {% if userInfo.getUserImage()==null %}
-
-                            <img class="photo" src="{{ asset('/Files/podcastFiles/avatar.jpg') }}" alt="Profile Pic"/>
-                        {% endif %}
                         {% if user != null %}
                         {% if user.id == id %}
 

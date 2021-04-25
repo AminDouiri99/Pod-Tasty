@@ -5,8 +5,10 @@
     <script src="{{ asset('assets/podcastStyle/addPodcast.js') }}"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <input id="deleteReviewButton"  data-toggle="modal" data-target="#addPodcastModal" style="margin-left:100px;width: 150px;" class="btn btn-danger" type="button" value="{{ type }}"/>
-
+   <div style="color:white;height:400px;margin-top: 200px;text-align: center">
+       <h1>Click the button to proceed</h1><br><br>
+    <input id="deleteReviewButton"  data-toggle="modal" data-target="#addPodcastModal" style="width: 150px;" class="btn btn-info" type="button" value="{{ type }}"/>
+   </div>
     <div style="z-index:99999" class="modal fade" id="addPodcastModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 
 

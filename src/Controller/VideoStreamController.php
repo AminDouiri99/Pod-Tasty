@@ -62,7 +62,7 @@ class VideoStreamController extends AbstractController
      */
     public function savePodcast(PodcastRepository $podcastRepo, Request $request): Response
     {
-        $podcast = $podcastRepo->findOneBy(["id"=> $request->get("podId")]);
+        $podcast = $podcastRepo->find($request->get("podId"));
         $file = $request->files->get("liveStreaming");
         $fileName = uniqid().'.'.$file->guessExtension();
         $file->move(
@@ -74,7 +74,7 @@ class VideoStreamController extends AbstractController
         $em=$this->getDoctrine()->getManager();
         $em->flush();
         $filesystem = new Filesystem();
-        $path=$this->getParameter('PODCAST_FILES').'/temp'.$request->get("podId")."/";
+        $path=$this->getParameter('PODCAST_FILE').'/temp'.$request->get("podId")."/";
         $filesystem->remove($path);
         return new Response("");
 
