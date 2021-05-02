@@ -85,6 +85,39 @@ class ProfileController extends AbstractController
         ]);
     }
     /**
+     * @Route("api/profile/pic/post", name="profilePicPost", methods={"POST"})
+     */
+    public function postProfilePic(Request $request){
+        $file=$request->files->get("myFile");
+
+        if(empty($file)){
+            {
+                return new Response("No file specified",
+                    Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+            }
+        }
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $newFilename = $originalFilename.'.'.$file->guessExtension();
+
+        // Move the file to the directory where brochures are stored
+        try {
+            $file->move(
+                $this->getParameter('PODCAST_FILES'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+        /* $userInfo=$this->getDoctrine()->getRepository(UserInfo::class)->find((int)$id);
+         $userInfo->setUserImage($originalFilename);
+         $em=$this->getDoctrine()->getManager();
+         $em->persist($userInfo);
+         $em->flush();*/
+        return new Response("JAWEK BEHI",
+            Response::HTTP_OK, ['content-type' => 'text/plain']);
+    }
+
+    /**
      * @Route("/editprofile", name="editprofile")
      */
     public function editProfile(Request $request)

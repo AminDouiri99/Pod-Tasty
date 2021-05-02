@@ -5,15 +5,13 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\UserType;
+use App\Repository\UserInfoRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-/**
- * @Route("/user")
- */
+use Symfony\Component\Serializer\SerializerInterface;
 class UserAdminController extends AbstractController
 {
     /**
@@ -106,4 +104,37 @@ class UserAdminController extends AbstractController
 
         return $this->redirectToRoute('users');
     }
+
+
+    /*MOBILE APIS*/
+
+
+    /**
+     * @Route("/mobile/getUserById/{id}" )
+     * @param UserRepository $userRepository
+     * @param SerializerInterface $serializer
+     * @param $id
+     * @return Response
+     */
+    function getUserByIdMobile(UserRepository $userRepository,  SerializerInterface $serializer, $id): Response
+    {
+        $user = $userRepository->findOneBy(["id"=>$id]);
+        $user->setUserInfoIdForMobile($user->getUserInfoId()->getId());
+        $json = $serializer->serialize($user, 'json',["groups"=>'users']);
+        return new Response($json);
+    }
+
+    /**
+     * @Route("/mobile/getUserInfoById/{id}")
+     * @param UserInfoRepository $userRepository
+     * @param SerializerInterface $serializer
+     * @param $id
+     * @return Response
+     */
+    function getUserInfoByIdMobile(UserInfoRepository $userRepository,  SerializerInterface $serializer, $id): Response
+    {
+        $userInfo = $userRepository->findOneBy(["id"=>$id]);
+        $json = $serializer->serialize($userInfo, 'json',["groups"=>'userInfo']);
+        return new Response($json);    }
+
 }

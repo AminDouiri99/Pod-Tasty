@@ -33,22 +33,7 @@ class PodcastController extends AbstractController
      */
     public function index(): Response
     {
-
         $repo=$this->getDoctrine()->getRepository(Podcast::class);
-        $user=$this->getUser();
-        if($user != null){
-            if($user->getIsAdmin()){
-                return $this->redirectToRoute('back_office');
-
-            }
-            if($user->getDesactiveAccount()){
-                return $this->render("Home/home.html.twig",['user'=>$user]);
-            }
-
-        }
-        if($user == new CustomUserMessageAuthenticationException()) {
-            $getUser = null;
-        }
         $tagRepo = $this->getDoctrine()->getRepository(Tag::class);
         $podcasts = $repo->findAll();
         $tags = $tagRepo->findAll();
@@ -57,14 +42,29 @@ class PodcastController extends AbstractController
             if($pod->getIsBlocked() == 1) {
                 array_splice($podcasts, array_search($pod, $podcasts), 1);
             } else {
-            if ($pod->getCurrentlyLive() != 0) {
-                array_splice($podcasts, array_search($pod, $podcasts), 1);
-            } if ($pod->getCurrentlyLive() == 1) {
-                array_push($livePods, $pod);
-            }
+                if ($pod->getCurrentlyLive() != 0) {
+                    array_splice($podcasts, array_search($pod, $podcasts), 1);
+                } if ($pod->getCurrentlyLive() == 1) {
+                    array_push($livePods, $pod);
+                }
             }
         }
-        return $this->render("home/Home.html.twig", ['podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags, 'user' => $user]);
+
+        $user=$this->getUser();
+        if($user != null){
+            if($user->getIsAdmin()){
+                return $this->redirectToRoute('back_office');
+
+            }
+            if($user->getDesactiveAccount()){
+                return $this->render("Home/home.html.twig",['podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags, 'user' => $user]);
+            }
+
+        }
+        if($user == new CustomUserMessageAuthenticationException()) {
+            $getUser = null;
+        }
+        return $this->render("home/home.html.twig", ['podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags, 'user' => $user]);
     }
 
 
@@ -503,5 +503,85 @@ class PodcastController extends AbstractController
         $em->flush();
         return $this->redirectToRoute("reportsForPod",["id"=> $id]);
     }
+
+
+
+    /**
+     * @Route("/AddPodcastFromJava" )
+     */
+    function AddP(Request $request)
+    {
+        $user = $this->getUser();
+        $Podcast = new Podcast();
+        $form = $this->createForm(PodcastType::class, $Podcast);
+        $form->add("Add", SubmitType::class, [
+            'attr' => ['class' => 'btn btn-info'],
+        ]);
+        //$form->add('Ajouter', SubmitType::class);
+        $form->handleRequest($request);
+
+
+
+
+
+
+        //$podcastsource = ($request->files->get("PodcastSource"));
+        /*        if ($podcastsource) {
+                   $originalFilename = pathinfo($podcastsource->getClientOriginalName(), PATHINFO_FILENAME);
+                   // this is needed to safely include the file name as part of the URL
+                   $newFilename = uniqid() . '.' . $podcastsource->guessExtension();
+                   try {
+                       $podcastsource->move(
+                           $this->getParameter('PODCAST_FILES')."/Files/podcastFiles/",
+                           $newFilename
+                       );
+                   } catch (FileException $e) {
+                       dd($e->getMessage());
+                       exit;
+                   }
+
+                   $Podcast->setPodcastSource($newFilename);
+               } */
+
+        $fileaudio = ($request->files->get("PodcastSource"));
+        $fileName1 = md5(uniqid()) . '.' . $fileaudio->guessExtension();
+        $fileaudio->move(
+            $this->getParameter('PODCAST_FILES')."/public/posts", $fileName1
+        );
+
+        $file = ($request->files->get("PodcastImage"));
+        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+        $file->move(
+            $this->getParameter('PODCAST_FILES')."/public/posts", $fileName
+        );
+
+
+
+        $Podcast->setPodcastImage($fileName);
+        $Podcast->setCommentsAllowed(1);
+        $Podcast->setPodcastViews(0);
+        $Podcast->setCurrentlyWatching(0);
+        $Podcast->setCurrentlyLive(0);
+        $em = $this->getDoctrine()->getManager();//->persist($form->getData());
+
+        //  $em=$this->getDoctrine()->getManager()->flush();
+
+        /*$em->persist($Podcast);
+        $em->flush();*/
+        return new Response(json_encode(array("image"=>$fileName,"audio"=>$fileName1),Response::HTTP_OK));
+    }
+
+
+/*MOBILE APIS*/
+
+    /**
+     * @Route("mobile/getPodcastById" )
+     */
+    function getPodcastByIdForMobile(PodcastRepository  $podcastRepository,Request $request)
+    {
+        $podcast = $podcastRepository->findOneBy(["id"=>$request->get("id")]);
+        return new Response(json_encode(array("podcast"=>$podcast),Response::HTTP_OK));
+    }
+
 
 }

@@ -11,12 +11,14 @@ use App\Repository\PodcastCommentRepository;
 use App\Repository\PodcastRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PodcastCommentsController extends AbstractController
@@ -348,5 +350,78 @@ class PodcastCommentsController extends AbstractController
 ';
         return $res;
     }
+
+
+    /*MOBILE APIS*/
+
+    /**
+     * @Route("/mobile/getCommentsByPodcastId/{id}")
+     * @param PodcastCommentRepository $podcastCommentRepository
+     * @param SerializerInterface $serializer
+     * @param $id
+     * @return Response
+     */
+    function getCommentsByPodcastId(PodcastCommentRepository $podcastCommentRepository, SerializerInterface $serializer, $id): Response
+    {
+        $comments = $podcastCommentRepository->findBy(["PodcastId"=>$id]);
+        foreach($comments as $com) {
+            $com->setUserIdForMobile($com->getUserId()->getId());
+        }
+        $json = $serializer->serialize($comments, 'json',["groups"=>'comments']);
+        return new Response($json);
+    }
+
+    /**
+     * @Route("mobile/addComment" )
+     * @param Request $request
+     * @return Response
+     */
+    function addCommentMobile(Request $request): Response
+    {
+        $comment = new PodCastComment();
+        $comment->setCommentText($request->get("comText"));
+        $comment->setPodcastId($request->get("podId"));
+        $comment->setCommentDate($request->get("comDate"));
+        $comment->setUserId($request->get("userId"));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($comment);
+        $em->flush();
+        return new Response(null,Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("mobile/deleteComment/{id}", name="deleteComment")
+     * @param $id
+     * @return Response
+     */
+    function deleteCommentMobile($id): Response
+    {
+        $repo=$this->getDoctrine()->getRepository(PodcastComment::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $comment=$repo->findOneBy(["id" => $id]);;
+        $entityManage->remove($comment);
+        $entityManage->flush();
+        return new Response(null,Response::HTTP_OK);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route("mobile/UpdateComment");
+     */
+    function UpdateCommentMobile(Request $request): Response
+    {
+
+        $id = $request->get('commentId');
+        $repo=$this->getDoctrine()->getRepository(PodcastComment::class);
+        $comment=$repo->findOneBy(["id" => $id]);
+        $comment->setCommentText($request->get('commentText'));
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
+        return new Response(null,Response::HTTP_OK);
+
+    }
+
+
 
 }
