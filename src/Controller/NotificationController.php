@@ -45,17 +45,12 @@ class NotificationController extends AbstractController
     public function refreshNotif(NotificationRepository $notifRepo, Request $request)
     {
 
-        $notif = $notifRepo->findOneBy(['id' => $request->get('notifId')]);
-        $notifnotfiwed = 0;
-        if ($notif->getUserId()->getId() == $this->getUser()->getId()) {
-            $allNotif = $this->getUser()->getNotificationList();
-
-            foreach ($allNotif as $n) {
-                if ($n . isViewed == false) {
-                    $notifnotfiwed++;
-                }
-            }
-        }
-        return new Response($notifnotfiwed);
+        $notif = $notifRepo->find($request->get('notifId'));
+        $response = '<div style="padding:10px;margin:10px" id="notif'.$notif->getId().'">
+                    <span style="font-size: 17px;font-weight: bolder">'.$notif->getNotificationTitle().'</span><br>
+                    <span style="margin-left: 15px">'.$notif->getNotificationDescription().'</span><br>
+                    <span style="float: right">'.$notif->getNotificationDate()->format("D/M/Y").'</span>
+                </div>';
+        return new Response($response);
     }
 }

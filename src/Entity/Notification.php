@@ -48,7 +48,7 @@ class Notification
         return $this->id;
     }
 
-    public function getNotificationDate(\App\Controller\DateTime $param): ?\DateTimeInterface
+    public function getNotificationDate()
     {
         return $this->NotificationDate;
     }

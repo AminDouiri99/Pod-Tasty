@@ -3,6 +3,11 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+    {% if channelStatus is defined  %}
+    {% if channelStatus==0 %}
+    <body onload="banned()">
+    {% endif %}
+    {% endif %}
 
 <script src="{{ asset('/assets/frontOffice/js/profile.js')}}"></script>
     <link href="{{ asset('assets/profile/profile.css') }}" rel="stylesheet" type="text/css">
@@ -15,14 +20,14 @@
             <div class="row">
                 <div class="left col-lg-4">
                     <div class="photo-left">
-                        {% if userInfo.getUserImage() !=null%}
-                        <img class="photo" src="{{ asset('/Files/podcastFiles/'~userInfo.getUserImage() ) }}"alt="Profile Pic"/>
-                        {% endif %}
+                        <img class="photo" src="
+                         {% if userInfo.getUserImage() is not null%}
+                             {{ asset('/Files/usersFiles/'~userInfo.getUserImage() ) }}
+                                {% else %}
+                                {{ asset('Files/usersFiles/avatar.jpg') }}
+                                {% endif %}"
 
-                        {% if userInfo.getUserImage()==null %}
-
-                            <img class="photo" src="{{ asset('/Files/podcastFiles/avatar.jpg') }}" alt="Profile Pic"/>
-                        {% endif %}
+                             alt="Profile Pic"/>
                         {% if user != null %}
                         {% if user.id == id %}
 
@@ -105,11 +110,11 @@
                     {% if user != null %}
 
                     {% if user.id == id and user.ChannelId == null %}
-                        <a class="button is-primary has-text-white logregButt follow " ><strong>Add Channel</strong></a>
+                        <a class="button is-primary has-text-white logregButt follow " href="/AjoutChannel" ><strong>Add Channel</strong></a>
                     {% endif %}
 
                     {% if user.id == id and user.ChannelId != null %}
-                        <a class="button is-primary has-text-white logregButt follow " ><strong>{{ user.getChannelId().getChannelName() }}</strong></a>
+                        <a class="button is-primary has-text-white logregButt follow " href="/AfficheChannel" ><strong>{{ user.getChannelId().getChannelName() }}</strong></a>
                     {% endif %}
 
                     {% if user.id != id %}
@@ -143,6 +148,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </main>
     </div>
     <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -197,4 +203,10 @@
 </div>
 </div>
 </div>
+    </body>
+    <script>
+        function banned() {
+            alert("Your channel was banned by our admins , please send a request for more details");
+        }
+    </script>
 {% endblock %}

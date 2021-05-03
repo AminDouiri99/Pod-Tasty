@@ -174,3 +174,26 @@ function smaller() {
     document.getElementById("controls").style.marginTop = "20px";
 
 }
+
+function followUser(id) {
+
+    document.getElementById("followButton").disabled = true;
+    $.post("/follow/" + id, function () {
+    document.getElementById("followButton").style.display ="none";
+
+        document.getElementById("followButton").disabled = false;
+    document.getElementById("unfollowButton").style.display ="inline-block";
+    })
+}
+
+    function unfollowUser(id) {
+
+        document.getElementById("unfollowButton").disabled = true;
+        $.post("/unfollow/" + id, function () {
+            document.getElementById("unfollowButton").style.display ="none";
+
+            document.getElementById("unfollowButton").disabled = false;
+            document.getElementById("followButton").style.display ="inline-block";
+        })
+
+}

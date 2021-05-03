@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\apiModel\FileUploadApiModel;
+use App\Entity\Channel;
 use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -74,9 +75,14 @@ class ProfileController extends AbstractController
                 ]); }
         }
         $getUser = $this->getUser();
+        $ChannelId=$getUser->getChannelId();
+        if (isset($ChannelId)){$repoo=$this->getDoctrine()->getRepository(Channel::class);
+            $channell=$repoo->findOneBy(['id'=>$ChannelId]);
+            $channelStatus=$channell->getChannelStatus();} else $channelStatus=3;
+
  //       $userInfo=$this->getDoctrine()->getRepository(UserInfo::class)->find($id);
         return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController','user'=>$getUser,'userInfo'=>$userInfo,'id'=>$id,'form' => $form->createView()
+            'controller_name' => 'ProfileController','user'=>$getUser,'userInfo'=>$userInfo,'channelStatus'=>$channelStatus,'id'=>$id,'form' => $form->createView()
         ]);
     }
     /**
@@ -87,12 +93,11 @@ class ProfileController extends AbstractController
         $profile = $request->files->get("myFile");
 
         if (empty($profile)) {
-            {
                 return new Response("No file specified",
                     Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
             }
 
-        }
+
         if ($profile) {
             $originalFilename = pathinfo($profile->getClientOriginalName(), PATHINFO_FILENAME);
             $newFilename = $originalFilename  . '.' . $profile->guessExtension();
@@ -108,6 +113,7 @@ class ProfileController extends AbstractController
                 Response::HTTP_OK, ['content-type' => 'text/plain']);
         }
     }
+
     /**
      * @Route("/editprofile", name="editprofile")
      */
@@ -198,19 +204,6 @@ class ProfileController extends AbstractController
 
         $userinfo=$this->getUser()->getUserInfoId()->addFollowing($userToAdd);
         $em->flush();
-        $notifMessage=$this->getUser()->getUserInfoId()->getUserFirstName()." ".$this->getUser()->getUserInfoId()->getUserLastName() ."has followed you";
-        $notif=new Notification();
-        $notif->setNotificationTitle($notifMessage);
-        $notif->setIsViewed(false);
-        $notif->setNotificationDescription($notifMessage);
-        $notif->setNotificationDate(new DateTime());
-        $notif->setUserId($this->getDoctrine()->getRepository(User::class)->find($id));
-        $em->persist($notif);
-        $em->flush();
-        $this->getDoctrine()->getRepository(User::class)->find($id)->addNotificationList($notif);
-        $em->flush();
-        $update= new Update('http://127.0.0.1:8000/addnotification/'.$this->getUser()->getId(),$notif->getId());
-        $publisher($update);
         return $this->redirect("/profile/$id");
     }
     /**

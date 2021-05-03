@@ -54,4 +54,10 @@ class PlaylistRepository extends ServiceEntityRepository
         $query=$em->createQuery('select p from App\Entity\Playlist p where ');
     }
 
+    public function getPlaylistsByChannelAndPlaylistName($id){
+        $em=$this->getEntityManager();
+        $query=$em->createQuery("select p from App\Entity\Playlist p where p.ChannelId='.$id.' AND p.PlaylistName='default'");
+        return $query->getOneOrNullResult();
+    }
+
 }

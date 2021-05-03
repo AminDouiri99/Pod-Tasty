@@ -15,7 +15,6 @@ class ProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('UserImage',FileType::class, [
         'label' => 'Profile Picture','mapped' => false,
                     'required' => false,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{MediaStreamRecorder, bootstrap, bulma, jquery, jquery-1.9.1, jquery-3.3.1.slim, popper.js}" />
+    <file url="PROJECT" libraries="{MediaStreamRecorder, bootstrap, bulma, jquery, jquery-1.11.0, jquery-1.9.1, jquery-3.3.1.slim, popper.js}" />
     <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

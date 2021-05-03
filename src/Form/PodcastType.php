@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Podcast;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -19,17 +21,22 @@ class PodcastType extends AbstractType
     {
         $builder
             ->add('PodcastName',TextType::class)
-            ->add('PodcastDescription',TextareaType::class)
+            ->add('PodcastDescription',TextType::class)
             ->add('PodcastImage',FileType::class, array(
                 'mapped' => false,
                 'required' => false
             ))
-            //->add('PodcastGenre')
-            //->add('PodcastViews')
-            ->add('PodcastDate',DateType::class,array(
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
+            ->add('tags',TextType::class)
+            ->add('PlaylistId',EntityType::class, array(
+                'class' => 'App\Entity\Playlist',
+                'choice_label' => 'PlaylistName'
             ))
+
+        //->add('PodcastViews')
+//            ->add('PodcastDate',DateType::class,array(
+//                'widget' => 'single_text',
+//                'format' => 'yyyy-MM-dd',
+//            ))
                 //array('input'  => 'datetime','widget' => 'choice', 'attr' => array('class' =>'calendar')))
 
             ->add('PodcastSource',FileType::class,array(

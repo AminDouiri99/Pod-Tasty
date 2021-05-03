@@ -26,9 +26,9 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $contact =$form->getData();
-            $message = (new \Swift_Message('Nouveauc contact'))
-                ->setFrom($contact['email'])
-                ->setTo('omar.benromdhane@esprit.tn')
+            $message = (new \Swift_Message('Nouveau contact'))
+                ->setFrom("podtastyy@gmail.com")
+                ->setTo('podtastyy@gmail.com')
                 ->setBody(
                     $this->renderView(
                         'emails/contact.html.twig',compact('contact')

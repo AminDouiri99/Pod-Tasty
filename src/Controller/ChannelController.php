@@ -69,9 +69,10 @@ class ChannelController extends AbstractController
             // Items per page
             6
         );
+        $image=$user->getUserInfoId();
        /* $repo=$this->getDoctrine()->getRepository(Channel::class);
         $channel=$repo->findAll();*/
-        return $this->render('channel/affiche.html.twig',['channel'=>$channel, 'user'=>$user]);
+        return $this->render('channel/affiche.html.twig',['channel'=>$channel, 'user'=>$user,'image'=>$image]);
     }
 
 
@@ -109,6 +110,10 @@ class ChannelController extends AbstractController
             $user->setChannelId($channel);
             $em=$this->getDoctrine()->getManager();
             $em->persist($channel);
+            $playlist = new Playlist();
+            $playlist->setChannelId($channel);
+            $playlist->setPlaylistName("default");
+            $this->getDoctrine()->getManager()->persist($playlist);
             $em->flush();
             return $this->redirectToRoute("AfficheChannels");
         }
@@ -305,7 +310,7 @@ function getString(Channel $channel){
             </div>
 
             <div class="grid-child-followers">
-                1300 Likes
+                0 Likes
             </div>
 
         </div>
@@ -315,8 +320,8 @@ function getString(Channel $channel){
             <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
             <li><a href="#"><i class="fa fa-codepen"></i></a></li>
         </ul>
-        <button class="btn draw-border">Follow</button>
-        <button class="btn draw-border">Visit</button>
+        
+        <button class="btn draw-border"><a style="color:#58cdd1;" href="/AfficheChannel/'.$channel->getId().'">Visit</a> </button>
     </div>';
     return $s;
 }}

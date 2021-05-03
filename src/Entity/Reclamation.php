@@ -28,7 +28,7 @@ class Reclamation
     private $Description;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
     private $Status;
 
@@ -73,12 +73,12 @@ class Reclamation
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getStatus(): ?int
     {
         return $this->Status;
     }
 
-    public function setStatus(bool $Status): self
+    public function setStatus(int $Status): self
     {
         $this->Status = $Status;
 

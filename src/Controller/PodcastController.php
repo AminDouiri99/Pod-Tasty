@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\Podcast;
 use App\Entity\Tag;
+use App\Entity\User;
 use App\Form\PodcastType;
+use App\Repository\ChannelRepository;
+use App\Repository\PlaylistRepository;
 use App\Repository\TagRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,8 +33,23 @@ class PodcastController extends AbstractController
      */
     public function index(): Response
     {
-
         $repo=$this->getDoctrine()->getRepository(Podcast::class);
+        $tagRepo = $this->getDoctrine()->getRepository(Tag::class);
+        $podcasts = $repo->findAll();
+        $tags = $tagRepo->findAll();
+        $livePods = [];
+        foreach ($podcasts as $pod) {
+            if($pod->getIsBlocked() == 1) {
+                array_splice($podcasts, array_search($pod, $podcasts), 1);
+            } else {
+                if ($pod->getCurrentlyLive() != 0) {
+                    array_splice($podcasts, array_search($pod, $podcasts), 1);
+                } if ($pod->getCurrentlyLive() == 1) {
+                    array_push($livePods, $pod);
+                }
+            }
+        }
+
         $user=$this->getUser();
         if($user != null){
             if($user->getIsAdmin()){
@@ -37,28 +57,19 @@ class PodcastController extends AbstractController
 
             }
             if($user->getDesactiveAccount()){
-                return $this->render("Home/home.html.twig",['user'=>$user]);
+                return $this->render("Home/home.html.twig",['podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags, 'user' => $user]);
             }
 
         }
         if($user == new CustomUserMessageAuthenticationException()) {
             $getUser = null;
         }
-        $tagRepo = $this->getDoctrine()->getRepository(Tag::class);
-        $podcasts = $repo->findAll();
-        $tags = $tagRepo->findAll();
-        $livePods = [];
-        foreach ($podcasts as $pod) {
-            if ($pod->getCurrentlyLive() != 0) {
-                array_splice($podcasts, array_search($pod, $podcasts), 1);
-            } if ($pod->getCurrentlyLive() == 1) {
-                array_push($livePods, $pod);
-            }
-        }
-        return $this->render("home/Home.html.twig", ['user' => $user, 'podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags]);
+        return $this->render("home/home.html.twig", ['podcasts' => $podcasts, "livePods" => $livePods, "tags" => $tags, 'user' => $user]);
     }
+
+
     /**
-     * @Route("/podcasts", name="podcast_admin")
+     * @Route("/admin/podcasts", name="podcast_admin")
      */
     public function indexAdmin(): Response
     {
@@ -107,11 +118,15 @@ class PodcastController extends AbstractController
 
     /**
      * @Route("/AddPodcast")
+     * @param UserRepository $userRepo
+     * @param ChannelRepository $channelRepo
      * @param Request $request
+     * @param TagRepository $tagRepo
      * @return RedirectResponse|Response
      */
-    function Add(Request $request)
+    function Add(UserRepository $userRepo, PlaylistRepository $playlistRepo,Request $request, TagRepository $tagRepo)
     {
+        $tags = $tagRepo->findAll();
         $user = $this->getUser();
         $Podcast = new Podcast();
         $form = $this->createForm(PodcastType::class, $Podcast);
@@ -143,11 +158,20 @@ class PodcastController extends AbstractController
             $file = $form->get('PodcastImage')->getData();
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move(
-                $this->getParameter('PODCAST_FILES'), $fileName
+                $this->getParameter("PODCAST_FILES"), $fileName
             );
+            $tagIds = $this->podcastTags($form->get("tags")->getData());
+
+            if(count($tagIds) > 0) {
+            foreach($tagIds as $id) {
+                $tagtoAdd = $tagRepo->find($id);
+                $Podcast->addTagsList($tagtoAdd);
+            }
+            }
             $Podcast->setPodcastImage($fileName);
             $Podcast->setCommentsAllowed(1);
             $Podcast->setPodcastViews(0);
+            $Podcast->setIsBlocked(0);
             $Podcast->setCurrentlyWatching(0);
             $Podcast->setCurrentlyLive(0);
             $em = $this->getDoctrine()->getManager();//->persist($form->getData());
@@ -159,7 +183,23 @@ class PodcastController extends AbstractController
             return $this->redirectToRoute('Home');
         }
         return $this->render('Podcast/Add.html.twig', [
-            'form' => $form->createView(), 'user' => $user, 'type'=>"Add podcast"]);
+            'form' => $form->createView(),'tags'=>$tags, 'user' => $user, 'type'=>"Add podcast"]);
+    }
+
+    function podcastTags($ids) {
+        $tagIds = [];
+        $ids = substr($ids, 1, strlen($ids));
+        while(strlen($ids) > 0) {
+            if(strpos($ids, ",") !== false) {
+                $id = substr($ids, 0, strpos($ids, ","));
+                $ids = substr($ids, strpos($ids, ",")+1, strlen($ids));
+            } else {
+                $id=$ids;
+                $ids = "";
+            }
+            array_push($tagIds, $id);
+        }
+        return $tagIds;
     }
 
     /**
@@ -216,14 +256,19 @@ class PodcastController extends AbstractController
 
     /**
      * @Route("/livePodcast", name="atchPod")
+     * @param UserRepository $userRepo
      * @param Request $request
+     * @param PublisherInterface $publisher
      * @return Response
      */
-    public function watchPod(Request $request): Response
+    public function watchPod(UserRepository $userRepo,Request $request, PublisherInterface $publisher): Response
     {
         {
             $user = $this->getUser();
             $Podcast = new Podcast();
+            $tagRepo = $this->getDoctrine()->getRepository(Tag::class);
+            $tags = $tagRepo->findAll();
+
             $form = $this->createForm(PodcastType::class, $Podcast);
             $form->add("Proceed", SubmitType::class, [
                 'attr' => ['class' => 'btn btn-info'],
@@ -241,11 +286,19 @@ class PodcastController extends AbstractController
                 $file->move(
                     $this->getParameter('PODCAST_FILES'), $fileName
                 );
+                $tagIds = $this->podcastTags($form->get("tags")->getData());
+                if(count($tagIds) > 0) {
+                    foreach($tagIds as $id) {
+                        $tagtoAdd = $tagRepo->find($id);
+                        $Podcast->addTagsList($tagtoAdd);
+                    }
+                }
                 $Podcast->setPodcastImage($fileName);
                 $Podcast->setCurrentlyWatching(0);
                 $Podcast->setCommentsAllowed(1);
                 $Podcast->setCurrentlyLive(-1);
                 $Podcast->setPodcastViews(0);
+                $Podcast->setIsBlocked(0);
                 $em = $this->getDoctrine()->getManager();//->persist($form->getData());
 
                 //  $em=$this->getDoctrine()->getManager()->flush();
@@ -253,9 +306,28 @@ class PodcastController extends AbstractController
                 $em->persist($Podcast);
                 $em->flush();
                 $this->container->get('session')->set('podId', $Podcast->getId());
+
+                $user = $userRepo->find($user->getId());
+                $title="Live podcast";
+                $desc=$user->getUserInfoId()->getUserFirstName()." ".$this->getUser()->getUserInfoId()->getUserLastName() ."Started a <a href='/podcast/".$Podcast->getId()."'>live podcast</a>";
+                $notif=new Notification();
+                $notif->setNotificationTitle($title);
+                $notif->setIsViewed(false);
+                $notif->setNotificationDescription($desc);
+                $notif->setNotificationDate(new \DateTime('now'));
+                foreach($user->getUserInfoId()->getFollowers() as $follower) {
+                    $user = $userRepo->find($follower->getId());
+                    $notif->setUserId($user);
+                    $em->persist($notif);
+                    $em->flush();
+                    $update= new Update('http://127.0.0.1:8000/addnotification/'.$follower->getId(),$notif->getId());
+                    $publisher($update);
+                }
+                $em->flush();
+
                 return $this->redirectToRoute('startStreaming');
             }
-            return $this->render("podcast/Add.html.twig", ['user' => $user, 'form' => $form->createView(), 'type'=>"Set up your stream"]);
+            return $this->render("podcast/Add.html.twig", ['user' => $user, 'form' => $form->createView(), 'type'=>"Set up your stream", "tags"=>$tags]);
 
         }
 
@@ -414,7 +486,102 @@ class PodcastController extends AbstractController
         return $data;
     }
 
+    /**
+     * @Route("/podcastBlock/{id}", name="updateBlockStatus")
+     * @param $id
+     */
+    public function changeBlockStatus($id){
+        $repo = $this->getDoctrine()->getRepository(Podcast::class);
+        $podcast = $repo->find($id);
+        if($podcast->getIsBlocked() == 1){
+            $podcast->setIsBlocked(0);
+        } else {
 
+            $podcast->setIsBlocked(1);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->redirectToRoute("reportsForPod",["id"=> $id]);
+    }
+
+
+
+    /**
+     * @Route("/AddPodcastFromJava" )
+     */
+    function AddP(Request $request)
+    {
+        $user = $this->getUser();
+        $Podcast = new Podcast();
+        $form = $this->createForm(PodcastType::class, $Podcast);
+        $form->add("Add", SubmitType::class, [
+            'attr' => ['class' => 'btn btn-info'],
+        ]);
+        //$form->add('Ajouter', SubmitType::class);
+        $form->handleRequest($request);
+
+
+
+
+
+
+        //$podcastsource = ($request->files->get("PodcastSource"));
+        /*        if ($podcastsource) {
+                   $originalFilename = pathinfo($podcastsource->getClientOriginalName(), PATHINFO_FILENAME);
+                   // this is needed to safely include the file name as part of the URL
+                   $newFilename = uniqid() . '.' . $podcastsource->guessExtension();
+                   try {
+                       $podcastsource->move(
+                           $this->getParameter('PODCAST_FILES')."/Files/podcastFiles/",
+                           $newFilename
+                       );
+                   } catch (FileException $e) {
+                       dd($e->getMessage());
+                       exit;
+                   }
+
+                   $Podcast->setPodcastSource($newFilename);
+               } */
+
+        $fileaudio = ($request->files->get("PodcastSource"));
+        $fileName1 = md5(uniqid()) . '.' . $fileaudio->guessExtension();
+        $fileaudio->move(
+            $this->getParameter('PODCAST_FILES')."/public/posts", $fileName1
+        );
+
+        $file = ($request->files->get("PodcastImage"));
+        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+        $file->move(
+            $this->getParameter('PODCAST_FILES')."/public/posts", $fileName
+        );
+
+
+
+        $Podcast->setPodcastImage($fileName);
+        $Podcast->setCommentsAllowed(1);
+        $Podcast->setPodcastViews(0);
+        $Podcast->setCurrentlyWatching(0);
+        $Podcast->setCurrentlyLive(0);
+        $em = $this->getDoctrine()->getManager();//->persist($form->getData());
+
+        //  $em=$this->getDoctrine()->getManager()->flush();
+
+        /*$em->persist($Podcast);
+        $em->flush();*/
+        return new Response(json_encode(array("image"=>$fileName,"audio"=>$fileName1),Response::HTTP_OK));
+    }
+
+
+/*MOBILE APIS*/
+
+    /**
+     * @Route("mobile/getPodcastById" )
+     */
+    function getPodcastByIdForMobile(PodcastRepository  $podcastRepository,Request $request)
+    {
+        $podcast = $podcastRepository->findOneBy(["id"=>$request->get("id")]);
+        return new Response(json_encode(array("podcast"=>$podcast),Response::HTTP_OK));
+    }
 
 
 }

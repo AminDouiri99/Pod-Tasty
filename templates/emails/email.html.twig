@@ -1,0 +1,10 @@
+<h1>Hello {{ userName }}</h1>
+{% if status == true %}
+<p>Your reclamation on podcast: <b>{{ podcastName }}</b> has been revised and <b>accepted</b>. <br><br>Thank you for reporting this podcast to us.<br>
+<br>Have a tasty day
+{% else %}]
+
+<p>We are sorry to inform you that your reclamation on podcast: <b>{{ podcastName }}</b> has been revised and <b>rejected</b><br> Cause: Lack of foundation.<br> <br>Thank you for reporting this podcast to us.<br>
+    <br>Have a tasty day
+{% endif %}
+</p>

@@ -31,7 +31,7 @@ class PodcastReview
     private $UserId;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $Rating;
 
@@ -40,12 +40,12 @@ class PodcastReview
         return $this->id;
     }
 
-    public function getRating(): ?int
+    public function getRating(): ?float
     {
         return $this->Rating;
     }
 
-    public function setRating(int $Rating): self
+    public function setRating(float $Rating): self
     {
         $this->Rating = $Rating;
 

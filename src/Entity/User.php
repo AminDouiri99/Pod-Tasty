@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,12 +19,14 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("users")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your Email!")
+     * @Groups("users")
      */
     private $UserEmail;
 
@@ -41,9 +44,17 @@ class User implements UserInterface
      * @ORM\JoinColumn(nullable=true)
      */
     private $UserInfoId;
+
     /**
+      * @Groups("users")
+     */
+    private $UserInfoIdForMobile;
+
+
+        /**
      * @ORM\OneToOne(targetEntity=Channel::class, inversedBy="UserId", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("users")
      */
     private $ChannelId;
 
@@ -74,6 +85,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("users")
      */
     private $DesactiveAccount;
 
@@ -371,4 +383,22 @@ class User implements UserInterface
 
         return $this;
     }
+
+
+    /**
+     * @return int
+     */
+    public function getUserInfoIdForMobile(): int
+    {
+        return $this->UserInfoIdForMobile;
+    }
+
+    /**
+     * @param int $UserInfoIdForMobile
+     */
+    public function setUserInfoIdForMobile(int $UserInfoIdForMobile): void
+    {
+        $this->UserInfoIdForMobile = $UserInfoIdForMobile;
+    }
+
 }

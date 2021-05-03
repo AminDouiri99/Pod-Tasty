@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     PODCAST_FILES:    '%kernel.project_dir%/public/Files/podcastFiles'
+    image_directory:    '%kernel.project_dir%/public/Files/usersFiles'
     post_images_directory: '%kernel.project_dir%/public/posts'
 
     playlist_directory: '%kernel.project_dir%/public/Files/playlistFiles'

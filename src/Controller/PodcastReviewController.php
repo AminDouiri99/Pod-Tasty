@@ -38,7 +38,7 @@ class PodcastReviewController extends AbstractController
         $review = new PodcastReview();
         $review->setRating($data);
         $review->setUserId($user);
-        $podcast=$podcastRepo->findOneBy (['id' => 1]);
+        $podcast=$podcastRepo->findOneBy (['id' => $request->get("podId")]);
         $review->setPodcastId($podcast);
         $em=$this->getDoctrine()->getManager();
         $em->persist($review);
