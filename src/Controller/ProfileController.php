@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\apiModel\FileUploadApiModel;
 use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\UserInfo;
@@ -77,6 +78,35 @@ class ProfileController extends AbstractController
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'ProfileController','user'=>$getUser,'userInfo'=>$userInfo,'id'=>$id,'form' => $form->createView()
         ]);
+    }
+    /**
+     * @Route("api/profile/pic/post", name="profilePicPost", methods={"POST"})
+     */
+    public function postProfilePic(Request $request)
+    {
+        $profile = $request->files->get("myFile");
+
+        if (empty($profile)) {
+            {
+                return new Response("No file specified",
+                    Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+            }
+
+        }
+        if ($profile) {
+            $originalFilename = pathinfo($profile->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFilename = $originalFilename  . '.' . $profile->guessExtension();
+            try {
+                $profile->move(
+                    $this->getParameter('PODCAST_FILES'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            return new Response("FILE UPLOADED",
+                Response::HTTP_OK, ['content-type' => 'text/plain']);
+        }
     }
     /**
      * @Route("/editprofile", name="editprofile")

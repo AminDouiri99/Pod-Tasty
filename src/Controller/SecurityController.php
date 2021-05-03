@@ -7,6 +7,7 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\GithubClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -40,6 +41,13 @@ class   SecurityController extends AbstractController
         /** @var GithubClient $client*/
         $client=$clientRegistry->getClient('github');
         return $client->redirect(['read:user','user:email']);
+    }
+    private function serializeProgrammer(User $user)
+    {
+        return array(
+            'userId' => $user->getId(),
+
+        );
     }
 
     /**

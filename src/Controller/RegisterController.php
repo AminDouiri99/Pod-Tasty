@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\UserInfo;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -82,6 +85,21 @@ class RegisterController extends AbstractController
         }
         return $this->render('LogReg/register.html.twig',["error"=>$error,"succes"=>$succes, 'user' => $getUser,'errors2' => $UserInfoErrors,'errors1'=>$UserErrors]);
 
+    }
+    /**
+     * @Route("mobile/addUser" )
+     */
+    function addUserMobile(Request $request,EntityManager $em,Serializer $serializer){
+
+    }
+
+    /**
+     * @Route("mobile/getUsers" )
+     */
+    function getUsersMobile(Request $request,SerializerInterface $serializer){
+        $users=$this->getDoctrine()->getRepository(User::class)->findAll();
+        $data=$serializer->serialize($users,'json');
+        return new Response($data);
     }
 
 }
