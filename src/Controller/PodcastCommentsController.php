@@ -387,7 +387,7 @@ class PodcastCommentsController extends AbstractController
         }
         $comment->setCommentText($request->get("comText"));
         $comment->setPodcastId($podcast);
-        $comment->setCommentDate();
+        $comment->setCommentDate(new DateTime());
         $user = $userRepo->findOneBy(["id" =>$request->get("userId")]);
         $comment->setUserId($user);
         $em = $this->getDoctrine()->getManager();
