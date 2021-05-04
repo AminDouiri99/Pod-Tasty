@@ -107,7 +107,6 @@ function createUrl(blob) {
 }
 function sendFinal(blob) {
     formData = new FormData();
-    formData.append('category', 'general');
     formData.append('liveStreaming', blob);
     formData.append('podId', podId);
     $.ajax({

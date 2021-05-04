@@ -2,13 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Channel;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\ProfileType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -33,6 +39,7 @@ class ProfileController extends AbstractController
         $userInfoId=$this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId();
         $userInfo= $this->getDoctrine()->getRepository(UserInfo::class)->find($userInfoId);
         $form= $this->createForm(ProfileType::class,$userInfo);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() ) {
             $img = $form->get('UserImage')->getData();
@@ -51,7 +58,7 @@ class ProfileController extends AbstractController
                         $filesystem->remove((['symlink', '../../public/Files/podcastFiles', $userOldImg]));
                     }*/
                     $img->move(
-                        $this->getParameter('image_directory'),
+                        $this->getParameter('PODCAST_FILES'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -67,11 +74,49 @@ class ProfileController extends AbstractController
                 ]); }
         }
         $getUser = $this->getUser();
+        $ChannelId=$getUser->getChannelId();
+        if (isset($ChannelId)){$repoo=$this->getDoctrine()->getRepository(Channel::class);
+            $channell=$repoo->findOneBy(['id'=>$ChannelId]);
+            $channelStatus=$channell->getChannelStatus();} else $channelStatus=3;
+
  //       $userInfo=$this->getDoctrine()->getRepository(UserInfo::class)->find($id);
         return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController','user'=>$getUser,'userInfo'=>$userInfo,'id'=>$id,'form' => $form->createView()
+            'controller_name' => 'ProfileController','user'=>$getUser,'userInfo'=>$userInfo,'channelStatus'=>$channelStatus,'id'=>$id,'form' => $form->createView()
         ]);
     }
+    /**
+     * @Route("api/profile/pic/post", name="profilePicPost", methods={"POST"})
+     */
+    public function postProfilePic(Request $request){
+        $file=$request->files->get("myFile");
+
+        if(empty($file)){
+            {
+                return new Response("No file specified",
+                    Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+            }
+        }
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $newFilename = $originalFilename.'.'.$file->guessExtension();
+
+        // Move the file to the directory where brochures are stored
+        try {
+            $file->move(
+                $this->getParameter('PODCAST_FILES'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+        /* $userInfo=$this->getDoctrine()->getRepository(UserInfo::class)->find((int)$id);
+         $userInfo->setUserImage($originalFilename);
+         $em=$this->getDoctrine()->getManager();
+         $em->persist($userInfo);
+         $em->flush();*/
+        return new Response("JAWEK BEHI",
+            Response::HTTP_OK, ['content-type' => 'text/plain']);
+    }
+
     /**
      * @Route("/editprofile", name="editprofile")
      */
@@ -156,13 +201,12 @@ class ProfileController extends AbstractController
     /**
      * @Route("/follow/{id}", name="follow")
      */
-    public function follow(string $id){
+    public function follow(string $id,PublisherInterface $publisher){
     $userToAdd=$this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId();
         $em=$this->getDoctrine()->getManager();
 
         $userinfo=$this->getUser()->getUserInfoId()->addFollowing($userToAdd);
         $em->flush();
-
         return $this->redirect("/profile/$id");
     }
     /**

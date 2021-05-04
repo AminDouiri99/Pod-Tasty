@@ -12,9 +12,10 @@
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
+        "endroid/qr-code-bundle": "^4.0",
+        "knplabs/knp-paginator-bundle": "^5.4",
         "knpuniversity/oauth2-client-bundle": "^2.8",
         "league/oauth2-github": "^2.0",
-        "knplabs/knp-paginator-bundle": "^5.4",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "4.4.*",
@@ -28,6 +29,7 @@
         "symfony/intl": "4.4.*",
         "symfony/mailer": "4.4.*",
         "symfony/mercure-bundle": "^0.2.6",
+        "symfony/messenger": "4.4.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/process": "4.4.*",
         "symfony/property-access": "4.4.*",
@@ -44,7 +46,8 @@
         "symfony/yaml": "4.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "vich/uploader-bundle": "^1.17"
+        "vich/uploader-bundle": "^1.17",
+      "ext-json": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",

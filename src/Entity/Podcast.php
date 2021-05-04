@@ -37,6 +37,12 @@ class Podcast
      */
     private $currentlyLive;
 
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     *
+     */
+    private $isBlocked;
+
 
     /**
      * @ORM\Column(type="integer", nullable=false)
@@ -47,6 +53,8 @@ class Podcast
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $PodcastDescription;
+
+    private $tags;
 
     /**
      * @var string
@@ -121,10 +129,13 @@ class Podcast
      */
     private $ReviewList;
 
+
+
     public function __construct()
     {
         $this->ReclamationList = new ArrayCollection();
         $this->CommentList = new ArrayCollection();
+        $this->PodcastDate=new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -155,6 +166,20 @@ class Podcast
 
         return $this;
     }
+
+    public function getIsBlocked(): ?int
+    {
+        return $this->isBlocked;
+    }
+
+    public function setIsBlocked($isBlocked): self
+    {
+        $this->isBlocked = $isBlocked;
+
+        return $this;
+    }
+
+
     public function getPodcastDescription(): ?string
     {
         return $this->PodcastDescription;
@@ -212,6 +237,17 @@ class Podcast
     {
         $this->currentlyWatching = $currentlyWatching;
 
+        return $this;
+    }
+
+    public function getTags() : ?string
+    {
+        return $this->tags;
+    }
+
+    public function setTags( string $tags): self
+    {
+        $this->tags = $tags;
         return $this;
     }
 
@@ -393,12 +429,11 @@ class Podcast
     {
         return $this->tagsList;
     }
+
     public function addTagsList(Tag $tagsList): self
     {
-        if (!$this->tagsList->contains($tagsList)) {
             $this->tagsList[] = $tagsList;
             $tagsList->addPodcastsList($this);
-        }
 
         return $this;
     }

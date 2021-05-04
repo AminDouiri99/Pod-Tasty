@@ -27,7 +27,7 @@
                                     <th>PodcastViews</th>
                                     <th>PodcastDate</th>
                                     <th>PodcastImage</th>
-                                    <td>Delete</td>
+                                    <td>Actions</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -38,8 +38,8 @@
                                     <td>{{ p.podcastViews }}</td>
                                     <td>{{ p.PodcastDate | date('d-m-Y') }}</td>
                                     <td><img src="{{ asset(  'Files/podcastFiles/'~p.podcastImage) }}" width="50" height="50"></td>
-                                    <td><a href="{{ path('SuppPodcast',{'id':p.id}) }}">Delete</a></td>
-                                    <td> <a href="/adminPodcast/{{ p.id }}"><button type="button" class="btn btn-outline-dark">Open</button ></a></td>
+                                    <td><a href="{{ path('SuppPodcast',{'id':p.id}) }}"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></a>
+                                        <a href="/adminPodcast/{{ p.id }}"><button type="button" class="btn btn-info" title="Open"><i class="fa fa-external-link-alt"></i></button ></a></td>
 
                                 </tr {% endfor %}>
                                 </tbody>

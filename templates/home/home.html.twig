@@ -7,6 +7,7 @@
 
     <div style="width: 100%;margin-bottom: 20px;margin-top: 50px" id="tagsWrapper">
         <button id="tag0" onclick="showPod(0)" class="badge-pill badge-light badgeTag">All</button>
+
         {% for tag in tags %}
             <button  id="tag{{ tag.id }}" onclick="showPod({{ tag.id }})" class=" badge-pill badge-dark badgeTag">{{ tag.name }}</button>
         {% endfor %}
@@ -18,7 +19,7 @@
 
                 <div class="cards">
 
-        <span {% for p in livePods %}>
+        <span {% for p in livePods|reverse %}>
             <figure style="margin-left: 0px" class="card">
                     <div class="show" style="width: 100%">
                         <div class="show_image">
@@ -46,9 +47,6 @@
                                 </div>
                             </div>
                             {% endif %}
-                            {#                            <div class="show_user">#}
-                            {#                                // user Avatar (moula l podcast)#}
-                            {#                            </div>#}
                         </div>
                     </div>
             </figure>
@@ -66,7 +64,7 @@
 
             <div class="cards">
 
-        <span {% for p in podcasts %}>
+        <span {% for p in podcasts|reverse %}>
             <figure style="margin-left: 0px" class="card">
 
                     <div class="show" style="width: 100%">

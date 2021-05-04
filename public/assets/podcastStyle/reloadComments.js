@@ -1,15 +1,15 @@
 let comNumb = 0;
 let pId;
 window.addEventListener('load', function() {
-    pId = document.getElementById("podcastId").value;
     const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
-    url.searchParams.append('topic', 'http://127.0.0.1:8000/addComment')
+    pId = document.getElementById("podcastId").value;
+    url.searchParams.append('topic', 'http://127.0.0.1:8000/addComment/'+pId)
     const eventSource = new EventSource(url);
     eventSource.addEventListener('message', function(event){
-        $.post('/refreshCommentsList', {comId: event.data, podId: pId, currentR: window.location.href}, function(data) {
-            if(data !== "-1") {
-                addCommentToView(data);
-            }
+    $.post('/refreshCommentsList', {comId: event.data, podId: pId, currentR: window.location.href}, function(data) {
+          if(data !== "-1") {
+            addCommentToView(data);
+          }
         })
     });
 
@@ -129,7 +129,7 @@ function addRate(id,rate) {
             document.getElementById("carItem4").classList.remove('active');
             fadeIn("carItem5",1);
             let finalRate = (podcastRate+topicRate+hostRate+soundQualityRate)/4;
-            $.post("/addReview",{review:finalRate}, function(data){
+            $.post("/addReview",{review:finalRate,podId:pId}, function(data){
                 let reviewId = data.substr(0,data.indexOf(' '));
                 let reviewMoy = data.substr(data.indexOf(' ')+1, data.length );
                 setTimeout(function(){

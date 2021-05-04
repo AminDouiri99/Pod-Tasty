@@ -2,17 +2,23 @@
 
 namespace App\Controller;
 use App\Entity\PodcastComment;
+use App\Repository\ChannelRepository;
+use App\Repository\PlaylistRepository;
+use App\Repository\UserInfoRepository;
+use Endroid\QrCode\Builder\BuilderInterface;
 use App\Entity\User;
 use App\Repository\PodcastCommentRepository;
 use App\Repository\PodcastRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PodcastCommentsController extends AbstractController
@@ -25,21 +31,47 @@ class PodcastCommentsController extends AbstractController
      * @param UserRepository $userRepo
      * @return Response
      */
-    public function index(int $id,PodcastRepository $podcastRepo, UserRepository $userRepo): Response
+    public function index(int $id, UserInfoRepository $userInfo, ChannelRepository $channelRepo, PlaylistRepository $playlistRepo,PodcastRepository $podcastRepo, UserRepository $userRepo, BuilderInterface $customQrCodeBuilder): Response
     {
-
+        $getUser = $this->getUser();
         $isFavourite = false;
         $podcast = $podcastRepo->findOneBy(['id' =>$id]);
-        $getUser = $this->getUser();
+        $otherPods = null;
+        $channel = null;
+        $owner = null;
+        $ownerImage = null;
+        $following = 0;
         if($getUser != null) {
-        $getUser = $userRepo->find($this->getUser());
+            $getUser = $userRepo->find($this->getUser());
             if($getUser->getPodcastsFavorite()->contains($podcast)) {
                 $isFavourite = true;
             }
         }
+        if($podcast->getPlaylistId() != null){
+            $playlist = $playlistRepo->find($podcast->getPlaylistId());
+            $otherPods = $playlist->getPodcastList();
+            $channel = $channelRepo->find($playlist->getChannelId());
+            $owner = $userRepo->find($channel->getUserId());
+            $ownerInfo = $userInfo->find($owner->getUserInfoId());
+            if($getUser != null) {
+                if($getUser == $owner) {
+                    $following = -1;
+                }
+                else if($ownerInfo->getFollowers()->contains($getUser->getUserInfoId())) {
+                    $following = 1;
+                }
+            } else {
+                $following = -1;
+            }
+            $ownerImage = $ownerInfo->getUserImage();
+            $otherPods->removeElement($podcast);
+        }
+
         $reviewMoy = null;
         $userReview = null;
+
         if (!$podcast->getReviewList()->isEmpty()){
+
             $reviewMoy = 0;
         foreach ($podcast->getReviewList() as $review) {
             $reviewMoy += $review->getRating();
@@ -51,8 +83,14 @@ class PodcastCommentsController extends AbstractController
         }
         $reviewMoy /= $podcast->getReviewList()->count();
     }
+
+        $qrCode = $customQrCodeBuilder
+            ->size(400)
+            ->data($podcast->getId())
+            ->margin(20)
+            ->build();
         $comments=$podcast->getCommentList();
-        return $this->render("default/comments.html.twig", ['comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, 'userReview'=>$userReview, "reviewMoy"=>$reviewMoy, "isFavourite"=>$isFavourite]);
+        return $this->render("default/comments.html.twig", ['following'=>$following,'comments'=>$comments, 'podcast'=>$podcast,'user'=>$getUser, 'userReview'=>$userReview, "reviewMoy"=>$reviewMoy, "isFavourite"=>$isFavourite,"otherPods" =>$otherPods, "qrCode" => $qrCode->getDataUri(), "channel"=>$channel, "ownerImage"=>$ownerImage, "ownerId"=>$owner->getId()]);
     }
 
     /**
@@ -112,13 +150,23 @@ class PodcastCommentsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
-
-            $update = new Update("http://127.0.0.1:8000/addComment", $comment->getId());
-            $publisher($update);
+            $this->callMercure($comment->getId(),$comment->getPodcastId()->getId(), $publisher);
             return new Response("");
         }
     }
 
+    /**
+     * @Route ("/callMercure/comments/{id}/{podId}", name="callMercureComments")
+     * @param $id
+     * @param $podId
+     * @param PublisherInterface $publisher
+     * @return Response
+     */
+    function callMercure($id, $podId,PublisherInterface $publisher){
+        $update = new Update("http://127.0.0.1:8000/addComment/".$podId, $id);
+        $publisher($update);
+        return new Response();
+    }
     /**
      * @Route ("/refreshCommentsList", name="refreshCommentsList")
      * @param Request $request
@@ -195,9 +243,10 @@ class PodcastCommentsController extends AbstractController
         }
         return new Response($response);
     }
+
     /**
      * @Route("/deleteComment", name="deleteComment")
-     * @param int $id
+     * @param Request $request
      * @return Response
      */
 
@@ -302,5 +351,90 @@ class PodcastCommentsController extends AbstractController
 ';
         return $res;
     }
+
+
+    /*MOBILE APIS*/
+
+    /**
+     * @Route("/mobile/getCommentsByPodcastId/{id}")
+     * @param PodcastCommentRepository $podcastCommentRepository
+     * @param SerializerInterface $serializer
+     * @param $id
+     * @return Response
+     */
+    function getCommentsByPodcastId(PodcastCommentRepository $podcastCommentRepository, SerializerInterface $serializer, $id): Response
+    {
+        $comments = $podcastCommentRepository->findBy(["PodcastId"=>$id]);
+        $json = $serializer->serialize($comments, 'json',["groups"=>'comments']);
+        return new Response($json);
+    }
+
+    /**
+     * @Route("mobile/addComment" )
+     * @param SerializerInterface $serializer
+     * @param Request $request
+     * @param UserRepository $userRepo
+     * @param PodcastRepository $podcastRepo
+     * @return Response
+     * @param ValidatorInterface $validator
+     */
+    function addCommentMobile( ValidatorInterface $validator ,SerializerInterface $serializer,Request $request, UserRepository $userRepo, PodcastRepository $podcastRepo): Response
+    {
+        $comment = new PodcastComment();
+        $podcast = $podcastRepo->findOneBy(["id" =>$request->get("podId")]);
+        if($podcast->getCommentsAllowed() == 0) {
+            return new Response("403", Response::HTTP_OK);
+        }
+        $comment->setCommentText($request->get("comText"));
+        $commentErrors = "";
+        $commentErrors=$validator->validate($comment);
+        if ($commentErrors !="") {
+            return new Response("401", Response::HTTP_OK);
+        }
+        $comment->setPodcastId($podcast);
+        $comment->setCommentDate(new DateTime());
+        $user = $userRepo->findOneBy(["id" =>$request->get("userId")]);
+        $comment->setUserId($user);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($comment);
+        $em->flush();
+        $json = $serializer->serialize($comment, 'json',["groups"=>'comments']);
+        return new Response($json,Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("mobile/deleteComment/{id}", name="deleteCommentFromJava")
+     * @param $id
+     * @return Response
+     */
+    function deleteCommentMobile($id): Response
+    {
+        $repo=$this->getDoctrine()->getRepository(PodcastComment::class);
+        $entityManage=$this->getDoctrine()->getManager();
+        $comment=$repo->findOneBy(["id" => $id]);;
+        $entityManage->remove($comment);
+        $entityManage->flush();
+        return new Response(null,Response::HTTP_OK);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route("mobile/UpdateComment");
+     */
+    function UpdateCommentMobile(Request $request): Response
+    {
+
+        $id = $request->get('commentId');
+        $repo=$this->getDoctrine()->getRepository(PodcastComment::class);
+        $comment=$repo->findOneBy(["id" => $id]);
+        $comment->setCommentText($request->get('commentText'));
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
+        return new Response(null,Response::HTTP_OK);
+
+    }
+
+
 
 }

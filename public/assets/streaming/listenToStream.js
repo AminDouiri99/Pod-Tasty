@@ -25,8 +25,9 @@ function playAudio(data) {
     let id = data.substr(0, data.indexOf('.'));
     liveStatus = data.substr(data.length-1, 1);
     data = data.substr(0, data.length-1);
-    fetch("../Files/podcastFiles/temp"+id+"/"+data)
-        .then(response => response.blob())
+    fetch("/Files/podcastFiles/temp"+id+"/"+data)
+        .then(response => {
+            response.blob()
         .then(function(blob){
                 chunks.push(blob);
             if (first){
@@ -34,6 +35,7 @@ function playAudio(data) {
                 replaceAudio();
             }
         });
+        })
 }
 
 function replaceAudio(){
@@ -50,10 +52,10 @@ function replaceAudio(){
         }, 1000);
     } else {
     if (chunks.length > 0 ) {
-
-    audio2 = new Audio(URL.createObjectURL(chunks[0]));
+    audio2 = new Audio();
     audio2.controls = false;
     document.getElementById("audioContainer").appendChild(audio2);
+    audio2.src=URL.createObjectURL(chunks[0]);
     audio2.play();
     audio.parentNode.removeChild(audio);
     audio = audio2;
@@ -77,7 +79,6 @@ function loadingFunction(){
     // document.getElementById("loading").style.display="inherit";
     audio.pause();
     waitingForLoad = setTimeout(function(){
-            audio.pause();
         // document.getElementById("loading").style.display="none";
                 replaceAudio();
             },3000);

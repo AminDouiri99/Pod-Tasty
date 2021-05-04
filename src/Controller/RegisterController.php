@@ -75,7 +75,7 @@ class RegisterController extends AbstractController
                 $UserInfoErrors=$validator->validate($UserInfo);
                 if(count($UserErrors)==0 && count($UserInfoErrors)==0){
                     $this->saveUser($newUser,$UserInfo);
-                    return $this->redirectToRoute("home");
+                    return $this->redirectToRoute("Home");
                 }
             }
 

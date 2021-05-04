@@ -6,6 +6,7 @@ use App\Repository\UserInfoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,12 +18,15 @@ class UserInfo
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("userInfo")
+     * @Groups("comments")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your LastName!")
+     * @Groups("comments")
      * @Assert\Regex(
      *     pattern="/\d/",
      *     match=false,
@@ -35,6 +39,7 @@ class UserInfo
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your FitstName!")
+     * @Groups("comments")
      * @Assert\Regex(
      *     pattern="/\d/",
      *     match=false,
@@ -44,23 +49,27 @@ class UserInfo
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups("comments")
      */
     private $UserImage;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your Gender!")
+     * @Groups("userInfo")
      */
     private $UserGender;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Please enter your BirthDate!")
+     * @Groups("userInfo")
      */
     private $UserBirthDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("userInfo")
      */
     private $UserBio;
 

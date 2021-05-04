@@ -289,3 +289,21 @@ a:hover{
 	margin-right: 30%;
 	margin-top: 5px;
 }
+.avatar{margin-top:-15px;margin-bottom:-15px;width:40px;height:40px}
+.nav-icon{padding:.1rem .75rem}
+.dropdown .dropdown-menu.show{animation-name:dropdownAnimation;animation-duration:.5s;animation-iteration-count:1;animation-timing-function:ease;animation-fill-mode:forwards}
+
+.dropdown .list-group .list-group-item{border-width:0 0 1px;margin-bottom:0;text-decoration:none}
+.dropdown .list-group .list-group-item:first-child,.dropdown .list-group .list-group-item:last-child{border-radius:0}
+.dropdown .list-group .list-group-item:hover{background:#f4f7f9}
+.notificationaa {
+
+}
+.notificationaa .badge {
+	height: 15px;
+	width: 15px;
+	background-color: red;
+	border-radius: 50%;
+	display: inline-block;
+	color: white;
+}

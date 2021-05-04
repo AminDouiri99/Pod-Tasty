@@ -3,6 +3,12 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
+    {% if channelStatus is defined  %}
+    {% if channelStatus==0 %}
+    <body onload="banned()">
+    {% endif %}
+    {% endif %}
+
 <script src="{{ asset('/assets/frontOffice/js/profile.js')}}"></script>
     <link href="{{ asset('assets/profile/profile.css') }}" rel="stylesheet" type="text/css">
 
@@ -14,18 +20,18 @@
             <div class="row">
                 <div class="left col-lg-4">
                     <div class="photo-left">
-                        {% if userInfo.getUserImage() !=null%}
-                        <img class="photo" src="{{ asset('/Files/podcastFiles/'~userInfo.getUserImage() ) }}"alt="Profile Pic"/>
-                        {% endif %}
+                        <img class="photo" src="
+                         {% if userInfo.getUserImage() is not null%}
+                             {{ asset('/Files/usersFiles/'~userInfo.getUserImage() ) }}
+                                {% else %}
+                                {{ asset('Files/usersFiles/avatar.jpg') }}
+                                {% endif %}"
 
-                        {% if userInfo.getUserImage()==null %}
-
-                            <img class="photo" src="{{ asset('/Files/podcastFiles/avatar.jpg') }}" alt="Profile Pic"/>
-                        {% endif %}
+                             alt="Profile Pic"/>
                         {% if user != null %}
                         {% if user.id == id %}
 
-                        <button href="" class="active button is-primary has-text-white logregButt" data-toggle="modal" data-target="#exampleModal">
+                        <button href="" class="active button is-primary has-text-white logregButt" type="button" data-toggle="modal" data-target="#exampleModal">
                             UP
                         </button>
                         {% endif %}
@@ -56,8 +62,8 @@
                     <input name="bio" class="inputeditprofile" type="text" style="display: none" value="{{ userInfo.userBio }}" id="bio">
                     <button type="submit" name="submit2" id="buttonSave" style="display: none;margin-top: 20px;"  class="button is-primary has-text-white logregButt center"><strong>Save</strong></button>
                     </form>
-                    <button onclick="myFunction()" style="margin-top: 20px;" id="buttonEdit" class="button is-primary has-text-white logregButt"><strong>Edit Profile</strong></button>
-                    <button href="" style="margin-top: 20px;" onclick="settingBtn()" class="button is-primary logregButt has-text-white dropdown-toggle"><strong>Settings</strong></button>
+                    <button onclick="myFunction()" style="margin-top: 20px;" id="buttonEdit" class="button is-primary has-text-white logregButt" type="button"><strong>Edit Profile</strong></button>
+                    <button href="" style="margin-top: 20px;" onclick="settingBtn()" type="button" class="button is-primary logregButt has-text-white dropdown-toggle"><strong>Settings</strong></button>
                     <h3 class="name" id="settingT1" style="display: none">Change Password :</h3>
                     <form class="center" action="/editpwd" method="post" >
                     <input name="oldPwd" id="settingOp" style="display: none" placeholder="Your old password" class="inputeditprofile center" type="text" id="lastname">
@@ -67,7 +73,7 @@
                     </form>
                         <h3 class="name" id="settingT2" style="display: none">Disable account :</h3>
                         <p style="display: none" id="settingET">Warning : if you desable your account nobody can see your content and you can't use it only if you enable it</p>
-                        <button href="" id="settingEB" style="display:none;margin-top: 20px;" class="button is-danger has-text-white " data-toggle="modal" data-target="#exampleModal2"><strong>Disable your account</strong></button>
+                        <button type="button" href="" id="settingEB" style="display:none;margin-top: 20px;" class="button is-danger has-text-white " data-toggle="modal" data-target="#exampleModal2"><strong>Disable your account</strong></button>
 
                     {% endif %}
                     {% endif %}
@@ -104,11 +110,11 @@
                     {% if user != null %}
 
                     {% if user.id == id and user.ChannelId == null %}
-                        <a class="button is-primary has-text-white logregButt follow " ><strong>Add Channel</strong></a>
+                        <a class="button is-primary has-text-white logregButt follow " href="/AjoutChannel" ><strong>Add Channel</strong></a>
                     {% endif %}
 
                     {% if user.id == id and user.ChannelId != null %}
-                        <a class="button is-primary has-text-white logregButt follow " ><strong>{{ user.getChannelId().getChannelName() }}</strong></a>
+                        <a class="button is-primary has-text-white logregButt follow " href="/AfficheChannel" ><strong>{{ user.getChannelId().getChannelName() }}</strong></a>
                     {% endif %}
 
                     {% if user.id != id %}
@@ -142,6 +148,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </main>
     </div>
     <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -184,8 +191,6 @@
                     {% endif %}
 
                     {{ form_start(form) }}
-                    {{ form_widget(form.UserFirstName, {'attr': { 'class': 'inputeditprofile center','style': 'display: none'}}) }}
-                    {{ form_widget(form.UserLastName, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
                     {{ form_widget(form.UserBio, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
                     {{ form_widget(form.UserGender, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
                     {{ form_widget(form.UserBirthDate, {'attr': {'class': 'inputeditprofile center','style': 'display: none'}}) }}
@@ -198,4 +203,10 @@
 </div>
 </div>
 </div>
+    </body>
+    <script>
+        function banned() {
+            alert("Your channel was banned by our admins , please send a request for more details");
+        }
+    </script>
 {% endblock %}
