@@ -19,7 +19,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("users")
+     * @Groups("comments")
      */
     private $id;
 
@@ -42,6 +42,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("comments")
      */
     private $UserInfoId;
 
