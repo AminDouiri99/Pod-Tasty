@@ -46,10 +46,6 @@ class User implements UserInterface
      */
     private $UserInfoId;
 
-    /**
-      * @Groups("users")
-     */
-    private $UserInfoIdForMobile;
 
 
         /**
@@ -384,22 +380,4 @@ class User implements UserInterface
 
         return $this;
     }
-
-
-    /**
-     * @return int
-     */
-    public function getUserInfoIdForMobile(): int
-    {
-        return $this->UserInfoIdForMobile;
-    }
-
-    /**
-     * @param int $UserInfoIdForMobile
-     */
-    public function setUserInfoIdForMobile(int $UserInfoIdForMobile): void
-    {
-        $this->UserInfoIdForMobile = $UserInfoIdForMobile;
-    }
-
 }
