@@ -16,9 +16,12 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Serializer\Serializer;
+
 
 class PodcastController extends AbstractController
 {
@@ -66,6 +69,17 @@ class PodcastController extends AbstractController
         $podcasts=$repo->findAll();
         $user=$this->getUser();
         return $this->render("back_office/podcastBack/podcast.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
+    }
+
+    /**
+     * @Route("/Liste", name="liste")
+     * @param PodcastRepository $repo
+     * @param \Symfony\Component\Serializer\SerializerInterface $serializerInterface
+     */
+    public function getPodcasts(PodcastRepository $repo , \Symfony\Component\Serializer\SerializerInterface $serializerInterface){
+        $podcasts=$repo->findAll();
+        $json=$serializerInterface->serialize($podcasts, 'json');
+        dump($json);
     }
 
     /**
