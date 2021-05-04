@@ -73,16 +73,16 @@ class PodcastCommentsController extends AbstractController
         if (!$podcast->getReviewList()->isEmpty()){
 
             $reviewMoy = 0;
-        foreach ($podcast->getReviewList() as $review) {
-            $reviewMoy += $review->getRating();
-            if($getUser!=null) {
-            if($review->getUserId()->getId() == $getUser->getId()) {
-                $userReview = $review;
+            foreach ($podcast->getReviewList() as $review) {
+                $reviewMoy += $review->getRating();
+                if($getUser!=null) {
+                    if($review->getUserId()->getId() == $getUser->getId()) {
+                        $userReview = $review;
+                    }
+                }
             }
-            }
+            $reviewMoy /= $podcast->getReviewList()->count();
         }
-        $reviewMoy /= $podcast->getReviewList()->count();
-    }
 
         $qrCode = $customQrCodeBuilder
             ->size(400)
@@ -94,7 +94,6 @@ class PodcastCommentsController extends AbstractController
     }
 
     /**
-
      * @Route("/adminPodcast/{id}", name="podcast_comments_dashboard")
      * @param int $id
      * @param PodcastRepository $podcastRepo
@@ -137,7 +136,7 @@ class PodcastCommentsController extends AbstractController
         $commentErrors = "";
         $commentErrors=$validator->validate($comment);
         if ($commentErrors !="") {
-        return new Response("1");
+            return new Response("1");
         } else {
             $podcast = $podcastRepo->findOneBy(['id' => $request->get('podId')]);
             if($podcast->getCommentsAllowed() == 0) {
@@ -218,7 +217,6 @@ class PodcastCommentsController extends AbstractController
             $response=$response.  '</ul>
         </div>
         ' . $editButtons . '
-
     </div>
     <!-- the comment body -->
        <div class="commentContainer">
@@ -274,7 +272,7 @@ class PodcastCommentsController extends AbstractController
         $em->flush();
         return new Response(1);
 
-        }
+    }
 
     /**
      * @param Request $request
@@ -304,19 +302,17 @@ class PodcastCommentsController extends AbstractController
 
     public function getString($comment): string
     {
-       $res = '<div id="comment' . $comment->getId() . '">
+        $res = '<div id="comment' . $comment->getId() . '">
                     <!-- current #{user} avatar -->
                     <div class="user_avatar">
                         <img src="/assets/donut.png">
                     </div>
                     <div class="comment_toolbar">
-
                         <!-- inc. date and time -->
                         <div class="comment_details">
                             <ul>
                                 <li style="width: 100%"><span class="user"> ' . $comment->getUserId()->getUserInfoId()->getUserFirstName() . ' ' . $comment->getUserId()->getUserInfoId()->getUserLastName() . '</span>
                                     <span id="deletingMsg' . $comment->getId() . '" class="deleteingComment">Deleting comment...</span>
-
                                 </li>
                 <li style="float:right;margin-right: 10%"><i class="fa fa-calendar"></i>' . $comment->getCommentDate()->format("d M Y") . '</li>
                             </ul>

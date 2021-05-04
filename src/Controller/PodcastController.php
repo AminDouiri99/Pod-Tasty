@@ -163,10 +163,10 @@ class PodcastController extends AbstractController
             $tagIds = $this->podcastTags($form->get("tags")->getData());
 
             if(count($tagIds) > 0) {
-            foreach($tagIds as $id) {
-                $tagtoAdd = $tagRepo->find($id);
-                $Podcast->addTagsList($tagtoAdd);
-            }
+                foreach($tagIds as $id) {
+                    $tagtoAdd = $tagRepo->find($id);
+                    $Podcast->addTagsList($tagtoAdd);
+                }
             }
             $Podcast->setPodcastImage($fileName);
             $Podcast->setCommentsAllowed(1);
@@ -404,25 +404,24 @@ class PodcastController extends AbstractController
                     array_splice($podcasts, array_search($pod, $podcasts), 1);
                 }
             }
-                if( $pod->getCurrentlyLive() == 1) {
-                    $addIt = true;
-                    if($tag != null) {
-                        if(!($tag->getPodcastsList()->indexOf($pod) > -1)){
-                            $addIt = false;
-                        }
-                    }
-                    if($addIt) {
-                    array_push($livePods, $pod);
+            if( $pod->getCurrentlyLive() == 1) {
+                $addIt = true;
+                if($tag != null) {
+                    if(!($tag->getPodcastsList()->indexOf($pod) > -1)){
+                        $addIt = false;
                     }
                 }
+                if($addIt) {
+                    array_push($livePods, $pod);
+                }
             }
+        }
         $noPods = true;
         $response = "";
         if(count($livePods) > 0) {
             $noPods = false;
             $response ='<div class="wrapper">
             <h2>Currently Live <img src="/assets/streaming/live.png" style="margin-left: 20px" height="35" width="35"/></h2>
-
             <div class="cards">';
             $response .= $this->returnResponse($livePods);
             $response.="
@@ -434,10 +433,9 @@ class PodcastController extends AbstractController
             $noPods = false;
             $response .= '    <div class="wrapper">
         <h2>All podcasts</h2>
-
         <div class="cards">';
-        $response .= $this->returnResponse($podcasts);
-        $response.="
+            $response .= $this->returnResponse($podcasts);
+            $response.="
             </div>
         </div>";
         }
@@ -450,39 +448,38 @@ class PodcastController extends AbstractController
     function returnResponse($podcasts): string
     {
         $data = "";
-            foreach($podcasts as $pod) {
+        foreach($podcasts as $pod) {
             $data.='<figure style="margin-left: 0px" class="card">
                     <div class="show" style="width: 100%">
                         <div class="show_image">
                              <div  class="podcastViews">'.$pod->getPodcastViews().' Views</div>
                             <a href="/podcast/'.$pod->getId().'"><img class="podImg" src="';
-                            if ($pod->getPodcastImage() != null) {
+            if ($pod->getPodcastImage() != null) {
 
-                                $data.='Files/podcastFiles/'.$pod->getPodcastImage();
-                            } else {
-                               $data.= 'assets/home/defaultPod.png';
-                            }
-                $data.=  '">
+                $data.='Files/podcastFiles/'.$pod->getPodcastImage();
+            } else {
+                $data.= 'assets/home/defaultPod.png';
+            }
+            $data.=  '">
                                 <div class="show_play_icon">
                                         <img src="assets/frontOffice/images/play.png">
-
                                 </div>
                                 <div class="show_title_2">'.$pod->getPodcastName().'</div>
                             </a>
                             <div class="show_tags">
                                 <div class="tags">
                                     <ul class="flex-row align-items-start justify-content-start">';
-                         foreach($pod->getTagsList() as $tag){
-                                        $data.='<li style="margin-bottom: 10px !important;;background-color: transparent"><button style="pointer-events:none;border-radius: 10px" class="badge-pill btn-'.$tag->getTagStyle().'" id="tag'.$tag->getId().'">'.$tag->getName().'</button></li>';
-                                       }
-                                    $data.='</ul>
+            foreach($pod->getTagsList() as $tag){
+                $data.='<li style="margin-bottom: 10px !important;;background-color: transparent"><button style="pointer-events:none;border-radius: 10px" class="badge-pill btn-'.$tag->getTagStyle().'" id="tag'.$tag->getId().'">'.$tag->getName().'</button></li>';
+            }
+            $data.='</ul>
                                 </div>
                             </div>
                         </div>
                     </div>
             </figure>
 ';
-            }
+        }
         return $data;
     }
 
@@ -539,7 +536,6 @@ class PodcastController extends AbstractController
                        dd($e->getMessage());
                        exit;
                    }
-
                    $Podcast->setPodcastSource($newFilename);
                } */
 
@@ -572,7 +568,7 @@ class PodcastController extends AbstractController
     }
 
 
-/*MOBILE APIS*/
+    /*MOBILE APIS*/
 
     /**
      * @Route("mobile/getPodcastById" )
@@ -584,4 +580,4 @@ class PodcastController extends AbstractController
     }
 
 
-}
+}   
