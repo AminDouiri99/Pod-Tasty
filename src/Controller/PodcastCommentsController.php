@@ -374,15 +374,22 @@ class PodcastCommentsController extends AbstractController
     /**
      * @Route("mobile/addComment" )
      * @param Request $request
+     * @param UserRepository $userRepo
+     * @param PodcastRepository $podcastRepo
      * @return Response
      */
-    function addCommentMobile(Request $request): Response
+    function addCommentMobile(Request $request, UserRepository $userRepo, PodcastRepository $podcastRepo): Response
     {
-        $comment = new PodCastComment();
+       $comment = new PodcastComment();
+        $podcast = $podcastRepo->findOneBy(["id" =>$request->get("podId")]);
+        if($podcast->getCommentsAllowed() == 0) {
+            return new Response("0", Response::HTTP_FORBIDDEN);
+        }
         $comment->setCommentText($request->get("comText"));
-        $comment->setPodcastId($request->get("podId"));
-        $comment->setCommentDate($request->get("comDate"));
-        $comment->setUserId($request->get("userId"));
+        $comment->setPodcastId($podcast);
+        $comment->setCommentDate();
+        $user = $userRepo->findOneBy(["id" =>$request->get("userId")]);
+        $comment->setUserId($user);
         $em = $this->getDoctrine()->getManager();
         $em->persist($comment);
         $em->flush();
