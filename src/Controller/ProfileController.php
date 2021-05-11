@@ -74,7 +74,11 @@ class ProfileController extends AbstractController
                 ]); }
         }
         $getUser = $this->getUser();
-        $ChannelId=$getUser->getChannelId();
+        if ($getUser != null) {
+            if ($getUser->getChannelId() != null) {
+                $ChannelId=$getUser->getChannelId();
+            }
+        }
         if (isset($ChannelId)){$repoo=$this->getDoctrine()->getRepository(Channel::class);
             $channell=$repoo->findOneBy(['id'=>$ChannelId]);
             $channelStatus=$channell->getChannelStatus();} else $channelStatus=3;

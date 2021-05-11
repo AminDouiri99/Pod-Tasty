@@ -501,7 +501,7 @@
                         <!-- inc. date and time -->
                         <div class="comment_details">
                             <ul>
-                                <li style="width: 100%"><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span>
+                                <li style="width: 100%"><a href="/profile/{{ comment.userId.id }}"><span class="user"> {{ comment.userId.userInfoId.userFirstName }} {{ comment.userId.userInfoId.userLastName }}</span></a>
                                     <span id="deletingMsg{{ comment.id }}" class="deleteingComment">Deleting comment...</span>
 
                                 </li>
