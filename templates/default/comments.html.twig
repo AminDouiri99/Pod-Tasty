@@ -404,6 +404,7 @@
         <div style="color:white;float:left;display: inline-block">
 
             <div style="background-color:rgba(0,0,0,0.1);padding:10px;height:190px;border-radius:20px ;width:120px;text-align:center;margin-top: -170px">
+
                 <img height="80" width="80" src="
                          {% if ownerImage is not null%}
                              {{ asset('/Files/podcastFiles/'~ownerImage ) }}
@@ -487,7 +488,13 @@
                     <div id="comment{{ comment.id }}">
                     <!-- current #{user} avatar -->
                     <div class="user_avatar">
-                        <img src="/assets/donut.png">
+                        <img height="80" width="80" src="
+                         {% if comment.userId.userInfoId.userImage is not null%}
+                             {{ asset('/Files/podcastFiles/'~comment.userId.userInfoId.userImage ) }}
+                                {% else %}
+                                {{ asset('Files/usersFiles/avatar.jpg') }}
+                                {% endif %}
+" style="border-radius: 360px;margin-left: 3px"/>
                     </div>
                     <div class="comment_toolbar">
 

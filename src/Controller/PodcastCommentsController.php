@@ -425,10 +425,10 @@ class PodcastCommentsController extends AbstractController
     function UpdateCommentMobile(Request $request): Response
     {
 
-        $id = $request->get('commentId');
+        $id = $request->get('comId');
         $repo=$this->getDoctrine()->getRepository(PodcastComment::class);
         $comment=$repo->findOneBy(["id" => $id]);
-        $comment->setCommentText($request->get('commentText'));
+        $comment->setCommentText($request->get('comText'));
         $em=$this->getDoctrine()->getManager();
         $em->flush();
         return new Response(null,Response::HTTP_OK);
