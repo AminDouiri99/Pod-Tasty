@@ -20,6 +20,7 @@ class UserInfo
      * @ORM\Column(type="integer")
      * @Groups("userInfo")
      * @Groups("comments")
+     * @Groups("users")
      */
     private $id;
 
@@ -27,6 +28,7 @@ class UserInfo
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your LastName!")
      * @Groups("comments")
+     * @Groups("users")
      * @Assert\Regex(
      *     pattern="/\d/",
      *     match=false,
@@ -40,6 +42,7 @@ class UserInfo
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your FitstName!")
      * @Groups("comments")
+     * @Groups("users")
      * @Assert\Regex(
      *     pattern="/\d/",
      *     match=false,
@@ -50,6 +53,7 @@ class UserInfo
     /**
      * @ORM\Column(type="string", nullable=true)
      * @Groups("comments")
+     * @Groups("users")
      */
     private $UserImage;
 

@@ -9836,17 +9836,17 @@
         },
         {
             "name": "symfony/web-server-bundle",
-            "version": "v4.4.21",
-            "version_normalized": "4.4.21.0",
+            "version": "v4.4.22",
+            "version_normalized": "4.4.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-server-bundle.git",
-                "reference": "a3a7b8044cecd8df158984e05fea122d4f668a9f"
+                "reference": "0080dcf62a5caa9d0e8ec93450d11e2bbbb3a36a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-server-bundle/zipball/a3a7b8044cecd8df158984e05fea122d4f668a9f",
-                "reference": "a3a7b8044cecd8df158984e05fea122d4f668a9f",
+                "url": "https://api.github.com/repos/symfony/web-server-bundle/zipball/0080dcf62a5caa9d0e8ec93450d11e2bbbb3a36a",
+                "reference": "0080dcf62a5caa9d0e8ec93450d11e2bbbb3a36a",
                 "shasum": ""
             },
             "require": {
@@ -9862,7 +9862,7 @@
                 "symfony/expression-language": "For using the filter option of the log server.",
                 "symfony/monolog-bridge": "For using the log server."
             },
-            "time": "2021-03-05T17:58:50+00:00",
+            "time": "2021-04-13T06:30:55+00:00",
             "type": "symfony-bundle",
             "installation-source": "dist",
             "autoload": {
@@ -9890,7 +9890,7 @@
             "description": "Provides commands for running applications using the PHP built-in web server",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/web-server-bundle/tree/v4.4.21"
+                "source": "https://github.com/symfony/web-server-bundle/tree/v4.4.22"
             },
             "funding": [
                 {
@@ -10324,6 +10324,7 @@
         "symfony/dom-crawler",
         "symfony/maker-bundle",
         "symfony/phpunit-bridge",
-        "symfony/web-profiler-bundle"
+        "symfony/web-profiler-bundle",
+        "symfony/web-server-bundle"
     ]
 }

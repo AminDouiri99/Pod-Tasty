@@ -74,7 +74,7 @@ class VideoStreamController extends AbstractController
         $em=$this->getDoctrine()->getManager();
         $em->flush();
         $filesystem = new Filesystem();
-        $path=$this->getParameter('PODCAST_FILE').'/temp'.$request->get("podId")."/";
+        $path=$this->getParameter('PODCAST_FILES').'/temp'.$request->get("podId")."/";
         $filesystem->remove($path);
         return new Response("");
 

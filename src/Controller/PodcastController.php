@@ -24,6 +24,7 @@ use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class PodcastController extends AbstractController
 {
@@ -575,12 +576,17 @@ class PodcastController extends AbstractController
 /*MOBILE APIS*/
 
     /**
-     * @Route("mobile/getPodcastById" )
+     * @Route("mobile/getPodcastById/{id}" )
+     * @param PodcastRepository $podcastRepository
+     * @param $id
+     * @param SerializerInterface $serializer
+     * @return Response
      */
-    function getPodcastByIdForMobile(PodcastRepository  $podcastRepository,Request $request)
+    function getPodcastByIdForMobile(PodcastRepository $podcastRepository,$id, SerializerInterface $serializer)
     {
-        $podcast = $podcastRepository->findOneBy(["id"=>$request->get("id")]);
-        return new Response(json_encode(array("podcast"=>$podcast),Response::HTTP_OK));
+        $podcast = $podcastRepository->findOneBy(["id"=>$id]);
+        $json = $serializer->serialize($podcast, 'json',["groups"=>'podcast']);
+        return new Response($json);
     }
 
 

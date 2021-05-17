@@ -119,7 +119,6 @@ class UserAdminController extends AbstractController
     function getUserByIdMobile(UserRepository $userRepository,  SerializerInterface $serializer, $id): Response
     {
         $user = $userRepository->findOneBy(["id"=>$id]);
-        $user->setUserInfoIdForMobile($user->getUserInfoId()->getId());
         $json = $serializer->serialize($user, 'json',["groups"=>'users']);
         return new Response($json);
     }

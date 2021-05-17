@@ -22,7 +22,7 @@
                     <div class="photo-left">
                         <img class="photo" src="
                          {% if userInfo.getUserImage() is not null%}
-                             {{ asset('/Files/usersFiles/'~userInfo.getUserImage() ) }}
+                             {{ asset('/Files/podcastFiles/'~userInfo.getUserImage() ) }}
                                 {% else %}
                                 {{ asset('Files/usersFiles/avatar.jpg') }}
                                 {% endif %}"

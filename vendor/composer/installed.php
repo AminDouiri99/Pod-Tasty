@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '8ed95640990bc9736221af8b4376cebbab2e2497',
     'name' => 'vendor_name/phpproject',
   ),
   'versions' => 
@@ -1291,12 +1291,12 @@
     ),
     'symfony/web-server-bundle' => 
     array (
-      'pretty_version' => 'v4.4.21',
-      'version' => '4.4.21.0',
+      'pretty_version' => 'v4.4.22',
+      'version' => '4.4.22.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a3a7b8044cecd8df158984e05fea122d4f668a9f',
+      'reference' => '0080dcf62a5caa9d0e8ec93450d11e2bbbb3a36a',
     ),
     'symfony/yaml' => 
     array (
@@ -1327,12 +1327,12 @@
     ),
     'vendor_name/phpproject' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '8ed95640990bc9736221af8b4376cebbab2e2497',
     ),
     'vich/uploader-bundle' => 
     array (
