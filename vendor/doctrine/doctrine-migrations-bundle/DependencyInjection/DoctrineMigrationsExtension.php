@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\MigrationsBundle\DependencyInjection;
 
+use Doctrine\Bundle\MigrationsBundle\Collector\MigrationsCollector;
+use Doctrine\Bundle\MigrationsBundle\Collector\MigrationsFlattener;
 use Doctrine\Migrations\Metadata\Storage\MetadataStorage;
 use Doctrine\Migrations\Metadata\Storage\TableMetadataStorageConfiguration;
+use Doctrine\Migrations\Version\MigrationFactory;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Config\FileLocator;
@@ -17,8 +20,10 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 use function array_keys;
+use function assert;
 use function explode;
 use function implode;
+use function is_array;
 use function sprintf;
 use function strlen;
 use function substr;
@@ -68,7 +73,15 @@ class DoctrineMigrationsExtension extends Extension
         $configurationDefinition->addMethodCall('setAllOrNothing', [$config['all_or_nothing']]);
         $configurationDefinition->addMethodCall('setCheckDatabasePlatform', [$config['check_database_platform']]);
 
+        if ($config['enable_profiler']) {
+            $this->registerCollector($container);
+        }
+
         $diDefinition = $container->getDefinition('doctrine.migrations.dependency_factory');
+
+        if (! isset($config['services'][MigrationFactory::class])) {
+            $config['services'][MigrationFactory::class] = 'doctrine.migrations.migrations_factory';
+        }
 
         foreach ($config['services'] as $doctrineId => $symfonyId) {
             $diDefinition->addMethodCall('setDefinition', [$doctrineId, new ServiceClosureArgument(new Reference($symfonyId))]);
@@ -135,6 +148,7 @@ class DoctrineMigrationsExtension extends Extension
     private function getBundlePath(string $bundleName, ContainerBuilder $container): string
     {
         $bundleMetadata = $container->getParameter('kernel.bundles_metadata');
+        assert(is_array($bundleMetadata));
 
         if (! isset($bundleMetadata[$bundleName])) {
             throw new RuntimeException(sprintf(
@@ -145,6 +159,24 @@ class DoctrineMigrationsExtension extends Extension
         }
 
         return $bundleMetadata[$bundleName]['path'];
+    }
+
+    private function registerCollector(ContainerBuilder $container): void
+    {
+        $flattenerDefinition = new Definition(MigrationsFlattener::class);
+        $container->setDefinition('doctrine_migrations.migrations_flattener', $flattenerDefinition);
+
+        $collectorDefinition = new Definition(MigrationsCollector::class, [
+            new Reference('doctrine.migrations.dependency_factory'),
+            new Reference('doctrine_migrations.migrations_flattener'),
+        ]);
+        $collectorDefinition
+            ->addTag('data_collector', [
+                'template' => '@DoctrineMigrations/Collector/migrations.html.twig',
+                'id' => 'doctrine_migrations',
+                'priority' => '249',
+            ]);
+        $container->setDefinition('doctrine_migrations.migrations_collector', $collectorDefinition);
     }
 
     /**

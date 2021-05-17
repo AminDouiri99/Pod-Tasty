@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ReclamationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=ReclamationRepository::class)
@@ -14,33 +16,39 @@ class Reclamation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("reclamations")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("reclamations")
      */
     private $Type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("reclamations")
      */
     private $Description;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("reclamations")
      */
     private $Status;
 
     /**
      * @ORM\ManyToOne(targetEntity=Podcast::class, inversedBy="ReclamationList")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("reclamations")
      */
     private $PodcastId;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ReclamationList")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("reclamations")
      */
     private $UserId;
 

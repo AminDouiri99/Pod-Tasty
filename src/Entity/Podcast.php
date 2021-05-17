@@ -21,36 +21,42 @@ class Podcast
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
+     * @Groups("Podcast")
      * @ORM\Column(type="integer")
-     * @Groups('Podcast')
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("Podcast")
+
      */
     private $PodcastName;
 
     /**
      * @ORM\Column(type="integer", nullable=false)
+     * @Groups("Podcast")
+
      *
      */
     private $currentlyLive;
 
     /**
      * @ORM\Column(type="integer", nullable=false)
-     *
+     * @Groups("Podcast")
      */
     private $isBlocked;
 
 
     /**
      * @ORM\Column(type="integer", nullable=false)
+     * @Groups("Podcast")
      */
     private $commentsAllowed;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("Podcast")
      */
     private $PodcastDescription;
 
@@ -65,6 +71,7 @@ class Podcast
      *     minHeight = 200,
      *     maxHeight = 400
      * )
+     * @Groups("Podcast")
      */
     private $PodcastImage;
 //
@@ -75,11 +82,13 @@ class Podcast
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("Podcast")
      */
     private $PodcastViews;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("Podcast")
      */
     private $currentlyWatching;
 
@@ -88,6 +97,7 @@ class Podcast
      * @ORM\Column(type="datetime")
      * @Assert\Date
      * @var string A "Y-m-d" formatted value
+     * @Groups("Podcast")
      */
     private $PodcastDate;
 
@@ -96,36 +106,43 @@ class Podcast
      * @Assert\File(
      *     mimeTypes = {"application/pdf", "application/x-audio"},
      *     mimeTypesMessage = "Please upload a valid Audio")
+     * @Groups("Podcast")
      */
     private $PodcastSource;
 
     /**
      * @ORM\ManyToOne(targetEntity=Playlist::class, inversedBy="PodcastList")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("Podcast")
      */
     private $PlaylistId;
 
     /**
      * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="PodcastId")
+     * @Groups("Podcast")
      */
     private $ReclamationList;
 
     /**
      * @ORM\ManyToMany (targetEntity=User::class, mappedBy="PodcastsFavorite")
+     * @Groups("Podcast")
      */
     private $usersList;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="podcastsList")
+     * @Groups("Podcast")
      */
     private $tagsList;
 
     /**
      * @ORM\OneToMany(targetEntity=PodcastComment::class, mappedBy="PodcastId")
+     * @Groups("Podcast")
      */
     private $CommentList;
     /**
      * @ORM\OneToMany(targetEntity=PodcastReview::class, mappedBy="PodcastId")
+     * @Groups("Podcast")
      */
     private $ReviewList;
 

@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ReclamationController extends AbstractController
 {
@@ -177,6 +178,61 @@ class ReclamationController extends AbstractController
         $this->addFlash('message', 'the message has been sent');
         return $this->redirectToRoute('reportsForPod', ["id" => $reclamation->getPodcastId()->getId()]);
 
+    }
+
+    /*MOBILE APIS*/
+
+    /**
+     * @Route("/mobile/getReport")
+     * @param ReclamationRepository $reportRepo
+     * @param SerializerInterface $serializer
+     * @return Response
+     */
+       public function getReport (ReclamationRepository $reportRepo , SerializerInterface $serializer){
+           $report = $reportRepo->findAll();
+           $json = $serializer->serialize($report, 'json',["groups"=>"reclamations"]);
+           return new Response($json);
+       }
+
+    /**
+     * @Route("/mobile/getReportsByPodcastId/{id}")
+     * @param SerializerInterface $serializer
+     * @param $id
+     * @return Response
+     */
+    function getRepotsByPodcastId(ReclamationRepository $reportRepository, SerializerInterface $serializer, $id): Response
+    {
+        $Reports = $reportRepository->findBy(["PodcastId"=>$id]);
+        $json = $serializer->serialize($Reports, 'json',["groups"=>'reclamations']);
+        return new Response($json);
+    }
+
+    /**
+     * @Route("/mobile/NewReport", name="reclamation_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param PodcastRepository $podRepo
+     * @param SerializerInterface $serializer
+     * @param UserRepository $userRepo
+     * @return Response
+     */
+    public function newReport(Request $request, PodcastRepository $podRepo, SerializerInterface $serializer , UserRepository $userRepo): Response
+    {
+        $u = $this->getUser();
+        $user = $userRepo->find($u);
+        $podcast = $podRepo->find($request->get("podId"));
+        $reclamation = new Reclamation();
+        //$reclamation->setStatus(false);
+        $reclamation->setType($request->get("type"));
+        $reclamation->setStatus(0);
+
+        $reclamation->setUserId($user);
+        $reclamation->setPodcastId($podcast);
+        $reclamation->setDescription($request->get("desc"));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reclamation);
+        $entityManager->flush();
+        $json = $serializer->serialize($reclamation, 'json',["groups"=>'comments']);
+        return new Response($json,Response::HTTP_OK);
     }
 
 }

@@ -297,28 +297,28 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * READ-ONLY: The names of the parent classes (ancestors).
      *
-     * @var array
+     * @psalm-var list<class-string>
      */
     public $parentClasses = [];
 
     /**
      * READ-ONLY: The names of all subclasses (descendants).
      *
-     * @var array
+     * @psalm-var list<class-string>
      */
     public $subClasses = [];
 
     /**
      * READ-ONLY: The names of all embedded classes based on properties.
      *
-     * @var array
+     * @psalm-var array<string, mixed[]>
      */
     public $embeddedClasses = [];
 
     /**
      * READ-ONLY: The named queries allowed to be called directly from Repository.
      *
-     * @var array
+     * @psalm-var array<string, array<string, mixed>>
      */
     public $namedQueries = [];
 
@@ -335,7 +335,7 @@ class ClassMetadataInfo implements ClassMetadata
      * )
      * </pre>
      *
-     * @var array
+     * @psalm-var array<string, array<string, mixed>>
      */
     public $namedNativeQueries = [];
 
@@ -351,7 +351,11 @@ class ClassMetadataInfo implements ClassMetadata
      * )
      * </pre>
      *
-     * @var array
+     * @psalm-var array<string, array{
+     *                name: string,
+     *                entities: mixed[],
+     *                columns: mixed[]
+     *            }>
      */
     public $sqlResultSetMappings = [];
 
@@ -359,7 +363,7 @@ class ClassMetadataInfo implements ClassMetadata
      * READ-ONLY: The field names of all fields that are part of the identifier/primary key
      * of the mapped entity class.
      *
-     * @var array
+     * @psalm-var list<string>
      */
     public $identifier = [];
 
@@ -416,8 +420,23 @@ class ClassMetadataInfo implements ClassMetadata
      * - <b>'unique'</b> (string, optional, schema-only)
      * Whether a unique constraint should be generated for the column.
      *
-     * @var array
-     * @psalm-var array<string, array{type: string, fieldName: string, columnName: string, inherited: class-string}>
+     * @psalm-var array<string, array{
+     *      type: string,
+     *      fieldName: string,
+     *      columnName?: string,
+     *      length?: int,
+     *      id?: bool,
+     *      nullable?: bool,
+     *      columnDefinition?: string,
+     *      precision?: int,
+     *      scale?: int,
+     *      unique?: string,
+     *      inherited?: class-string,
+     *      originalClass?: class-string,
+     *      originalField?: string,
+     *      quoted?: bool,
+     *      requireSQLConversion?: bool,
+     * }>
      */
     public $fieldMappings = [];
 
@@ -425,7 +444,7 @@ class ClassMetadataInfo implements ClassMetadata
      * READ-ONLY: An array of field names. Used to look up field names from column names.
      * Keys are column names and values are field names.
      *
-     * @var array
+     * @psalm-var array<string, string>
      */
     public $fieldNames = [];
 
@@ -468,7 +487,7 @@ class ClassMetadataInfo implements ClassMetadata
      * READ-ONLY: The definition of the discriminator column used in JOINED and SINGLE_TABLE
      * inheritance mappings.
      *
-     * @var array
+     * @psalm-var array<string, mixed>
      */
     public $discriminatorColumn;
 
@@ -481,21 +500,21 @@ class ClassMetadataInfo implements ClassMetadata
      * indexes => array
      * uniqueConstraints => array
      *
-     * @var array
+     * @psalm-var array<string, mixed>
      */
     public $table;
 
     /**
      * READ-ONLY: The registered lifecycle callbacks for entities of this class.
      *
-     * @var array[]
+     * @psalm-var array<string, list<string>>
      */
     public $lifecycleCallbacks = [];
 
     /**
      * READ-ONLY: The registered entity listeners.
      *
-     * @var array
+     * @psalm-var array<string, list<array{class: class-string, method: string}>>
      */
     public $entityListeners = [];
 
@@ -552,7 +571,7 @@ class ClassMetadataInfo implements ClassMetadata
      * )
      * </pre>
      *
-     * @var array
+     * @psalm-var array<string, array<string, mixed>>
      */
     public $associationMappings = [];
 
@@ -593,7 +612,7 @@ class ClassMetadataInfo implements ClassMetadata
      * )
      * </code>
      *
-     * @var array
+     * @psalm-var array<string, mixed>
      * @todo Merge with tableGeneratorDefinition into generic generatorDefinition
      */
     public $sequenceGeneratorDefinition;
@@ -602,7 +621,7 @@ class ClassMetadataInfo implements ClassMetadata
      * READ-ONLY: The definition of the table generator of this class. Only used for the
      * TABLE generation strategy.
      *
-     * @var array
+     * @var array<string, mixed>
      * @todo Merge with tableGeneratorDefinition into generic generatorDefinition
      */
     public $tableGeneratorDefinition;
@@ -729,7 +748,7 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @param object $entity
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getIdentifierValues($entity)
     {
@@ -761,10 +780,10 @@ class ClassMetadataInfo implements ClassMetadata
      * Populates the entity identifier of an entity.
      *
      * @param object $entity
-     * @param array  $id
      *
      * @return void
      *
+     * @psalm-param array<string, mixed> $id
      * @todo Rename to assignIdentifier()
      */
     public function setIdentifierValues($entity, array $id)
@@ -1083,9 +1102,9 @@ class ClassMetadataInfo implements ClassMetadata
     }
 
     /**
-     * @param array $cache
-     *
      * @return void
+     *
+     * @psalm-param array{usage?: mixed, region?: mixed} $cache
      */
     public function enableCache(array $cache)
     {
@@ -1102,9 +1121,10 @@ class ClassMetadataInfo implements ClassMetadata
 
     /**
      * @param string $fieldName
-     * @param array  $cache
      *
      * @return void
+     *
+     * @psalm-param array{usage?: mixed, region?: mixed} $cache
      */
     public function enableAssociationCache($fieldName, array $cache)
     {
@@ -1117,7 +1137,7 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @return mixed[]
      *
-     * @psalm-param array{usage: mixed, region: mixed} $cache
+     * @psalm-param array{usage?: mixed, region?: mixed} $cache
      * @psalm-return array{usage: mixed, region: mixed}
      */
     public function getAssociationCacheDefaults($fieldName, array $cache)
@@ -1244,9 +1264,9 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @param string $fieldName The field name.
      *
-     * @return array The field mapping.
-     *
      * @throws MappingException
+     *
+     * @psalm-return array<string, mixed> The field mapping.
      */
     public function getFieldMapping($fieldName)
     {
@@ -1265,9 +1285,9 @@ class ClassMetadataInfo implements ClassMetadata
      * @param string $fieldName The field name that represents the association in
      *                          the object model.
      *
-     * @return array The mapping.
-     *
      * @throws MappingException
+     *
+     * @psalm-return array<string, mixed> The mapping.
      */
     public function getAssociationMapping($fieldName)
     {
@@ -1281,7 +1301,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Gets all association mappings of the class.
      *
-     * @return array
+     * @psalm-return array<string, array<string, mixed>>
      */
     public function getAssociationMappings()
     {
@@ -1324,7 +1344,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Gets all named queries of the class.
      *
-     * @return array
+     * @psalm-return array<string, mixed>
      */
     public function getNamedQueries()
     {
@@ -1338,9 +1358,9 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @param string $queryName The query name.
      *
-     * @return array
-     *
      * @throws MappingException
+     *
+     * @psalm-return array<string, mixed>
      */
     public function getNamedNativeQuery($queryName)
     {
@@ -1354,7 +1374,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Gets all named native queries of the class.
      *
-     * @return array
+     * @psalm-return array<string, array<string, mixed>>
      */
     public function getNamedNativeQueries()
     {
@@ -1368,9 +1388,9 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @param string $name The result set mapping name.
      *
-     * @return array
-     *
      * @throws MappingException
+     *
+     * @psalm-return array<string, mixed>
      */
     public function getSqlResultSetMapping($name)
     {
@@ -1384,7 +1404,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Gets all sql result set mappings of the class.
      *
-     * @return array
+     * @psalm-return array<string, array<string, mixed>>
      */
     public function getSqlResultSetMappings()
     {
@@ -1394,11 +1414,11 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Validates & completes the given field mapping.
      *
-     * @param array $mapping The field mapping to validate & complete.
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $mapping The field mapping to validate & complete.
      */
     protected function _validateAndCompleteFieldMapping(array &$mapping)
     {
@@ -1459,12 +1479,11 @@ class ClassMetadataInfo implements ClassMetadata
      * Validates & completes the basic mapping information that is common to all
      * association mappings (one-to-one, many-ot-one, one-to-many, many-to-many).
      *
-     * @param array $mapping The mapping.
-     *
      * @return mixed[] The updated mapping.
      *
      * @throws MappingException If something is wrong with the mapping.
      *
+     * @psalm-param array<string, mixed> $mapping The mapping.
      * @psalm-return array{
      *                   mappedBy: mixed,
      *                   inversedBy: mixed,
@@ -1478,7 +1497,8 @@ class ClassMetadataInfo implements ClassMetadata
      *                   isCascadePersist: bool,
      *                   isCascadeRefresh: bool,
      *                   isCascadeMerge: bool,
-     *                   isCascadeDetach: bool
+     *                   isCascadeDetach: bool,
+     *                   ?orphanRemoval: bool
      *               }
      */
     protected function _validateAndCompleteAssociationMapping(array $mapping)
@@ -1597,13 +1617,12 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Validates & completes a one-to-one association mapping.
      *
-     * @param array $mapping The mapping to validate & complete.
-     *
      * @return mixed[] The validated & completed mapping.
      *
      * @throws RuntimeException
      * @throws MappingException
      *
+     * @psalm-param array<string, mixed> $mapping The mapping to validate & complete.
      * @psalm-return array{isOwningSide: mixed, orphanRemoval: bool, isCascadeRemove: bool}
      */
     protected function _validateAndCompleteOneToOneMapping(array $mapping)
@@ -1688,13 +1707,12 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Validates & completes a one-to-many association mapping.
      *
-     * @param array $mapping The mapping to validate and complete.
-     *
      * @return mixed[] The validated and completed mapping.
      *
      * @throws MappingException
      * @throws InvalidArgumentException
      *
+     * @psalm-param array<string, mixed> $mapping The mapping to validate and complete.
      * @psalm-return array{
      *                   mappedBy: mixed,
      *                   inversedBy: mixed,
@@ -1732,12 +1750,11 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Validates & completes a many-to-many association mapping.
      *
-     * @param array $mapping The mapping to validate & complete.
-     *
      * @return mixed[] The validated & completed mapping.
      *
      * @throws InvalidArgumentException
      *
+     * @psalm-param array<string, mixed> $mapping The mapping to validate & complete.
      * @psalm-return array{isOwningSide: mixed, orphanRemoval: bool}
      */
     protected function _validateAndCompleteManyToManyMapping(array $mapping)
@@ -1884,9 +1901,9 @@ class ClassMetadataInfo implements ClassMetadata
      * Sets the mapped identifier/primary key fields of this class.
      * Mainly used by the ClassMetadataFactory to assign inherited identifiers.
      *
-     * @param array $identifier
-     *
      * @return void
+     *
+     * @psalm-param list<mixed> $identifier
      */
     public function setIdentifier(array $identifier)
     {
@@ -1913,10 +1930,9 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Gets an array containing all the column names.
      *
-     * @param array|null $fieldNames
-     *
      * @return mixed[]
      *
+     * @psalm-param list<string>|null $fieldNames
      * @psalm-return list<string>
      */
     public function getColumnNames(?array $fieldNames = null)
@@ -1931,7 +1947,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Returns an array with all the identifier column names.
      *
-     * @return array
+     * @psalm-return list<string>
      */
     public function getIdentifierColumnNames()
     {
@@ -2135,9 +2151,9 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Sets the mapped subclasses of this class.
      *
-     * @param array $subclasses The names of all mapped subclasses.
-     *
      * @return void
+     *
+     * @psalm-param list<string> $subclasses The names of all mapped subclasses.
      */
     public function setSubclasses(array $subclasses)
     {
@@ -2151,9 +2167,9 @@ class ClassMetadataInfo implements ClassMetadata
      * Assumes that the class names in the passed array are in the order:
      * directParent -> directParentParent -> directParentParentParent ... -> root.
      *
-     * @param array $classNames
-     *
      * @return void
+     *
+     * @psalm-param list<class-string> $classNames
      */
     public function setParentClasses(array $classNames)
     {
@@ -2175,7 +2191,7 @@ class ClassMetadataInfo implements ClassMetadata
      */
     public function setInheritanceType($type)
     {
-        if (! $this->_isInheritanceType($type)) {
+        if (! $this->isInheritanceType($type)) {
             throw MappingException::invalidInheritanceType($this->name, $type);
         }
 
@@ -2186,11 +2202,12 @@ class ClassMetadataInfo implements ClassMetadata
      * Sets the association to override association mapping of property for an entity relationship.
      *
      * @param string $fieldName
-     * @param array  $overrideMapping
      *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $overrideMapping
      */
     public function setAssociationOverride($fieldName, array $overrideMapping)
     {
@@ -2251,11 +2268,12 @@ class ClassMetadataInfo implements ClassMetadata
      * Sets the override for a mapped field.
      *
      * @param string $fieldName
-     * @param array  $overrideMapping
      *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $overrideMapping
      */
     public function setAttributeOverride($fieldName, array $overrideMapping)
     {
@@ -2329,6 +2347,11 @@ class ClassMetadataInfo implements ClassMetadata
         return isset($this->associationMappings[$fieldName]['inherited']);
     }
 
+    /**
+     * @param string $fieldName
+     *
+     * @return bool
+     */
     public function isInheritedEmbeddedClass($fieldName)
     {
         return isset($this->embeddedClasses[$fieldName]['inherited']);
@@ -2358,9 +2381,9 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * If a key is omitted, the current value is kept.
      *
-     * @param array $table The table description.
-     *
      * @return void
+     *
+     * @psalm-param array<string, mixed> $table The table description.
      */
     public function setPrimaryTable(array $table)
     {
@@ -2406,7 +2429,7 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @return bool TRUE if the given type identifies an inheritance type, FALSe otherwise.
      */
-    private function _isInheritanceType($type)
+    private function isInheritanceType($type)
     {
         return $type === self::INHERITANCE_TYPE_NONE ||
                 $type === self::INHERITANCE_TYPE_SINGLE_TABLE ||
@@ -2417,11 +2440,11 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Adds a mapped field to the class.
      *
-     * @param array $mapping The field mapping.
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $mapping The field mapping.
      */
     public function mapField(array $mapping)
     {
@@ -2436,11 +2459,11 @@ class ClassMetadataInfo implements ClassMetadata
      * Adds an association mapping without completing/validating it.
      * This is mainly used to add inherited association mappings to derived classes.
      *
-     * @param array $mapping
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $mapping
      */
     public function addInheritedAssociationMapping(array $mapping/*, $owningClassName = null*/)
     {
@@ -2456,9 +2479,9 @@ class ClassMetadataInfo implements ClassMetadata
      * Adds a field mapping without completing/validating it.
      * This is mainly used to add inherited field mappings to derived classes.
      *
-     * @param array $fieldMapping
-     *
      * @return void
+     *
+     * @psalm-param array<string, mixed> $fieldMapping
      */
     public function addInheritedFieldMapping(array $fieldMapping)
     {
@@ -2471,11 +2494,11 @@ class ClassMetadataInfo implements ClassMetadata
      * INTERNAL:
      * Adds a named query to this class.
      *
-     * @param array $queryMapping
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $queryMapping
      */
     public function addNamedQuery(array $queryMapping)
     {
@@ -2506,11 +2529,11 @@ class ClassMetadataInfo implements ClassMetadata
      * INTERNAL:
      * Adds a named native query to this class.
      *
-     * @param array $queryMapping
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $queryMapping
      */
     public function addNamedNativeQuery(array $queryMapping)
     {
@@ -2549,11 +2572,11 @@ class ClassMetadataInfo implements ClassMetadata
      * INTERNAL:
      * Adds a sql result set mapping to this class.
      *
-     * @param array $resultMapping
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $resultMapping
      */
     public function addSqlResultSetMapping(array $resultMapping)
     {
@@ -2607,7 +2630,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Adds a one-to-one mapping.
      *
-     * @param array $mapping The mapping.
+     * @param array<string, mixed> $mapping The mapping.
      *
      * @return void
      */
@@ -2623,9 +2646,9 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Adds a one-to-many mapping.
      *
-     * @param array $mapping The mapping.
-     *
      * @return void
+     *
+     * @psalm-param array<string, mixed> $mapping The mapping.
      */
     public function mapOneToMany(array $mapping)
     {
@@ -2639,9 +2662,9 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Adds a many-to-one mapping.
      *
-     * @param array $mapping The mapping.
-     *
      * @return void
+     *
+     * @psalm-param array<string, mixed> $mapping The mapping.
      */
     public function mapManyToOne(array $mapping)
     {
@@ -2656,9 +2679,9 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Adds a many-to-many mapping.
      *
-     * @param array $mapping The mapping.
-     *
      * @return void
+     *
+     * @psalm-param array<string, mixed> $mapping The mapping.
      */
     public function mapManyToMany(array $mapping)
     {
@@ -2672,11 +2695,11 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Stores the association mapping.
      *
-     * @param array $assocMapping
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $assocMapping
      */
     protected function _storeAssociationMapping(array $assocMapping)
     {
@@ -2736,7 +2759,7 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @param string $event
      *
-     * @return array
+     * @psalm-return list<string>
      */
     public function getLifecycleCallbacks($event)
     {
@@ -2764,9 +2787,9 @@ class ClassMetadataInfo implements ClassMetadata
      * Sets the lifecycle callbacks for entities of this class.
      * Any previously registered callbacks are overwritten.
      *
-     * @param array $callbacks
-     *
      * @return void
+     *
+     * @psalm-param array<string, list<string>> $callbacks
      */
     public function setLifecycleCallbacks(array $callbacks)
     {
@@ -2811,11 +2834,11 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @see getDiscriminatorColumn()
      *
-     * @param array $columnDef
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $columnDef
      */
     public function setDiscriminatorColumn($columnDef)
     {
@@ -2848,9 +2871,9 @@ class ClassMetadataInfo implements ClassMetadata
      * Sets the discriminator values used by this class.
      * Used for JOINED and SINGLE_TABLE inheritance mapping strategies.
      *
-     * @param array $map
-     *
      * @return void
+     *
+     * @psalm-param array<string, class-string> $map
      */
     public function setDiscriminatorMap(array $map)
     {
@@ -2863,11 +2886,12 @@ class ClassMetadataInfo implements ClassMetadata
      * Adds one entry of the discriminator map with a new class and corresponding name.
      *
      * @param string $name
-     * @param string $className
      *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param class-string $className
      */
     public function addDiscriminatorMapClass($name, $className)
     {
@@ -3047,9 +3071,9 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Sets definition.
      *
-     * @param array $definition
-     *
      * @return void
+     *
+     * @psalm-param array<string, string> $definition
      */
     public function setCustomGeneratorDefinition(array $definition)
     {
@@ -3069,11 +3093,11 @@ class ClassMetadataInfo implements ClassMetadata
      * )
      * </code>
      *
-     * @param array $definition
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, string> $definition
      */
     public function setSequenceGeneratorDefinition(array $definition)
     {
@@ -3101,11 +3125,11 @@ class ClassMetadataInfo implements ClassMetadata
      * Sets the version field mapping used for versioning. Sets the default
      * value to use depending on the column type.
      *
-     * @param array $mapping The version field mapping array.
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $mapping The version field mapping array.
      */
     public function setVersionMapping(array &$mapping)
     {
@@ -3203,7 +3227,7 @@ class ClassMetadataInfo implements ClassMetadata
      *
      * @param AbstractPlatform $platform
      *
-     * @return array
+     * @psalm-return list<string>
      */
     public function getQuotedIdentifierColumnNames($platform)
     {
@@ -3305,7 +3329,7 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * @param string $targetClass
      *
-     * @return array
+     * @psalm-return array<string, array<string, mixed>>
      */
     public function getAssociationsByTargetClass($targetClass)
     {
@@ -3357,11 +3381,11 @@ class ClassMetadataInfo implements ClassMetadata
     /**
      * Map Embedded Class
      *
-     * @param array $mapping
-     *
      * @return void
      *
      * @throws MappingException
+     *
+     * @psalm-param array<string, mixed> $mapping
      */
     public function mapEmbedded(array $mapping)
     {
@@ -3407,11 +3431,9 @@ class ClassMetadataInfo implements ClassMetadata
     }
 
     /**
-     * @param string $fieldName
-     *
      * @throws MappingException
      */
-    private function assertFieldNotMapped($fieldName)
+    private function assertFieldNotMapped(string $fieldName): void
     {
         if (
             isset($this->fieldMappings[$fieldName]) ||
@@ -3450,7 +3472,8 @@ class ClassMetadataInfo implements ClassMetadata
         $sequencePrefix = $tableName;
 
         // Prepend the schema name to the table name if there is one
-        if ($schemaName = $this->getSchemaName()) {
+        $schemaName = $this->getSchemaName();
+        if ($schemaName) {
             $sequencePrefix = $schemaName . '.' . $tableName;
 
             if (! $platform->supportsSchemas() && $platform->canEmulateSchemas()) {
@@ -3462,9 +3485,9 @@ class ClassMetadataInfo implements ClassMetadata
     }
 
     /**
-     * @param array $mapping
+     * @psalm-param array<string, mixed> $mapping
      */
-    private function assertMappingOrderBy(array $mapping)
+    private function assertMappingOrderBy(array $mapping): void
     {
         if (isset($mapping['orderBy']) && ! is_array($mapping['orderBy'])) {
             throw new InvalidArgumentException("'orderBy' is expected to be an array, not " . gettype($mapping['orderBy']));

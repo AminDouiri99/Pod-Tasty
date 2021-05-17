@@ -11,6 +11,7 @@ use App\Repository\ChannelRepository;
 use App\Repository\PlaylistRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,11 +22,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
-use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
+// use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class PodcastController extends AbstractController
@@ -82,16 +85,31 @@ class PodcastController extends AbstractController
         return $this->render("back_office/podcastBack/podcast.html.twig", ['user'=>$user,'podcasts'=>$podcasts]);
     }
 
-    /**
-     * @Route("/Liste", name="liste")
-     * @param PodcastRepository $repo
-     * @param \Symfony\Component\Serializer\SerializerInterface $serializerInterface
-     */
-    public function getPodcasts(PodcastRepository $repo , \Symfony\Component\Serializer\SerializerInterface $serializerInterface){
-        $podcasts=$repo->findAll();
-        $json=$serializerInterface->serialize($podcasts, 'json');
-        dump($json);
-    }
+//    /**
+//     * @Route("/Mobile/getPodcasts", name="liste")
+//     */
+//        public function getPodcasts(PodcastRepository $repo , SerializerInterface $serializerInterface)
+//        {
+//            $podcasts = $repo->findAll();
+//            $json = $serializerInterface->serialize($podcasts, 'json',["groups"=>'podcasts']);
+//
+//            dump($json);
+//        }
+
+//    /**
+//     * @Route ("/pod",name="pod"
+//     * @param Request $request
+//     * @param SerializerInterface $serializer
+//     * @param EntityManagerInterface $em
+//     * @return Response
+//     */
+//        public function addPodcast(Request $request, SerializerInterface $serializer, EntityManagerInterface $em){
+//            $content=$request->getContent();
+//            $data=$serializer->deserializa($content,Podcast::class,'json');
+//            $em->persist($data);
+//            $em->flush();
+//            return new Response('podcast added successfully');
+//        }
 
     /**
      * @Route("/SuppPodcast/{id}" , name="SuppPodcast")
@@ -589,13 +607,139 @@ class PodcastController extends AbstractController
 /*MOBILE APIS*/
 
     /**
+     * @Route("/mobile/getPodcast")
+     * @param PodcastRepository $podcastRepository
+     * @param \Symfony\Component\Serializer\SerializerInterface $serializer
+     * @return Response
+     */
+
+    function getPodcast(PodcastRepository $podcastRepository, SerializerInterface $serializer){
+        $podcasts = $podcastRepository->findAll();
+        $json = $serializer->serialize($podcasts, 'json',["groups"=>"Podcast"]);
+        return new Response($json);
+    }
+
+    /**
      * @Route("mobile/getPodcastById" )
      */
     function getPodcastByIdForMobile(PodcastRepository  $podcastRepository,Request $request)
     {
         $podcast = $podcastRepository->findOneBy(["id"=>$request->get("id")]);
-        return new Response(json_encode(array("podcast"=>$podcast),Response::HTTP_OK));
+        return new Response(json_encode(array("Podcast"=>$podcast),Response::HTTP_OK));
     }
 
+
+    /**
+     * @Route("mobile/AddPodcast")
+     * @param UserRepository $userRepo
+     * @param Request $request
+     * @return Response
+     */
+
+
+
+    function AjoutPodcastMobile(PodcastRepository $podcastRepo , UserRepository $userRepo, Request $request, SerializerInterface $serializer):Response
+    {
+
+        $Podcast = new Podcast();
+        $form = $this->createForm(PodcastType::class, $Podcast);
+        $form->add("Add", SubmitType::class, [
+            'attr' => ['class' => 'btn btn-info'],
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var UploadedFile $file
+             */
+            $podcastsource = $form->get('PodcastSource')->getData();
+            if ($podcastsource) {
+                $originalFilename = pathinfo($podcastsource->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $newFilename = uniqid() . '.' . $podcastsource->guessExtension();
+                try {
+                    $podcastsource->move(
+                        $this->getParameter('PODCAST_FILES'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                }
+
+                $Podcast->setPodcastSource($newFilename);
+            }
+            $file = $form->get('PodcastImage')->getData();
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $this->getParameter("PODCAST_FILES"), $fileName
+            );
+//            $tagIds = $this->podcastTags($form->get("tags")->getData());
+//
+//            if(count($tagIds) > 0) {
+//                foreach($tagIds as $id) {
+//                    $tagtoAdd = $tagRepo->find($id);
+//                    $Podcast->addTagsList($tagtoAdd);
+//                }
+//            }
+
+            $Podcast->setPodcastImage($fileName);
+            $Podcast->setCommentsAllowed(1);
+            $Podcast->setPodcastViews(0);
+            $Podcast->setIsBlocked(0);
+            $Podcast->setCurrentlyWatching(0);
+            $Podcast->setCurrentlyLive(0);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($Podcast);
+            $em->flush();
+            $json = $serializer->serialize($Podcast, 'json',["groups"=>'Podcast']);
+            return new Response($json,Response::HTTP_OK);
+        }
+
+    }
+
+    /**
+     * @Route("mobile/DeletePodcast/{id}" , name="SupprPodcast")
+     * @param $id
+     * @return Response
+     */
+    public function DeletePodcastMobile($id): Response
+    {
+        $repo=$this->getDoctrine()->getRepository(Podcast::class);
+        $Podcast=$repo->find($id);
+        $em=$this->getDoctrine()->getManager();
+        $em->remove($Podcast);
+        $em->flush();
+        return new Response(null,Response::HTTP_OK);
+    }
+
+    /**
+     * @Route ("PodcastUpdate/{id}",name="UpdatePodcast")
+     * @param PodcastRepository $repository
+     * @param $id
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    function updatePodcastMobile(PodcastRepository $repository, $id, Request $request)
+    {
+        $user = $this->getUser();
+        $Podcast = $repository->find($id);
+        $form = $this->createForm(PodcastType::class);
+        $form->add('Update', SubmitType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $form->get('PodcastImage')->getData();
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $this->getParameter('kernel.project_dir'), $fileName
+            );
+            $Podcast->setPodcastImage($fileName);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return new Response(null,Response::HTTP_OK);
+
+        }
+
+    }
 
 }

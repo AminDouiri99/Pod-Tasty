@@ -4,6 +4,8 @@ namespace Doctrine\Bundle\DoctrineBundle\Dbal;
 
 use Doctrine\DBAL\Schema\AbstractAsset;
 
+use function preg_match;
+
 class RegexSchemaAssetFilter
 {
     /** @var string */
@@ -23,6 +25,6 @@ class RegexSchemaAssetFilter
             $assetName = $assetName->getName();
         }
 
-        return preg_match($this->filterExpression, $assetName);
+        return (bool) preg_match($this->filterExpression, $assetName);
     }
 }
