@@ -589,5 +589,22 @@ class PodcastController extends AbstractController
         return new Response($json);
     }
 
+    /**
+     * @Route("/mobile/getPodcast")
+     * @param PodcastRepository $podcastRepository
+     * @param SerializerInterface $serializer
+     * @return Response
+     */
+
+    function getPodcasts(PodcastRepository $podcastRepository, SerializerInterface $serializer){
+        $podcasts = $podcastRepository->findAll();
+        foreach($podcasts as $pod ) {
+            if ($pod->getIsBlocked() == 1 || $pod->getCurrentlyLive() != 0 ) {
+                array_splice($podcasts, array_search($pod ,$podcasts), 1);
+            }
+        }
+        $json = $serializer->serialize($podcasts, 'json',["groups"=>"podcast"]);
+        return new Response($json);
+    }
 
 }

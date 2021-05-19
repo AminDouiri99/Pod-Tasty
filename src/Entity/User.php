@@ -39,12 +39,14 @@ class User implements UserInterface
     private $UserPassword;
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("users")
      */
     private $isAdmin;
     /**
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Groups("comments")
+     * @Groups("podcast")
      * @Groups("users")
      */
     private $UserInfoId;
@@ -60,6 +62,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="UserId")
+     * @Groups("users")
      */
     private $ReclamationList;
 

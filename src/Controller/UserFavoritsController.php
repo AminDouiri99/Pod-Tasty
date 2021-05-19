@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class UserFavoritsController extends AbstractController
 {
@@ -79,6 +80,33 @@ class UserFavoritsController extends AbstractController
         } else {
             return new Response("0", Response::HTTP_OK);
         }
+
+    }
+
+
+    /**
+     * @param $podId
+     * @param $userId
+     * @param PodcastRepository $podcastRepo
+     * @param UserRepository $userRepo
+     * @return Response
+     * @Route("/mobile/getUserFavorites/{userId}");
+     */
+    function getFavs($userId, PodcastRepository $podcastRepo, UserRepository $userRepo, SerializerInterface $serializer): Response
+    {
+        $user = $userRepo->findOneBy(["id" =>$userId]);
+        $podcasts = $podcastRepo->findAll();
+        foreach($podcasts as $pod ) {
+            if ($pod->getIsBlocked() == 1 || $pod->getCurrentlyLive() != 0) {
+                array_splice($podcasts, array_search($pod ,$podcasts), 1);
+            } else {
+                if (!$user->getPodcastsFavorite()->indexOf($pod) && $user->getPodcastsFavorite()->indexOf($pod) !== 0) {
+                    array_splice($podcasts, array_search($pod ,$podcasts), 1);
+                }
+            }
+            }
+        $json = $serializer->serialize($podcasts, 'json',["groups"=>"podcast"]);
+        return new Response($json);
 
     }
 

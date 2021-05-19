@@ -126,6 +126,7 @@ class Podcast
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="podcastsList")
+     * @Groups("podcast")
      */
     private $tagsList;
 

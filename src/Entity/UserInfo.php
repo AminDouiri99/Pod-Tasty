@@ -18,8 +18,8 @@ class UserInfo
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("userInfo")
      * @Groups("comments")
+     * @Groups("podcast")
      * @Groups("users")
      */
     private $id;
@@ -28,6 +28,7 @@ class UserInfo
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your LastName!")
      * @Groups("comments")
+     * @Groups("podcast")
      * @Groups("users")
      * @Assert\Regex(
      *     pattern="/\d/",
@@ -42,6 +43,7 @@ class UserInfo
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your FitstName!")
      * @Groups("comments")
+     * @Groups("podcast")
      * @Groups("users")
      * @Assert\Regex(
      *     pattern="/\d/",
@@ -53,6 +55,7 @@ class UserInfo
     /**
      * @ORM\Column(type="string", nullable=true)
      * @Groups("comments")
+     * @Groups("podcast")
      * @Groups("users")
      */
     private $UserImage;
@@ -60,20 +63,20 @@ class UserInfo
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your Gender!")
-     * @Groups("userInfo")
+     * @Groups("users")
      */
     private $UserGender;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Please enter your BirthDate!")
-     * @Groups("userInfo")
+     * @Groups("users")
      */
     private $UserBirthDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("userInfo")
+     * @Groups("users")
      */
     private $UserBio;
 
