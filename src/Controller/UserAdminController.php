@@ -123,6 +123,20 @@ class UserAdminController extends AbstractController
         $json = $serializer->serialize($user, 'json',["groups"=>'users']);
         return new Response($json);
     }
+    /**
+     * @Route("/mobile/getUserByMail/{mail}" )
+     * @param UserRepository $userRepository
+     * @param SerializerInterface $serializer
+     * @param $mail
+     * @return Response
+     */
+    function getUserByMailMobile(UserRepository $userRepository,  SerializerInterface $serializer, $mail): Response
+    {
+        $user = $userRepository->findOneBy(["UserEmail"=>$mail]);
+        $user->setUserInfoIdForMobile($user->getUserInfoId()->getId());
+        $json = $serializer->serialize($user, 'json',["groups"=>'users']);
+        return new Response($json);
+    }
 
     /**
      * @Route("/mobile/getUserInfoById/{id}")

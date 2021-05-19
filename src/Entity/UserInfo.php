@@ -20,6 +20,7 @@ class UserInfo
      * @ORM\Column(type="integer")
      * @Groups("userInfo")
      * @Groups("comments")
+     * @Groups("users")
      */
     private $id;
 
@@ -27,6 +28,8 @@ class UserInfo
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your LastName!")
      * @Groups("comments")
+     * @Groups("users")
+     * @Groups("userInfo")
      * @Assert\Regex(
      *     pattern="/\d/",
      *     match=false,
@@ -40,6 +43,8 @@ class UserInfo
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your FitstName!")
      * @Groups("comments")
+     * @Groups("users")
+     * @Groups("userInfo")
      * @Assert\Regex(
      *     pattern="/\d/",
      *     match=false,
@@ -50,6 +55,8 @@ class UserInfo
     /**
      * @ORM\Column(type="string", nullable=true)
      * @Groups("comments")
+     * @Groups("users")
+     * @Groups("userInfo")
      */
     private $UserImage;
 
@@ -57,6 +64,7 @@ class UserInfo
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Please enter your Gender!")
      * @Groups("userInfo")
+     * @Groups("users")
      */
     private $UserGender;
 
@@ -64,22 +72,28 @@ class UserInfo
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Please enter your BirthDate!")
      * @Groups("userInfo")
+     * @Groups("users")
      */
     private $UserBirthDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("userInfo")
+     * @Groups("users")
      */
     private $UserBio;
 
     /**
      * @ORM\ManyToMany(targetEntity=UserInfo::class, inversedBy="Following")
+     * @Groups("users")
+     * @Groups("userInfo")
      */
     private $Followers;
 
     /**
      * @ORM\ManyToMany(targetEntity=UserInfo::class, mappedBy="Followers")
+     * @Groups("users")
+     * @Groups("userInfo")
      */
     private $Following;
 

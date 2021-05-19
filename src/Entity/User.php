@@ -20,6 +20,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("comments")
+     * @Groups("users")
      */
     private $id;
 
@@ -33,16 +34,19 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255,nullable=true)
      * @Assert\NotBlank(message="Please enter your Password!")
+     * @Groups("users")
      */
     private $UserPassword;
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("users")
      */
     private $isAdmin;
     /**
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Groups("comments")
+     * @Groups("users")
      */
     private $UserInfoId;
 

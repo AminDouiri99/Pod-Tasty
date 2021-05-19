@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\UserInfo;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -89,11 +90,126 @@ class RegisterController extends AbstractController
     /**
      * @Route("mobile/addUser" )
      */
-    function addUserMobile(Request $request,EntityManager $em,Serializer $serializer){
-
+    function addUserMobile(Request $request){
+        $user = new User();
+        $user->setUserEmail($request->get("email"));
+        $user->setUserPassword($this->encoder->encodePassword($user,$request->get("password")));
+        $userInfo = new UserInfo();
+        $userInfo->setUserFirstName($request->get("firstname"));
+        $userInfo->setUserLastName($request->get("lastname"));
+        $userInfo->setUserGender("male");
+        $userInfo->setUserBirthDate($datearrondie = new \DateTime());
+        $userInfo->setUserImage("avatar.jpg");
+        $user->setUserInfoId($userInfo);
+        $user->setDesactiveAccount(false);
+        $user->setIsAdmin(false);
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+        return New Response("user added",Response::HTTP_OK);
+    }
+    /**
+     * @Route("mobile/continueReg" )
+     */
+    function continueReg(Request $request){
+        $id= intval($request->get("id"));
+        $user=$this->getDoctrine()->getRepository(User::class)->find($id);
+        $user->getUserInfoId()->setUserGender($request->get("gender"));
+        //$date=strtotime($request->get("birthdate"));
+        //$user->getUserInfoId()->setUserBirthDate($date);
+        $em=$this->getDoctrine()->getManager();
+        $em->flush();
+        return New Response("Reg complete",Response::HTTP_OK);
+    }
+    /**
+     * @Route("mobile/getFollowers" )
+     */
+    function getFollowers(Request $request,SerializerInterface $serializer){
+        $id= intval($request->get("id"));
+        $nbFollowers=$this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId()->getFollowers()->count();
+        $json = $serializer->serialize($nbFollowers, 'json');
+        return new Response($json);
     }
 
     /**
+     * @Route("mobile/getFollowing" )
+     */
+    function getFollowing(Request $request,SerializerInterface $serializer){
+        $id= intval($request->get("id"));
+        $nbFollowers=$this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId()->getFollowing()->count();
+        $json = $serializer->serialize($nbFollowers, 'json');
+        return new Response($json);
+    }
+
+    /**
+     * @Route("mobile/CheckMail" )
+     */
+    function CheckMailMobile(Request $request)
+    {
+        $user=null;
+        $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(["UserEmail"=>$request->get("mail")]);
+        if($user===null){
+            return new Response("user dose'nt exist",Response::HTTP_NO_CONTENT);
+        }else{
+            return new Response("user exist",Response::HTTP_OK);
+        }
+    }
+    /**
+     * @Route("mobile/desactiveAccount" )
+     */
+    function desactive(Request $request){
+        $id=$request->get("id");
+        $this->getDoctrine()->getRepository(User::class)->find($id)->setDesactiveAccount(true);
+        $em=$this->getDoctrine()->getManager()->flush();
+        return new Response("Desactivated",Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("mobile/updateProfile" )
+     */
+    function updateProfile(Request $request){
+        $user=$this->getDoctrine()->getRepository(User::class)->find($request->get("id"));
+        $user->getUserInfoId()->setUserFirstName($request->get("firstanme"));
+        $user->getUserInfoId()->setUserLastName($request->get("lastname"));
+        $user->getUserInfoId()->setUserBio($request->get("bio"));
+        $this->getDoctrine()->getManager()->flush();
+        return new Response("updated",Response::HTTP_OK);
+
+    }
+    /**
+     * @Route("mobile/updatePic" )
+     */
+function updatemobilepic(Request $request){
+    $profile = $request->files->get("myFile");
+
+    if (empty($profile)) {
+        return new Response("No file specified",
+            Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+    }
+
+
+    if ($profile) {
+        $originalFilename = pathinfo($profile->getFileName
+        (), PATHINFO_FILENAME);
+        $id=intval($request->get("id"));
+        $this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId()->setUserImage($originalFilename  . '.' . $profile->guessExtension());
+    $em=$this->getDoctrine()->getManager()->flush();
+        $newFilename = $originalFilename  . '.' . $profile->guessExtension();
+        try {
+            $profile->move(
+                $this->getParameter('PODCAST_FILES'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+
+        return new Response("FILE UPLOADED",
+            Response::HTTP_OK, ['content-type' => 'text/plain']);
+    }
+
+}
+        /**
      * @Route("mobile/getUsers" )
      */
     function getUsersMobile(Request $request,SerializerInterface $serializer){

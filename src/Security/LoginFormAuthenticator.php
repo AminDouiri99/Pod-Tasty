@@ -49,7 +49,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function getCredentials(Request $request)
     {
         $credentials = [
-
             'UserEmail' => $request->request->get('UserEmail'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
