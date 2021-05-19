@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ReclamationController extends AbstractController
 {
@@ -179,6 +180,35 @@ class ReclamationController extends AbstractController
 
     }
 
+    /**
+     * @Route("/mobile/NewReport", name="reclamation_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param PodcastRepository $podRepo
+     * @param SerializerInterface $serializer
+     * @param UserRepository $userRepo
+     * @return Response
+     */
+    public function newReport(Request $request, PodcastRepository $podRepo, SerializerInterface $serializer , UserRepository $userRepo): Response
+    {
+        $reclamation = new Reclamation();
+        //$u = $this->getUser();
+        //$user = $userRepo->find($u);
+        $user = $userRepo->findOneBy(["id" =>$request->get("userId")]);
+        $podcast = $podRepo->findOneBy(["id" =>$request->get("podId")]);
+        //$reclamation->setStatus(false);
+        $reclamation->setType($request->get("type"));
+        $reclamation->setDescription($request->get("description"));
+        $reclamation->setStatus(0);
+
+        $reclamation->setUserId($user);
+        $reclamation->setPodcastId($podcast);
+        //$reclamation->setDescription($request->get("description"));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reclamation);
+        $entityManager->flush();
+        //$json = $serializer->serialize($reclamation, 'json',["groups"=>'reclamations']);
+        return new Response(null,Response::HTTP_OK);
+    }
 }
 
 
