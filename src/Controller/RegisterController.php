@@ -99,8 +99,11 @@ class RegisterController extends AbstractController
             return new Response("user exist",Response::HTTP_OK);
         }
     }
+
     /**
      * @Route("mobile/desactiveAccount" )
+     * @param Request $request
+     * @return Response
      */
     function desactive(Request $request){
         $id=$request->get("id");
@@ -121,10 +124,14 @@ class RegisterController extends AbstractController
         return new Response("updated",Response::HTTP_OK);
 
     }
+
     /**
      * @Route("mobile/updatePic" )
+     * @param Request $request
+     * @return Response
      */
-    function updatemobilepic(Request $request){
+    function updatemobilepic(Request $request): Response
+    {
         $profile = $request->files->get("myFile");
 
         if (empty($profile)) {
@@ -155,8 +162,12 @@ class RegisterController extends AbstractController
         }
 
     }
+
     /**
      * @Route("mobile/getUsers" )
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @return Response
      */
     function getUsersMobile(Request $request,SerializerInterface $serializer){
         $users=$this->getDoctrine()->getRepository(User::class)->findAll();
@@ -167,6 +178,8 @@ class RegisterController extends AbstractController
 
     /**
      * @Route("mobile/addUser" )
+     * @param Request $request
+     * @return Response
      */
     function addUserMobile(Request $request){
         $user = new User();
@@ -186,8 +199,11 @@ class RegisterController extends AbstractController
         $em->flush();
         return New Response("user added",Response::HTTP_OK);
     }
+
     /**
      * @Route("mobile/continueReg" )
+     * @param Request $request
+     * @return Response
      */
     function continueReg(Request $request){
         $id= intval($request->get("id"));
@@ -199,8 +215,12 @@ class RegisterController extends AbstractController
         $em->flush();
         return New Response("Reg complete",Response::HTTP_OK);
     }
+
     /**
      * @Route("mobile/getFollowers" )
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @return Response
      */
     function getFollowers(Request $request,SerializerInterface $serializer){
         $id= intval($request->get("id"));
@@ -211,11 +231,57 @@ class RegisterController extends AbstractController
 
     /**
      * @Route("mobile/getFollowing" )
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @return Response
      */
     function getFollowing(Request $request,SerializerInterface $serializer){
         $id= intval($request->get("id"));
         $nbFollowers=$this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId()->getFollowing()->count();
         $json = $serializer->serialize($nbFollowers, 'json');
         return new Response($json);
+    }
+
+    /**
+     * @Route("mobile/CheckFollowed" )
+     */
+    function checkfollowed(Request $request){
+        $idCurrent =$request->get("idCurrent");
+        $idOther = $request->get("idOther");
+        $followers=$this->getDoctrine()->getRepository(User::class)->find($idCurrent)->getUserInfoId()->getFollowing();
+        $check=$followers->contains($this->getDoctrine()->getRepository(User::class)->find($idOther)->getUserInfoId());
+        if($check==true){
+            return new Response("FILE UPLOADED",
+                Response::HTTP_OK, ['content-type' => 'text/plain']);
+
+        }else{
+            return new Response("No file specified",
+                Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+
+        }
+    }
+    /**
+     * @Route("mobile/follow" )
+     */
+    function followmobile(Request $request){
+        $idCurrent =$request->get("idCurrent");
+        $idOther = $request->get("idOther");
+        $UserToFollow=$this->getDoctrine()->getRepository(User::class)->findOneBy(["id"=>$idOther])->getUserInfoId();
+        $this->getDoctrine()->getRepository(User::class)->findOneBy(["id"=>$idCurrent])->getUserInfoId()->addFollowing($UserToFollow);
+        $this->getDoctrine()->getManager()->flush();
+        return new Response("FILE UPLOADED",
+            Response::HTTP_OK, ['content-type' => 'text/plain']);
+    }
+    /**
+     * @Route("mobile/unfollow" )
+     */
+    function unfollowmobile(Request $request){
+        $idCurrent =$request->get("idCurrent");
+        $idOther = $request->get("idOther");
+        $UserToFollow=$this->getDoctrine()->getRepository(User::class)->findOneBy(["id"=>$idOther])->getUserInfoId();
+        $this->getDoctrine()->getRepository(User::class)->findOneBy(["id"=>$idCurrent])->getUserInfoId()->removeFollowing($UserToFollow);
+        $this->getDoctrine()->getManager()->flush();
+        return new Response("FILE UPLOADED",
+            Response::HTTP_OK, ['content-type' => 'text/plain']);
     }
 }
