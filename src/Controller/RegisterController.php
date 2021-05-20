@@ -192,9 +192,10 @@ function updatemobilepic(Request $request){
         $originalFilename = pathinfo($profile->getFileName
         (), PATHINFO_FILENAME);
         $id=intval($request->get("id"));
-        $this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId()->setUserImage($originalFilename  . '.' . $profile->guessExtension());
-    $em=$this->getDoctrine()->getManager()->flush();
-        $newFilename = $originalFilename  . '.' . $profile->guessExtension();
+        $newFilename = $originalFilename  . uniqid().'.' . $profile->guessExtension();
+        $this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId()->setUserImage($newFilename);
+        $em=$this->getDoctrine()->getManager()->flush();
+
         try {
             $profile->move(
                 $this->getParameter('PODCAST_FILES'),
@@ -209,7 +210,49 @@ function updatemobilepic(Request $request){
     }
 
 }
-        /**
+    /**
+     * @Route("mobile/CheckFollowed" )
+     */
+    function checkfollowed(Request $request){
+        $idCurrent =$request->get("idCurrent");
+        $idOther = $request->get("idOther");
+        $followers=$this->getDoctrine()->getRepository(User::class)->find($idCurrent)->getUserInfoId()->getFollowing();
+        $check=$followers->contains($this->getDoctrine()->getRepository(User::class)->find($idOther)->getUserInfoId());
+        if($check==true){
+            return new Response("FILE UPLOADED",
+                Response::HTTP_OK, ['content-type' => 'text/plain']);
+
+        }else{
+            return new Response("No file specified",
+                Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+
+        }
+    }
+    /**
+     * @Route("mobile/follow" )
+     */
+    function followmobile(Request $request){
+        $idCurrent =$request->get("idCurrent");
+        $idOther = $request->get("idOther");
+        $UserToFollow=$this->getDoctrine()->getRepository(User::class)->find($idOther)->getUserInfoId();
+        $this->getDoctrine()->getRepository(User::class)->find($idCurrent)->getUserInfoId()->addFollower($UserToFollow);
+        return new Response("FILE UPLOADED",
+            Response::HTTP_OK, ['content-type' => 'text/plain']);
+    }
+    /**
+     * @Route("mobile/unfollow" )
+     */
+    function unfollowmobile(Request $request){
+        $idCurrent =$request->get("idCurrent");
+        $idOther = $request->get("idOther");
+        $UserToFollow=$this->getDoctrine()->getRepository(User::class)->find($idOther)->getUserInfoId();
+        $this->getDoctrine()->getRepository(User::class)->find($idCurrent)->getUserInfoId()->removeFollower($UserToFollow);
+        return new Response("FILE UPLOADED",
+            Response::HTTP_OK, ['content-type' => 'text/plain']);
+    }
+
+
+    /**
      * @Route("mobile/getUsers" )
      */
     function getUsersMobile(Request $request,SerializerInterface $serializer){

@@ -100,7 +100,7 @@ class ProfileController extends AbstractController
 
         if ($profile) {
             $originalFilename = pathinfo($profile->getClientOriginalName(), PATHINFO_FILENAME);
-            $newFilename = $originalFilename  . '.' . $profile->guessExtension();
+            $newFilename = $originalFilename  . uniqid(5).'.' . $profile->guessExtension();
             try {
                 $profile->move(
                     $this->getParameter('PODCAST_FILES'),
