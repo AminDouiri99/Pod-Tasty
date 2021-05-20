@@ -217,22 +217,24 @@ class ReclamationController extends AbstractController
      */
     public function newReport(Request $request, PodcastRepository $podRepo, SerializerInterface $serializer , UserRepository $userRepo): Response
     {
-        $u = $this->getUser();
-        $user = $userRepo->find($u);
-        $podcast = $podRepo->find($request->get("podId"));
         $reclamation = new Reclamation();
+        //$u = $this->getUser();
+        //$user = $userRepo->find($u);
+        $user = $userRepo->findOneBy(["id" =>$request->get("userId")]);
+        $podcast = $podRepo->findOneBy(["id" =>$request->get("podId")]);
         //$reclamation->setStatus(false);
         $reclamation->setType($request->get("type"));
+        $reclamation->setDescription($request->get("description"));
         $reclamation->setStatus(0);
 
-        $reclamation->setUserId($user);
+        //$reclamation->setUserId($user);
         $reclamation->setPodcastId($podcast);
-        $reclamation->setDescription($request->get("desc"));
+        //$reclamation->setDescription($request->get("description"));
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($reclamation);
         $entityManager->flush();
-        $json = $serializer->serialize($reclamation, 'json',["groups"=>'comments']);
-        return new Response($json,Response::HTTP_OK);
+        //$json = $serializer->serialize($reclamation, 'json',["groups"=>'reclamations']);
+        return new Response(null,Response::HTTP_OK);
     }
 
 }

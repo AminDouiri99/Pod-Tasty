@@ -11,6 +11,7 @@ use App\Repository\ChannelRepository;
 use App\Repository\PlaylistRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -615,7 +616,7 @@ class PodcastController extends AbstractController
 
     function getPodcast(PodcastRepository $podcastRepository, SerializerInterface $serializer){
         $podcasts = $podcastRepository->findAll();
-        $json = $serializer->serialize($podcasts, 'json',["groups"=>"Podcast"]);
+        $json = $serializer->serialize($podcasts, 'json',["groups"=>"podcast"]);
         return new Response($json);
     }
 
@@ -629,6 +630,9 @@ class PodcastController extends AbstractController
     }
 
 
+
+
+
     /**
      * @Route("mobile/AddPodcast")
      * @param UserRepository $userRepo
@@ -636,22 +640,42 @@ class PodcastController extends AbstractController
      * @return Response
      */
 
-
-
     function AjoutPodcastMobile(PodcastRepository $podcastRepo , UserRepository $userRepo, Request $request, SerializerInterface $serializer):Response
     {
 
         $Podcast = new Podcast();
-        $form = $this->createForm(PodcastType::class, $Podcast);
-        $form->add("Add", SubmitType::class, [
-            'attr' => ['class' => 'btn btn-info'],
-        ]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            /**
-             * @var UploadedFile $file
-             */
-            $podcastsource = $form->get('PodcastSource')->getData();
+        $Podcast->setPodcastName($request->get("PodcastName"));
+        $Podcast->setPodcastDescription($request->get("PodcastDescription"));
+        $Podcast->setPodcastDate(new DateTime());
+
+        /*$file = ($request->files->get("PodcastImage"));
+        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+        $file->move(
+            $this->getParameter('PODCAST_FILES')."/public/posts", $fileName);
+        $Podcast->setPodcastImage($fileName);
+
+        $fileaudio = ($request->files->get("PodcastSource"));
+        $fileName1 = md5(uniqid()) . '.' . $fileaudio->guessExtension();
+        $fileaudio->move(
+            $this->getParameter('PODCAST_FILES')."/public/posts", $fileName1
+        );
+        $Podcast->setPodcastSource($fileName1);*/
+
+        $Podcast->setPodcastImage($request->get("podcastImage"));
+        $Podcast->setPodcastSource($request->get("podcastSource"));
+        $Podcast->setCommentsAllowed(1);
+        $Podcast->setPodcastViews(0);
+        $Podcast->setIsBlocked(0);
+        $Podcast->setCurrentlyWatching(0);
+        $Podcast->setCurrentlyLive(0);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($Podcast);
+        $em->flush();
+        //$json = $serializer->serialize($Podcast, 'json',["groups"=>'Podcast']);
+        return new Response(null,Response::HTTP_OK);
+
+
+           /* $podcastsource = $form->get('PodcastSource')->getData();
             if ($podcastsource) {
                 $originalFilename = pathinfo($podcastsource->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -678,20 +702,79 @@ class PodcastController extends AbstractController
 //                    $tagtoAdd = $tagRepo->find($id);
 //                    $Podcast->addTagsList($tagtoAdd);
 //                }
-//            }
+//            }*/
 
-            $Podcast->setPodcastImage($fileName);
-            $Podcast->setCommentsAllowed(1);
-            $Podcast->setPodcastViews(0);
-            $Podcast->setIsBlocked(0);
-            $Podcast->setCurrentlyWatching(0);
-            $Podcast->setCurrentlyLive(0);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($Podcast);
-            $em->flush();
-            $json = $serializer->serialize($Podcast, 'json',["groups"=>'Podcast']);
-            return new Response($json,Response::HTTP_OK);
         }
+
+    /**
+     * @Route("mobile/insertimg" )
+     */
+    function podcastimg(Request $request){
+        $podcastimage = $request->files->get("myimg");
+
+
+        if (empty($podcastimage)) {
+            return new Response("No img specified",
+                Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+        }
+        if ($podcastimage) {
+            $originalFilename = pathinfo($podcastimage->getFileName
+            (), PATHINFO_FILENAME);
+           // $id=intval($request->get("id"));
+ //           $this->getDoctrine()->getRepository(Podcast::class)->find($id)->setPodcastImage($originalFilename  . '.' . $podcastimage->guessExtension());
+   //         $em=$this->getDoctrine()->getManager()->flush();
+            $newFilename = $originalFilename.uniqid() . '.' . $podcastimage->guessExtension();
+            try {
+                $podcastimage->move(
+                    $this->getParameter('PODCAST_FILES'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            return new Response($newFilename,
+                Response::HTTP_OK, ['content-type' => 'text/plain']);
+        }
+
+
+    }
+
+    /**
+     * @Route("mobile/insertaudio" )
+     */
+    function podcastaudio(Request $request , SerializerInterface $serializer){
+
+        $podcastaudio = $request->files->get("myaudio");
+        $ext = $request->get("extension");
+
+
+             if (empty($podcastaudio)) {
+            return new Response("No audio specified",
+                Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+        }
+            if($podcastaudio) {
+                $originalFilename = $podcastaudio->getFileName
+                (); //PATHINFO_FILENAME);
+                // $id=intval($request->get("id"));
+                //$this->getDoctrine()->getRepository(Podcast::class)->find($id)->setPodcastSource($originalFilename  . '.' . $podcastaudio->guessExtension());
+                //$em=$this->getDoctrine()->getManager()->flush();
+                $newFilename = $originalFilename.uniqid().'.'.$ext; //. '.' . $podcastaudio->guessExtension();
+                try {
+                    $podcastaudio->move(
+                        $this->getParameter('PODCAST_FILES'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $json = $serializer->serialize($newFilename, 'json', ["groups" => 'Podcast']);
+                 return new Response($json, Response::HTTP_OK);
+            }
+            //return new Response($newFilename,
+              //  Response::HTTP_OK, ['content-type' => 'text/plain']);
+
 
     }
 
