@@ -20,6 +20,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("comments")
+     * @Groups("podcast")
      * @Groups("users")
      */
     private $id;
@@ -34,7 +35,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255,nullable=true)
      * @Assert\NotBlank(message="Please enter your Password!")
-     * @Groups("users")
      */
     private $UserPassword;
     /**
@@ -46,17 +46,14 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity=UserInfo::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Groups("comments")
+     * @Groups("podcast")
      * @Groups("users")
      */
     private $UserInfoId;
 
-    /**
-     * @Groups("users")
-     */
-    private $UserInfoIdForMobile;
 
 
-    /**
+        /**
      * @ORM\OneToOne(targetEntity=Channel::class, inversedBy="UserId", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @Groups("users")
@@ -65,6 +62,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="UserId")
+     * @Groups("users")
      */
     private $ReclamationList;
 
@@ -388,22 +386,4 @@ class User implements UserInterface
 
         return $this;
     }
-
-
-    /**
-     * @return int
-     */
-    public function getUserInfoIdForMobile(): int
-    {
-        return $this->UserInfoIdForMobile;
-    }
-
-    /**
-     * @param int $UserInfoIdForMobile
-     */
-    public function setUserInfoIdForMobile(int $UserInfoIdForMobile): void
-    {
-        $this->UserInfoIdForMobile = $UserInfoIdForMobile;
-    }
-
 }

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class TagController extends AbstractController
 {
@@ -71,6 +72,19 @@ class TagController extends AbstractController
         return new Response();
 
     }
+/* Mobile APIs */
 
+    /**
+     * @Route("/mobile/getTags")
+     * @param TagRepository $tagRepository
+     * @param SerializerInterface $serializer
+     * @return Response
+     */
+
+    function getTgas(TagRepository $tagRepository, SerializerInterface $serializer){
+        $tags = $tagRepository->findAll();
+        $json = $serializer->serialize($tags, 'json',["groups"=>"tag"]);
+        return new Response($json, Response::HTTP_OK);
+    }
 
 }

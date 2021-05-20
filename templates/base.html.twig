@@ -110,7 +110,7 @@
                                 <img style="height: 40px;width:55px;cursor: pointer;margin-right: -15px;" id="notifButton" class="avatar  rounded-circle " src="
 
                                 {% if app.user.userInfoId.getUserImage() is not null %}
-                                {{ asset('/Files/usersFiles/'~app.user.userInfoId.getUserImage() ) }}
+                                {{ asset('/Files/podcastFiles/'~app.user.userInfoId.getUserImage() ) }}
                                 {% else %}
                                 {{ asset('Files/usersFiles/avatar.jpg') }}
                                 {% endif %}">

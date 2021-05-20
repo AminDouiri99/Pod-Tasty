@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PodcastReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PodcastReviewRepository::class)
@@ -14,6 +15,7 @@ class PodcastReview
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("podcast")
      */
     private $id;
 
@@ -27,11 +29,13 @@ class PodcastReview
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ReviewList")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("podcast")
      */
     private $UserId;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("podcast")
      */
     private $Rating;
 

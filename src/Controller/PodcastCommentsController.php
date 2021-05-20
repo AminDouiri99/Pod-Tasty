@@ -241,9 +241,10 @@ class PodcastCommentsController extends AbstractController
         }
         return new Response($response);
     }
+
     /**
      * @Route("/deleteComment", name="deleteComment")
-     * @param int $id
+     * @param Request $request
      * @return Response
      */
 
@@ -360,28 +361,32 @@ class PodcastCommentsController extends AbstractController
     function getCommentsByPodcastId(PodcastCommentRepository $podcastCommentRepository, SerializerInterface $serializer, $id): Response
     {
         $comments = $podcastCommentRepository->findBy(["PodcastId"=>$id]);
-        foreach($comments as $com) {
-            $com->setUserIdForMobile($com->getUserId()->getId());
-        }
         $json = $serializer->serialize($comments, 'json',["groups"=>'comments']);
         return new Response($json);
     }
 
     /**
      * @Route("mobile/addComment" )
+     * @param SerializerInterface $serializer
      * @param Request $request
      * @param UserRepository $userRepo
      * @param PodcastRepository $podcastRepo
      * @return Response
+     * @param ValidatorInterface $validator
      */
-    function addCommentMobile(Request $request, UserRepository $userRepo, PodcastRepository $podcastRepo): Response
+    function addCommentMobile( ValidatorInterface $validator ,SerializerInterface $serializer,Request $request, UserRepository $userRepo, PodcastRepository $podcastRepo): Response
     {
-       $comment = new PodcastComment();
+        $comment = new PodcastComment();
         $podcast = $podcastRepo->findOneBy(["id" =>$request->get("podId")]);
         if($podcast->getCommentsAllowed() == 0) {
-            return new Response("0", Response::HTTP_FORBIDDEN);
+            return new Response("403", Response::HTTP_OK);
         }
         $comment->setCommentText($request->get("comText"));
+        $commentErrors = "";
+        $commentErrors=$validator->validate($comment);
+        if ($commentErrors !="") {
+            return new Response("401", Response::HTTP_OK);
+        }
         $comment->setPodcastId($podcast);
         $comment->setCommentDate(new DateTime());
         $user = $userRepo->findOneBy(["id" =>$request->get("userId")]);
@@ -389,11 +394,12 @@ class PodcastCommentsController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($comment);
         $em->flush();
-        return new Response(null,Response::HTTP_OK);
+        $json = $serializer->serialize($comment, 'json',["groups"=>'comments']);
+        return new Response($json,Response::HTTP_OK);
     }
 
     /**
-     * @Route("mobile/deleteComment/{id}", name="deleteComment")
+     * @Route("mobile/deleteComment/{id}", name="deleteCommentFromJava")
      * @param $id
      * @return Response
      */
@@ -415,10 +421,10 @@ class PodcastCommentsController extends AbstractController
     function UpdateCommentMobile(Request $request): Response
     {
 
-        $id = $request->get('commentId');
+        $id = $request->get('comId');
         $repo=$this->getDoctrine()->getRepository(PodcastComment::class);
         $comment=$repo->findOneBy(["id" => $id]);
-        $comment->setCommentText($request->get('commentText'));
+        $comment->setCommentText($request->get('comText'));
         $em=$this->getDoctrine()->getManager();
         $em->flush();
         return new Response(null,Response::HTTP_OK);

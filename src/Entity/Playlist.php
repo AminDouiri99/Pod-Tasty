@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -20,6 +21,7 @@ class Playlist
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("podcast")
      */
     private $id;
 
@@ -34,6 +36,7 @@ class Playlist
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("podcast")
      * @Assert\NotBlank (message="This field should not be blank, describe your playlist")
      * @Assert\Length ( min = 10 ,minMessage = "The playlist description must be at least {{ limit }} characters long")
      */
@@ -54,6 +57,7 @@ class Playlist
     /**
      * @ORM\ManyToOne(targetEntity=Channel::class, inversedBy="Playlists")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("podcast")
      */
     private $ChannelId;
 

@@ -52,7 +52,13 @@
                     <div id="comment{{ comment.id }}">
                         <!-- current #{user} avatar -->
                         <div class="user_avatar">
-                            <img src="/assets/donut.png">
+                            <img height="80" width="80" src="
+                         {% if comment.userId.userInfoId.userImage is not null%}
+                             {{ asset('/Files/podcastFiles/'~comment.userId.userInfoId.userImage ) }}
+                                {% else %}
+                                {{ asset('Files/usersFiles/avatar.jpg') }}
+                                {% endif %}
+" style="border-radius: 360px;margin-left: 3px"/>
                         </div>
                         <div class="comment_toolbar">
 

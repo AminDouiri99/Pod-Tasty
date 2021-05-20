@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\UserInfo;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -87,8 +85,101 @@ class RegisterController extends AbstractController
         return $this->render('LogReg/register.html.twig',["error"=>$error,"succes"=>$succes, 'user' => $getUser,'errors2' => $UserInfoErrors,'errors1'=>$UserErrors]);
 
     }
+
+    /**
+     * @Route("mobile/CheckMail" )
+     */
+    function CheckMailMobile(Request $request)
+    {
+        $user=null;
+        $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(["UserEmail"=>$request->get("mail")]);
+        if($user===null){
+            return new Response("user dose'nt exist",Response::HTTP_NO_CONTENT);
+        }else{
+            return new Response("user exist",Response::HTTP_OK);
+        }
+    }
+
+    /**
+     * @Route("mobile/desactiveAccount" )
+     * @param Request $request
+     * @return Response
+     */
+    function desactive(Request $request){
+        $id=$request->get("id");
+        $this->getDoctrine()->getRepository(User::class)->find($id)->setDesactiveAccount(true);
+        $this->getDoctrine()->getManager()->flush();
+        return new Response("Desactivated",Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("mobile/updateProfile" )
+     */
+    function updateProfile(Request $request){
+        $user=$this->getDoctrine()->getRepository(User::class)->find($request->get("id"));
+        $user->getUserInfoId()->setUserFirstName($request->get("firstanme"));
+        $user->getUserInfoId()->setUserLastName($request->get("lastname"));
+        $user->getUserInfoId()->setUserBio($request->get("bio"));
+        $this->getDoctrine()->getManager()->flush();
+        return new Response("updated",Response::HTTP_OK);
+
+    }
+
+    /**
+     * @Route("mobile/updatePic" )
+     * @param Request $request
+     * @return Response
+     */
+    function updatemobilepic(Request $request): Response
+    {
+        $profile = $request->files->get("myFile");
+
+        if (empty($profile)) {
+            return new Response("No file specified",
+                Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+        }
+
+
+        if ($profile) {
+            $originalFilename = pathinfo($profile->getFileName
+            (), PATHINFO_FILENAME);
+            $id=intval($request->get("id"));
+            $newFilename = $originalFilename  . uniqid().'.' . $profile->guessExtension();
+            $this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId()->setUserImage($newFilename);
+            $this->getDoctrine()->getManager()->flush();
+
+            try {
+                $profile->move(
+                    $this->getParameter('PODCAST_FILES'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            return new Response("FILE UPLOADED",
+                Response::HTTP_OK, ['content-type' => 'text/plain']);
+        }
+
+    }
+
+    /**
+     * @Route("mobile/getUsers" )
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @return Response
+     */
+    function getUsersMobile(Request $request,SerializerInterface $serializer){
+        $users=$this->getDoctrine()->getRepository(User::class)->findAll();
+        $data=$serializer->serialize($users,'json');
+        return new Response($data);
+    }
+
+
     /**
      * @Route("mobile/addUser" )
+     * @param Request $request
+     * @return Response
      */
     function addUserMobile(Request $request){
         $user = new User();
@@ -108,8 +199,11 @@ class RegisterController extends AbstractController
         $em->flush();
         return New Response("user added",Response::HTTP_OK);
     }
+
     /**
      * @Route("mobile/continueReg" )
+     * @param Request $request
+     * @return Response
      */
     function continueReg(Request $request){
         $id= intval($request->get("id"));
@@ -121,8 +215,12 @@ class RegisterController extends AbstractController
         $em->flush();
         return New Response("Reg complete",Response::HTTP_OK);
     }
+
     /**
      * @Route("mobile/getFollowers" )
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @return Response
      */
     function getFollowers(Request $request,SerializerInterface $serializer){
         $id= intval($request->get("id"));
@@ -133,6 +231,9 @@ class RegisterController extends AbstractController
 
     /**
      * @Route("mobile/getFollowing" )
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @return Response
      */
     function getFollowing(Request $request,SerializerInterface $serializer){
         $id= intval($request->get("id"));
@@ -141,75 +242,6 @@ class RegisterController extends AbstractController
         return new Response($json);
     }
 
-    /**
-     * @Route("mobile/CheckMail" )
-     */
-    function CheckMailMobile(Request $request)
-    {
-        $user=null;
-        $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(["UserEmail"=>$request->get("mail")]);
-        if($user===null){
-            return new Response("user dose'nt exist",Response::HTTP_NO_CONTENT);
-        }else{
-            return new Response("user exist",Response::HTTP_OK);
-        }
-    }
-    /**
-     * @Route("mobile/desactiveAccount" )
-     */
-    function desactive(Request $request){
-        $id=$request->get("id");
-        $this->getDoctrine()->getRepository(User::class)->find($id)->setDesactiveAccount(true);
-        $em=$this->getDoctrine()->getManager()->flush();
-        return new Response("Desactivated",Response::HTTP_OK);
-    }
-
-    /**
-     * @Route("mobile/updateProfile" )
-     */
-    function updateProfile(Request $request){
-        $user=$this->getDoctrine()->getRepository(User::class)->find($request->get("id"));
-        $user->getUserInfoId()->setUserFirstName($request->get("firstanme"));
-        $user->getUserInfoId()->setUserLastName($request->get("lastname"));
-        $user->getUserInfoId()->setUserBio($request->get("bio"));
-        $this->getDoctrine()->getManager()->flush();
-        return new Response("updated",Response::HTTP_OK);
-
-    }
-    /**
-     * @Route("mobile/updatePic" )
-     */
-function updatemobilepic(Request $request){
-    $profile = $request->files->get("myFile");
-
-    if (empty($profile)) {
-        return new Response("No file specified",
-            Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
-    }
-
-
-    if ($profile) {
-        $originalFilename = pathinfo($profile->getFileName
-        (), PATHINFO_FILENAME);
-        $id=intval($request->get("id"));
-        $newFilename = $originalFilename  . uniqid().'.' . $profile->guessExtension();
-        $this->getDoctrine()->getRepository(User::class)->find($id)->getUserInfoId()->setUserImage($newFilename);
-        $em=$this->getDoctrine()->getManager()->flush();
-
-        try {
-            $profile->move(
-                $this->getParameter('PODCAST_FILES'),
-                $newFilename
-            );
-        } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
-        }
-
-        return new Response("FILE UPLOADED",
-            Response::HTTP_OK, ['content-type' => 'text/plain']);
-    }
-
-}
     /**
      * @Route("mobile/CheckFollowed" )
      */
@@ -234,8 +266,9 @@ function updatemobilepic(Request $request){
     function followmobile(Request $request){
         $idCurrent =$request->get("idCurrent");
         $idOther = $request->get("idOther");
-        $UserToFollow=$this->getDoctrine()->getRepository(User::class)->find($idOther)->getUserInfoId();
-        $this->getDoctrine()->getRepository(User::class)->find($idCurrent)->getUserInfoId()->addFollower($UserToFollow);
+        $UserToFollow=$this->getDoctrine()->getRepository(User::class)->findOneBy(["id"=>$idOther])->getUserInfoId();
+        $this->getDoctrine()->getRepository(User::class)->findOneBy(["id"=>$idCurrent])->getUserInfoId()->addFollowing($UserToFollow);
+        $this->getDoctrine()->getManager()->flush();
         return new Response("FILE UPLOADED",
             Response::HTTP_OK, ['content-type' => 'text/plain']);
     }
@@ -245,20 +278,10 @@ function updatemobilepic(Request $request){
     function unfollowmobile(Request $request){
         $idCurrent =$request->get("idCurrent");
         $idOther = $request->get("idOther");
-        $UserToFollow=$this->getDoctrine()->getRepository(User::class)->find($idOther)->getUserInfoId();
-        $this->getDoctrine()->getRepository(User::class)->find($idCurrent)->getUserInfoId()->removeFollower($UserToFollow);
+        $UserToFollow=$this->getDoctrine()->getRepository(User::class)->findOneBy(["id"=>$idOther])->getUserInfoId();
+        $this->getDoctrine()->getRepository(User::class)->findOneBy(["id"=>$idCurrent])->getUserInfoId()->removeFollowing($UserToFollow);
+        $this->getDoctrine()->getManager()->flush();
         return new Response("FILE UPLOADED",
             Response::HTTP_OK, ['content-type' => 'text/plain']);
     }
-
-
-    /**
-     * @Route("mobile/getUsers" )
-     */
-    function getUsersMobile(Request $request,SerializerInterface $serializer){
-        $users=$this->getDoctrine()->getRepository(User::class)->findAll();
-        $data=$serializer->serialize($users,'json');
-        return new Response($data);
-    }
-
 }

@@ -55,13 +55,6 @@ class PodcastComment
      */
     private $UserId;
 
-
-    /**
-     * @Groups("comments")
-     */
-    private $UserIdForMobile;
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -113,21 +106,6 @@ class PodcastComment
         $this->UserId = $UserId;
 
         return $this;
-    }
-    /**
-     * @return int
-     */
-    public function getUserIdForMobile(): int
-    {
-        return $this->UserIdForMobile;
-    }
-
-    /**
-     * @param int $UserIdForMobile
-     */
-    public function setUserIdForMobile(int $UserIdForMobile): void
-    {
-        $this->UserIdForMobile = $UserIdForMobile;
     }
 
 }

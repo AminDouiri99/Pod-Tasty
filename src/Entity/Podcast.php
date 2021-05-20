@@ -6,6 +6,7 @@ use App\Repository\PodcastRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -20,22 +21,26 @@ class Podcast
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("podcast")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("podcast")
      */
     private $PodcastName;
 
     /**
      * @ORM\Column(type="integer", nullable=false)
+     * @Groups("podcast")
      *
      */
     private $currentlyLive;
 
     /**
      * @ORM\Column(type="integer", nullable=false)
+     * @Groups("podcast")
      *
      */
     private $isBlocked;
@@ -43,11 +48,13 @@ class Podcast
 
     /**
      * @ORM\Column(type="integer", nullable=false)
+     * @Groups("podcast")
      */
     private $commentsAllowed;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("podcast")
      */
     private $PodcastDescription;
 
@@ -56,6 +63,7 @@ class Podcast
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
+     * @Groups("podcast")
      * @Assert\Image(
      *     minWidth = 200,
      *     maxWidth = 400,
@@ -72,6 +80,7 @@ class Podcast
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("podcast")
      */
     private $PodcastViews;
 
@@ -85,11 +94,13 @@ class Podcast
      * @ORM\Column(type="datetime")
      * @Assert\Date
      * @var string A "Y-m-d" formatted value
+     * @Groups("podcast")
      */
     private $PodcastDate;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups("podcast")
      * @Assert\File(
      *     mimeTypes = {"application/pdf", "application/x-audio"},
      *     mimeTypesMessage = "Please upload a valid Audio")
@@ -99,6 +110,7 @@ class Podcast
     /**
      * @ORM\ManyToOne(targetEntity=Playlist::class, inversedBy="PodcastList")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("podcast")
      */
     private $PlaylistId;
 
@@ -114,6 +126,7 @@ class Podcast
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="podcastsList")
+     * @Groups("podcast")
      */
     private $tagsList;
 
@@ -123,9 +136,9 @@ class Podcast
     private $CommentList;
     /**
      * @ORM\OneToMany(targetEntity=PodcastReview::class, mappedBy="PodcastId")
+     * @Groups("podcast")
      */
     private $ReviewList;
-
 
 
     public function __construct()
